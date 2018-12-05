@@ -33,7 +33,6 @@ class HTMLEditor extends React.Component {
         <div>
             <ReactQuill 
                 className="quillContainer"
-                theme={this.state.theme}
                 onChange={this.handleChange}
                 value={this.state.editorHtml}
                 modules={HTMLEditor.modules}
@@ -64,6 +63,7 @@ class HTMLEditor extends React.Component {
       [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
       [{size: []}],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'color': [] }, { 'background': [] }], 
       [{'list': 'ordered'}, {'list': 'bullet'}, 
        {'indent': '-1'}, {'indent': '+1'}],
       ['link', 'image', 'video'],
@@ -78,12 +78,12 @@ class HTMLEditor extends React.Component {
    * Quill editor formats
    * See https://quilljs.com/docs/formats/
    */
-  HTMLEditor.formats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image', 'video'
-  ]
+//   HTMLEditor.formats = [
+//     'header', 'font', 'size', 'color', 'background',
+//     'bold', 'italic', 'underline', 'strike', 'blockquote',
+//     'list', 'bullet', 'indent',
+//     'link', 'image', 'video'
+//   ]
   
   /* 
    * PropType validation
