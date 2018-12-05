@@ -27,8 +27,8 @@
 
 
 .rst__rowLabel {
-  padding-left: none !important;
-  padding-right: none !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
 .rst__Toolbar {
   background-color: transparent !important;
@@ -62,6 +62,16 @@
   font-weight: normal !important;
   min-width: 100px !important;
 }
+
+.rst__rowTitleWithSubtitle {
+
+  height: 10px !important;
+}
+
+.rst__rowTitleWithSubtitle {
+
+}
+
 
 .rst__moveHandle {
   margin-top: -2px;

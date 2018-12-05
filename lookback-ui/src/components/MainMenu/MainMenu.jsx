@@ -30,14 +30,15 @@ class MainMenu extends Component {
       searchFocusIndex: 0,
       searchFoundCount: null,
       treeData: [
-        { title: 'This is the Full Node Drag theme' },
-        { title: 'You can click anywhere on the node to drag it' },
         {
-          title: 'This node has dragging disabled',
+          title: 'Most recent node is always here',
           subtitle: 'Note how the hover behavior is different',
-          dragDisabled: true,
+          data: {}
+          // dragDisabled: true,
         },
-        { title: 'Chicken', children: [{ title: 'Egg' }] },
+        { title: 'This is the Full Node Drag theme', data: {}},
+        { title: 'You can click anywhere on the node to drag it', data: {} },
+        { title: 'Chicken', children: [{ title: 'Egg', data: {} }], data: {} },
       ],
     };
     this.updateTreeData = this.updateTreeData.bind(this);
