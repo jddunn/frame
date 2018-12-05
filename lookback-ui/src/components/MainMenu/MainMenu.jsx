@@ -12,7 +12,7 @@ import '../../lib/antd.css';
 import { Menu, Icon, Button } from 'antd';
 
 // Local styles
-import './react-sortable-tree-style.css' // For local changes
+import '../../lib/react-sortable-tree-style.css' // For local changes
 import './MainMenu.css';
 
 const SubMenu = Menu.SubMenu;
@@ -223,6 +223,12 @@ class MainMenu extends Component {
                 <span>Ask</span>
               </Menu.Item>
            
+              <Menu.Item key="6">
+                <Icon type="inbox" />
+                <span>Summaries</span>
+              </Menu.Item>
+           
+
               <SubMenu key="sub3" title={<span><Icon type="appstore" /><span>Settings</span></span>}>
                 <Menu.Item>Visual</Menu.Item>
                 <Menu.Item>Online</Menu.Item>
