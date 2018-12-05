@@ -79,7 +79,7 @@
         "babili-webpack-plugin": "^0.1.2",
         "clean-webpack-plugin": "^0.1.19",
         "css-loader": "^0.28.11",
-        "electron": "2.0.2",
+        "electron": "^2.0.2",
         "electron-packager": "12.1.0",
         "eslint": "^4.19.1",
         "eslint-config-airbnb": "^16.1.0",
