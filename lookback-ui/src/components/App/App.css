@@ -1,0 +1,9 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(-225deg, #473B7B 0%, #3584A7 51%, #30D2BE 100%);
+  color: white;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}

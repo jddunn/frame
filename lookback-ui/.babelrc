@@ -1,0 +1,25 @@
+{
+  "presets": ["env", "stage-3", "react"],
+  "plugins": ["add-module-exports"],
+  "env": {
+    "test": {
+      "plugins": [
+        "@babel/plugin-transform-modules-commonjs"
+      ]
+    },
+    "production": {
+      "presets": ["react-optimize"],
+      "plugins": ["dev-expression"]
+    },
+    "development": {
+      "plugins": [
+            ["transform-class-properties", { "spec": true }],
+            "transform-es2015-classes",
+            ["flow-runtime", { "assert": false, "annotate": true }],
+            ["transform-runtime",{"helpers": false,"polyfill": false,"regenerator": true,"moduleName": "babel-runtime"
+          }
+        ]
+      ]
+    }
+  }
+}

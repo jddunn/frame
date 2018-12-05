@@ -1,0 +1,39 @@
+{
+// Format a file on save. A formatter must be available, the file must not be auto-saved, and editor must not be shutting down.
+"editor.formatOnSave": false,
+// Enable/disable JavaScript validation. (For Flow)
+"javascript.validate.enable": false,
+// Enable/disable default JavaScript formatter (For Prettier)
+"javascript.format.enable": true,
+// Use 'prettier-eslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from eslint rules.
+"prettier.eslintIntegration": true,
+ 
+ // Is flow enabled
+ "flow.enabled": true,
+
+ // File extensions to consider for flow processing.
+ "flow.fileExtensions": [
+   ".js",
+   ".mjs",
+   ".jsx",
+   ".flow",
+   ".json"
+ ],
+// Path to flow binary. On Windows use '\\' as directory separator
+ "flow.pathToFlow": "flow",
+
+ // Run Flow on all files, No need to put //@flow comment on top of files.
+ "flow.runOnAllFiles": false,
+
+ // If true will run flow on every edit, otherwise will run only when changes are saved
+ "flow.runOnEdit": true,
+
+ // If true will display flow status is the statusbar
+ "flow.showStatus": true,
+
+ // Stop Flow on Exit
+ "flow.stopFlowOnExit": true,
+
+ // Support using flow through your node_modules folder, WARNING: Checking this box is a security risk. When you open a project we will immediately run code contained within it.
+ "flow.useNPMPackagedFlow": true
+}
