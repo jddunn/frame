@@ -7,37 +7,29 @@
   min-width: 320px !important;
 }
 
-.ant-menu-inline {
-  /* background-color: rgba(188, 204, 209, 0.12) !important; */
-  background-color: transparent !important;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
-}
-
-.ant-menu-sub {
-  /* background-color: rgba(188, 204, 209, 0.12) !important; */
-  background-color: transparent !important;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
-  
-}
 
 .ant-menu {
   z-index: 1 !important;
   border-radius: 10px !important;
   /* box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important; */
-  box-shadow: 0 0 0 3px #3490dc80;
+  box-shadow: 1px 1px 1px 1px rgba(40, 42, 44, 0.15) !important;
   background-color: transparent !important;
 }
 
 .treeEntriesContainer {
+  padding-top: 10px !important;
   width: 100%;
-  /* background-color: transparent !important; */
-  border-radius: 0px !important;
-  /* background-color: rgba(188, 204, 209, 0.32) !important; */
-  /* background: #2193b0 !important;  fallback for old browsers */
+  border-radius: 10px !important;
+}
+
+
+.ant-menu-vertical {
+  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .rst__tree {
-  border-radius: 0px !important;
   background-color: transparent !important;
 }
 
@@ -144,7 +136,6 @@
 
 .ant-menu-submenu {
   overflow: hidden !important;
-  border-radius: 0px !important;
 }
 
 .ant-btn-primary {
@@ -156,61 +147,4 @@
 
 #find-box {
   color: white;
-}
-
-/* Stuff in old sortable-tree lib styles */
-
-
-.Resizer {
-  background: #000;
-  opacity: 0.2;
-  z-index: 1;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding;
-  background-clip: padding-box;
-}
-
-.Resizer:hover {
-  -webkit-transition: all 2s ease;
-  transition: all 2s ease;
-}
-
-.Resizer.horizontal {
-  height: 11px;
-  margin: -5px 0;
-  border-top: 5px solid rgba(255, 255, 255, 0);
-  border-bottom: 5px solid rgba(255, 255, 255, 0);
-  cursor: row-resize;
-  width: 100%;
-}
-
-.Resizer.horizontal:hover {
-  border-top: 5px solid rgba(0, 0, 0, 0.5);
-  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
-}
-
-.Resizer.vertical {
-  width: 11px;
-  margin: 0 -5px;
-  border-left: 5px solid rgba(255, 255, 255, 0);
-  border-right: 5px solid rgba(255, 255, 255, 0);
-  cursor: col-resize;
-}
-
-.Resizer.vertical:hover {
-  border-left: 5px solid rgba(0, 0, 0, 0.5);
-  border-right: 5px solid rgba(0, 0, 0, 0.5);
-}
-.Resizer.disabled {
-  cursor: not-allowed;
-}
-.Resizer.disabled:hover {
-  border-color: transparent;
-}
-
-.SplitPane.vertical {
-  height: calc(100% - 80px) !important;
 }
