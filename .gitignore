@@ -213,6 +213,7 @@ electron/
 # Other web stuff
 
 output/
+dist/
 
 
 # Virtualenv
