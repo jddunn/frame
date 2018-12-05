@@ -25,6 +25,29 @@
   box-shadow: 2px 3px grey, -2px -3px grey !important;
 }
 
+
+.rst__rowLabel {
+  padding-left: none !important;
+  padding-right: none !important;
+}
+.rst__Toolbar {
+  background-color: transparent !important;
+  display:  none !important;
+}
+
+.rst__toolbarButton {
+  background-color: transparent !important;
+  display:  none !important;
+}
+
+.rst__collapseButton {
+  background-color: transparent !important;
+}
+
+.rst__expandButton {
+  background-color: transparent !important;
+}
+
 .menu-wide {
   min-width: 180px;
   height: 800px;
@@ -39,28 +62,31 @@
   font-weight: normal !important;
   min-width: 100px !important;
 }
-  
-  .rst__moveHandle {
-    margin-top: -2px;
-    height: 15px !important;
-    background-color: transparent !important;
-  }
-  
-  .rst__rowContents {
-    box-shadow: 1px 2px grey, -1px -2px grey !important;
-    border: none;
-    min-width: 100px !important;
-    background-color: transparent !important;
-    color: white;
-  }
-  
-  #find-box {
-    color: grey;
-  }
 
-  /* Stuff in old sortable-tree lib styles */
+.rst__moveHandle {
+  margin-top: -2px;
+  height: 15px !important;
+  background-color: transparent !important;
+}
 
-  @import url(https://fonts.googleapis.com/css?family=Montserrat|Sunflower:300);
+.rst__rowContents {
+  box-shadow: 1px 2px grey, -1px -2px grey !important;
+  border: none;
+  min-width: 100px !important;
+  height: 35px !important;
+  font-size: 1.05vmax !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  color: white;
+}
+
+#find-box {
+  color: grey;
+}
+
+/* Stuff in old sortable-tree lib styles */
+
 
 .Resizer {
   background: #000;

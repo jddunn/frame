@@ -7,3 +7,17 @@ html, body {
   overflow-y: hidden;
   overflow-x: hidden;
 }
+
+.left {
+  margin: 0 !important;
+  padding: 0 !important;
+  float: left !important;
+  width: 50% !important;
+}
+
+.right {
+  margin: 0 !important;
+  padding: 0 !important;
+  float: left !important;
+  width: 50% !important;
+}

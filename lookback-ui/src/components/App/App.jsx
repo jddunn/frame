@@ -33,7 +33,12 @@ class App extends Component {
         <div style={{ flex: '0 0 auto', padding: '0 15px' }}>
           {/* <Row style={{ margin: '0', padding: '0'}}> */}
             {/* <Col span={3} push={3} style={{ margin: '0', padding: '0'}}> */}
+            <div className="left">
               <MainMenu/>
+            </div>
+            <div className="right">
+              Very nice right
+            </div>
             {/* </Col> */}
             {/* <Col span={12} push={12}/> */}
           {/* </Row> */}

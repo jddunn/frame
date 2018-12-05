@@ -23,7 +23,7 @@ class MainMenu extends Component {
 
     this.state = {
       collapsed: false,
-      divStyle: {width: 330, fontSize: '1.25vw !important'},
+      divStyle: {width: 330, fontSize: '1.05vw !important'},
       width: 330, 
       height: 330,
       searchString: '',
@@ -48,7 +48,7 @@ class MainMenu extends Component {
   toggleCollapsed = () => {
     if (this.state.collapsed) {
       this.state.divStyle['width'] = 330;
-      this.state.divStyle['fontSize'] = '1.25vw !important';
+      this.state.divStyle['fontSize'] = '1.05vw !important';
     } else {
       this.state.divStyle['width'] = 80;
       this.state.divStyle['fontSize'] = '1vw !important';
@@ -222,7 +222,9 @@ class MainMenu extends Component {
               </Menu.Item>
            
               <SubMenu key="sub3" title={<span><Icon type="appstore" /><span>Settings</span></span>}>
-                <Menu.Item>SubMenuItem</Menu.Item>
+                <Menu.Item>Visual</Menu.Item>
+                <Menu.Item>Online</Menu.Item>
+                <Menu.Item>Security</Menu.Item>
               </SubMenu>
             </Menu>
 
