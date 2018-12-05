@@ -6,6 +6,7 @@ html, body {
   color: white;
   overflow-y: hidden;
   overflow-x: hidden;
+  overflow: hidden !important;
 }
 
 .left {
@@ -20,4 +21,12 @@ html, body {
   padding: 0 !important;
   float: left !important;
   width: 50% !important;
+}
+
+.mainMenuContainer {
+  color: white;
+  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow-x: none !important; 
 }

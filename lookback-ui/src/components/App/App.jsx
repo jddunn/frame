@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 // Ant Design
 import {Row, Col } from 'antd';
-
-import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
+// Antd is really janky to theme with new styles, let's use our own lib css
+import '../../lib/antd.css';  
 
 // Local styles
 import './App.css';

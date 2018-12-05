@@ -8,7 +8,7 @@ import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 // import CustomTheme from '../../index';
 
 // Ant Design
-import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
+import '../../lib/antd.css';  
 import { Menu, Icon, Button } from 'antd';
 
 // Local styles
@@ -132,7 +132,9 @@ class MainMenu extends Component {
                 style={{ top: '0', 
                         left: '0',
                         position: 'absolute',
-                        display: 'block'}}>
+                        display: 'block',
+                        zIndex: '100',
+                        opacity: '1'}}>
                 <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
               </Button>
             </div>
@@ -172,7 +174,7 @@ class MainMenu extends Component {
                     });
                   }}
                 >
-                <div style={{ flex: '1 0 50%', padding: '0 0 0 15px' }}>
+                <React.Fragment>
                     {isCollapsed ? (
                       null
                     ) : (
@@ -189,7 +191,7 @@ class MainMenu extends Component {
                                     forceSubMenuRender: true,
                                     inlineCollapsed: true,
                                     minWidth: '180px',
-                                    height: '800px',
+                                    height: '400px',
                                     backgroundColor: 'transparent',
                                     background: 'transparent',
                                     color: 'grey',
@@ -211,10 +213,9 @@ class MainMenu extends Component {
                             ],
                           })}
                           />
-                        )}
                       </div>
                     )}
-                  </div>
+                  </React.Fragment>
                 </Resizable>
           </SubMenu>
               <Menu.Item key="5">

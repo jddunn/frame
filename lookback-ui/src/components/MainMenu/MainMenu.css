@@ -1,20 +1,44 @@
 
-
 .entriesSubMenuContainer {
   height: 50px;
 }
 
-
 .ant-menu-submenu-popup {
-  width: 200px !important;
+  min-width: 320px !important;
 }
 
+.ant-menu-inline {
+  /* background-color: rgba(188, 204, 209, 0.12) !important; */
+  background-color: transparent !important;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
+}
+
+.ant-menu-sub {
+  /* background-color: rgba(188, 204, 209, 0.12) !important; */
+  background-color: transparent !important;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
+  
+}
+
+.ant-menu {
+  z-index: 1 !important;
+  border-radius: 10px !important;
+  /* box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important; */
+  box-shadow: 0 0 0 3px #3490dc80;
+  background-color: transparent !important;
+}
 
 .treeEntriesContainer {
-  height: 100%;
   width: 100%;
+  /* background-color: transparent !important; */
+  border-radius: 0px !important;
+  /* background-color: rgba(188, 204, 209, 0.32) !important; */
+  /* background: #2193b0 !important;  fallback for old browsers */
+}
+
+.rst__tree {
+  border-radius: 0px !important;
   background-color: transparent !important;
-  color: black !important;
 }
 
 /* React tree library class overrides */
@@ -22,9 +46,8 @@
 }
 
 .rst__rowContentsDragDisabled {
-  box-shadow: 2px 3px grey, -2px -3px grey !important;
+  box-shadow: 2px 3px white, -2px -3px white !important;
 }
-
 
 .rst__rowLabel {
   padding-left: 5px !important;
@@ -49,18 +72,18 @@
 }
 
 .menu-wide {
-  min-width: 180px;
+  min-width: 240px;
   height: 800px;
   background-color: transparent;
   background: transparent;
-  color: grey;
+  color: white;
   font: 2vw !important;
 }
 
 
 .rst__rowTitle {
   font-weight: normal !important;
-  min-width: 100px !important;
+  min-width: 240px;
 }
 
 .rst__rowTitleWithSubtitle {
@@ -80,9 +103,9 @@
 }
 
 .rst__rowContents {
-  box-shadow: 1px 2px grey, -1px -2px grey !important;
+  box-shadow: 1px 2px white, -1px -2px white !important;
   border: none;
-  min-width: 100px !important;
+  min-width: 240px !important;
   height: 35px !important;
   font-size: 1.05vmax !important;
   margin: 0 !important;
@@ -91,8 +114,48 @@
   color: white;
 }
 
+.rst__rowContents:hover {
+  cursor: pointer;
+  background: #36D1DC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}  
+
+.ant-menu-item {
+  color: white !important;
+}
+
+.ant-menu-item-selected {
+  background-color: transparent !important;
+  color: rgb(255,223,0)  !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+.ant-menu-item:hover {
+  color: rgb(255,223,0)  !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+.ant-menu-submenu-title:hover {
+  color: rgb(255,223,0) !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+
+.ant-menu-submenu {
+  overflow: hidden !important;
+  border-radius: 0px !important;
+}
+
+.ant-btn-primary {
+  background: #36D1DC !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5B86E5, #36D1DC) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
+}
+
 #find-box {
-  color: grey;
+  color: white;
 }
 
 /* Stuff in old sortable-tree lib styles */
