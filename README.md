@@ -14,6 +14,8 @@ Because a Python environment running TensorFlow is required to use the app offli
 
 ## Desktop UI
 
+# Future
+
 # Acknowledgements
 
 Additional libraries and references used:
