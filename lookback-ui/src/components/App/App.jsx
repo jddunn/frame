@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+
+
 // Ant Design
 import {Row, Col } from 'antd';
 // Antd is really janky to theme with new styles, let's use our own lib css
@@ -10,6 +12,9 @@ import './App.css';
 
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';
+
+// HTML Editor
+import HTMLEditor from '../HTMLEditor/HTMLEditor';
 
 class App extends Component {
   constructor(props) {
@@ -37,7 +42,15 @@ class App extends Component {
               <MainMenu/>
             </div>
             <div className="right">
-              Very nice right
+              <div className="center notepadContainer">
+                <div className="editorContainer">
+                  <h4 className="sectionTitleText">Editor</h4>
+                  <HTMLEditor/>
+                </div>
+                <div className="previewContainer">
+                  <h4 className="sectionTitleText">Preview</h4>
+                </div>
+              </div>
             </div>
             {/* </Col> */}
             {/* <Col span={12} push={12}/> */}

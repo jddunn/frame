@@ -26,10 +26,51 @@ html, body {
   width: 50% !important;
 }
 
+.center {
+  margin: 0 !important;
+  padding: 0 !important;
+  margin: auto !important;
+}
+
 .mainMenuContainer {
   color: white;
-  background: #2980b9;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #174169, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #174169, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-x: none !important; 
+}
+
+.notepadContainer {
+  display: block;
+  margin-left: -290px !important;
+  margin-right: 50px !important;
+  margin-top: 20px !important;
+  border-radius: 10px !important;
+  box-shadow:  0 5px 15px 0 rgba(0,0,0,0.2) !important;
+  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow-x: none !important; 
+  color: white;
+}
+
+.editorContainer {
+  padding-top: 10px !important;
+  margin: 10px !important;
+  display: block;
+}
+
+.previewContainer {
+  margin: 10px !important;
+  margin-top: 150px !important;
+  display: block;
+  padding-bottom: 150px;
+}
+
+.sectionTitleText {
+  color: white;
+  font-weight: lighter;
+  letter-spacing: 2px;
+  font-size: 1.4vmax;
+  text-align: center;
 }
