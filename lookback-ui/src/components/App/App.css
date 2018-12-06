@@ -72,7 +72,8 @@ html, body {
   color: white;
   font-weight: lighter;
   letter-spacing: 2px;
-  font-size: 1.4vmax;
+  font-size: 1.4em;
+  /* font-size: 1.4vmax; */
   text-align: center;
 }
 
