@@ -1,0 +1,29 @@
+.node {
+  width: 50%;
+  white-space: nowrap;
+  position: relative;
+  text-align: left;
+  min-width: 100%;
+  overflow: hidden;
+}
+
+.nodeContent {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80%;
+}
+
+.validDrop {
+  background: #26C281;
+}
+
+.invalidDrop {
+  background: #C0392B;
+}
+
+.highlight {
+  background: rgba(240, 240, 240, 0.7);
+  height: 100%;
+  cursor: pointer;
+}

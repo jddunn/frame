@@ -1,0 +1,165 @@
+
+.entriesSubMenuContainer {
+  height: 50px;
+}
+
+.ant-menu-submenu-popup {
+  min-width: 320px !important;
+}
+
+.ant-menu {
+  z-index: 1 !important;
+  border-radius: 10px !important;
+  /* box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important; */
+  box-shadow: 1px 1px 1px 1px rgba(40, 42, 44, 0.15) !important;
+  background-color: transparent !important;
+}
+
+.treeEntriesContain.entriesSubMenuContainer {
+  height: 50px;
+}
+
+.ant-menu-submenu-popup {
+  min-width: 320px !important;
+}
+
+.ant-menu {
+  z-index: 1 !important;
+  border-radius: 2px !important;
+  /* box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important; */
+  box-shadow: 1px 1px 1px 1px rgba(40, 42, 44, 0.15) !important;
+  background-color: transparent !important;
+}
+
+.treeEntriesContainer {
+  padding-top: 10px !important;
+  width: 100%;
+  border-radius: 2px !important;
+}
+
+
+.ant-menu-vertical {
+  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.rst__tree {
+  background-color: transparent !important;
+}
+
+/* React tree library class overrides */
+.rst__tree .treesEntriesContainer {
+}
+
+.rst__rowContentsDragDisabled {
+  box-shadow: 2px 3px white, -2px -3px white !important;
+}
+
+.rst__rowLabel {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+.rst__Toolbar {
+  background-color: transparent !important;
+  display:  none !important;
+}
+
+.rst__toolbarButton {
+  background-color: transparent !important;
+  display:  none !important;
+}
+
+.rst__collapseButton {
+  background-color: transparent !important;
+}
+
+.rst__expandButton {
+  background-color: transparent !important;
+}
+
+.menu-wide {
+  min-width: 240px;
+  height: 800px;
+  background-color: transparent;
+  background: transparent;
+  color: white;
+  font: 2vw !important;
+}
+
+
+.rst__rowTitle {
+  font-weight: normal !important;
+  min-width: 240px;
+}
+
+.rst__rowTitleWithSubtitle {
+
+  height: 10px !important;
+}
+
+.rst__rowTitleWithSubtitle {
+
+}
+
+
+.rst__moveHandle {
+  margin-top: -2px;
+  height: 15px !important;
+  background-color: transparent !important;
+}
+
+.rst__rowContents {
+  box-shadow: 1px 2px white, -1px -2px white !important;
+  border: none;
+  min-width: 240px !important;
+  height: 35px !important;
+  font-size: 1.05vmax !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  color: white;
+}
+
+.rst__rowContents:hover {
+  cursor: pointer;
+  background: #36D1DC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}  
+
+.ant-menu-item {
+  color: white !important;
+}
+
+.ant-menu-item-selected {
+  background-color: transparent !important;
+  color: rgb(255,223,0)  !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+.ant-menu-item:hover {
+  color: rgb(255,223,0)  !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+.ant-menu-submenu-title:hover {
+  color: rgb(255,223,0) !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+
+.ant-menu-submenu {
+  overflow: hidden !important;
+}
+
+.ant-btn-primary {
+  background: #36D1DC !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5B86E5, #36D1DC) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
+}
+
+#find-box {
+  color: white;
+}

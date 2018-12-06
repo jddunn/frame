@@ -1,0 +1,265 @@
+$row-padding: 2px;
+$hover-padding: 3px;
+.rowWrapper {
+  padding: $row-padding $row-padding $row-padding 0;
+  height: 100%;
+  box-sizing: border-box;
+  cursor: move;
+
+  &:hover {
+    opacity: 0.7;
+    padding: $hover-padding $hover-padding $hover-padding 0;
+  }
+
+  &:active {
+    opacity: 1;
+  }
+}
+
+.rowWrapperDragDisabled {
+  cursor: default;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.row {
+  height: 100%;
+  white-space: nowrap;
+  display: flex;
+
+  & > * {
+    box-sizing: border-box;
+  }
+}
+
+/**
+ * The outline of where the element will go if dropped, displayed while dragging
+ */
+.rowLandingPad {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  width: 500px;
+  * {
+    opacity: 0 !important;
+  }
+
+  &::before {
+    background-color: lightblue;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+  }
+}
+
+/**
+ * Alternate appearance of the landing pad when the dragged location is invalid
+ */
+.rowCancelPad {
+  @extend .rowLandingPad;
+
+  &::before {
+    background-color: #e6a8ad;
+  }
+}
+
+/**
+ * Nodes matching the search conditions are highlighted
+ */
+.rowSearchMatch {
+  outline: solid 1px #0080ff;
+}
+
+/**
+ * The node that matches the search conditions and is currently focused
+ */
+.rowSearchFocus {
+  outline: solid 1px #fc6421;
+}
+
+%rowItem {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rowContents {
+  @extend %rowItem;
+  position: relative;
+  height: 100%;
+  padding: 0 5px 0 30px;
+  min-width: 230px;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  &:hover {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+  }
+}
+
+.rowLabel {
+  @extend %rowItem;
+  flex: 0 1 auto;
+  padding-right: 20px;
+  width: 100%;
+}
+
+.rowToolbar {
+  @extend %rowItem;
+  flex: 0 1 auto;
+  display: flex;
+}
+
+.moveHandle {
+  @extend %rowItem;
+
+  height: 100%;
+  width: 44px;
+  background: #d9d9d9
+    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MiIgaGVpZ2h0PSI0MiI+PGcgc3Ryb2tlPSIjRkZGIiBzdHJva2Utd2lkdGg9IjIuOSIgPjxwYXRoIGQ9Ik0xNCAxNS43aDE0LjQiLz48cGF0aCBkPSJNMTQgMjEuNGgxNC40Ii8+PHBhdGggZD0iTTE0IDI3LjFoMTQuNCIvPjwvZz4KPC9zdmc+')
+    no-repeat center;
+  border: solid #aaa 1px;
+  box-shadow: 0 2px 2px -2px;
+  cursor: move;
+  border-radius: 1px;
+  z-index: 1;
+}
+
+.loadingHandle {
+  @extend .moveHandle;
+
+  cursor: default;
+  background: #d9d9d9;
+}
+
+@keyframes pointFade {
+  0%,
+  19.999%,
+  100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+}
+
+.loadingCircle {
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+  position: relative;
+}
+
+.loadingCirclePoint {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  $point-count: 12;
+  $spin-animation-time: 800ms;
+
+  &:before {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 11%;
+    height: 30%;
+    background-color: #fff;
+    border-radius: 30%;
+    animation: pointFade $spin-animation-time infinite ease-in-out both;
+  }
+
+  @for $i from 1 through (($point-count + 1) / 2) {
+    &:nth-of-type(#{$i}) {
+      transform: rotate(360deg / $point-count * ($i - 1));
+    }
+
+    &:nth-of-type(#{$i + $point-count / 2}) {
+      transform: rotate(180deg + 360deg / $point-count * ($i - 1));
+    }
+
+    &:nth-of-type(#{$i}),
+    &:nth-of-type(#{$i + $point-count / 2}) {
+      &:before {
+        animation-delay: - $spin-animation-time + ($spin-animation-time /
+              $point-count * 2 * ($i - 1));
+      }
+    }
+  }
+}
+
+.toolbarButton {
+  @extend %rowItem;
+}
+
+.rowTitle {
+  font-weight: bold;
+}
+
+.rowTitleWithSubtitle {
+  display: block;
+}
+
+.rowSubtitle {
+  font-size: 70%;
+  line-height: 0.7;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.collapseButton,
+.expandButton {
+  appearance: none;
+  background: none;
+  border: none;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  padding-left: 120px;
+  cursor: pointer;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  &:focus {outline:0;}
+}
+
+.collapseButton {
+  &:before {
+    content: "\25bc";
+  }
+}
+
+.expandButton {
+  &:before {
+    content:"\25b6";
+  }
+}
+
+/**
+ * Line for under a node with children
+ */
+.lineChildren {
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+}
+
+.contentContainer {
+  width: 75%;
+}
