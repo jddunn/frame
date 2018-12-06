@@ -155,7 +155,7 @@ class MainMenu extends Component {
                               forceSubMenuRender: true,
                               inlineCollapsed: true,
                               minWidth: '180px',
-                              maxHeight: '400px',
+                              height: '260px',
                               backgroundColor: 'transparent',
                               background: 'transparent',
                               color: 'grey',
@@ -206,5 +206,3 @@ class MainMenu extends Component {
 }
 
 export default MainMenu;
-
- 
