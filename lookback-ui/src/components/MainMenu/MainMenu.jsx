@@ -9,13 +9,17 @@ import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 
 // Ant Design
 import '../../lib/antd.css';  
-import { Menu, Icon, Button } from 'antd';
+import { Menu, Icon, Button, ButtonGroup } from 'antd';
+
+import { Input } from 'antd';
+import { Divider } from 'antd';
 
 // Local styles
 import '../../lib/react-sortable-tree-style.css' // For local changes
 import './MainMenu.css';
 
 const SubMenu = Menu.SubMenu;
+const Search = Input.Search;
 
 class MainMenu extends Component {
   constructor(props) {
@@ -43,6 +47,10 @@ class MainMenu extends Component {
     this.updateTreeData = this.updateTreeData.bind(this);
     this.expandAll = this.expandAll.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
+    this.selectPrevMatch = this.selectNextMatch.bind(this);
+    this.selectNextMatch = this.selectNextMatch.bind(this);
+
+
   }
 
   toggleCollapsed = () => {
@@ -72,6 +80,28 @@ class MainMenu extends Component {
     this.expand(false);
   }
 
+  selectPrevMatch() {
+    const { searchFocusIndex, searchFoundCount } = this.state;
+
+    this.setState({
+      searchFocusIndex:
+        searchFocusIndex !== null
+          ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
+          : searchFoundCount - 1,
+    });
+  }
+
+  selectNextMatch() {
+    const { searchFocusIndex, searchFoundCount } = this.state;
+
+    this.setState({
+      searchFocusIndex:
+        searchFocusIndex !== null
+          ? (searchFocusIndex + 1) % searchFoundCount
+          : 0,
+    });
+  }
+
   render() {
     const {
       treeData,
@@ -80,35 +110,10 @@ class MainMenu extends Component {
       searchFoundCount,
     } = this.state;
 
-    const alertNodeInfo = ({ node, path, treeIndex }) => {
-      const objectString = Object.keys(node)
-        .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
-        .join(',\n   ');
 
-      global.alert(
-        'Info passed to the icon and button generators:\n\n' +
-          `node: {\n   ${objectString}\n},\n` +
-          `path: [${path.join(', ')}],\n` +
-          `treeIndex: ${treeIndex}`
-      );
-    };
+    const { onChangeTreeData } = this.props;
 
-    const selectPrevMatch = () =>
-      this.setState({
-        searchFocusIndex:
-          searchFocusIndex !== null
-            ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
-            : searchFoundCount - 1,
-      });
-
-    const selectNextMatch = () =>
-      this.setState({
-        searchFocusIndex:
-          searchFocusIndex !== null
-            ? (searchFocusIndex + 1) % searchFoundCount
-            : 0,
-      });
-
+    
 
     const isCollapsed = this.state.isCollapsed;
 
@@ -138,6 +143,63 @@ class MainMenu extends Component {
       
         <SubMenu key="sub2" title={<span><Icon type="snippets"/><span>Entries</span></span>}>
       
+          <Divider />
+
+          <div className="entriesButtonsContainer">
+
+              <Search
+                    id="findBox"
+                    value={searchString}
+                    placeholder="Search entries"
+                    onChange={event =>
+                      this.setState({ searchString: event.target.value })
+                  }
+                    style={{ width: 200 }}
+                />
+
+                <div className="searchArrowButtonsContainer">
+                  <Button
+                    className="searchArrowButton"
+                    type="primary"
+                    disabled={!searchFoundCount}
+                    onClick={this.selectPrevMatch}
+                  >
+                    <Icon 
+                      size="small"
+                      type="left" />
+                  </Button>
+                  <Button
+                    className="searchArrowButton"
+                    type="primary"
+                    disabled={!searchFoundCount}
+                    onClick={this.selectNextMatch}
+                  >                  
+                    <Icon
+                      size="small"
+                      type="right" />
+                  </Button>
+                </div>
+
+              <span class="entriesIndicesFoundContainer">
+                  &nbsp;
+                  {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+                  {' / '}
+                  {searchFoundCount || 0}
+              </span>
+
+              <div className="entriesEditorButtonsContainer">
+                <div className="mainEntriesButtonsWrapper">
+                  <Button type="primary" ghost={true} icon="file-add" className="textButton">Start New</Button>
+                  <Button type="primary" ghost={true} icon="save" className="textButton">Save Changes</Button>
+                </div>
+                <div className="expandEntriesButtonsWrapper">
+                  <Button shape="circle" ghost={true} className="smallButton" icon="plus" onClick={this.expandAll}/>
+                  <Button shape="circle" ghost={true} className="smallButton" icon="minus" onClick={this.collapseAll}/>
+                </div>
+              </div>
+        
+        </div>
+
           <React.Fragment>
               {isCollapsed ? (
                 null
@@ -179,7 +241,12 @@ class MainMenu extends Component {
                 </div>
               )}
             </React.Fragment>
+
+        <Divider />
+
       </SubMenu>
+
+
         <Menu.Item key="5">
           <Icon type="inbox" />
           <span>Ask</span>

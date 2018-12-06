@@ -86,3 +86,10 @@ html, body {
 .ant-layout {
   background-color: transparent !important;
 }
+
+.ant-divider-horizontal {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-color: rgba(239, 239, 239, .8) !important;
+  color: rgba(239, 239, 239, .8) !important;
+}
