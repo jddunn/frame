@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import styles from './Title.css';
+import styles from './Title.scss';
 import image from './tree.png';
 
 export default class Title extends Component {

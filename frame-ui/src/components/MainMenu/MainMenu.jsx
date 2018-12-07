@@ -16,7 +16,7 @@ import { Divider } from 'antd';
 
 // Local styles
 import '../../lib/react-sortable-tree-style.css' // For local changes
-import './MainMenu.css';
+import './MainMenu.scss';
 
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
