@@ -12,6 +12,10 @@ export default class Brand extends Component {
   }
 
   render() {
-    return (null);
+    return (
+      <div className="brandContainer">
+          <h4 className="brandTitle">F R A M E</h4>
+      </div>
+    );
   }
 }

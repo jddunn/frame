@@ -27,6 +27,7 @@ class HTMLEditor extends React.Component {
       this.setState({ theme: newTheme })
     }
     
+    
     render () {
       return (
         <div>
