@@ -1,6 +1,6 @@
-# Lookback
+# Frame
 
-Lookback will be a notetaking / journaling web and desktop application with natural language processing features, built with Electron, React, and Python.
+Frame will be a notetaking / journaling web and desktop application with natural language processing features, built with Electron, React, and Python.
 
 Designed for introspective and analytical users, the UI links texts to AllenNLP's Predictor API (running in the Python backend), so that a user can ask a question in the app and see the answer in context of his / her selected notes (machine comprehenseion). 
 

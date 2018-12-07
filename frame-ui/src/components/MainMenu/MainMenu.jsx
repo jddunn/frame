@@ -161,6 +161,7 @@ class MainMenu extends Component {
                   <Button
                     className="searchArrowButton"
                     type="primary"
+                    ghost={true} 
                     disabled={!searchFoundCount}
                     onClick={this.selectPrevMatch}
                   >
@@ -171,6 +172,7 @@ class MainMenu extends Component {
                   <Button
                     className="searchArrowButton"
                     type="primary"
+                    ghost={true} 
                     disabled={!searchFoundCount}
                     onClick={this.selectNextMatch}
                   >                  

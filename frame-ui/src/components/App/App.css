@@ -10,6 +10,10 @@ html, body {
   overflow: hidden !important;
 }
 
+.app {
+  min-height: 100vh !important;
+}
+
 .left {
   margin: 0 !important;
   padding: 0 !important;
@@ -45,8 +49,9 @@ html, body {
 
 .notepadContainer {
   display: block;
-  height: 100%;
   width: 100%;
+  min-height: 100vh !important;
+  height: 100% !important;
   border-radius: 2px !important;
   box-shadow:  0 5px 15px 0 rgba(0,0,0,0.2) !important;
   background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */

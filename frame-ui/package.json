@@ -1,8 +1,8 @@
 {
-    "name": "lookback-ui",
-    "productName": "lookback-ui",
+    "name": "frame-ui",
+    "productName": "frame-ui",
     "version": "0.1.0",
-    "description": "React frontend for Lookback",
+    "description": "Electron / React frontend for Frame",
     "author": "Johnny Dunn",
     "homepage": "http://github",
     "license": "MIT",
@@ -12,7 +12,7 @@
         "ignorePath": ".eslintignore"
     },
     "build": {
-        "appId": "Lookback",
+        "appId": "Frame",
         "extends": null
     },
     "scripts": {
@@ -25,9 +25,8 @@
         "flow stop": "flow stop",
         "flow status": "flow status",
         "flow coverage": "flow coverage",
-        "electron-prod": "webpack --config webpack.prod.electron.js && electron --noDevServer .",
         "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js",
-        "electron-build": "./node_modules/.bin/electron-builder build"
+        "electron-build": "npm run build && ./node_modules/.bin/electron-builder build"
     },
     "dependencies": {
         "@babel/polyfill": "^7.0.0",
