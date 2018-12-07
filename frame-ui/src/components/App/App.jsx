@@ -1,7 +1,8 @@
+/* 
+ * 
+ */
 
 import React, { Component } from 'react';
-
-
 
 // Ant Design
 import {Row, Col } from 'antd';
@@ -13,7 +14,7 @@ import {
 import '../../lib/antd.css';  
 
 // Local styles
-import './App.css';
+import './App.scss';
 
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';

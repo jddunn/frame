@@ -1,10 +1,16 @@
 # Frame
 
-Frame will be a notetaking / journaling web and desktop application with natural language processing features, built with Electron, React, and Python.
+***THIS IS A WORK-IN-PROGRESS AND WILL BE COMPLETED AS AN ALPHA SOON
 
-Designed for introspective and analytical users, the UI links texts to AllenNLP's Predictor API (running in the Python backend), so that a user can ask a question in the app and see the answer in context of his / her selected notes (machine comprehenseion). 
+Frame will be a notetaking / journaling web and desktop application with natural language processing features, that allows users to retrieve informed answers in context to questions they can ask in the UI. Frame is designed for introspective and analytical users (researchers might be most interested in this).
 
-Because a Python environment running TensorFlow is required to use the app offline, Lookback's journaling features are available without NLP. And eventually, a donation-supported / paid edition could be serviced for online users through a server on the cloud.
+Because a Python environment running TensorFlow is required to use the full app with its analysis features offline, Frame's writing and notebook components are available without NLP. In other words, using Frame as a journal and editor is fully functional in just the UI and JS files.
+
+ Eventually, a donation-supported / subscription-based edition could be serviced for online users through a server on the cloud, with extended features and protected data storage, if there's a demand for it.
+
+## Key Features
+
+Frame keeps notes, or what are called entries.
 
 # Installation
 

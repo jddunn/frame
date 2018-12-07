@@ -62,7 +62,7 @@ module.exports = merge(common,
                             formatter: require('eslint/lib/formatters/checkstyle')
                           }
                     }
-                }
+                },
             }
         ]
     }

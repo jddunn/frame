@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import JSONEditor from 'jsoneditor';
-import styles from './Editor.css';
+import styles from './f_JSONEditor.scss';
 
-export default class JSONEditor extends Component {
+export default class f_JSONEditor extends Component {
   componentDidMount() {
     const options = { onChange: this.props.onChange };
     this._container = document.getElementById('jsonEditor');
 
-    this._editor = new JSONEditor(this._container, options);
+    this._editor = new f_JSONEditor(this._container, options);
 
     this.props.editorRef(this._editor);
   }

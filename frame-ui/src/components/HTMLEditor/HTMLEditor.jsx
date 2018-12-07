@@ -1,16 +1,15 @@
 /* 
- * Simple editor component that takes placeholder text as a prop 
+ * 
  */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import Resizable from 're-resizable';
 
 // Quill
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import './HTMLEditor.css';
+// Local styles
+import './HTMLEditor.scss';
 
 class HTMLEditor extends React.Component {
     constructor (props) {

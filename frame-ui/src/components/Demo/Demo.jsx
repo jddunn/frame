@@ -1,6 +1,10 @@
+/* 
+ * 
+ */
+
 import React, { Component } from 'react';
 import SortableTree from 'react-sortable-tree';
-import styles from './Demo.css';
+import styles from './Demo.scss';
 
 const maxDepth = 5;
 
