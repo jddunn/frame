@@ -19,14 +19,14 @@
         "start": "webpack-dev-server --open --config webpack.dev.js --progress --color",
         "build": "webpack --config webpack.prod.js",
         "build-dev": "webpack --config webpack.dev.js --progress --color",
+        "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js",
+        "electron-build": "./node_modules/.bin/electron-builder build",
         "lint": "eslint -c .eslintrc.json src/** src/**/**; exit 0",
         "flow": "flow",
         "flow start": "flow start",
         "flow stop": "flow stop",
         "flow status": "flow status",
-        "flow coverage": "flow coverage",
-        "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js",
-        "electron-build": "npm run build && ./node_modules/.bin/electron-builder build"
+        "flow coverage": "flow coverage"
     },
     "dependencies": {
         "@babel/polyfill": "^7.0.0",
@@ -51,8 +51,6 @@
         "redux-actions": "^2.4.0",
         "redux-logger": "^3.0.6",
         "redux-thunk": "^2.3.0",
-        "semantic-ui-css": "^2.3.1",
-        "semantic-ui-react": "0.81.1",
         "source-map-support": "^0.5.6"
     },
     "devDependencies": {

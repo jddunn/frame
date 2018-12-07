@@ -1,5 +1,7 @@
 # Frame UI - Electron & Web 
 
+Work-in-progress
+
 Frontend components and config for Frame, which builds for both Electron and the web.
 
 Notes:
@@ -38,7 +40,16 @@ $ npm run build-dev
 
 # Building the source with Electron-Builder
 
-To build binaries for production:
+First build and minify the web files:
+```sh
+$ npm run build
+```
+
+Then  build binaries for distribution:
 ```sh
 $ npm run electron-build
 ```
+
+(The reason why these two commands aren't combined in the package file is because this way it's easier to handle slashes in the paths across Windows and other platforms).
+
+Binary is saved along with its unpacked contents within ./dist. 
