@@ -18,6 +18,9 @@ import { Divider } from 'antd';
 import '../../lib/react-sortable-tree-style.css' // For local changes
 import './MainMenu.scss';
 
+// Import branding for collapsible footer
+import Brand from '../Brand/Brand';
+
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
 
@@ -32,6 +35,8 @@ class MainMenu extends Component {
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
+      showBrand: false,
+      isTreeCollapsed: false,
       treeData: [
         {
           title: 'Most recent node is always here',
@@ -64,12 +69,12 @@ class MainMenu extends Component {
   }
 
   expand(expanded) {
-    this.setState({
+    this.setState(prevState => ({
       treeData: toggleExpandedForAll({
         treeData: this.state.treeData,
         expanded,
       }),
-    });
+    }));
   }
 
   expandAll() {
@@ -102,6 +107,19 @@ class MainMenu extends Component {
     });
   }
 
+  function({ item, key, selectedKeys }) {
+    alert("MENU CHANGE");
+    if ((selectedKeys.includes('sub2')) || selectedKeys.includes('1')) {
+      this.setState((prevState, props) => ({
+        isTreeCollapsed: true
+      }));
+    } else {
+      this.setState((prevState, props) => ({
+        isTreeCollapsed: false
+      }));
+    }
+  }
+
   render() {
     const {
       treeData,
@@ -113,14 +131,34 @@ class MainMenu extends Component {
 
     const { onChangeTreeData } = this.props;
 
+    const isTreeCollapsed = this.state.isTreeCollapsed;
     
+    let showFooter = false;
+    if (isTreeCollapsed) {
+      alert("hey");
 
-    const isCollapsed = this.state.isCollapsed;
+      showFooter = true;
+    } else {
+      showFooter = false;
+    }
 
     return (
 
       <React.Fragment>     
 
+        <div>
+          {showFooter ? (
+          <div
+            className="footerContainer">
+            HEY
+            <Brand/>
+          </div>
+            ) : (
+              null
+            )}
+          </div>
+
+                  
       <Menu
         className="mainMenuContainer"
         style={{
@@ -140,8 +178,20 @@ class MainMenu extends Component {
           <Icon type="desktop" />
           <span>Look</span>
         </Menu.Item>
+        
+
+        <SubMenu
       
-        <SubMenu key="sub2" title={<span><Icon type="snippets"/><span>Entries</span></span>}>
+
+
+        key="sub2" title={<span
+        
+        ><Icon 
+      
+        type="snippets"/>
+        <span 
+
+        >Entries</span></span>}>
       
           <Divider />
 
@@ -203,10 +253,11 @@ class MainMenu extends Component {
         </div>
 
           <React.Fragment>
-              {isCollapsed ? (
-                null
+              {isTreeCollapsed ? (
+                        null
               ) : (
                 <div>
+
                    <SortableTree
                     // theme={CustomTheme}
                     className="treeEntriesContainer"
@@ -265,7 +316,11 @@ class MainMenu extends Component {
           <Menu.Item>Online</Menu.Item>
           <Menu.Item>Security</Menu.Item>
         </SubMenu>
+
+
+
       </Menu>
+      
 
       {/* End menu comp */}
 

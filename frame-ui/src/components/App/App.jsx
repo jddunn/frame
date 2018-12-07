@@ -45,7 +45,7 @@ class App extends Component {
   }
 
   render() {
-  
+    
     return (
 
       <div style={{ display: 'flex', flex: '0 0 auto', flexDirection: 'column', height: '100%', width: '100%', margin: 0 }}>
@@ -69,6 +69,8 @@ class App extends Component {
                     <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                   </Button>
                   <MainMenu />
+
+                    
                 </Sider>
                 <Layout>
                   {/* <Header style={{padding: 0 }}>Lookback</Header> */}
@@ -82,9 +84,8 @@ class App extends Component {
                         <h4 className="sectionTitleText">Preview</h4>
                       </div> 
                     </div>
-                      {/* <Footer style={{ textAlign: 'center' }}>
-                        Lookback ©2018 Created by Johnny Dunn
-                    </Footer> */}
+
+
                   </Content>
               </Layout>
           </Layout>

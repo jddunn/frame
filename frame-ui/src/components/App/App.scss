@@ -82,6 +82,56 @@ html, body {
     text-align: center;
   }
   
+
+// Custom scrollbar styles
+body{
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+}
+/*mozilla scrolbalken*/
+@-moz-document url-prefix(http://),url-prefix(https://) {
+    scrollbar {
+    -moz-appearance: none !important;
+    background: rgb(0,255,0) !important;
+    }
+    thumb,scrollbarbutton {
+    -moz-appearance: none !important;
+    background-color: rgb(0,0,255) !important;
+    }
+
+    thumb:hover,scrollbarbutton:hover {
+    -moz-appearance: none !important;
+    background-color: rgb(255,0,0) !important;
+    }
+
+    scrollbarbutton {
+    display: none !important;
+    }
+
+    scrollbar[orient="vertical"] {
+    min-width: 15px !important;
+    }
+}
+
+::-webkit-scrollbar {
+    border-radius: 15px;
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
   /* Antd overrides */
   
   .ant-layout-sider {
