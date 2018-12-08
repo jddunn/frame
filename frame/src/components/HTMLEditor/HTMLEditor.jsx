@@ -2,6 +2,8 @@
 HTMLEditor, using Dante2 library, which clones Mediun's interface.
 So the editor itself is also a live preview of the content.
  */
+const path = require('path');
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Resizable from 're-resizable';
@@ -24,17 +26,18 @@ class HTMLEditor extends React.Component {
 
           // DanteEditor props
           // If !fullEditorOn, these values are used for editor
-          editorHtml: 'Write here..', 
+          danteContentState: {},
           theme: 'snow',
 
           // ContentState JSON for react-draft-wysiwyg
           // If fullEditorOn is true, this is the value used
-          contentState: {},
+          fullContentState: {},
 
           width: 800,
           height: 800,
         }
       this.handleChange = this.handleChange.bind(this)
+      this.saveDanteContent = this.saveDanteContent.bind(this)
     }
 
     componentDidMount() {
@@ -70,6 +73,10 @@ class HTMLEditor extends React.Component {
         this.setState({ editorState: RichUtils.insertSoftNewline(editorState) });
       }
     }
+
+    saveDanteContent(editorContext, content) {
+      console.log("SAVED DANTE: ", editorContext, content);
+    }
     
     render () {
       // console.log("RENDER STATE: ", this.state);
@@ -81,7 +88,14 @@ class HTMLEditor extends React.Component {
             <DanteEditor
               key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
               config={this.config}
-              content={this.demo}
+              data_storage
+                ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
+                xhr
+                ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
+
+              // data_storage= {
+              //   save_handler= this.saveDanteContent (editorContext, content)
+              // }
             />
           ) : (
             <Editor
