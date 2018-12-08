@@ -61,7 +61,7 @@
   margin-right: auto;
   color: grey;
   border: none;
-  height: 25px;
+  height: 24px;
   margin-left: 10px;
   width: 180px;
 }
@@ -72,8 +72,11 @@
 }
 
 .searchArrowButton {
-  height: 26px;
+  height: 25px;
   margin: 1px;
+  width: 28px;
+  font-size: .8em;
+  margin-top: -10px;
   /* padding: 10px; */
 }
 

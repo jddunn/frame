@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+/* 
+Sidebar / main menu navigation (collapsible).
+Contains the sortable tree components for Frame's entries (TODO: refactor
+  this out as its own component later as it gets larger).
+*/
 
+import React, { Component } from 'react';
 import Resizable from 're-resizable';
 
 // Sortable tree component
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
-// Sortable tree custom theme
-// import CustomTheme from '../../index';
 
 // Ant Design
 import '../../lib/antd.css';  
-import { Menu, Icon, Button, ButtonGroup } from 'antd';
-
-import { Input } from 'antd';
-import { Divider } from 'antd';
+import { Menu, Icon, Button, ButtonGroup, Input, Divider } from 'antd';
 
 // Local styles
 import '../../lib/react-sortable-tree-style.css' // For local changes
@@ -27,7 +27,6 @@ const Search = Input.Search;
 class MainMenu extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       collapsed: false,
       width: 330, 
@@ -38,15 +37,6 @@ class MainMenu extends Component {
       showBrand: false,
       isTreeCollapsed: false,
       treeData: [
-        {
-          title: 'Most recent node is always here',
-          subtitle: 'Note how the hover behavior is different',
-          data: {}
-          // dragDisabled: true,
-        },
-        { title: 'This is the Full Node Drag theme', data: {}},
-        { title: 'You can click anywhere on the node to drag it', data: {} },
-        { title: 'Chicken', children: [{ title: 'Egg', data: {} }], data: {} },
       ],
     };
     this.updateTreeData = this.updateTreeData.bind(this);
@@ -54,8 +44,6 @@ class MainMenu extends Component {
     this.collapseAll = this.collapseAll.bind(this);
     this.selectPrevMatch = this.selectNextMatch.bind(this);
     this.selectNextMatch = this.selectNextMatch.bind(this);
-
-
   }
 
   toggleCollapsed = () => {
@@ -87,7 +75,6 @@ class MainMenu extends Component {
 
   selectPrevMatch() {
     const { searchFocusIndex, searchFoundCount } = this.state;
-
     this.setState({
       searchFocusIndex:
         searchFocusIndex !== null
@@ -98,7 +85,6 @@ class MainMenu extends Component {
 
   selectNextMatch() {
     const { searchFocusIndex, searchFoundCount } = this.state;
-
     this.setState({
       searchFocusIndex:
         searchFocusIndex !== null
@@ -108,7 +94,6 @@ class MainMenu extends Component {
   }
 
   function({ item, key, selectedKeys }) {
-    alert("MENU CHANGE");
     if ((selectedKeys.includes('sub2')) || selectedKeys.includes('1')) {
       this.setState((prevState, props) => ({
         isTreeCollapsed: true
@@ -127,25 +112,15 @@ class MainMenu extends Component {
       searchFocusIndex,
       searchFoundCount,
     } = this.state;
-
-
     const { onChangeTreeData } = this.props;
-
     const isTreeCollapsed = this.state.isTreeCollapsed;
-    
-    let showFooter = false;
-    if (isTreeCollapsed) {
-      alert("hey");
-
-      showFooter = true;
-    } else {
-      showFooter = false;
-    }
+    const showFooter = (isTreeCollapsed == true) ? true: false;
+    const foundEntries = (this.state.treeData.length > 0) ? true : false;
+    const treeHeight = (foundEntries == true) ? '260px' : '60px';
+    const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
 
     return (
-
       <React.Fragment>     
-
         <div>
           {showFooter ? (
           <div
@@ -157,8 +132,6 @@ class MainMenu extends Component {
               null
             )}
           </div>
-
-                  
       <Menu
         className="mainMenuContainer"
         style={{
@@ -178,35 +151,19 @@ class MainMenu extends Component {
           <Icon type="desktop" />
           <span>Look</span>
         </Menu.Item>
-        
-
-        <SubMenu
-      
-
-
-        key="sub2" title={<span
-        
-        ><Icon 
-      
-        type="snippets"/>
-        <span 
-
-        >Entries</span></span>}>
-      
-          <Divider />
-
-          <div className="entriesButtonsContainer">
-
+        <SubMenu key="sub2" title={<span><Icon type="snippets"/>
+          <span>Entries</span></span>}>
+            <Divider />
+            <div className="entriesButtonsContainer">
               <Search
                     id="findBox"
                     value={searchString}
-                    placeholder="Search entries"
+                    placeholder={entriesSearchPlaceholderText}
                     onChange={event =>
                       this.setState({ searchString: event.target.value })
-                  }
+                    }
                     style={{ width: 200 }}
                 />
-
                 <div className="searchArrowButtonsContainer">
                   <Button
                     className="searchArrowButton"
@@ -215,9 +172,7 @@ class MainMenu extends Component {
                     disabled={!searchFoundCount}
                     onClick={this.selectPrevMatch}
                   >
-                    <Icon 
-                      size="small"
-                      type="left" />
+                    <Icon size="small" type="left" />
                   </Button>
                   <Button
                     className="searchArrowButton"
@@ -226,9 +181,7 @@ class MainMenu extends Component {
                     disabled={!searchFoundCount}
                     onClick={this.selectNextMatch}
                   >                  
-                    <Icon
-                      size="small"
-                      type="right" />
+                    <Icon size="small" type="right" />
                   </Button>
                 </div>
 
@@ -241,24 +194,47 @@ class MainMenu extends Component {
 
               <div className="entriesEditorButtonsContainer">
                 <div className="mainEntriesButtonsWrapper">
-                  <Button type="primary" ghost={true} icon="file-add" className="textButton">Start New</Button>
-                  <Button type="primary" ghost={true} icon="save" className="textButton">Save Changes</Button>
+                  <Button 
+                    type="primary"
+                    ghost={true}
+                    icon="file-add"
+                    className="textButton"
+                    >
+                    Start New
+                    </Button>
+                  <Button 
+                    type="primary"
+                    ghost={true} 
+                    icon="save" 
+                    className="textButton"
+                    >
+                    Save Changes
+                  </Button>
                 </div>
                 <div className="expandEntriesButtonsWrapper">
-                  <Button shape="circle" ghost={true} className="smallButton" icon="plus" onClick={this.expandAll}/>
-                  <Button shape="circle" ghost={true} className="smallButton" icon="minus" onClick={this.collapseAll}/>
+                  <Button 
+                    shape="circle" 
+                    ghost={true}
+                    className="smallButton"
+                    icon="plus"
+                    onClick={this.expandAll}
+                    />
+                  <Button
+                    shape="circle" 
+                    ghost={true}
+                    className="smallButton" 
+                    icon="minus" onClick={this.collapseAll}
+                    />
                 </div>
               </div>
-        
-        </div>
-
+          </div>
+          {/* Start sortable tree comp for entries */}
           <React.Fragment>
               {isTreeCollapsed ? (
                         null
               ) : (
                 <div>
-
-                   <SortableTree
+                    <SortableTree
                     // theme={CustomTheme}
                     className="treeEntriesContainer"
                     treeData={treeData}
@@ -270,7 +246,7 @@ class MainMenu extends Component {
                               forceSubMenuRender: true,
                               inlineCollapsed: true,
                               minWidth: '180px',
-                              height: '260px',
+                              height: treeHeight,
                               backgroundColor: 'transparent',
                               background: 'transparent',
                               color: 'grey',
@@ -294,36 +270,24 @@ class MainMenu extends Component {
                 </div>
               )}
             </React.Fragment>
-
-        <Divider />
-
-      </SubMenu>
-
-
+            {/* End sortable tree */}
+          <Divider />
+        </SubMenu>
         <Menu.Item key="5">
           <Icon type="inbox" />
           <span>Ask</span>
         </Menu.Item>
-     
         <Menu.Item key="6">
           <Icon type="inbox" />
           <span>Summaries</span>
         </Menu.Item>
-     
-
         <SubMenu key="sub3" title={<span><Icon type="appstore" /><span>Settings</span></span>}>
           <Menu.Item>Visual</Menu.Item>
           <Menu.Item>Online</Menu.Item>
           <Menu.Item>Security</Menu.Item>
         </SubMenu>
-
-
-
       </Menu>
-      
-
-      {/* End menu comp */}
-
+      {/* End main menu comp */}
     </React.Fragment>
     );
   }
