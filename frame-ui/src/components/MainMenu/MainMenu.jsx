@@ -116,7 +116,7 @@ class MainMenu extends Component {
     const isTreeCollapsed = this.state.isTreeCollapsed;
     const showFooter = (isTreeCollapsed == true) ? true: false;
     const foundEntries = (this.state.treeData.length > 0) ? true : false;
-    const treeHeight = (foundEntries == true) ? '260px' : '60px';
+    const treeHeight = (foundEntries == true) ? '260px' : '50px';
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
 
     return (
@@ -208,7 +208,7 @@ class MainMenu extends Component {
                     icon="save" 
                     className="textButton"
                     >
-                    Save Changes
+                    Save 
                   </Button>
                 </div>
                 <div className="expandEntriesButtonsWrapper">

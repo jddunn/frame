@@ -19,7 +19,7 @@ import './App.scss';
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';
 
-// HTML Editor
+// HTML Editor / Preview (The Notebook component)
 import HTMLEditor from '../HTMLEditor/HTMLEditor';
 
 const {   Header, Content, Footer, Sider } = Layout;
@@ -69,23 +69,15 @@ class App extends Component {
                     <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                   </Button>
                   <MainMenu />
-
-                    
                 </Sider>
                 <Layout>
-                  {/* <Header style={{padding: 0 }}>Lookback</Header> */}
+                  {/* <Header style={{padding: 0 }}>Frame</Header> */}
                   <Content>
                     <div className="center notepadContainer">
-                      <div className="editorContainer">
-                        <h4 className="sectionTitleText">Editor</h4>
+                        <br></br>
+                        <h4 className="sectionTitleText">Notebook</h4>
                         <HTMLEditor/>
-                      </div>
-                      <div className="previewContainer">
-                        <h4 className="sectionTitleText">Preview</h4>
-                      </div> 
                     </div>
-
-
                   </Content>
               </Layout>
           </Layout>
