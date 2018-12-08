@@ -118,6 +118,11 @@ html, body {
     /* font-size: 1.4vmax; */
     text-align: center;
   }
+
+.notebookSwitch {
+  float: right;
+  margin-top: -20px;
+}
   
 
 // Custom scrollbar styles
@@ -154,7 +159,7 @@ body{
 
     scrollbar[orient="vertical"] {
     min-width: 15px !important;
-    }
+  }
 }
 
 ::-webkit-scrollbar {
