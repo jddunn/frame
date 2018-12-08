@@ -26,11 +26,19 @@ class HTMLEditor extends React.Component {
       if (newTheme === "core") newTheme = null;
       this.setState({ theme: newTheme })
     }
+
+    handleReturn(e) {
+      const { editorState } = this.state;
+      if (e.shiftKey) {
+        this.setState({ editorState: RichUtils.insertSoftNewline(editorState) });
+      }
+    }
     
     render () {
       return (
         <div>
           <DanteEditor
+            key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
             config={this.config}
             content={this.demo}
           />
