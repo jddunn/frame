@@ -199,7 +199,7 @@ class MainMenu extends Component {
                     icon="save" 
                     className="textButton"
                     >
-                    Save 
+                    Edit Nodes 
                   </Button>
                 </div>
                 <div className="expandEntriesButtonsWrapper">
@@ -276,6 +276,7 @@ class MainMenu extends Component {
           <Menu.Item>Visual</Menu.Item>
           <Menu.Item>Online</Menu.Item>
           <Menu.Item>Security</Menu.Item>
+          <Menu.Item>About</Menu.Item>
         </SubMenu>
       </Menu>
       {/* End main menu comp */}
