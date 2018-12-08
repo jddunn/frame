@@ -5,15 +5,15 @@
 import React, { Component } from 'react';
 
 // Ant Design
-import {Row, Col } from 'antd';
 import {
-  Layout, Menu, Breadcrumb, Icon, Button
-} from 'antd';
+         Row, Col, Layout, Menu, Breadcrumb,
+         Icon, Button, Switch
+         } from 'antd';
 
-// Antd is really janky to theme with new styles, let's use our own lib css
+// Override Antd's lib styles import with local copy
 import '../../lib/antd.css';  
 
-// Local styles
+// App global comp styles
 import './App.scss';
 
 // Menu with sortable tree component
@@ -25,7 +25,7 @@ import HTMLEditor from '../HTMLEditor/HTMLEditor';
 // Import branding for collapsible footer
 import Brand from '../Brand/Brand';
 
-const {   Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer, Sider } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -33,9 +33,11 @@ class App extends Component {
 
     this.state = {
       collapsed: false,
+      fullEditorOn: false
     }
   }
 
+  // Sider collapse funcs
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
@@ -47,7 +49,17 @@ class App extends Component {
     });
   }
 
+  // Switch toggle func
+ onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+    this.setState(prevState => ({
+      fullEditorOn: {checked}
+    }));
+  }
+
   render() {
+
+    const typeOfEditor = "basic"; // By default render basic editor
     
     return (
 
@@ -79,9 +91,15 @@ class App extends Component {
                         <br></br>
                         <div className="titleWrapper">
                           <h4 className="sectionTitleText">Notebook</h4>
+                          <Switch
+                            className="notebookSwitch"
+                            onChange={this.onChange} 
+                            checkedChildren="Full Editor" 
+                            unCheckedChildren="Inline Editor" 
+                            />
                         </div>
                         <div className="htmlEditorWrapper">
-                          <HTMLEditor/>
+                          <HTMLEditor fullEditorOn={this.state.fullEditorOn}/>
                         </div>
                     </div>
                   </Content>

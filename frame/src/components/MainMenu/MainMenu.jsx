@@ -196,10 +196,10 @@ class MainMenu extends Component {
                   <Button 
                     type="primary"
                     ghost={true} 
-                    icon="save" 
+                    icon="edit" 
                     className="textButton"
                     >
-                    Edit Nodes 
+                    Edit Data 
                   </Button>
                 </div>
                 <div className="expandEntriesButtonsWrapper">
