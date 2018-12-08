@@ -35,6 +35,7 @@ html, body {
   }
   
   .mainMenuContainer {
+
     display: block !important;
     clear: right !important; 
     height: 100%;
@@ -45,6 +46,16 @@ html, body {
     background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     overflow-x: none !important; 
+  }
+
+  .mainMenuContainer span {
+    font-weight: normal;
+    font-size: 1.2em;
+  }
+
+  .ant-menu-submenu-title span {
+    font-weight: normal;
+    font-size: 1.05em;
   }
   
   .notepadContainer {
@@ -75,9 +86,9 @@ html, body {
   
   .sectionTitleText {
     color: white;
-    font-weight: lighter;
+    font-weight: normal;
     letter-spacing: 2px;
-    font-size: 1.4em;
+    font-size: 1.5em;
     /* font-size: 1.4vmax; */
     text-align: center;
   }
