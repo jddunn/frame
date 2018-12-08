@@ -14,7 +14,8 @@
   letter-spacing: 3px;
   font-weight: lighter;
   font-size: 1.6em;
-  color: rgba(240, 240, 240, .85) !important;
+  color: rgba(240, 240, 240, .95) !important;
+  text-shadow: 1px 2px 1px rgba(50,20,50,0.05);
 }
 
 .brandContainer p {
@@ -22,6 +23,7 @@
   font-weight: lighter;
   font-size: .6em;
   color: rgba(240, 240, 240, .85) !important;
+  text-shadow: 1px 2px 1px rgba(50,20,50,0.05);
 }
 
 .brandTitle {

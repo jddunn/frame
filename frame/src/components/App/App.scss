@@ -110,10 +110,11 @@ html, body {
   
   .sectionTitleText {
     padding-top: 5px;
-    color: rgba(5, 5, 5, 1.0);
+    color: rgb(25, 15, 25, 1.0);
     font-weight: normal;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     font-size: 1.45em;
+    text-shadow: 1px 1px 1px rgba(50,50,50,0.05);
     /* font-size: 1.4vmax; */
     text-align: center;
   }
