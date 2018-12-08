@@ -22,6 +22,9 @@ import MainMenu from '../MainMenu/MainMenu';
 // HTML Editor / Preview (The Notebook component)
 import HTMLEditor from '../HTMLEditor/HTMLEditor';
 
+// Import branding for collapsible footer
+import Brand from '../Brand/Brand';
+
 const {   Header, Content, Footer, Sider } = Layout;
 
 class App extends Component {
@@ -57,17 +60,16 @@ class App extends Component {
                   collapsed={this.state.collapsed}
                   onCollapse={this.onCollapse}
                 >
-              <Button type="primary" 
-                onClick={this.toggleCollapsed}
-                style={{ top: '0', 
-                        left: '0',
-                        position: 'absolute',
-                        display: 'block',
-                        zIndex: '100',
-                        opacity: '1',
-                        marginLeft: '-5px'}}>
-                    <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
-                  </Button>
+                <div
+                      className="brandWrapper"
+                      style={{ top: '0', 
+                      left: '0',
+                      zIndex: '100',
+                      opacity: '1',
+                      }}
+                      onClick={this.toggleCollapsed}>
+                      <Brand/>
+                </div>
                   <MainMenu />
                 </Sider>
                 <Layout>
@@ -75,8 +77,12 @@ class App extends Component {
                   <Content>
                     <div className="center notepadContainer">
                         <br></br>
-                        <h4 className="sectionTitleText">Notebook</h4>
-                        <HTMLEditor/>
+                        <div className="titleWrapper">
+                          <h4 className="sectionTitleText">Notebook</h4>
+                        </div>
+                        <div className="htmlEditorWrapper">
+                          <HTMLEditor/>
+                        </div>
                     </div>
                   </Content>
               </Layout>

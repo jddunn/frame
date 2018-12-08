@@ -18,8 +18,7 @@ import { Menu, Icon, Button, ButtonGroup, Input, Divider } from 'antd';
 import '../../lib/react-sortable-tree-style.css' // For local changes
 import './MainMenu.scss';
 
-// Import branding for collapsible footer
-import Brand from '../Brand/Brand';
+
 
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
@@ -34,7 +33,6 @@ class MainMenu extends Component {
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
-      showBrand: false,
       isTreeCollapsed: false,
       treeData: [
       ],
@@ -114,24 +112,14 @@ class MainMenu extends Component {
     } = this.state;
     const { onChangeTreeData } = this.props;
     const isTreeCollapsed = this.state.isTreeCollapsed;
-    const showFooter = (isTreeCollapsed == true) ? true: false;
+    const show = (isTreeCollapsed == true) ? true: false;
     const foundEntries = (this.state.treeData.length > 0) ? true : false;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
 
     return (
       <React.Fragment>     
-        <div>
-          {showFooter ? (
-          <div
-            className="footerContainer">
-            HEY
-            <Brand/>
-          </div>
-            ) : (
-              null
-            )}
-          </div>
+       
       <Menu
         className="mainMenuContainer"
         style={{
@@ -147,7 +135,10 @@ class MainMenu extends Component {
         theme="dark"
         inlineCollapsed={this.state.collapsed}
       >
-        <Menu.Item key="1">
+
+   
+
+        <Menu.Item key="1" style={{marginTop: '20px'}}>
           <Icon type="desktop" />
           <span>Look</span>
         </Menu.Item>

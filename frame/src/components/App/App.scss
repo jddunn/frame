@@ -33,14 +33,36 @@ html, body {
     padding: 0 !important;
     margin: auto !important;
   }
+
+  .titleWrapper {
+    margin-top: -20px;
+    padding: 7px;
+    width: 100%;
+    -moz-box-shadow: 0 0 3px rgba(5, 5, 5, .8);
+    -webkit-box-shadow: 0 3 3px rgba(5, 5, 5, .8);
+    box-shadow: 0px 0px 3px rgba(5, 5, 5, .8);
+  }
+
+  .brandWrapper {
+    padding-left: 5px;
+    margin-left: 1px;
+    -moz-box-shadow: 0 0 3px #fff;
+    -webkit-box-shadow: 0 3 3px #fff;
+    box-shadow: 0px 0px 3px #fff;
+  }
+
+  .brandWrapper:hover {
+    -moz-box-shadow: 0 0 4px rgb(208, 255, 0);
+    -webkit-box-shadow: 0 4 6px rgb(208, 255, 0);
+    box-shadow: 0px 0px 4px rgb(208, 255, 0);
+    cursor: pointer;
+  }
   
   .mainMenuContainer {
-
     display: block !important;
     clear: right !important; 
     height: 100%;
     width: 100%;
-    padding-top: 25px;
     color: white;
     background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
@@ -49,12 +71,20 @@ html, body {
   }
 
   .mainMenuContainer span {
-    font-weight: normal;
-    font-size: 1.2em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    font-size: 1.15em;
   }
 
   .ant-menu-submenu-title span {
-    font-weight: normal;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    font-size: 1.05em;
+  }
+
+  .ant-menu-item {
+    font-weight: lighter;
+    letter-spacing: 1px;
     font-size: 1.05em;
   }
   
@@ -65,30 +95,25 @@ html, body {
     height: 100% !important;
     border-radius: 2px !important;
     box-shadow:  0 5px 15px 0 rgba(0,0,0,0.2) !important;
-    background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-color: rgba(250, 250, 250, 1.0);
+    // background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+    // background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+    // background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     overflow-x: none !important; 
   }
-  
-  .editorContainer {
-    padding-top: 10px !important;
-    padding: 20px;
-    display: block;
+
+  .htmlEditorWrapper {
+    margin-top: 10px;
+    margin-left: 5px;
   }
   
-  .previewContainer {
-    margin: 10px !important;
-    display: block;
-    height: 282px;
-    /* padding-bottom: 150px; */
-  }
   
   .sectionTitleText {
-    color: white;
-    font-weight: normal;
+    padding-top: 5px;
+    color: rgba(5, 5, 5, 1.0);
+    font-weight: lighter;
     letter-spacing: 2px;
-    font-size: 1.5em;
+    font-size: 1.45em;
     /* font-size: 1.4vmax; */
     text-align: center;
   }

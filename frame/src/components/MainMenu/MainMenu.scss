@@ -32,14 +32,19 @@
   background-color: transparent !important;
 }
 
+.ant-btn-primary {
+  z-index: 10;
+  position: relative;
+}
+
 /* Footer / brand */
 .footerContainer {
-    left: 0 !important;
-    bottom: 0 !important;
-    z-index: 1000;
-    position: absolute !important;
-    // margin-bottom: 40px;
-    // margin-left: 40px;
+    float: right !important;
+    margin-top: 5px;
+    margin-left: 30px !important;
+    background-color: transparent !important;
+    z-index: 100;
+    position: absolute;
 }
 
 /* React sortable tree */
