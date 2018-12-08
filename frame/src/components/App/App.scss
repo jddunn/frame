@@ -44,6 +44,7 @@ html, body {
   }
 
   .brandWrapper {
+    padding-bottom: 5px;
     padding-left: 5px;
     margin-left: 1px;
     -moz-box-shadow: 0 0 3px #fff;
@@ -104,15 +105,14 @@ html, body {
 
   .htmlEditorWrapper {
     margin-top: 10px;
-    margin-left: 5px;
+    margin-left: 10px;
   }
-  
   
   .sectionTitleText {
     padding-top: 5px;
     color: rgba(5, 5, 5, 1.0);
-    font-weight: lighter;
-    letter-spacing: 2px;
+    font-weight: normal;
+    letter-spacing: 1px;
     font-size: 1.45em;
     /* font-size: 1.4vmax; */
     text-align: center;

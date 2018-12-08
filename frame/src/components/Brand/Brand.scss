@@ -6,20 +6,21 @@
   padding-left: 5px;
   padding-top: 10px;
   padding-bottom: 10px;
-
+  max-height: 53px;
+  overflow: hidden;
 }
 
 .brandContainer h4{ 
   letter-spacing: 3px;
   font-weight: lighter;
-  font-size: 1.6vmax;
+  font-size: 1.6em;
   color: rgba(240, 240, 240, .85) !important;
 }
 
 .brandContainer p {
   letter-spacing: 1px;
   font-weight: lighter;
-  font-size: .6vmax !important;
+  font-size: .6em;
   color: rgba(240, 240, 240, .85) !important;
 }
 
