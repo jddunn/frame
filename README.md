@@ -31,5 +31,4 @@ Additional libraries and references used:
 - electron-builder [https://www.electron.build/](https://www.electron.build/)
 - react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
 - react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
-- re-resizable [https://github.com/bokuweb/re-resizable](https://github.com/bokuweb/re-resizable)
-- react-quill [https://zenoamaro.github.io/react-quill/](https://zenoamaro.github.io/react-quill/)
+- Dante 2 [https://github.com/michelson/dante2](https://github.com/michelson/dante2)
