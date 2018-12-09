@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 // Ant Design
 import {
          Row, Col, Layout, Menu, Breadcrumb,
-         Icon, Button, Switch
+         Icon, Button, Switch, Dropdown, message
          } from 'antd';
 
 // Override Antd's lib styles import with local copy
@@ -27,14 +27,28 @@ import Brand from '../Brand/Brand';
 
 const { Header, Content, Footer, Sider } = Layout;
 
+const editorTypes = Object.freeze(
+  {
+    INLINE: "inline",
+    FULL: "full",
+    EQUATION: "equation"
+  });
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       collapsed: false,
+      editorType: editorTypes.INLINE, // Type of editor doc is formatted in;
+                                      // defaults to DanteEditor
       fullEditorOn: false
     }
+
+    // const m_this = this;
+    this.handleMenuClick = this.handleMenuClick.bind(this);
+
+
   }
 
   // Sider collapse funcs
@@ -50,19 +64,48 @@ class App extends Component {
   }
 
   // Switch toggle func
- onChange = (checked) => {
+  onChange = (checked) => {
     console.log(`switch to ${checked}`);
     this.setState(prevState => ({
       fullEditorOn: {checked}
     }));
   }
 
+  // Antd dropdown funcs for editor switching
+  handleButtonClick = (event) => {}
+
+  handleMenuClick = (event) => { 
+    this.setState((state, props) => {
+      return {editorType: event.key};
+    });
+  }
+
+  editorSwitchMenu = (
+    <Menu onClick={this.handleMenuClick}>
+      <Menu.Item key="inline">
+        <Icon type="user" />
+          {editorTypes.INLINE.charAt(0).toUpperCase() +
+          editorTypes.INLINE.slice(1)}
+      </Menu.Item>
+      <Menu.Item key="full">
+        <Icon type="user" />
+        {editorTypes.FULL.charAt(0).toUpperCase() +
+          editorTypes.FULL.slice(1)}
+      </Menu.Item>
+      <Menu.Item key="equation">
+        <Icon type="user" />
+        {editorTypes.EQUATION.charAt(0).toUpperCase() +
+          editorTypes.EQUATION.slice(1)}
+      </Menu.Item>    
+    </Menu>
+  );
+
   render() {
 
     const typeOfEditor = "basic"; // By default render basic editor
+    console.log(this.state.editorType);
     
     return (
-
       <div style={{ display: 'flex', flex: '0 0 auto', flexDirection: 'column', height: '100%', width: '100%', margin: 0 }}>
               <Layout >
                 <Sider
@@ -91,12 +134,22 @@ class App extends Component {
                         <br></br>
                         <div className="titleWrapper">
                           <h4 className="sectionTitleText">Notebook</h4>
-                          <Switch
-                            className="notebookSwitch"
-                            onChange={this.onChange} 
-                            checkedChildren="Full Editor" 
-                            unCheckedChildren="Inline Editor" 
-                            />
+                            <div className="notebookSwitch">
+                              <Dropdown.Button
+                                className="dropdownCustom"
+                                style={{borderRadius: '15px'}}
+                                dropdownMatchSelectWidth={true}
+                                onClick={this.handleButtonClick}
+                                overlay={this.editorSwitchMenu}
+                                >
+                                <div className="innerButtonLabel">
+                                  <p>
+                                    {this.state.editorType.charAt(0).toUpperCase() +
+                                    this.state.editorType.slice(1)}
+                                  </p>
+                                </div>
+                              </Dropdown.Button>
+                            </div>
                         </div>
                         <div className="htmlEditorWrapper">
                           <HTMLEditor fullEditorOn={this.state.fullEditorOn}/>

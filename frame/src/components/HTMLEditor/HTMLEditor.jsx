@@ -4,19 +4,21 @@ So the editor itself is also a live preview of the content.
  */
 const path = require('path');
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import Resizable from 're-resizable';
 
 // Medium-style editor clone
 import DanteEditor from 'Dante2';
 // Full WYSIWYG editor
-import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
+// import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
 // Draft.js to HTML (for react-draft-wysiwyg)
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -35,7 +37,7 @@ import './HTMLEditor.scss';
 
 
 
-class HTMLEditor extends React.Component {
+export default class HTMLEditor extends Component {
     constructor (props) {
       super(props)
       this.state = { 
@@ -47,7 +49,8 @@ class HTMLEditor extends React.Component {
           height: 800,
           html: '<p>Write your story..</p>',
           blocksFromHTML: {},
-          content: {}
+          content: {},
+          editorState: EditorState.createEmpty()
         }
       this.handleChange = this.handleChange.bind(this)
       this.saveDanteContent = this.saveDanteContent.bind(this)
@@ -63,13 +66,15 @@ class HTMLEditor extends React.Component {
     }
 
     componentWillMount() {
-      const blocksFromHTML = htmlToDraft('<p>Write your story..</p>');
-      const content = ContentState.createFromBlockArray(
-        blocksFromHTML.contentBlocks,
-        blocksFromHTML.entityMap
-      );
-      this.setState({ content: content, blocksFromHTML: blocksFromHTML });
+      // const blocksFromHTML = htmlToDraft('<p>Write your story..</p>');
+      // const content = ContentState.createFromBlockArray(
+      //   blocksFromHTML.contentBlocks,
+      //   blocksFromHTML.entityMap
+      // );
+      // this.setState({ content: content, blocksFromHTML: blocksFromHTML });
     }
+
+
 
     // Dante funcs
     handleChange (html) {
@@ -89,6 +94,12 @@ class HTMLEditor extends React.Component {
       });
     };
 
+    onEditorStateChange = (editorState) => {
+      this.setState({
+        editorState,
+      });
+    };
+
     
     handleReturn(e) {
       const { editorState } = this.state;
@@ -103,6 +114,7 @@ class HTMLEditor extends React.Component {
     
     render () {
       // console.log("RENDER STATE: ", this.state);
+      const { editorState } = this.state;
       const fullEditorOn = this.props.fullEditorOn.checked;
       return (
         <React.Fragment>
@@ -121,7 +133,7 @@ class HTMLEditor extends React.Component {
             />
           ) : (
             <Editor
-              // editorState={editorState}
+              editorState={editorState}
               className="fullHTMLEditor"
               // editorState={EditorState.createWithContent(this.state.content)}
               toolbarClassName="toolbarClassName"
@@ -135,4 +147,3 @@ class HTMLEditor extends React.Component {
     }
   }
   
- export default HTMLEditor;

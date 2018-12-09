@@ -111,11 +111,41 @@ html, body {
     text-align: center;
   }
 
+
+.innerButtonLabel { 
+  width: 60px !important;
+}
+
+.innerButtonLabel p {
+  padding: 5px;
+  color: rgba(56, 56, 56, 0.9) !important;
+  font-weight: normal;
+  font-size: .95em;
+  text-shadow: 1px 1px 1px rgba(50,50,50,0.05);
+}
+
 .notebookSwitch {
   float: right;
-  margin-top: -20px;
+  border-radius: 10px;
+  margin-top: -30px;
+}
+
+.ant-btn-default {
+  border-radius: 5px;
+}
+
+.ant-dropdown-trigger {
+  height: 32px;
+  padding-right: 2px;
+  padding-left: 5px;
+  margin-top: 1px;
+  border-radius: 5px;
 }
   
+
+.ant-dropdown-button {
+  background-color: transparent;
+}
 
 // Custom scrollbar styles
 body{
