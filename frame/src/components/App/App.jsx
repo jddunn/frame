@@ -20,17 +20,20 @@ import './App.scss';
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';
 
-// HTML Editor / Preview (The Notebook component)
-import HTMLEditor from '../HTMLEditor/HTMLEditor';
+// FEditor / Preview (The Notebook component)
+import FEditor from '../FEditor/FEditor';
 
 // Import branding for collapsible footer
 import Brand from '../Brand/Brand';
+
+import '../../components/FEditor/FEditor.scss';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const editorTypes = Object.freeze(
   {
-    INLINE: "inline",
+    INLINE: "medium",
     FULL: "full",
     CODE: "code",
     EQUATION: "equation"
@@ -154,7 +157,7 @@ class App extends Component {
                               title={"Switch editor mode (this changes the document format)"}>
                               <Dropdown.Button
                                 className="dropdownCustom"
-                                style={{borderRadius: '15px'}}
+                                style={{borderRadius: '15px', marginRight: '5px'}}
                                 dropdownMatchSelectWidth={true}
                                 onClick={this.handleButtonClick}
                                 overlay={this.editorSwitchMenu}
@@ -172,7 +175,7 @@ class App extends Component {
                         <div className="htmlEditorWrapper">
                         <div id="editor">
                         </div>
-                          <HTMLEditor editorType={this.state.editorType}/>
+                          <FEditor editorType={this.state.editorType}/>
                         </div>
                     </div>
                   </Content>

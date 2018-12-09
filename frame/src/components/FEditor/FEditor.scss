@@ -1,0 +1,61 @@
+// react-draft-js
+
+.rdw-editor-toolbar {
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+}
+
+/* For some reason we also have to add styles for this class too?
+   But they don't work when combined with the above..
+*/
+.toolbarClassName {
+    margin-top: -9px !important;
+    margin-left: -20px !important;
+}
+
+.rdw-editor-main {
+    margin-left: 2px;
+    margin-top: -10px;
+}
+
+.rdw-dropdown-wrapper {
+    height: 22px !important;
+}
+
+.rdw-dropdown-selectedtext {
+    color: grey;
+    font-size: .9em;
+}
+
+.quillThemeSwitcher {
+    float: top;
+    float: right;
+    margin-top: -35px;
+    position: relative;
+    // margin-right: -250px;
+}
+
+// Quill
+.ql-bubble {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.ql-snow {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.ql-toolbar {
+    box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.15) !important;
+    -moz-box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.15) !important;
+    -webkit-box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.15) !important;
+}
+
+.ql-tooltip {
+    background-color: rgba(65, 61, 64, .8) !important;
+    float: right !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+}

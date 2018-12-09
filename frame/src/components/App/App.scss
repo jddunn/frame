@@ -35,18 +35,27 @@ html, body {
     margin-top: -20px;
     padding: 7px;
     width: 100%;
-    -moz-box-shadow: 0px 0px 1px rgba(45, 45, 45, .75);
-    -webkit-box-shadow: 0px 0px 1px rgba(45, 45, 45, .75);
-    box-shadow: 0px 0px 1px rgba(45, 45, 45, .75);
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   }
 
   .brandWrapper {
     padding-bottom: 5px;
     padding-left: 5px;
     margin-left: 1px;
-    -moz-box-shadow: 0 0 3px #fff;
-    -webkit-box-shadow: 0 3 3px #fff;
-    box-shadow: 0px 0px 3px #fff;
+
+    // -moz-box-shadow: 0 0 3px #fff;
+    // -webkit-box-shadow: 0 3 3px #fff;
+    // box-shadow: 0px 0px 3px #fff;
+    // box-shadow: inset 0 1px #fff, 0 1px 3px rgba(34,25,25,0.6) !important;
+    // -moz-box-shadow: inset 0 1px #fff, 0 1px 3px rgba(34,25,25,0.6) !important;
+    // -webkit-box-shadow: inset 0 1px #fff, 0 1px 3px rgba(34,25,25,0.6) !important;
+    // box-shadow:  inset 1px 1px rgba(200, 200, 220, .25), 1px 1px 1px rgba(34,25,25,.45) !important;
+    // -moz-box-shadow:  inset 1px 1px rgba(200, 200, 220, .25), 1px 0px 1px rgba(34,25,25,.45) !important;
+    // -webkit-box-shadow: i inset 1px 1px rgba(200, 200, 220, .25), 1px 0px 1px rgba(34,25,25,.45) !important;
   }
 
 
@@ -61,6 +70,13 @@ html, body {
     background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     overflow-x: none !important; 
+    box-shadow: none !important;
+    -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    // box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.3) !important;
+    // -moz-box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 1px 0px 1px rgba(34,25,25,0.3) !important;
+    // -webkit-box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 1px 0px 1px rgba(34,25,25,0.3) !important;
   }
 
   .mainMenuContainer span {
@@ -86,9 +102,14 @@ html, body {
     width: 100%;
     min-height: 100vh !important;
     height: 100% !important;
-    border-radius: 2px !important;
-    box-shadow:  0 5px 15px 0 rgba(0,0,0,0.2) !important;
     background-color: rgba(250, 250, 250, 1.0);
+    box-shadow: none !important;
+    -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+    // box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 0px 1px 1px rgba(34,25,25,0.4) !important;
+    // -moz-box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 0px 2px 1px rgba(34,25,25,0.4) !important;
+    // -webkit-box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 0px 2px 1px rgba(34,25,25,0.4) !important;
     // background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
     // background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
     // background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -98,6 +119,7 @@ html, body {
   .htmlEditorWrapper {
     margin-top: 10px;
     margin-left: 15px;
+    padding-left: 5px;
   }
   
   .sectionTitleText  {
@@ -110,6 +132,7 @@ html, body {
     /* font-size: 1.4vmax; */
     margin-left: 5px;
     margin-bottom: 6px;
+    padding-left: 5px;
   }
 
 
@@ -197,19 +220,44 @@ body{
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-  /* Antd overrides */
+/* Antd overrides */
+
+.ant-layout-sider {
+  background-color: transparent !important;
+  // box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 1px 1px 2px rgba(34,25,25,0.6) !important;
+  // -moz-box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 1px 2px 2px rgba(34,25,25,0.6) !important;
+  // -webkit-box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 1px 2px 2px rgba(34,25,25,0.6) !important;
+}
+
+.ant-layout {
+  background-color: transparent !important;
+
+}
+
+.ant-divider {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-color: rgba(239, 239, 239, .1) !important;
+  color: rgba(239, 239, 239, .1) !important;
+  background-color: rgba(239, 239, 239, .3) !important;
+  // box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.2) !important;
+  // -moz-box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.2) !important;
+  // -webkit-box-shadow: inset 1px 1px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.2) !important;
+}
+
   
-  .ant-layout-sider {
-    background-color: transparent !important;
-  }
-  
-  .ant-layout {
-    background-color: transparent !important;
-  }
-  
-  .ant-divider-horizontal {
-    margin-top: 0;
-    margin-bottom: 0;
-    border-color: rgba(239, 239, 239, .8) !important;
-    color: rgba(239, 239, 239, .8) !important;
-  }
+.ant-select-dropdown-menu-item {
+  font-size: .8em;   
+}
+
+.ant-menu {
+  box-shadow: none !important;
+}
+
+.ant-menu-sub {
+  box-shadow: none !important;
+} 
+
+.ant-menu-inline {
+  box-shadow: none !important;
+}
