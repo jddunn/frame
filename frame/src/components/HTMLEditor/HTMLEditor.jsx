@@ -41,8 +41,8 @@ export default class HTMLEditor extends Component {
     constructor (props) {
       super(props)
       this.state = { 
-          fullEditorOn: {checked: false}, // Set default editor type to Dante
           // DanteEditor props
+          editorType: 'inline', // Default use DanteEditor
           // If !fullEditorOn, these values are used for editor
           theme: 'snow',
           width: 800,
@@ -60,9 +60,8 @@ export default class HTMLEditor extends Component {
     }
     
     componentWillReceiveProps(nextProps) {
-      console.log("NEXT PROPS: ", nextProps.fullEditorOn.checked);
-      const fullEditorOn  = nextProps.fullEditorOn.checked;
-      console.log(fullEditorOn);
+      const editorType  = nextProps.editorType;
+      this.setState({ editorType: editorType });
     }
 
     componentWillMount() {
@@ -115,11 +114,13 @@ export default class HTMLEditor extends Component {
     render () {
       // console.log("RENDER STATE: ", this.state);
       const { editorState } = this.state;
-      const fullEditorOn = this.props.fullEditorOn.checked;
-      return (
-        <React.Fragment>
-          {!fullEditorOn ? (
-            <DanteEditor
+      const editorType = this.state.editorType;
+
+      var editor = {};
+
+      switch (editorType) {
+        case 'inline':
+          editor = <DanteEditor
               key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
               config={this.config}
               body_placeholder={this.blocksFromHTML}
@@ -131,8 +132,9 @@ export default class HTMLEditor extends Component {
               //   save_handler= this.saveDanteContent (editorContext, content)
               // }
             />
-          ) : (
-            <Editor
+            break;
+          case 'full':
+            editor =  <Editor
               editorState={editorState}
               className="fullHTMLEditor"
               // editorState={EditorState.createWithContent(this.state.content)}
@@ -141,7 +143,26 @@ export default class HTMLEditor extends Component {
               editorClassName="editorClassName"
               onEditorStateChange={this.onEditorStateChange}
             />
-            )}
+            break;
+          case 'equation':
+            break;
+          default:
+            editor =     <DanteEditor
+                key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
+                config={this.config}
+                body_placeholder={this.blocksFromHTML}
+              // data_storage
+              //   ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
+              //   xhr
+              //   ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
+              // data_storage= {
+              //   save_handler= this.saveDanteContent (editorContext, content)
+              // }
+            />
+      } 
+      return (
+        <React.Fragment>
+          {editor}       
         </React.Fragment>
        )
     }

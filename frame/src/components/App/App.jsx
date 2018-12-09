@@ -64,14 +64,6 @@ class App extends Component {
     });
   }
 
-  // Switch toggle func
-  onChange = (checked) => {
-    console.log(`switch to ${checked}`);
-    this.setState(prevState => ({
-      fullEditorOn: {checked}
-    }));
-  }
-
   // Antd dropdown funcs for editor switching
   handleButtonClick = (event) => {}
 
@@ -115,7 +107,6 @@ class App extends Component {
 
   render() {
 
-    const typeOfEditor = "basic"; // By default render basic editor
     console.log(this.state.editorType);
     
     return (
@@ -169,7 +160,7 @@ class App extends Component {
                             </div>
                         </div>
                         <div className="htmlEditorWrapper">
-                          <HTMLEditor fullEditorOn={this.state.fullEditorOn}/>
+                          <HTMLEditor editorType={this.state.editorType}/>
                         </div>
                     </div>
                   </Content>
