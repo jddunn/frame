@@ -42,11 +42,7 @@
 // Quill
 
 .quillThemeSwitcher {
-    float: top;
-    float: right;
-    margin-top: -35px;
-    position: relative;
-    // margin-right: -250px;
+    float: right !important;
 }
 
 .ql-bubble {
@@ -71,4 +67,10 @@
     position: absolute !important;
     top: 0 !important;
     right: 0 !important;
+}
+
+
+.quillThemeSwitcher {
+    margin-right: 5px;
+    float: right !important;
 }

@@ -227,7 +227,6 @@ export default class FEditor extends Component {
               placeholder={this.props.placeholder}
             /> */}
               <ReactQuill
-                  className="fullHTMLEditor"
                   style={{marginLeft: '-20px', 
                           marginTop: '-10px'}}
                   placeholder={this.state.editorPlaceholderHtml}
@@ -240,7 +239,8 @@ export default class FEditor extends Component {
                   onChange={this.handleChange} />
                   <div className="quillThemeSwitcher">
                       <Select 
-                          style={{fontSize: '.85em', color: 'rgba(200, 200, 200, .95)', right: '10px', height: '10px'}}
+                          style={{fontSize: '.85em', color: 'rgba(200, 200, 200, .95)', float: 'right !important'}}
+                          className="quillThemeSwitcher"
                           dropdownMatchSelectWidth={true}
                           defaultValue="snow"
                           onChange={this.handleThemeChange}>
