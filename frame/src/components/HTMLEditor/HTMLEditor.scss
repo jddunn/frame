@@ -1,0 +1,28 @@
+// react-draft-js
+
+.rdw-editor-toolbar {
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+}
+
+/* For some reason we also have to add styles for this class too?
+   But they don't work when combined with the above..
+*/
+.toolbarClassName {
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+}
+
+.rdw-editor-main {
+    margin-left: 2px;
+    margin-top: -10px;
+}
+
+.rdw-dropdown-wrapper {
+    height: 22px !important;
+}
+
+.rdw-dropdown-selectedtext {
+    color: grey;
+    font-size: .9em;
+}

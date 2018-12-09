@@ -11,30 +11,43 @@ import Resizable from 're-resizable';
 // Medium-style editor clone
 import DanteEditor from 'Dante2';
 // Full WYSIWYG editor
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+
+// Draft.js to HTML (for react-draft-wysiwyg)
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 // Local styles
 import './HTMLEditor.scss';
+
+// const rawContentState = convertToRaw(EditorState.getCurrentContent);
+// const markup = draftToHtml(
+  // rawContentState, 
+  // hashtagConfig, 
+  // directional, 
+  // customEntityTransform
+// );
+
+// const blocksFromHTML = convertFromHTML(EditorState.getCurrentContent);
+
+
 
 class HTMLEditor extends React.Component {
     constructor (props) {
       super(props)
       this.state = { 
           fullEditorOn: {checked: false}, // Set default editor type to Dante
-
           // DanteEditor props
           // If !fullEditorOn, these values are used for editor
-          danteContentState: {},
           theme: 'snow',
-
-          // ContentState JSON for react-draft-wysiwyg
-          // If fullEditorOn is true, this is the value used
-          fullContentState: {},
-
           width: 800,
           height: 800,
+          html: '<p>Write your story..</p>',
+          blocksFromHTML: {},
+          content: {}
         }
       this.handleChange = this.handleChange.bind(this)
       this.saveDanteContent = this.saveDanteContent.bind(this)
@@ -47,6 +60,15 @@ class HTMLEditor extends React.Component {
       console.log("NEXT PROPS: ", nextProps.fullEditorOn.checked);
       const fullEditorOn  = nextProps.fullEditorOn.checked;
       console.log(fullEditorOn);
+    }
+
+    componentWillMount() {
+      const blocksFromHTML = htmlToDraft('<p>Write your story..</p>');
+      const content = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap
+      );
+      this.setState({ content: content, blocksFromHTML: blocksFromHTML });
     }
 
     // Dante funcs
@@ -63,6 +85,7 @@ class HTMLEditor extends React.Component {
     onContentStateChange = (contentState) => {
       this.setState({
         contentState,
+        content: contentState,
       });
     };
 
@@ -81,18 +104,17 @@ class HTMLEditor extends React.Component {
     render () {
       // console.log("RENDER STATE: ", this.state);
       const fullEditorOn = this.props.fullEditorOn.checked;
-      console.log("FULLEDITORON: ", fullEditorOn);
       return (
         <React.Fragment>
           {!fullEditorOn ? (
             <DanteEditor
               key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
               config={this.config}
-              data_storage
-                ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
-                xhr
-                ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
-
+              body_placeholder={this.blocksFromHTML}
+              // data_storage
+              //   ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
+              //   xhr
+              //   ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
               // data_storage= {
               //   save_handler= this.saveDanteContent (editorContext, content)
               // }
@@ -100,6 +122,8 @@ class HTMLEditor extends React.Component {
           ) : (
             <Editor
               // editorState={editorState}
+              className="fullHTMLEditor"
+              // editorState={EditorState.createWithContent(this.state.content)}
               toolbarClassName="toolbarClassName"
               wrapperClassName="wrapperClassName"
               editorClassName="editorClassName"
