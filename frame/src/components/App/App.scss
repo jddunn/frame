@@ -49,12 +49,7 @@ html, body {
     box-shadow: 0px 0px 3px #fff;
   }
 
-  .brandWrapper:hover {
-    -moz-box-shadow: 0 0 4px rgb(208, 255, 0);
-    -webkit-box-shadow: 0 4 6px rgb(208, 255, 0);
-    box-shadow: 0px 0px 4px rgb(208, 255, 0);
-    cursor: pointer;
-  }
+
   
   .mainMenuContainer {
     display: block !important;
@@ -107,7 +102,7 @@ html, body {
   
   .sectionTitleText  {
     padding-top: 5px;
-    color: rgba(169, 169, 169, 0.9) !important;
+    color: rgba(56, 56, 56, 0.9) !important;
     font-weight: normal;
     letter-spacing: 1px;
     font-size: 1.45em;
