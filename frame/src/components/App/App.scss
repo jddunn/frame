@@ -97,7 +97,7 @@ html, body {
 
   .htmlEditorWrapper {
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: 15px;
   }
   
   .sectionTitleText  {
@@ -105,10 +105,11 @@ html, body {
     color: rgba(56, 56, 56, 0.9) !important;
     font-weight: normal;
     letter-spacing: 1px;
-    font-size: 1.45em;
-    text-shadow: 1px 1px 1px rgba(50,50,50,0.05);
+    font-size: 1.65em;
+    text-shadow: 1px 1px 1px rgba(50,50,50,0.09);
     /* font-size: 1.4vmax; */
-    text-align: center;
+    margin-left: 5px;
+    margin-bottom: 4px;
   }
 
 
