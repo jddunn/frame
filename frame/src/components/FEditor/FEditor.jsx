@@ -227,6 +227,7 @@ export default class FEditor extends Component {
               placeholder={this.props.placeholder}
             /> */}
               <ReactQuill
+                  className="fullHTMLEditor"
                   style={{marginLeft: '-20px', 
                           marginTop: '-10px'}}
                   placeholder={this.state.editorPlaceholderHtml}

@@ -27,6 +27,20 @@
     font-size: .9em;
 }
 
+
+// Dante
+
+.dante-menu {
+    margin-left: 200px !important;
+}
+
+.dante-menu--active {
+    margin-left: 200px !important;
+}
+
+
+// Quill
+
 .quillThemeSwitcher {
     float: top;
     float: right;
@@ -35,7 +49,6 @@
     // margin-right: -250px;
 }
 
-// Quill
 .ql-bubble {
     background-color: transparent !important;
     border: none !important;
