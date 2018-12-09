@@ -32,6 +32,7 @@ const editorTypes = Object.freeze(
   {
     INLINE: "inline",
     FULL: "full",
+    CODE: "code",
     EQUATION: "equation"
   });
 
@@ -87,10 +88,19 @@ class App extends Component {
       <Menu.Item key="full">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Full HTML editor with word processor capabilities"}>
+          title={"Full HTML editor with word processor-like capabilities"}>
         <Icon type="form"/>&nbsp;
         {editorTypes.FULL.charAt(0).toUpperCase() +
           editorTypes.FULL.slice(1)}
+        </Tooltip>
+      </Menu.Item>
+      <Menu.Item key="code">
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Code editor and IDE (powered by Monaco Editor)"}>
+        <Icon type="appstore"/>&nbsp;
+        {editorTypes.CODE.charAt(0).toUpperCase() +
+          editorTypes.CODE.slice(1)}
         </Tooltip>
       </Menu.Item>
       <Menu.Item key="equation">
@@ -160,6 +170,8 @@ class App extends Component {
                             </div>
                         </div>
                         <div className="htmlEditorWrapper">
+                        <div id="editor">
+                        </div>
                           <HTMLEditor editorType={this.state.editorType}/>
                         </div>
                     </div>

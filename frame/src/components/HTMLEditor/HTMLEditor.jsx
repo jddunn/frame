@@ -19,7 +19,6 @@ import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
-
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 // Local styles
@@ -36,7 +35,6 @@ import './HTMLEditor.scss';
 // const blocksFromHTML = convertFromHTML(EditorState.getCurrentContent);
 
 
-
 export default class HTMLEditor extends Component {
     constructor (props) {
       super(props)
@@ -49,14 +47,16 @@ export default class HTMLEditor extends Component {
           height: 800,
           html: '<p>Write your story..</p>',
           blocksFromHTML: {},
-          content: {},
+          content: 'content',
           editorState: EditorState.createEmpty()
         }
       this.handleChange = this.handleChange.bind(this)
       this.saveDanteContent = this.saveDanteContent.bind(this)
+
     }
 
     componentDidMount() {
+    
     }
     
     componentWillReceiveProps(nextProps) {
@@ -111,6 +111,11 @@ export default class HTMLEditor extends Component {
       console.log("SAVED DANTE: ", editorContext, content);
     }
     
+
+    updateContent = (value) => {
+      this.setState({content:value})
+    }
+
     render () {
       // console.log("RENDER STATE: ", this.state);
       const { editorState } = this.state;
@@ -134,17 +139,22 @@ export default class HTMLEditor extends Component {
             />
             break;
           case 'full':
-            editor =  <Editor
-              editorState={editorState}
-              className="fullHTMLEditor"
-              // editorState={EditorState.createWithContent(this.state.content)}
-              toolbarClassName="toolbarClassName"
-              wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
-              onEditorStateChange={this.onEditorStateChange}
-            />
+            editor = <textarea id="editor" name="editor"></textarea>;
+            //  <Editor
+            //   editorState={editorState}
+            //   className="fullHTMLEditor"
+            //   // editorState={EditorState.createWithContent(this.state.content)}
+            //   toolbarClassName="toolbarClassName"
+            //   wrapperClassName="wrapperClassName"
+            //   editorClassName="editorClassName"
+            //   onEditorStateChange={this.onEditorStateChange}
+            // />
+            break;
+          case 'code': 
+            editor = null;
             break;
           case 'equation':
+            editor = null;
             break;
           default:
             editor =     <DanteEditor
@@ -160,6 +170,7 @@ export default class HTMLEditor extends Component {
               // }
             />
       } 
+
       return (
         <React.Fragment>
           {editor}       
