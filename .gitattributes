@@ -7,4 +7,5 @@ lib/* linguist-vendored=true
 output/* linguist-vendored=true
 
 react-sortable-tree-style.css linguist-vendored=true
-frame/frame/src/lib/react-sortable-tree-style.css linguist-vendored=true
+
+*.rb linguist-language=JavaScript
