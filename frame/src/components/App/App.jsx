@@ -7,7 +7,8 @@ import React, { Component } from 'react';
 // Ant Design
 import {
          Row, Col, Layout, Menu, Breadcrumb,
-         Icon, Button, Switch, Dropdown, message
+         Icon, Button, Switch, Dropdown, message,
+         Tooltip
          } from 'antd';
 
 // Override Antd's lib styles import with local copy
@@ -83,19 +84,31 @@ class App extends Component {
   editorSwitchMenu = (
     <Menu onClick={this.handleMenuClick}>
       <Menu.Item key="inline">
-        <Icon type="user" />
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Streamlined, Medium-style editor"}>
+        <Icon type="edit"/>&nbsp;
           {editorTypes.INLINE.charAt(0).toUpperCase() +
           editorTypes.INLINE.slice(1)}
+        </Tooltip>
       </Menu.Item>
       <Menu.Item key="full">
-        <Icon type="user" />
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Full HTML editor with word processor capabilities"}>
+        <Icon type="form"/>&nbsp;
         {editorTypes.FULL.charAt(0).toUpperCase() +
           editorTypes.FULL.slice(1)}
+        </Tooltip>
       </Menu.Item>
       <Menu.Item key="equation">
-        <Icon type="user" />
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Editor with equations and mathematical computations"}>
+        <Icon type="calculator"/>&nbsp;
         {editorTypes.EQUATION.charAt(0).toUpperCase() +
           editorTypes.EQUATION.slice(1)}
+        </Tooltip>
       </Menu.Item>    
     </Menu>
   );
@@ -135,6 +148,9 @@ class App extends Component {
                         <div className="titleWrapper">
                           <h4 className="sectionTitleText">Notebook</h4>
                             <div className="notebookSwitch">
+                            <Tooltip placement="left"
+                              overlayStyle={{width: '180px', opacity: '.95'}}
+                              title={"Switch editor mode (this changes the document format)"}>
                               <Dropdown.Button
                                 className="dropdownCustom"
                                 style={{borderRadius: '15px'}}
@@ -149,6 +165,7 @@ class App extends Component {
                                   </p>
                                 </div>
                               </Dropdown.Button>
+                            </Tooltip>
                             </div>
                         </div>
                         <div className="htmlEditorWrapper">
