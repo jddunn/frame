@@ -32,4 +32,4 @@ Additional libraries and references used:
 - react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
 - react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
 - Dante 2 [https://github.com/michelson/dante2](https://github.com/michelson/dante2)
-- React Draft Wysiwyg [https://github.com/jpuri/react-draft-wysiwyg](https://github.com/jpuri/react-draft-wysiwyg)
+- React Quill [https://github.com/zenoamaro/react-quill](https://github.com/zenoamaro/react-quill)

@@ -3,31 +3,22 @@
  */
 
 import React, { Component } from 'react';
-
 // Ant Design
 import {
          Row, Col, Layout, Menu, Breadcrumb,
          Icon, Button, Switch, Dropdown, message,
          Tooltip
          } from 'antd';
-
 // Override Antd's lib styles import with local copy
 import '../../lib/antd.css';  
-
 // App global comp styles
 import './App.scss';
-
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';
-
 // FEditor / Preview (The Notebook component)
 import FEditor from '../FEditor/FEditor';
-
 // Import branding for collapsible footer
 import Brand from '../Brand/Brand';
-
-import '../../components/FEditor/FEditor.scss';
-
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -42,18 +33,13 @@ const editorTypes = Object.freeze(
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       collapsed: false,
       editorType: editorTypes.INLINE, // Type of editor doc is formatted in;
                                       // defaults to DanteEditor
       fullEditorOn: false
     }
-
-    // const m_this = this;
     this.handleMenuClick = this.handleMenuClick.bind(this);
-
-
   }
 
   // Sider collapse funcs
@@ -79,23 +65,23 @@ class App extends Component {
 
   editorSwitchMenu = (
     <Menu onClick={this.handleMenuClick}>
-      <Menu.Item key="inline">
+      <Menu.Item key="mediumm">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Streamlined, Medium-style editor"}>
+        </Tooltip>
         <Icon type="edit"/>&nbsp;
           {editorTypes.INLINE.charAt(0).toUpperCase() +
           editorTypes.INLINE.slice(1)}
-        </Tooltip>
       </Menu.Item>
       <Menu.Item key="full">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Full HTML editor with word processor-like capabilities"}>
         <Icon type="form"/>&nbsp;
+        </Tooltip>
         {editorTypes.FULL.charAt(0).toUpperCase() +
           editorTypes.FULL.slice(1)}
-        </Tooltip>
       </Menu.Item>
       <Menu.Item key="code">
         <Tooltip placement="left"
@@ -110,10 +96,10 @@ class App extends Component {
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Editor with equations and mathematical computations"}>
+        </Tooltip>
         <Icon type="calculator"/>&nbsp;
         {editorTypes.EQUATION.charAt(0).toUpperCase() +
           editorTypes.EQUATION.slice(1)}
-        </Tooltip>
       </Menu.Item>    
     </Menu>
   );

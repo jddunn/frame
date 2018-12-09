@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { AppContainer } from 'react-hot-loader'; // eslint-disable-line import/no-extraneous-dependencies
 import App from './components/App/App'
 // import registerServiceWorker from "./registerServiceWorker";
 
@@ -8,7 +7,7 @@ import App from './components/App/App'
 const root = document.createElement('div');
 root.id = "app";
 document.body.appendChild( root );
-document.title = "Frame - Notes with Insight";
+document.title = "Frame - notebook that insights";
 
 const appEl = document.getElementById('app');
 
