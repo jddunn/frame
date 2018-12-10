@@ -12,11 +12,11 @@ Because a Python environment running TensorFlow is required to use the full app 
 
 UNFINISHED NON-FUNCTIONAL BUILD; WORK-IN-PROGRESS
 
-<img src="screenshots/frame-screenshot-1.png" height="350" alt="Frame - Inline (Medium-Style) Editor screenshot"/>
 Frame - Inline (Medium-Style) Editor
+<img src="screenshots/frame-screenshot-1.png" height="350" alt="Frame - Inline (Medium-Style) Editor screenshot"/>
 
-<img src="screenshots/frame-screenshot-2.png" height="350" alt="Frame - Full Editor, Menu Collapsed screenshot"/>
 Frame - Full Editor, Menu Collapsed 
+<img src="screenshots/frame-screenshot-2.png" height="350" alt="Frame - Full Editor, Menu Collapsed screenshot"/>
 
 ## Key Features
 
