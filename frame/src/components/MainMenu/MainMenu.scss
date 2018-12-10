@@ -8,17 +8,14 @@
 }
 
 .ant-menu {
-  z-index: 1 !important;
   border-radius: 10px !important;
   /* box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important; */
   // box-shadow: 1px 1px 1px 1px rgba(40, 42, 44, 0.15) !important;
-  background-color: transparent !important;
 }
 
 .treeEntriesContain.entriesSubMenuContainer {
   height: 50px;
 }
-
 
 .ant-menu-submenu-popup {
   min-width: 320px !important;
@@ -39,12 +36,23 @@
 
 /* Footer / brand */
 .footerContainer {
+    opacity: .85;
     float: right !important;
-    margin-top: 5px;
-    margin-left: 30px !important;
+    right: 0 !important;
+    margin-top: -10px;
+    margin-right: 10px;
     background-color: transparent !important;
     z-index: 100;
     position: absolute;
+}
+
+.footerContainer p {
+  letter-spacing: 0px !important;
+  font-size: .85em;
+  text-shadow: none !important;
+  font-weight: bold;
+  color:rgb(29, 29, 29);
+  // color: red !important;
 }
 
 /* React sortable tree */
@@ -109,6 +117,13 @@
   display: inline;
 }
 
+.treesEntriesContainer {
+  border-radius: 3px;
+  background-color: rgba(0, 104, 152, 0.65);
+}
+
+// End tree
+
 .smallButton {
   margin: 2px;
   height: 20px;
@@ -117,10 +132,11 @@
 }
 
 .textButton {
-  /* padding-left: -15px; */
+  padding-left: -15px;
+  font-size: .7em;
   margin: 2px;
   height: 25px;
-  width: 115px;
+  width: 125px;
   font-size: .8em;
   color: white !important;
 }
@@ -144,7 +160,7 @@
 }
 
 .rst__rowContentsDragDisabled {
-  box-shadow: 2px 3px white, -2px -3px white !important;
+  // box-shadow: 2px 3px white, -2px -3px white !important;
 }
 
 .rst__rowLabel {
@@ -169,15 +185,6 @@
   background-color: transparent !important;
 }
 
-.menu-wide {
-  min-width: 240px;
-  height: 800px;
-  background-color: transparent;
-  background: transparent;
-  color: white;
-  font: 2vw !important;
-}
-
 .rst__rowTitle {
   font-weight: normal !important;
   min-width: 240px;
@@ -200,7 +207,7 @@
 }
 
 .rst__rowContents {
-  box-shadow: 1px 2px white, -1px -2px white !important;
+  // box-shadow: 1px 2px white, -1px -2px white !important;
   border: none;
   min-width: 240px !important;
   height: 35px !important;
@@ -208,7 +215,8 @@
   margin: 0 !important;
   padding: 0 !important;
   background-color: transparent !important;
-  color: white;
+  // color: white;
+  color: rgba(17, 40, 28, 1.0) !important;
 }
 
 .rst__rowContents:hover {
@@ -250,3 +258,27 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
 }
 
+.ant-btn:hover {
+  cursor: pointer !important;
+  color: rgb(255,223,0) !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+
+}
+
+.ant-btn-circle {
+  margin: 2px !important;
+  height: 20px !important;
+  width: 20px !important;
+  font-size: .8em !important;
+}
+
+.ant-btn-circle:hover {
+  cursor: pointer !important;
+  border-color: rgba(255, 223, 0, .8) !important;
+  color: rgb(255,223,0) !important;
+  text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+.primaryGhostButton:hover {
+  cursor: pointer !important;
+}

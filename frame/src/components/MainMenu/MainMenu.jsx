@@ -9,40 +9,139 @@ import Resizable from 're-resizable';
 
 // Sortable tree component
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
+// Tree component with file explorer view
+import FJSONEditor from '../FJSONEditor/FJSONEditor';
 
 // Ant Design
-import '../../lib/antd.css';  
 import { Menu, Icon, Button, ButtonGroup, Input, Divider } from 'antd';
 
-// Local styles
-import '../../lib/react-sortable-tree-style.css' // For local changes
+// Local comp styles
 import './MainMenu.scss';
-
-
+ // When it's easier to override vendor styles 
+import '../../lib/custom-vendor/react-sortable-tree-style.css';
 
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
 
-class MainMenu extends Component {
+export default class MainMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: false,
-      width: 330, 
+      collapsed: false, // Hamburger collapse
+      width: 330,  
       height: 330,
-      searchString: '',
+
+      /* 'Entries' section of main menu has "file explorer" UI
+          The vars below need it
+      */
+      searchString: '', 
       searchFocusIndex: 0,
       searchFoundCount: null,
       isTreeCollapsed: false,
+      
+      /* treeData is the current "library" of entries loaded,
+          from a JSON file as specified from config, or which is
+          the last library loaded by the user.
+      */
       treeData: [
       ],
+
+      /* The type of explorer in Entries 
+      */
+      entriesEditorUsingJson: false
     };
     this.updateTreeData = this.updateTreeData.bind(this);
+    // JSON Editor funcs
+    this.onChangeTreeData = this.onChangeTreeData.bind(this);
+    this.getNewTreeData = this.getNewTreeData.bind(this);
+    this.editorRef = this.editorRef.bind(this);
+    this.expand = this.expand.bind(this);
+    // Expand / collapse children
     this.expandAll = this.expandAll.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
+    // For search
     this.selectPrevMatch = this.selectNextMatch.bind(this);
     this.selectNextMatch = this.selectNextMatch.bind(this);
+    this.handleSwitchEntriesEditorType = this.handleSwitchEntriesEditorType.bind(this);
   }
+
+  componentDidMount() {
+    if (this._editor) {
+      this._editor.set(this.props.Entries);
+      this._editor.expandAll();
+      this.setState({treeData: this.props.Entries,
+                  // jsonTreeData: this._editor.set(json),
+                  jsonTreeData: this.props.Entries
+      });
+    } else {
+      this.setState({treeData: this.props.Entries});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this._editor) {
+      this.setState({treeData: this.props.Entries,
+        jsonTreeData: this.props.Entries
+      });  
+    } else {
+      this.setState({treeData: this.props.Entries,
+      });  
+    }
+  }
+
+  // JSONEditor funcs
+  
+  onChangeTreeData(treeData) {
+    if (this._editor) {
+      // this._editor.set(treeData);
+      this.setState({treeData: this.props.Entries,
+                    jsonTreeDat: this.props.Entries
+      })
+    }
+  }
+
+  // setNewTreeData(json) {
+    // if (this._editor) {
+      // this.setState({
+        // treeData: this._editor.set(json),
+      // });
+    // }
+  // }
+
+  getNewTreeData() {
+    if (this._editor) {
+      this.setState({
+        treeData: this._editor.get(),
+        jsonTreeData: this._editor.get()
+      });
+    }
+  }
+
+  editorRef(editor) {
+    this._editor = editor;
+  }
+
+  expand(expanded) {
+    const newTreeData = toggleExpandedForAll({
+      treeData: this.state.treeData,
+      jsonTreeData: this.state.jsonTreeData,
+      expanded,
+    });
+
+
+    if (this._editor) {
+      this.setState({
+        treeData: newTreeData,
+        jsonTreeData: newTreeData
+      });
+      // this._editor.set(newTreeData);
+    };
+
+
+  }
+
+
+  // SortableTree funcs
 
   toggleCollapsed = () => {
     this.setState({
@@ -51,11 +150,12 @@ class MainMenu extends Component {
   }
 
   updateTreeData(treeData) {
-    this.setState({ treeData });
+    this.setState({ treeData: treeData, jsonTreeData: treeData });
   }
 
   expand(expanded) {
     this.setState(prevState => ({
+      jsonTreeData: this.state.treeData,
       treeData: toggleExpandedForAll({
         treeData: this.state.treeData,
         expanded,
@@ -103,6 +203,13 @@ class MainMenu extends Component {
     }
   }
 
+  handleSwitchEntriesEditorType = (event) => {
+    const val = event.target.key;
+    this.setState((prevState, props) => ({
+      entriesEditorUsingJson: !prevState.entriesEditorUsingJson,
+    }));
+  }
+
   render() {
     const {
       treeData,
@@ -116,10 +223,27 @@ class MainMenu extends Component {
     const foundEntries = (this.state.treeData.length > 0) ? true : false;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
+    
+    const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
+    let entriesEditorButtonType = '';
+    if (entriesEditorUsingJson) {
+      entriesEditorButtonType = 'edit';
+    } else {
+      entriesEditorButtonType = 'browse';
+    }
+
+    let treeLength;
+
+    try {
+      treeLength = this.state.treeData.length;
+      if (typeof undefined === 'undefined') treeLength = 0;
+    } catch(err) {
+      treeLength = 0;
+    }
+
 
     return (
       <React.Fragment>     
-       
       <Menu
         className="mainMenuContainer"
         style={{
@@ -135,8 +259,6 @@ class MainMenu extends Component {
         theme="dark"
         inlineCollapsed={this.state.collapsed}
       >
-
-   
 
         <Menu.Item key="1" style={{marginTop: '20px'}}>
           <Icon type="desktop" />
@@ -185,7 +307,10 @@ class MainMenu extends Component {
 
               <div className="entriesEditorButtonsContainer">
                 <div className="mainEntriesButtonsWrapper">
+                  <div className="primaryGhostButton"
+                        style={{display: 'inline'}}>
                   <Button 
+                    className="primaryGhostButton"
                     type="primary"
                     ghost={true}
                     icon="file-add"
@@ -193,14 +318,22 @@ class MainMenu extends Component {
                     >
                     Start New
                     </Button>
+                  </div>
+                  <div className="primaryGhostButton"
+                        style={{display: 'inline'}}>
                   <Button 
                     type="primary"
                     ghost={true} 
-                    icon="edit" 
+                    icon="edit"
+                    onClick={this.handleSwitchEntriesEditorType}
+                    // onClick={() => {this.handleSwitchEntriesEditorType}}
                     className="textButton"
                     >
-                    Edit Data 
+                    {entriesEditorButtonType.charAt(0).toUpperCase() +
+                                    entriesEditorButtonType.slice(1) + ' ' 
+                                    + ' Data'}
                   </Button>
+                  </div>
                 </div>
                 <div className="expandEntriesButtonsWrapper">
                   <Button 
@@ -220,14 +353,15 @@ class MainMenu extends Component {
               </div>
           </div>
           {/* Start sortable tree comp for entries */}
-          <React.Fragment>
-              {isTreeCollapsed ? (
-                        null
+          <div className="treesEntriesContainer">
+              {entriesEditorUsingJson ? (
+                <React.Fragment>
+                <FJSONEditor onChange={this.getNewTreeData} editorref={this.editorRef} Entries={this.state.Entries}/>
+                </React.Fragment>
               ) : (
                 <div>
                     <SortableTree
                     // theme={CustomTheme}
-                    className="treeEntriesContainer"
                     treeData={treeData}
                     onChange={this.updateTreeData}
                     searchQuery={searchString}
@@ -258,9 +392,14 @@ class MainMenu extends Component {
                       ],
                     })}
                     />
+                    <div className="footerContainer">
+                      <p className="footerNoteText" style={{float: 'right', marginTop: '-10px', marginRight: '5px'}}>
+                        {treeLength + ' entries recorded'}
+                      </p>
+                    </div>
                 </div>
               )}
-            </React.Fragment>
+            </div>
             {/* End sortable tree */}
           <Divider />
         </SubMenu>
@@ -284,5 +423,3 @@ class MainMenu extends Component {
     );
   }
 }
-
-export default MainMenu;

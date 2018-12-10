@@ -38,6 +38,7 @@
         "flow-react": "^0.1.1",
         "history": "^4.7.2",
         "install": "^0.12.2",
+        "jsoneditor": "^5.26.3",
         "node-prismjs": "^0.1.2",
         "prop-types": "^15.6.2",
         "re-resizable": "^4.10.0",

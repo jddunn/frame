@@ -11,7 +11,6 @@ import Resizable from 're-resizable';
 import { Select } from 'antd';
 const Option = Select.Option;
 
-
 // Medium-style editor clone
 import DanteEditor from 'Dante2';
 // Full WYSIWYG editor
@@ -30,7 +29,7 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import 'react-quill/dist/quill.core.css';
 
-import './FEditor.scss';
+import './Notepad.scss';
 
 // const rawContentState = convertToRaw(EditorState.getCurrentContent);
 // const markup = draftToHtml(
@@ -43,7 +42,7 @@ import './FEditor.scss';
 // const blocksFromHTML = convertFromHTML(EditorState.getCurrentContent);
 
 
-export default class FEditor extends Component {
+export default class Notepad extends Component {
     constructor (props) {
       super(props)
       this.state = { 

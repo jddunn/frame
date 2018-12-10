@@ -11,24 +11,14 @@ html, body {
     min-height: 100vh !important;
   }
   
-  .left {
-    margin: 0 !important;
-    padding: 0 !important;
-    float: left !important;
-    width: 50% !important;
-  }
-  
-  .right {
-    margin: 0 !important;
-    padding: 0 !important;
-    float: left !important;
-    width: 50% !important;
-  }
-  
-  .center {
-    margin: 0 !important;
-    padding: 0 !important;
-    margin: auto !important;
+
+  .footerNoteText {
+    text-shadow: none;
+    letter-spacing: 0px;
+    display: inline;
+    color: rgba(255, 255, 255, .9);
+    font-size: .75em;
+    font-weight: lighter;
   }
 
   .titleWrapper {
@@ -46,7 +36,6 @@ html, body {
     padding-bottom: 5px;
     padding-left: 5px;
     margin-left: 1px;
-
     // -moz-box-shadow: 0 0 3px #fff;
     // -webkit-box-shadow: 0 3 3px #fff;
     // box-shadow: 0px 0px 3px #fff;
@@ -116,7 +105,7 @@ html, body {
     overflow-x: none !important; 
   }
 
-  .htmlEditorWrapper {
+  .editorWrapper {
     margin-top: 10px;
     margin-left: 15px;
     padding-left: 5px;

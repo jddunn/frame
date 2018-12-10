@@ -1,70 +1,168 @@
-/* 
- * 
- */
-
+import config from '../../data/config.json';
 import React, { Component } from 'react';
-// Ant Design
 import {
          Row, Col, Layout, Menu, Breadcrumb,
          Icon, Button, Switch, Dropdown, message,
          Tooltip
          } from 'antd';
-// Override Antd's lib styles import with local copy
-import '../../lib/antd.css';  
 // App global comp styles
 import './App.scss';
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';
-// FEditor / Preview (The Notebook component)
-import FEditor from '../FEditor/FEditor';
-// Import branding for collapsible footer
+// Notebook / Editor 
+import Notepad from '../Notepad/Notepad';
+// Branding for logo / nav
 import Brand from '../Brand/Brand';
 
 const { Header, Content, Footer, Sider } = Layout;
 
+// Data library / source vars
+const savedSettings = config.savedSettings;
+const Entries = {};
+
+/** Types of editors there are */
 const editorTypes = Object.freeze(
   {
-    INLINE: "medium",
-    FULL: "full",
-    CODE: "code",
-    EQUATION: "equation"
+    FLOW: "flow", // Dante Editor
+    FULL: "full", // Quilljs (react-quill-js)
+    CODE: "code", // Monaco Editor (VS Studio base)
+    EQUATION: "equation" // Unknown? But needs to 
+                         // include interactive calculator
   });
 
+/** Extend Storage with JSON helpers */
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
+
+/**
+ * Main app component of Frame. The app is *collapsed*
+ * when the main menu is collapsed on the side.
+ * 
+ * Currently the app gets its initial data from the very
+ * first *library* found in the *libraries* folder path,
+ * which is all defined within config.json in /data. 
+ * 
+ * If no data is found in the default library, example.json 
+ * will be loaded with sample entries.
+ * 
+ * By design, all the I/O data will be stored as JSON. To
+ * keep things simple (as we don't have too many components),
+ * state management is done with passing down props, and reading
+ * from sessionStorage for persistent settings. 
+ */
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      savedSettings: savedSettings,
       collapsed: false,
-      editorType: editorTypes.INLINE, // Type of editor doc is formatted in;
-                                      // defaults to DanteEditor
-      fullEditorOn: false
+      /** Type of editor to render in notebook */
+      editorType: editorTypes.INLINE,
+      /** Current section / page title. */
+      currPageTitle: 'Notebook', 
+      /**
+       * Active entry / document in Notebook 
+       * By default this is the latest entry created or 
+       * modified, or example content. The *entryId*
+       * is automatically created by combining the entry
+       * title and a timestamp of last modification.
+      */
+      currViewedEntryId: null,
+      showExampleEntries: false,
+      showBlankEntries: false
     }
-    this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
   }
 
-  // Sider collapse funcs
+  /**
+   * Loads a single Frame library into state
+   *
+   * @activeFlibId {activeFlibId} str
+   * @public
+   */
+  loadActiveFLibData = (activeFlibId) => {
+    console.log(activeFlibId);
+    this.setState({ activeFlibId });
+  }
+
+  /**
+   * Gets array of file paths of all Frame
+   * libraries found folder path, and loads
+   * into state.
+   *
+   * @dataPath {dataPath} str
+   * @public
+   */
+  loadFLibsCollection = (dataPath) => {
+    console.log(dataPath);
+    const arrOfFLibPaths = [];
+    this.setState({libraryPaths: arrOfFlibPaths});
+  }
+
+  /**
+   * Collapse the app menu (Sider button)
+   *
+   * @collapsed {collapsed} bool
+   * @public
+   */
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   }
 
+  /** Handles dropdown select click */
+  handleDropdownButtonClick = (event) => {}
+
+
+  /**
+   * Collapse the app menu with hamburger / logo.
+   *
+   * @public
+   */
   toggleCollapsed = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   }
 
-  // Antd dropdown funcs for editor switching
-  handleButtonClick = (event) => {}
-
-  handleMenuClick = (event) => { 
+  /**
+   * Handles the dropdown select menu to switch editor modes.
+   * *this.state.editorType* is passed to Notepad props.
+   *
+   * @event {event} object
+   * @public
+   */
+  handleEditorSwitchClick = (event) => { 
     this.setState((state, props) => {
       return {editorType: event.key};
     });
   }
 
+  componentWillMount () {
+    this.setState({
+      Entries: Entries,
+      }
+    )
+  }
+
+  componentDidMount () {
+    if (this.state.Entries.length == 1) {
+      console.log("Loading example entries");
+    }
+  }
+
+  /**
+   * Build menu container to hold global buttons and selects.
+   * @public
+   */
   editorSwitchMenu = (
-    <Menu onClick={this.handleMenuClick}>
+    <Menu onClick={this.handleEditorSwitchClick}>
       <Menu.Item key="mediumm">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
@@ -105,71 +203,80 @@ class App extends Component {
   );
 
   render() {
-
-    console.log(this.state.editorType);
-    
     return (
-      <div style={{ display: 'flex', flex: '0 0 auto', flexDirection: 'column', height: '100%', width: '100%', margin: 0 }}>
-              <Layout >
-                <Sider
-                  width={350}
-                  trigger={null}
-                  collapsible
-                  collapsed={this.state.collapsed}
-                  onCollapse={this.onCollapse}
-                >
-                <div
-                      className="brandWrapper"
-                      style={{ top: '0', 
-                      left: '0',
-                      zIndex: '100',
-                      opacity: '1',
-                      }}
-                      onClick={this.toggleCollapsed}>
-                      <Brand/>
-                </div>
-                  <MainMenu />
-                </Sider>
-                <Layout>
-                  {/* <Header style={{padding: 0 }}>Frame</Header> */}
-                  <Content>
-                    <div className="center notepadContainer">
-                        <br></br>
-                        <div className="titleWrapper">
-                          <h4 className="sectionTitleText">Notebook</h4>
-                            <div className="notebookSwitch">
-                            <Tooltip placement="left"
-                              overlayStyle={{width: '180px', opacity: '.95'}}
-                              title={"Switch editor mode (this changes the document format)"}>
-                              <Dropdown.Button
-                                className="dropdownCustom"
-                                style={{borderRadius: '15px', marginRight: '5px'}}
-                                dropdownMatchSelectWidth={true}
-                                onClick={this.handleButtonClick}
-                                overlay={this.editorSwitchMenu}
-                                >
-                                <div className="innerButtonLabel">
-                                  <p>
-                                    {this.state.editorType.charAt(0).toUpperCase() +
-                                    this.state.editorType.slice(1)}
-                                  </p>
-                                </div>
-                              </Dropdown.Button>
-                            </Tooltip>
-                            </div>
-                        </div>
-                        <div className="htmlEditorWrapper">
-                        <div id="editor">
-                        </div>
-                          <FEditor editorType={this.state.editorType}/>
-                        </div>
+      <div style={{ 
+        display: 'flex',
+        flex: '0 0 auto',
+        flexDirection: 'column',
+        height: '100%',
+        width: '100%',
+        margin: 0 }}>
+          <Layout >
+            <Sider
+              width={350}
+              trigger={null}
+              collapsible
+              collapsed={this.state.collapsed}
+              onCollapse={this.onCollapse}
+            >
+            <div
+              className="brandWrapper"
+              style={{ top: '0', 
+              left: '0',
+              zIndex: '100',
+              opacity: '1',
+              }}
+              onClick={this.toggleCollapsed}>
+              <Brand/>
+              </div>
+                <MainMenu Entries={this.state.Entries.entries}/>
+              </Sider>
+            <Layout>
+              <Content>
+                <div className="center notepadContainer">
+                  <br></br>
+                  {/* App title */}
+                  <div className="titleWrapper">
+                    <h4 className="sectionTitleText">
+                      {this.state.currPageTitle}
+                    </h4>
+                    <div className="notebookSwitch">
+                      <Tooltip 
+                        placement="left"
+                        overlayStyle={{width: '180px', opacity: '.95'}}
+                        title=
+                          {"Switch editor mode (this changes the document format)"}
+                        >
+                        <Dropdown.Button
+                          className="dropdownCustom"
+                          style={{borderRadius: '15px', marginRight: '5px'}}
+                          dropdownMatchSelectWidth={true}
+                          onClick={this.handleDropdownButtonClick}
+                          overlay={this.editorSwitchMenu}
+                          >
+                          <div className="innerButtonLabel">
+                            <p>
+                              {this.state.editorType.charAt(0).toUpperCase() +
+                              this.state.editorType.slice(1)}
+                            </p>
+                          </div>
+                        </Dropdown.Button>
+                        </Tooltip>
+                      </div>
                     </div>
-                  </Content>
+                    {/* End app title */}
+                    <div className="editorWrapper">
+                      <div id="editor">
+                          <Notepad editorType={this.state.editorType}/>
+                      </div>
+                    </div>
+                  </div>
+                </Content>
               </Layout>
-          </Layout>
-        </div>
-    );
-  }
+            </Layout>
+          </div>
+        );
+    }
 }
 
-export default App;
+
