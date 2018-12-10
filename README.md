@@ -8,6 +8,15 @@ Because a Python environment running TensorFlow is required to use the full app 
 
  Eventually, a donation-supported / subscription-based edition could be serviced for online users through a server on the cloud, with extended features and protected data storage, if there's a demand for it.
 
+## Current Screenshots (12-09-2018)
+
+UNFINISHED NON-FUNCTIONAL BUILD; WORK-IN-PROGRESS
+
+<img src="screenshots/frame-screenshot-1.png" height="400" alt="Frame - Inline (Medium-Style) Editor screenshot"/>
+Frame - Inline (Medium-Style) Editor
+<img src=“screenshots/frame-screenshot-2.png" height="400" alt="Frame - Full Editor, Menu Collapsed screenshot"/>
+Frame - Full Editor, Menu Collapsed 
+
 ## Key Features
 
 Frame keeps notes, or what are called entries.
