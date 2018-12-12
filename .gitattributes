@@ -8,4 +8,5 @@ output/* linguist-vendored=true
 
 react-sortable-tree-style.css linguist-vendored=true
 
-*.rb linguist-language=JavaScript
+* linguist-vendored
+*.js linguist-vendored=false

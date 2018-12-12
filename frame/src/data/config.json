@@ -1,0 +1,24 @@
+{
+    "savedSettings": {
+        "online": false,
+        "nlpServer": "localhost",
+        "activeTheme": "ocean",
+        "loadedThemes": [
+                        "light",
+                        "dark",
+                        "clean",
+                        "black",
+                        "ocean",
+                        "dim",
+                        "neon",
+                        "night",
+                        "paper",
+                        "present"
+        ],
+        "editorAutoSave": true,
+        "editorAutoSaveTimer": 5000,
+        "showMenu": true,
+        "librariesPath": "src/data/libraries_collections/",
+        "defaultLibrary": "example"
+    }
+}
