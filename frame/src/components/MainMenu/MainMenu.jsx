@@ -66,15 +66,23 @@ export default class MainMenu extends Component {
   }
 
   componentDidMount() {
+    let treeData = [];
+    try {
+      if (this.props.Entries.length > 0) {
+        treeData = this.props.Entries;
+        console.log("Tree data found: ", treeData);
+      }
+    } catch (err) {
+    }
     if (this._editor) {
-      this._editor.set(this.props.Entries);
+      this._editor.set(treeData);
       this._editor.expandAll();
-      this.setState({treeData: this.props.Entries,
+      this.setState({treeData: treeData,
                   // jsonTreeData: this._editor.set(json),
-                  jsonTreeData: this.props.Entries
+                  jsonTreeData: treeData
       });
     } else {
-      this.setState({treeData: this.props.Entries});
+      this.setState({treeData: treeData});
     }
   }
 
@@ -211,35 +219,46 @@ export default class MainMenu extends Component {
   }
 
   render() {
+    
     const {
       treeData,
       searchString,
       searchFocusIndex,
       searchFoundCount,
     } = this.state;
+    
     const { onChangeTreeData } = this.props;
     const isTreeCollapsed = this.state.isTreeCollapsed;
     const show = (isTreeCollapsed == true) ? true: false;
-    const foundEntries = (this.state.treeData.length > 0) ? true : false;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
-    const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
-    
-    const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
-    let entriesEditorButtonType = '';
-    if (entriesEditorUsingJson) {
-      entriesEditorButtonType = 'edit';
-    } else {
-      entriesEditorButtonType = 'browse';
-    }
 
     let treeLength;
-
     try {
       treeLength = this.state.treeData.length;
       if (typeof undefined === 'undefined') treeLength = 0;
     } catch(err) {
       treeLength = 0;
     }
+
+    let foundEntries;
+    try {
+      foundEntries = (this.state.treeData.length > 0) ? true : false;
+    } catch (err) {
+      console.log("Could not find entries");
+      foundEntries = false;
+    }
+    
+    const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
+    const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
+    let entriesEditorButtonType;
+    if (entriesEditorUsingJson) {
+      entriesEditorButtonType = 'edit';
+    } else {
+      entriesEditorButtonType = 'browse';
+    }
+
+
+
 
 
     return (
@@ -298,7 +317,7 @@ export default class MainMenu extends Component {
                   </Button>
                 </div>
 
-              <span class="entriesIndicesFoundContainer">
+              <span className="entriesIndicesFoundContainer">
                   &nbsp;
                   {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
                   {' / '}

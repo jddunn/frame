@@ -5,14 +5,17 @@ import {
          Icon, Button, Switch, Dropdown, message,
          Tooltip
          } from 'antd';
-// App global comp styles
-import './App.scss';
+import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
+
 // Menu with sortable tree component
 import MainMenu from '../MainMenu/MainMenu';
 // Notebook / Editor 
 import Notepad from '../Notepad/Notepad';
 // Branding for logo / nav
 import Brand from '../Brand/Brand';
+
+// App global comp styles
+import './App.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -56,7 +59,7 @@ Storage.prototype.getObject = function(key) {
  * state management is done with passing down props, and reading
  * from sessionStorage for persistent settings. 
  */
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,6 +77,7 @@ class App extends Component {
        * title and a timestamp of last modification.
       */
       currViewedEntryId: null,
+      currViewedEntryData: {},
       showExampleEntries: false,
       showBlankEntries: false
     }
@@ -147,14 +151,23 @@ class App extends Component {
   componentWillMount () {
     this.setState({
       Entries: Entries,
+      editorType: editorTypes.INLINE,
       }
     )
   }
 
+  loadExampleFLib() {
+    // // let obj = JSON.parse(
+    //   // fs.readFileSync(savedSettings.librariesPath +
+    //   //    'example/example.json', 'utf8'));
+    // console.log(obj);
+    // this.setState({currViewedEntryData: obj,
+    //                currViewedEntryId: 'example'              
+    // });
+  }
+
   componentDidMount () {
-    if (this.state.Entries.length == 1) {
-      console.log("Loading example entries");
-    }
+    this.loadExampleFLib();
   }
 
   /**
@@ -163,14 +176,14 @@ class App extends Component {
    */
   editorSwitchMenu = (
     <Menu onClick={this.handleEditorSwitchClick}>
-      <Menu.Item key="mediumm">
+      <Menu.Item key="flow">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Streamlined, Medium-style editor"}>
         </Tooltip>
         <Icon type="edit"/>&nbsp;
-          {editorTypes.INLINE.charAt(0).toUpperCase() +
-          editorTypes.INLINE.slice(1)}
+          {editorTypes.FLOW.charAt(0).toUpperCase() +
+          editorTypes.FLOW.slice(1)}
       </Menu.Item>
       <Menu.Item key="full">
         <Tooltip placement="left"
@@ -203,6 +216,11 @@ class App extends Component {
   );
 
   render() {
+    // By default editor mode for notes is Flow
+    let editorType;
+    editorType = ((this.state.editorType != null && 
+                  this.state.editorType != undefined)
+                   ? this.state.editorType : 'flow');
     return (
       <div style={{ 
         display: 'flex',
@@ -255,14 +273,14 @@ class App extends Component {
                           overlay={this.editorSwitchMenu}
                           >
                           <div className="innerButtonLabel">
-                            <p>
-                              {this.state.editorType.charAt(0).toUpperCase() +
-                              this.state.editorType.slice(1)}
+                            <p>                                 
+                              {editorType.charAt(0).toUpperCase() +
+                               editorType.slice(1)}
                             </p>
                           </div>
                         </Dropdown.Button>
                         </Tooltip>
-                      </div>
+                      </div>        
                     </div>
                     {/* End app title */}
                     <div className="editorWrapper">
