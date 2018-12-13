@@ -1,3 +1,4 @@
+'use strict';
 import config from '../../data/config.json';
 import React, { Component } from 'react';
 import {
@@ -17,11 +18,29 @@ import Brand from '../Brand/Brand';
 // App global comp styles
 import './App.scss';
 
+// Lowdb
+import low from 'lowdb';
+import LocalStorage from 'lowdb/adapters/LocalStorage';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 // Data library / source vars
 const savedSettings = config.savedSettings;
+const adapter = new LocalStorage('db');
+const db = low(adapter);
 const Entries = {};
+
+db.defaults({ posts: [] })
+  .write()
+
+// Data is automatically saved to localStorage
+db.get('posts')
+  .push({ title: 'lowdb' })
+  .write()
+
+console.log(db);
+
+
 
 /** Types of editors there are */
 const editorTypes = Object.freeze(
@@ -157,12 +176,11 @@ export default class App extends Component {
   }
 
   loadExampleFLib() {
-    // // let obj = JSON.parse(
-    //   // fs.readFileSync(savedSettings.librariesPath +
-    //   //    'example/example.json', 'utf8'));
+    // let obj = JSON.parse(
+      // fs.readFileSync(initialFLibPath));
     // console.log(obj);
     // this.setState({currViewedEntryData: obj,
-    //                currViewedEntryId: 'example'              
+                  //  currViewedEntryId: 'example'              
     // });
   }
 

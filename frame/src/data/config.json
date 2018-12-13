@@ -18,7 +18,7 @@
         "editorAutoSave": true,
         "editorAutoSaveTimer": 5000,
         "showMenu": true,
-        "librariesPath": "src/data/libraries_collections/",
+        "librariesPath": "src/data/libraries_collections",
         "defaultLibrary": "example"
     }
 }

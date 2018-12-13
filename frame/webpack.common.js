@@ -6,6 +6,9 @@ const webpack = require("webpack");
 module.exports = {
     entry:["babel-polyfill", path.resolve(__dirname, 'src/index.js')],
     resolve: {extensions: ['.js', '.jsx', '.tsx', '.ts']},
+    node: {
+        fs: "empty"
+    },
     module: {
         rules: [
             {

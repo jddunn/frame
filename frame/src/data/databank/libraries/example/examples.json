@@ -1,0 +1,37 @@
+{
+    "entries": 
+            [
+            {
+                "title": "Most recent entry is always here",
+                "subtitle": "Note how the hover behavior is different",
+                "timestamp": null,
+                "editorType": "inline",
+                "data": {},
+                "dragDisabled": false
+              },
+              { 
+                  "title": "This is the Full Node Drag theme", 
+                  "editorType": "full",
+                  "timestamp": null,
+                  "data": {}
+                },
+              { 
+                  "title": "You can click anywhere on the node to drag it", 
+                  "editorType": "inline",
+                  "data": {} 
+              },
+              { 
+                  "title": "Chicken",
+                  "editorType": "full",
+                  "children": 
+                            [
+                            { 
+                                "title": "Egg",
+                                "editorType": "inline",
+
+                                "data": {} 
+                            }
+                            ]
+                }        
+        ]
+}
