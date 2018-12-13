@@ -235,10 +235,13 @@ export default class MainMenu extends Component {
     let treeLength;
     try {
       treeLength = this.state.treeData.length;
-      if (typeof undefined === 'undefined') treeLength = 0;
+      if (typeof(treeLength) === 'undefined') treeLength = 0;
     } catch(err) {
       treeLength = 0;
     }
+    
+
+  
 
     let foundEntries;
     try {

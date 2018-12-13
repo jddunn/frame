@@ -152,7 +152,8 @@
 }
 
 .rst__tree {
-  max-height: 250px;
+  height: 250px !important;
+  // max-height: 250px;
   background-color: transparent !important;
 }
 
