@@ -16,10 +16,10 @@
         "extends": null
     },
     "scripts": {
-        "start": "webpack-dev-server --open --config webpack.dev.js --progress --color",
+        "start": "webpack-dev-server --open --config webpack.dev.js --progress --color --display-error-details",
         "build": "webpack --config webpack.prod.js",
         "build-dev": "webpack --config webpack.dev.js --progress --color",
-        "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js",
+        "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js --display-error-details",
         "electron-build": "./node_modules/.bin/electron-builder build",
         "lint": "eslint -c .eslintrc.json src/** src/**/**; exit 0",
         "flow": "flow",
@@ -42,6 +42,7 @@
         "history": "^4.7.2",
         "install": "^0.12.2",
         "jsoneditor": "^5.26.3",
+        "lowdb": "^1.0.0",
         "node-prismjs": "^0.1.2",
         "prop-types": "^15.6.2",
         "re-resizable": "^4.10.0",

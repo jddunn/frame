@@ -1,5 +1,16 @@
 {
-  "presets": ["env", "stage-3", "react"],
+  "presets": ["env", "stage-3", "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        },
+        "debug": true,
+        "modules": "commonjs"
+      }
+    ] 
+  ],
   "plugins": ["add-module-exports"],
   "env": {
     "test": {
