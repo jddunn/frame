@@ -96,13 +96,9 @@ export default class App extends Component {
        * Active entry / document in Notebook 
        * By default this is the latest entry created or 
        * modified, or example content. The *entryId*
-       * is automatically created by combining the entry
-       * title and a timestamp of last modification.
+       * is a UUID auto-generated with the Crypto API.
       */
-      currViewedEntryId: null,
-      currViewedEntryData: {},
-      showExampleEntries: false,
-      showBlankEntries: false
+      currViewedEntryId: null
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
   }
@@ -190,20 +186,27 @@ export default class App extends Component {
    */
   getExampleFLibData() {  
     console.log(exampleFLibrary);
-
     // Save to localStorage for now (for exporting and syncing
     // with actual db later)
     db.get('entries')
       .push(exampleFLibrary.entries)
       .write()
     console.log(db);
-    // this.setState({currViewedEntryData: obj,
-                  //  currViewedEntryId: 'example'              
-    // });
+    this.setState({currViewedEntryData: obj,
+                   currViewedEntryId: 'example'              
+    });
   }
 
   componentDidMount () {
-    this.getExampleFLibData();
+    let vals = db.get('entries');
+    if (vals.length <= 0) {
+      this.getExampleFLibData();
+      console.log("Loaded example entries as default lib");
+    } else {
+      // TODO: Add logic to handle loading the last Frame library
+      // that used by active user
+      console.log("Loaded last user library that was open");
+    }
   }
 
   /**
