@@ -1,5 +1,6 @@
 'use strict';
 import config from '../../data/config.json';
+import exampleFLibrary from '../../data/libraries_collections/example/example.json'; // Example Frame entries
 import React, { Component } from 'react';
 import {
          Row, Col, Layout, Menu, Breadcrumb,
@@ -8,40 +9,43 @@ import {
          } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 
-// Menu with sortable tree component
+/** Menu with sortable tree component */
 import MainMenu from '../MainMenu/MainMenu';
-// Notebook / Editor 
+/** Notebook / Editor */
 import Notepad from '../Notepad/Notepad';
-// Branding for logo / nav
+/** Branding for logo / nav */
 import Brand from '../Brand/Brand';
 
-// App global comp styles
+/** App global comp styles */
 import './App.scss';
 
-// Lowdb
+/** Data storage */
 import low from 'lowdb';
 import LocalStorage from 'lowdb/adapters/LocalStorage';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-// Data library / source vars
+/** Data library / source vars */
 const savedSettings = config.savedSettings;
+const flibsPath = savedSettings.librariesPath;
+const defaultFLib = savedSettings.defaultLibrary;
+const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
+
+/*
+  Lowdb
+  TODO:Write logic to handle switching between LocalStorage
+  and writing to a server file (when not using browser)
+*/
 const adapter = new LocalStorage('db');
 const db = low(adapter);
-const Entries = {};
-
-db.defaults({ posts: [] })
-  .write()
-
-// Data is automatically saved to localStorage
-db.get('posts')
-  .push({ title: 'lowdb' })
-  .write()
-
-console.log(db);
-
-
-
+/* 
+  TODO: Write logic to handle loading entries saved from users
+  locally or on server
+*/
+const Entries = exampleFLibrary;
+db.defaults({ entries: Entries })
+  .write
+  
 /** Types of editors there are */
 const editorTypes = Object.freeze(
   {
@@ -175,17 +179,31 @@ export default class App extends Component {
     )
   }
 
-  loadExampleFLib() {
-    // let obj = JSON.parse(
-      // fs.readFileSync(initialFLibPath));
-    // console.log(obj);
+  /**
+   * Gets example Frame library entries from static JSON file,
+   * the path of which is defined in data/config.json.
+   * 
+   * If there are no other Frame libraries found, the example
+   * library is displayed by default. 
+   * 
+   * @public
+   */
+  getExampleFLibData() {  
+    console.log(exampleFLibrary);
+
+    // Save to localStorage for now (for exporting and syncing
+    // with actual db later)
+    db.get('entries')
+      .push(exampleFLibrary.entries)
+      .write()
+    console.log(db);
     // this.setState({currViewedEntryData: obj,
                   //  currViewedEntryId: 'example'              
     // });
   }
 
   componentDidMount () {
-    this.loadExampleFLib();
+    this.getExampleFLibData();
   }
 
   /**

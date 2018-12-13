@@ -4,31 +4,42 @@
             {
                 "title": "Most recent entry is always here",
                 "subtitle": "Note how the hover behavior is different",
+                "tag": "example",
+                "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
                 "timestamp": null,
-                "editorType": "inline",
                 "data": {},
                 "dragDisabled": false
               },
               { 
                   "title": "This is the Full Node Drag theme", 
-                  "editorType": "full",
+                  "tag": "example",
+                  "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
                   "timestamp": null,
-                  "data": {}
+                  "editorType": "full",
+                  "data": {},
+                  "dragDisabled": true
                 },
               { 
                   "title": "You can click anywhere on the node to drag it", 
-                  "editorType": "inline",
+                  "tag": "example",
+                  "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
+                  "timestamp": null,
                   "data": {} 
               },
               { 
                   "title": "Chicken",
+                  "subtitle": "Note how the hover behavior is different",
+                  "tag": "example",
+                  "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
+                  "timestamp": null,
                   "editorType": "full",
                   "children": 
                             [
                             { 
                                 "title": "Egg",
-                                "editorType": "inline",
-
+                                "tag": "example",
+                                "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
+                                "timestamp": null,
                                 "data": {} 
                             }
                             ]
