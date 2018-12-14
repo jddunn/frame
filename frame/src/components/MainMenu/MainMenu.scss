@@ -57,8 +57,9 @@
 
 /* React sortable tree */
 .treeEntriesContainer {
+
   width: 100%;
-  border-radius: 2px !important;
+  border-radius: 20px !important;
 }
 
 .entriesButtonsContainer {
@@ -119,7 +120,7 @@
 
 .treesEntriesContainer {
   border-radius: 3px;
-  background-color: rgba(0, 104, 152, 0.65);
+  // background-color: rgba(0, 104, 152, 0.65);
 }
 
 // End tree
@@ -154,7 +155,12 @@
 .rst__tree {
   height: 250px !important;
   // max-height: 250px;
-  background-color: transparent !important;
+  // background-color: white !important;
+  border-radius: 5px !important;
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
+	box-shadow: 1px 2px 2px 1px rgba(39, 39, 39, 0.85) !important;
+  background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
+  // background-color: transparent !important;
 }
 
 /* React tree library class overrides */
@@ -210,22 +216,28 @@
 
 .rst__rowContents {
   // box-shadow: 1px 2px white, -1px -2px white !important;
-  border: none;
+  // border: none;
+  box-shadow: none !important;
   min-width: 240px !important;
   height: 35px !important;
-  font-size: 1.05vmax !important;
+  letter-spacing: 0px;
+  font-size: .85vmax !important;
   margin: 0 !important;
   padding: 0 !important;
   background-color: transparent !important;
-  // color: white;
-  color: rgba(17, 40, 28, 1.0) !important;
+  color: rgb(17, 17, 17) !important;
+}
+
+.rst__rowSubtitle {
+  font-size: .75vmax !important;
 }
 
 .rst__rowContents:hover {
   cursor: pointer;
-  background: #36D1DC;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: rgba(79, 176, 255, .95) !important;
+  // background: #36D1DC;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }  
 
 .ant-menu-item {

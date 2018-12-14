@@ -315,7 +315,7 @@
   .rst__rowLandingPad::before,
   .rst__rowCancelPad::before {
     background-color: lightblue;
-    border: 3px dashed white;
+    /* border: 3px dashed white; */
     content: '';
     position: absolute;
     top: 0;
@@ -358,7 +358,7 @@
   .rst__rowContents {
     position: relative;
     height: 100%;
-    border: solid #bbb 1px;
+    /* border: solid #bbb 1px; */
     border-left: none;
     box-shadow: 0 2px 2px -2px;
     padding: 0 5px 0 10px;
@@ -373,17 +373,17 @@
   
   .rst__rtl.rst__rowContents {
     border-right: none;
-    border-left: solid #bbb 1px;
+    /* border-left: solid #bbb 1px; */
     padding: 0 10px 0 5px;
   }
   
   .rst__rowContentsDragDisabled {
-    border-left: solid #bbb 1px;
+    /* border-left: solid #bbb 1px; */
   }
   
   .rst__rtl.rst__rowContentsDragDisabled {
-    border-right: solid #bbb 1px;
-    border-left: solid #bbb 1px;
+    /* border-right: solid #bbb 1px; */
+    /* border-left: solid #bbb 1px; */
   }
   
   .rst__rowLabel {
@@ -402,20 +402,29 @@
   
   .rst__moveHandle,
   .rst__loadingHandle {
-    height: 100%;
-    width: 10px;
-    background: #d9d9d9
-      url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MiIgaGVpZ2h0PSI0MiI+PGcgc3Ryb2tlPSIjRkZGIiBzdHJva2Utd2lkdGg9IjIuOSIgPjxwYXRoIGQ9Ik0xNCAxNS43aDE0LjQiLz48cGF0aCBkPSJNMTQgMjEuNGgxNC40Ii8+PHBhdGggZD0iTTE0IDI3LjFoMTQuNCIvPjwvZz4KPC9zdmc+')
-      no-repeat center;
-    border-left: solid #bbb 1px;
-    box-shadow: 0 2px 2px -2px;
+    height: 10px !important;
+    width: 5px;
+    /* background: #d9d9d9 */
+      /* url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MiIgaGVpZ2h0PSI0MiI+PGcgc3Ryb2tlPSIjRkZGIiBzdHJva2Utd2lkdGg9IjIuOSIgPjxwYXRoIGQ9Ik0xNCAxNS43aDE0LjQiLz48cGF0aCBkPSJNMTQgMjEuNGgxNC40Ii8+PHBhdGggZD0iTTE0IDI3LjFoMTQuNCIvPjwvZz4KPC9zdmc+') */
+      /* no-repeat center; */
+    background: transparent !important;
+    border-left: 6px solid rgba(8, 164, 255, 0.8) !important;
     margin: 0;
-    margin-left: -8px;
+    margin-top: 15px;
     padding: 0;
     cursor: move;
     border-radius: 1px;
     z-index: 1;
   }
+
+  .rst__moveHandle:hover {
+    border-left: 6px solid rgba(251, 255, 0, 0.8) !important;
+  }
+
+  .rst__loadingHandle:hover {
+    border-left: 6px solid rgba(251, 255, 0, 0.8) !important;
+  }
+
   
   .rst__loadingHandle {
     cursor: default;
@@ -625,7 +634,7 @@
     box-sizing: border-box;
   }
   .rst__placeholder::before {
-    border: 3px dashed #d9d9d9;
+    /* border: 3px dashed #d9d9d9; */
     content: '';
     position: absolute;
     top: 5px;

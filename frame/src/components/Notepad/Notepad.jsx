@@ -204,27 +204,8 @@ export default class Notepad extends Component {
             />
             break;
           case 'full':
-            // editor = <textarea id="editor" name="editor"></textarea>;
-            // react-draft-wysiwyg // DEPRECATED
-            //  <Editor
-            //   editorState={editorState}
-            //   className="fullHTMLEditor"
-            //   // editorState={EditorState.createWithContent(this.state.content)}
-            //   toolbarClassName="toolbarClassName"
-            //   wrapperClassName="wrapperClassName"
-            //   editorClassName="editorClassName"
-            //   onEditorStateChange={this.onEditorStateChange}
-            // />
             editor = 
             <React.Fragment>
-              {/* <ReactQuill 
-              theme={this.state.theme}
-              onChange={this.handleChange}
-              modules={Editor.modules}
-              formats={Editor.formats}
-              bounds={'.app'}
-              placeholder={this.props.placeholder}
-            /> */}
               <ReactQuill
                   style={{marginLeft: '-20px', 
                           marginTop: '-10px'}}

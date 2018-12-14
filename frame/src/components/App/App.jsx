@@ -196,6 +196,7 @@ export default class App extends Component {
                    currViewedEntryId: 'example'              
     });
   }
+  
 
   componentDidMount () {
     let vals = db.get('entries');

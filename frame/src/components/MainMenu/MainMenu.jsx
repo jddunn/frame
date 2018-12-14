@@ -51,11 +51,13 @@ export default class MainMenu extends Component {
       entriesEditorUsingJson: false
     };
     this.updateTreeData = this.updateTreeData.bind(this);
+    
     // JSON Editor funcs
     this.onChangeTreeData = this.onChangeTreeData.bind(this);
     this.getNewTreeData = this.getNewTreeData.bind(this);
     this.editorRef = this.editorRef.bind(this);
     this.expand = this.expand.bind(this);
+
     // Expand / collapse children
     this.expandAll = this.expandAll.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
@@ -78,7 +80,6 @@ export default class MainMenu extends Component {
       this._editor.set(treeData);
       this._editor.expandAll();
       this.setState({treeData: treeData,
-                  // jsonTreeData: this._editor.set(json),
                   jsonTreeData: treeData
       });
     } else {
@@ -88,6 +89,7 @@ export default class MainMenu extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this._editor) {
+      this._editor.set(this.props.Entries);
       this.setState({treeData: this.props.Entries,
         jsonTreeData: this.props.Entries
       });  
@@ -98,23 +100,15 @@ export default class MainMenu extends Component {
   }
 
   // JSONEditor funcs
-  
   onChangeTreeData(treeData) {
     if (this._editor) {
-      // this._editor.set(treeData);
-      this.setState({treeData: this.props.Entries,
-                    jsonTreeDat: this.props.Entries
-      })
+      this._editor.set(treeData);
+      this.setState({
+        treeData,
+        jsonTreeData
+      });
     }
   }
-
-  // setNewTreeData(json) {
-    // if (this._editor) {
-      // this.setState({
-        // treeData: this._editor.set(json),
-      // });
-    // }
-  // }
 
   getNewTreeData() {
     if (this._editor) {
@@ -128,6 +122,14 @@ export default class MainMenu extends Component {
   editorRef(editor) {
     this._editor = editor;
   }
+
+  // setNewTreeData(json) {
+    // if (this._editor) {
+      // this.setState({
+        // treeData: this._editor.set(json),
+      // });
+    // }
+  // }
 
   expand(expanded) {
     const newTreeData = toggleExpandedForAll({
@@ -233,15 +235,16 @@ export default class MainMenu extends Component {
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
 
     let treeLength;
+
+    // TODO: Eventually we must convert the nested tree to a flat 
+    // tree to get the full number of entries in a library.
+    // Currently this only counts the parent-level nodes.
     try {
       treeLength = this.state.treeData.length;
       if (typeof(treeLength) === 'undefined') treeLength = 0;
     } catch(err) {
       treeLength = 0;
     }
-    
-
-  
 
     let foundEntries;
     try {
@@ -254,15 +257,11 @@ export default class MainMenu extends Component {
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
     const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
     let entriesEditorButtonType;
-    if (entriesEditorUsingJson) {
+    if (!entriesEditorUsingJson) {
       entriesEditorButtonType = 'edit';
     } else {
       entriesEditorButtonType = 'browse';
     }
-
-
-
-
 
     return (
       <React.Fragment>     
@@ -378,7 +377,7 @@ export default class MainMenu extends Component {
           <div className="treesEntriesContainer">
               {entriesEditorUsingJson ? (
                 <React.Fragment>
-                <FJSONEditor onChange={this.getNewTreeData} editorref={this.editorRef} Entries={this.state.Entries}/>
+                  <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
                 </React.Fragment>
               ) : (
                 <div>
@@ -394,6 +393,7 @@ export default class MainMenu extends Component {
                               inlineCollapsed: true,
                               minWidth: '180px',
                               height: treeHeight,
+                              rowHeight: 10,
                               backgroundColor: 'transparent',
                               background: 'transparent',
                               color: 'grey',
