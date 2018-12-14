@@ -115,10 +115,15 @@
 }
 
 .expandEntriesButtonsWrapper {
-  display: inline;
+  margin-left: 290px;
+  z-index: 1000;
+  float: right;
+  margin-bottom: 40px;
+  position: absolute;
 }
 
 .treesEntriesContainer {
+  z-index: 1;
   border-radius: 3px;
   // background-color: rgba(0, 104, 152, 0.65);
 }
@@ -271,6 +276,13 @@
   background: linear-gradient(to right, #5B86E5, #36D1DC) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
 }
+
+
+.ant-btn {
+  color: rgba(79, 176, 255, .55); 
+  border-color: rgba(79, 176, 255, .55); 
+}
+
 
 .ant-btn:hover {
   cursor: pointer !important;
