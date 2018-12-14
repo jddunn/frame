@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import Resizable from 're-resizable';
 
 /** Sortable tree component */
-import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
+import SortableTree,
+ { toggleExpandedForAll,
+    addNodeUnderParent,
+    removeNodeAtPath } from 'react-sortable-tree';
 /** Tree component with file explorer view */
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 
@@ -44,6 +47,8 @@ export default class MainMenu extends Component {
       searchFocusIndex: 0,
       searchFoundCount: null,
       isTreeCollapsed: false,
+
+      addAsFirstChild: false,
       
       /* treeData is the current "library" of entries loaded,
           from a JSON file as specified from config, or which is
@@ -155,7 +160,7 @@ export default class MainMenu extends Component {
   }
 
   updateTreeData(treeData) {
-    this.setState({ treeData: treeData, jsonTreeData: treeData });
+    this.setState({ treeData: treeData });
   }
 
   expand(expanded) {
@@ -216,6 +221,21 @@ export default class MainMenu extends Component {
     }));
   }
 
+  showNodeInfo() {
+    const alertNodeInfo = ({ node, path, treeIndex }) => {
+      const objectString = Object.keys(node)
+        .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
+        .join(',\n   ');
+    
+      global.alert(
+        'Info passed to the button generator:\n\n' +
+          `node: {\n   ${objectString}\n},\n` +
+          `path: [${path.join(', ')}],\n` +
+          `treeIndex: ${treeIndex}`
+      );
+    };
+  }
+
   render() {
     
     const {
@@ -225,6 +245,8 @@ export default class MainMenu extends Component {
       searchFoundCount,
       isTreeCollapsedsed
     } = this.state;
+
+    const getNodeKey = ({ treeIndex }) => treeIndex;
     
     const { onChangeTreeData } = this.props;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
@@ -282,7 +304,48 @@ export default class MainMenu extends Component {
         <SubMenu key="sub2" title={<span><Icon type="snippets"/>
           <span>Entries</span></span>}>
             <Divider />
-            <div className="entriesButtonsContainer">
+         
+              <div className="entriesEditorButtonsContainer">
+                <div className="mainEntriesButtonsWrapper">
+                  <div className="primaryGhostButton"
+                        style={{display: 'inline'}}>
+                  <Button 
+                    className="primaryGhostButton"
+                    type="primary"
+                    ghost={true}
+                    icon="file-add"
+                    className="textButton"
+                    >
+                    New
+                    </Button>
+                  </div>
+                  <div className="primaryGhostButton"
+                        style={{display: 'inline'}}>
+                  <Button 
+                    type="primary"
+                    ghost={true} 
+                    icon="edit"
+                    onClick={this.handleSwitchEntriesEditorType}
+                    // onClick={() => {this.handleSwitchEntriesEditorType}}
+                    className="textButton"
+                    >
+                    {entriesEditorButtonType.charAt(0).toUpperCase() +
+                                    entriesEditorButtonType.slice(1) + ' ' 
+                                    + ''}
+                  </Button>
+                  </div>
+                </div>
+
+          </div>
+          {/* Start sortable tree comp for entries */}
+          <div className="treesEntriesContainer">
+              {entriesEditorUsingJson ? (
+                  <div className="jsonEditorMainMenu">
+                    <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
+                  </div>
+              ) : (
+                <div>
+              <div className="entriesButtonsContainer">
               <Search
                     id="findBox"
                     value={searchString}
@@ -320,47 +383,8 @@ export default class MainMenu extends Component {
                   {searchFoundCount || 0}
               </span>
 
-              <div className="entriesEditorButtonsContainer">
-                <div className="mainEntriesButtonsWrapper">
-                  <div className="primaryGhostButton"
-                        style={{display: 'inline'}}>
-                  <Button 
-                    className="primaryGhostButton"
-                    type="primary"
-                    ghost={true}
-                    icon="file-add"
-                    className="textButton"
-                    >
-                    New
-                    </Button>
-                  </div>
-                  <div className="primaryGhostButton"
-                        style={{display: 'inline'}}>
-                  <Button 
-                    type="primary"
-                    ghost={true} 
-                    icon="edit"
-                    onClick={this.handleSwitchEntriesEditorType}
-                    // onClick={() => {this.handleSwitchEntriesEditorType}}
-                    className="textButton"
-                    >
-                    {entriesEditorButtonType.charAt(0).toUpperCase() +
-                                    entriesEditorButtonType.slice(1) + ' ' 
-                                    + ''}
-                  </Button>
-                  </div>
-                </div>
-           
               </div>
-          </div>
-          {/* Start sortable tree comp for entries */}
-          <div className="treesEntriesContainer">
-              {entriesEditorUsingJson ? (
-                <React.Fragment>
-                  <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
-                </React.Fragment>
-              ) : (
-                <div>
+
                   <div className="expandEntriesButtonsWrapper">
                     <Button 
                       shape="circle" 
@@ -378,7 +402,7 @@ export default class MainMenu extends Component {
                   </div>
                     <SortableTree
                     // theme={CustomTheme}
-                    treeData={treeData}
+                    treeData={this.state.treeData}
                     onChange={this.updateTreeData}
                     searchQuery={searchString}
                     searchFocusOffset={searchFocusIndex}
@@ -402,13 +426,56 @@ export default class MainMenu extends Component {
                           matches.length > 0 ? searchFocusIndex % matches.length : 0,
                       })
                     }
-                    canDrag={({ node }) => !node.dragDisabled}
-                    generateNodeProps={rowInfo => ({
+                    canDrag={({ node }) => !node.noDragging}
+                    canDrop={({ nextParent }) => !nextParent || !nextParent.noChildren}
+                    isVirtualized={true}
+                    generateNodeProps={({ node, path }) => 
+                    ({
                       buttons: [
-                        <button onClick={() => alertNodeInfo(rowInfo)}>i</button>,
+                        <button
+                          className="btn btn-outline-success"
+                          style={{
+                            verticalAlign: 'middle',
+                          }}
+                            onClick={() => this.showNodeInfo(node)}
+                          >
+                          ℹ
+                        </button>,
+                        <button
+                          onClick={() =>
+                            this.setState(state => ({
+                              treeData: addNodeUnderParent({
+                                treeData: state.treeData,
+                                parentKey: path[path.length - 1],
+                                expandParent: true,
+                                getNodeKey,
+                                newNode: {
+                                  title: `New node`
+                                },
+                                addAsFirstChild: state.addAsFirstChild,
+                              }).treeData,
+                            }))
+                          }
+                        >
+                          Add Child
+                        </button>,
+                        <button
+                          onClick={() =>
+                            this.setState(state => ({
+                              treeData: removeNodeAtPath({
+                                treeData: state.treeData,
+                                path,
+                                getNodeKey,
+                              }),
+                            }))
+                          }
+                        >
+                          Remove
+                        </button>,
                       ],
                     })}
                     />
+                    HEYEAKSOAKSODKSOAD
                     <div className="footerContainer">
                       <p className="footerNoteText" style={{float: 'right', marginTop: '-10px', marginRight: '5px'}}>
                         {treeLength + ' entries recorded'}

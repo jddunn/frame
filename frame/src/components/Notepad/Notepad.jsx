@@ -59,29 +59,14 @@ export default class Notepad extends Component {
         }
       this.handleChange = this.handleChange.bind(this)
       this.handleThemeChange = this.handleThemeChange.bind(this);
-      this.saveDanteContent = this.saveDanteContent.bind(this)
-
     }
 
-    componentDidMount() {
-    
-    }
-    
     componentWillReceiveProps(nextProps) {
       const editorType  = nextProps.editorType;
       this.setState({ editorType: editorType });
     }
 
-    componentWillMount() {
-      // const blocksFromHTML = htmlToDraft('<p>Write your story..</p>');
-      // const content = ContentState.createFromBlockArray(
-      //   blocksFromHTML.contentBlocks,
-      //   blocksFromHTML.entityMap
-      // );
-      // this.setState({ content: content, blocksFromHTML: blocksFromHTML });
-    }
-
-    // Quilljs funcs
+    // Dante funcs
     handleChange (html) {
         this.setState({ editorHtml: html });
     }
@@ -89,11 +74,6 @@ export default class Notepad extends Component {
     handleThemeChange (value) {
       console.log(value);
       this.setState({ theme: value })
-    }
-
-
-    saveDanteContent(editorContext, content) {
-      console.log("SAVED DANTE: ", editorContext, content);
     }
     
     updateContent = (value) => {

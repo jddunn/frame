@@ -38,6 +38,8 @@ const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.js
 */
 const adapter = new LocalStorage('db');
 const db = low(adapter);
+const store = sessionStorage; // Store is where we'll save state management,
+                              // which will be cleared with every reload.
 /* 
   TODO: Write logic to handle loading entries saved from users
   locally or on server

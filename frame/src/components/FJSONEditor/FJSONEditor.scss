@@ -3,21 +3,29 @@
     width: 100%;
   }
   
-  .jsoneditor {
-    border: none !important;
-  }
+.jsoneditor {
+  border-radius: 3px;
+  margin-top: 5px;
+  font-size: .75em !important;
+  border: none !important;
+}
 
-  #jsonEditor {
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 5px !important;
-    // border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
-    box-shadow: 1px 2px 2px 1px rgba(39, 39, 39, 0.85) !important;
-    background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
-    height: 250px;
-  }
+#jsonEditor {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 3px !important;
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 1px 2px 2px 1px rgba(39, 39, 39, 0.85) !important;
+  background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
+  height: 250px;
+}
 
 .jsoneditor-menu {
-  background-color: rgba(79, 176, 255, .95) !important;
-  border-color: rgba(79, 176, 255, .95) !important;
+  border-radius: 3px;
+  background-color: rgba(79, 176, 255, .85) !important;
+  border-color: rgba(79, 176, 255, .85) !important;
+}
+
+.nav-bar-empty {
+  display: none !important;
 }
