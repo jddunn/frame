@@ -387,7 +387,17 @@ export default class MainMenu extends Component {
                         }
                         style={{ width: 200 }}
                       />
+                      <Button 
+                        className="clearSearchButton"
+                        shape="circle" 
+                        ghost={true}
+                        icon="close"
+                        onClick={event => 
+                          this.setState({searchString: ''})
+                        }
+                      />
                     <div className="searchArrowButtonsContainer">
+            
                       <Button
                         className="searchArrowButton"
                         // type="primary"

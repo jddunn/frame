@@ -192,7 +192,6 @@
   text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
 }
 
-
 .ant-menu-submenu {
   overflow: hidden !important;
 }
@@ -227,9 +226,6 @@
   border-color: rgba(255, 223, 0, .8) !important;
   color: rgb(255,223,0) !important;
   text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
-}
-
-.primaryGhostButton {
 }
 
 .primaryGhostButton:hover {
@@ -351,6 +347,18 @@
   margin-right: auto;
   margin-left: 0px;
   margin-top: 8px;
+}
+
+.clearSearchButton {
+  position: absolute !important;
+  margin-top: 8px !important;
+  color: rgba(206, 206, 206, 0.8) !important;
+  border-color: rgba(206, 206, 206, 0.8) !important;
+  height: 16px !important;
+  width: 16px !important;
+  font-size: .6em !important;
+  margin-left: -35px !important;
+  margin-right: 15px !important;
 }
 
 .saveLoadExportButtonsContainer {
