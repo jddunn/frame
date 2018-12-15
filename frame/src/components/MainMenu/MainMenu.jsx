@@ -478,13 +478,13 @@ export default class MainMenu extends Component {
 
 
                     <div>
-                      <div style={{ height: 300 }}>
+                      <div>
                         <SortableTree
                           treeData={this.state.treeData}
-                          onChange={treeData => this.setState({ treeData })}
-                             searchQuery={searchString}
-                    searchFocusOffset={searchFocusIndex}
-                    style={
+                          onChange={this.updateTreeData}
+                          searchQuery={searchString}
+                          searchFocusOffset={searchFocusIndex}
+                          style={
                             {
                               forceSubMenuRender: true,
                               inlineCollapsed: true,
@@ -496,14 +496,14 @@ export default class MainMenu extends Component {
                               color: 'grey',
                             }
                           }
-                    // rowHeight={45}
-                    searchFinishCallback={matches =>
-                      this.setState({
-                        searchFoundCount: matches.length,
-                        searchFocusIndex:
-                          matches.length > 0 ? searchFocusIndex % matches.length : 0,
-                      })
-                    }
+                          // rowHeight={45}
+                          searchFinishCallback={matches =>
+                            this.setState({
+                              searchFoundCount: matches.length,
+                              searchFocusIndex:
+                                matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                            })
+                          }
                           generateNodeProps={({ node, path }) => ({
                             buttons: [
                               <button
@@ -539,10 +539,17 @@ export default class MainMenu extends Component {
                               </button>,
                             ],
                           })}
+                          
                         />
-                      </div>
+                    <div className="footerContainer">
+                      <p className="footerNoteText" style={{float: 'right', marginTop: '-10px', marginRight: '5px'}}>
+                        {treeLength + ' entries recorded'}
+                      </p>
+                    </div>
 
-                      <button
+                    </div>
+
+                      {/* <button
                         onClick={() =>
                           this.setState(state => ({
                             treeData: state.treeData.concat({
@@ -566,14 +573,7 @@ export default class MainMenu extends Component {
                             }))
                           }
                         />
-                      </label>
-                    </div>
-
-                    HEYEAKSOAKSODKSOAD
-                    <div className="footerContainer">
-                      <p className="footerNoteText" style={{float: 'right', marginTop: '-10px', marginRight: '5px'}}>
-                        {treeLength + ' entries recorded'}
-                      </p>
+                      </label> */}
                     </div>
                 </div>
               )}
