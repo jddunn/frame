@@ -400,7 +400,7 @@ export default class MainMenu extends Component {
                       icon="minus" onClick={this.collapseAll}
                       />
                   </div>
-                    <SortableTree
+                    {/* <SortableTree
                     // theme={CustomTheme}
                     treeData={this.state.treeData}
                     onChange={this.updateTreeData}
@@ -474,7 +474,80 @@ export default class MainMenu extends Component {
                         </button>,
                       ],
                     })}
-                    />
+                    /> */}
+
+
+                    <div>
+                      <div style={{ height: 300 }}>
+                        <SortableTree
+                          treeData={this.state.treeData}
+                          onChange={treeData => this.setState({ treeData })}
+                          generateNodeProps={({ node, path }) => ({
+                            buttons: [
+                              <button
+                                onClick={() =>
+                                  this.setState(state => ({
+                                    treeData: addNodeUnderParent({
+                                      treeData: state.treeData,
+                                      parentKey: path[path.length - 1],
+                                      expandParent: true,
+                                      getNodeKey,
+                                      newNode: {
+                                        title: `New entry`,
+                                      },
+                                      addAsFirstChild: state.addAsFirstChild,
+                                    }).treeData,
+                                  }))
+                                }
+                              >
+                                Add Child
+                              </button>,
+                              <button
+                              style={{backgroundColor: 'red'}}
+                                onClick={() =>
+                                  this.setState(state => ({
+                                    treeData: removeNodeAtPath({
+                                      treeData: state.treeData,
+                                      path,
+                                      getNodeKey,
+                                    }),
+                                  }))
+                                }
+                              >
+                                Remove
+                              </button>,
+                            ],
+                          })}
+                        />
+                      </div>
+
+                      <button
+                        onClick={() =>
+                          this.setState(state => ({
+                            treeData: state.treeData.concat({
+                              title: `New entry`,
+                            }),
+                          }))
+                        }
+                      >
+                        Add more
+                      </button>
+                      <br />
+                      <label htmlFor="addAsFirstChild">
+                        Add new nodes at start
+                        <input
+                          name="addAsFirstChild"
+                          type="checkbox"
+                          checked={this.state.addAsFirstChild}
+                          onChange={() =>
+                            this.setState(state => ({
+                              addAsFirstChild: !state.addAsFirstChild,
+                            }))
+                          }
+                        />
+                      </label>
+                    </div>
+
                     HEYEAKSOAKSODKSOAD
                     <div className="footerContainer">
                       <p className="footerNoteText" style={{float: 'right', marginTop: '-10px', marginRight: '5px'}}>
