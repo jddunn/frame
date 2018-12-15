@@ -1,7 +1,4 @@
-/* 
- * 
- */
-
+'use strict';
 import React, { Component } from 'react';
 import styles from './Brand.scss';
 

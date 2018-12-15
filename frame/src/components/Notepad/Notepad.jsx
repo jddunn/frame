@@ -1,34 +1,20 @@
+'use strict';
 /* 
 HTMLEditor, using Dante2 library, which clones Mediun's interface.
 So the editor itself is also a live preview of the content.
  */
-const path = require('path');
-
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import Resizable from 're-resizable';
-
 import { Select } from 'antd';
-const Option = Select.Option;
-
-// Medium-style editor clone
+// Dante (Medium-style editor clone) 
 import DanteEditor from 'Dante2';
-// Full WYSIWYG editor
-// import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
-// import { EditorState } from 'draft-js';
-// import { Editor } from 'react-draft-wysiwyg';
-import { Editor } from 'react-quill';
-
-// Draft.js to HTML (for react-draft-wysiwyg)
-// import draftToHtml from 'draftjs-to-html';
-// import htmlToDraft from 'html-to-draftjs';
-// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
-import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill';
+// ReactQuill (Full text editor)
+import ReactQuill, { Editor, Quill, Mixin, Toolbar } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import 'react-quill/dist/quill.core.css';
-
+// Local style
 import './Notepad.scss';
 
 // const rawContentState = convertToRaw(EditorState.getCurrentContent);
@@ -40,7 +26,7 @@ import './Notepad.scss';
 // );
 
 // const blocksFromHTML = convertFromHTML(EditorState.getCurrentContent);
-
+const Option = Select.Option;
 
 export default class Notepad extends Component {
     constructor (props) {
@@ -48,7 +34,6 @@ export default class Notepad extends Component {
       this.state = { 
           // DanteEditor props
           editorType: 'inline', // Default use DanteEditor
-          // If !fullEditorOn, these values are used for editor
           theme: 'snow',
           width: 800,
           editorHtml: '',
@@ -80,7 +65,7 @@ export default class Notepad extends Component {
       this.setState({content:value})
     }
 
-    // Quilljs
+    // React-Quill funcs
     getInitialState = () => {
       return ({
         theme: 'snow',
@@ -143,6 +128,8 @@ export default class Notepad extends Component {
       this.setState({ readOnly: !this.state.readOnly });
     }
 
+
+    // React-Quill props
     modules = {
       toolbar: [
         [{ 'header': [1, 2, false] }],
@@ -160,35 +147,46 @@ export default class Notepad extends Component {
       'link', 'image'
     ];
   
-
     render () {
-      // console.log("RENDER STATE: ", this.state);
       const { editorState } = this.state;
       const editorType = this.state.editorType;
-
-      var editor = {};
-
+      let editor = {};
       switch (editorType) {
         case 'inline':
-          editor = <DanteEditor
-              key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
-              config={this.config}
-              body_placeholder={this.blocksFromHTML}
-              // data_storage
+        editor =     
+          <DanteEditor
+            key_commands={
+              { 
+                'alt-shift': [{ key: 65, cmd: 'add-new-block' }],
+                'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' },
+                { key: 50, cmd: 'toggle_block:header-two' },
+                { key: 53, cmd: 'toggle_block:blockquote' }, ],
+                cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, 
+                { key: 73, cmd: 'toggle_inline:ITALIC' }, 
+                { key: 75, cmd: 'insert:link' }, ], 
+              }
+            }
+            config={this.config}
+            body_placeholder={this.blocksFromHTML}
+            // data_storage
               //   ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
-              //   xhr
-              //   ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
-              // data_storage= {
-              //   save_handler= this.saveDanteContent (editorContext, content)
-              // }
+            //   xhr
+            //   ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
+            // data_storage= {
+            //   save_handler= this.saveDanteContent (editorContext, content)
+            // }
             />
             break;
           case 'full':
             editor = 
             <React.Fragment>
               <ReactQuill
-                  style={{marginLeft: '-20px', 
-                          marginTop: '-10px'}}
+                  style={
+                    {
+                      marginLeft: '-20px', 
+                      marginTop: '-10px'
+                    }
+                  }
                   placeholder={this.state.editorPlaceholderHtml}
                   value={this.state.editorHtml}
                   theme={this.state.theme}
@@ -199,7 +197,13 @@ export default class Notepad extends Component {
                   onChange={this.handleChange} />
                   <div className="quillThemeSwitcher">
                       <Select 
-                          style={{fontSize: '.85em', color: 'rgba(200, 200, 200, .95)', float: 'right !important'}}
+                          style={
+                            {
+                              fontSize: '.85em', 
+                              color: 'rgba(200, 200, 200, .95)',
+                              float: 'right !important'
+                            }
+                          }
                           className="quillThemeSwitcher"
                           dropdownMatchSelectWidth={true}
                           defaultValue="snow"
@@ -217,8 +221,19 @@ export default class Notepad extends Component {
             editor = null;
             break;
           default:
-            editor =     <DanteEditor
-                key_commands={{ 'alt-shift': [{ key: 65, cmd: 'add-new-block' }], 'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' }, { key: 50, cmd: 'toggle_block:header-two' }, { key: 53, cmd: 'toggle_block:blockquote' }, ], cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, { key: 73, cmd: 'toggle_inline:ITALIC' }, { key: 75, cmd: 'insert:link' }, ], }}
+            editor =     
+            <DanteEditor
+                key_commands={
+                  { 
+                    'alt-shift': [{ key: 65, cmd: 'add-new-block' }],
+                    'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' },
+                    { key: 50, cmd: 'toggle_block:header-two' },
+                    { key: 53, cmd: 'toggle_block:blockquote' }, ],
+                    cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, 
+                    { key: 73, cmd: 'toggle_inline:ITALIC' }, 
+                    { key: 75, cmd: 'insert:link' }, ], 
+                  }
+                }
                 config={this.config}
                 body_placeholder={this.blocksFromHTML}
               // data_storage
@@ -230,7 +245,6 @@ export default class Notepad extends Component {
               // }
             />
       } 
-
       return (
         <React.Fragment>
           {editor}       

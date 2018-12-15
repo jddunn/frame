@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 import JSONEditor from 'jsoneditor';
 import 'jsoneditor/dist/jsoneditor.css';

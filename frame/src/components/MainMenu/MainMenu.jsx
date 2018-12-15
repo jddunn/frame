@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
 import Resizable from 're-resizable';
-
 /** Sortable tree component */
 import SortableTree,
  { toggleExpandedForAll,
@@ -9,19 +8,16 @@ import SortableTree,
     removeNodeAtPath } from 'react-sortable-tree';
 /** Tree component with file explorer view */
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
-
+/** Modal / form input for new entry */
 import { EntryCreate } from '../EntryCreate/EntryCreate';
-
 /** Ant Design */
 import { Menu, Icon, Button, ButtonGroup, Input, Divider
  } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
-
 /** React-sortable-tree has so many style classes it'll be easier 
  *  to overwrite some of them here 
  */  
 import '../../lib/custom-vendor/react-sortable-tree-style.css';
-
 /** Local comp style */
 import './MainMenu.scss';
 
@@ -45,7 +41,6 @@ export default class MainMenu extends Component {
       collapsed: false, // Hamburger collapse
       width: 330,  
       height: 330,
-
       /* 'Entries' section of main menu has "file explorer" UI
           The vars below need it
       */
@@ -53,20 +48,16 @@ export default class MainMenu extends Component {
       searchFocusIndex: 0,
       searchFoundCount: null,
       isTreeCollapsed: false,
-
       addAsFirstChild: true,
-      
       /* treeData is the current "library" of entries loaded,
           from a JSON file as specified from config, or which is
           the last library loaded by the user.
       */
       treeData: [
       ],
-
       /* The type of explorer in Entries 
       */
       entriesEditorUsingJson: false,
-
       // Showing entry modal creation form
       visible: false
     };
@@ -527,21 +518,7 @@ export default class MainMenu extends Component {
                             }))
                           }
                         >
-                          Add more
-                        </button>
-                        <label htmlFor="addAsFirstChild">
-                          Add new nodes at start
-                          <input
-                            name="addAsFirstChild"
-                            type="checkbox"
-                            checked={this.state.addAsFirstChild}
-                            onChange={() =>
-                              this.setState(state => ({
-                                addAsFirstChild: !state.addAsFirstChild,
-                              }))
-                            }
-                          />
-                        </label> */}
+                        */} 
                   </div>
                 )}
               </div>

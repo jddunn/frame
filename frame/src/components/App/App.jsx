@@ -1,6 +1,8 @@
 'use strict';
+/** Global config file for app settings; TODO: Needs integrating */
 import config from '../../data/config.json';
-import exampleFLibrary from '../../data/libraries_collections/example/example.json'; // Example Frame entries
+/** Example Frame entries (loaded by default) */
+import exampleFLibrary from '../../data/libraries_collections/example/example.json';
 import React, { Component } from 'react';
 import {
          Row, Col, Layout, Menu, Breadcrumb,
@@ -8,17 +10,14 @@ import {
          Tooltip
          } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
-
 /** Menu with sortable tree component */
 import MainMenu from '../MainMenu/MainMenu';
 /** Notebook / Editor */
 import Notepad from '../Notepad/Notepad';
 /** Branding for logo / nav */
 import Brand from '../Brand/Brand';
-
 /** App global comp styles */
 import './App.scss';
-
 /** Data storage */
 import low from 'lowdb';
 import LocalStorage from 'lowdb/adapters/LocalStorage';
@@ -30,7 +29,6 @@ const savedSettings = config.savedSettings;
 const flibsPath = savedSettings.librariesPath;
 const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
-
 /*
   Lowdb
   TODO:Write logic to handle switching between LocalStorage
@@ -198,19 +196,6 @@ export default class App extends Component {
                    currViewedEntryId: 'example'              
     });
   }
-  
-
-  componentDidMount () {
-    let vals = db.get('entries');
-    if (vals.length <= 0) {
-      this.getExampleFLibData();
-      console.log("Loaded example entries as default lib");
-    } else {
-      // TODO: Add logic to handle loading the last Frame library
-      // that used by active user
-      console.log("Loaded last user library that was open");
-    }
-  }
 
   /**
    * Build menu container to hold global buttons and selects.
@@ -256,6 +241,18 @@ export default class App extends Component {
       </Menu.Item>    
     </Menu>
   );
+
+  componentDidMount () {
+    let vals = db.get('entries');
+    if (vals.length <= 0) {
+      this.getExampleFLibData();
+      console.log("Loaded example entries as default lib");
+    } else {
+      // TODO: Add logic to handle loading the last Frame library
+      // that used by active user
+      console.log("Loaded last user library that was open");
+    }
+  }
 
   render() {
     // By default editor mode for notes is Flow
@@ -338,5 +335,3 @@ export default class App extends Component {
         );
     }
 }
-
-
