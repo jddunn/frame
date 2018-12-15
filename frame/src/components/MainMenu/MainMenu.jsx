@@ -10,6 +10,8 @@ import SortableTree,
 /** Tree component with file explorer view */
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 
+import {EntryCreateForm} from '../EntryCreateForm/EntryCreateForm';
+
 /** Ant Design */
 import { Menu, Icon, Button, ButtonGroup, Input, Divider
  } from 'antd';
@@ -60,7 +62,10 @@ export default class MainMenu extends Component {
 
       /* The type of explorer in Entries 
       */
-      entriesEditorUsingJson: false
+      entriesEditorUsingJson: false,
+
+      // Showing entry modal creation form
+      visible: false
     };
     this.updateTreeData = this.updateTreeData.bind(this);
     
@@ -77,6 +82,7 @@ export default class MainMenu extends Component {
     this.selectPrevMatch = this.selectNextMatch.bind(this);
     this.selectNextMatch = this.selectNextMatch.bind(this);
     this.handleSwitchEntriesEditorType = this.handleSwitchEntriesEditorType.bind(this);
+    // For entry create modal
   }
 
   componentDidMount() {
@@ -100,11 +106,11 @@ export default class MainMenu extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this._editor) {
-      this._editor.set(this.props.Entries);
-      this.setState({treeData: this.props.Entries
+      this._editor.set(nextProps.Entries);
+      this.setState({treeData: nextProps.Entries
       });  
     } else {
-      this.setState({treeData: this.props.Entries,
+      this.setState({treeData: nextProps.Entries,
       });  
     }
   }
@@ -234,6 +240,35 @@ export default class MainMenu extends Component {
     );
   };
 
+
+  // Create a new entry with modal form
+
+  showModal = () => {
+    this.setState({ visible: true });
+  }
+
+  handleCancel = () => {
+    alert("NO");
+    this.setState({ visible: false });
+  }
+
+  handleCreate = () => {
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+
+      console.log('Received values of form: ', values);
+      form.resetFields();
+      this.setState({ visible: false });
+    });
+  }
+
+  saveFormRef = (formRef) => {
+    this.formRef = formRef;
+  }
+
   render() {
     const {
       treeData,
@@ -273,7 +308,7 @@ export default class MainMenu extends Component {
     } else {
       entriesEditorButtonType = 'browse';
     }
-
+    console.log(this.state.visible);
     return (
       <React.Fragment>     
         <Menu
@@ -309,8 +344,15 @@ export default class MainMenu extends Component {
                         ghost={true}
                         icon="file-add"
                         className="textButton"
+                        onClick={this.showModal}
                         >
                         New
+                        <EntryCreateForm
+                          wrappedComponentRef={this.saveFormRef}
+                          visible={this.state.visible}
+                          onCancel={this.handleCancel}
+                          onCreate={this.handleCreate}
+                          />
                         </Button>
                     </div>
                     <div className="primaryGhostButton"
@@ -528,3 +570,4 @@ export default class MainMenu extends Component {
     );
   }
 }
+
