@@ -18,6 +18,7 @@
   background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
   min-height: 250px;
   max-height: 1280px;
+  overflow-y: scroll !important;
 }
 
 .jsoneditor-menu {
