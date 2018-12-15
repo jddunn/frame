@@ -10,7 +10,7 @@ import SortableTree,
 /** Tree component with file explorer view */
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 
-import {EntryCreateForm} from '../EntryCreateForm/EntryCreateForm';
+import { EntryCreate } from '../EntryCreate/EntryCreate';
 
 /** Ant Design */
 import { Menu, Icon, Button, ButtonGroup, Input, Divider
@@ -24,6 +24,8 @@ import '../../lib/custom-vendor/react-sortable-tree-style.css';
 
 /** Local comp style */
 import './MainMenu.scss';
+
+import { getTimestamp } from '../../utils/get-timestamp';
 
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
@@ -337,24 +339,8 @@ export default class MainMenu extends Component {
               <Divider />
                 <div className="entriesEditorButtonsContainer">
                   <div className="mainEntriesButtonsWrapper">
-                    <div className="primaryGhostButton"
-                      style={{display: 'inline'}}>
-                      <Button 
-                        type="primary"
-                        ghost={true}
-                        icon="file-add"
-                        className="textButton"
-                        onClick={this.showModal}
-                        >
-                        New
-                        <EntryCreateForm
-                          wrappedComponentRef={this.saveFormRef}
-                          visible={this.state.visible}
-                          onCancel={this.handleCancel}
-                          onCreate={this.handleCreate}
-                          />
-                        </Button>
-                    </div>
+
+                        <EntryCreate/>
                     <div className="primaryGhostButton"
                       style={{display: 'inline'}}>
                       <Button 

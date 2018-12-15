@@ -147,6 +147,11 @@ html, body {
   border-radius: 5px;
 }
 
+.ant-btn-primary {
+  color: rgba(238, 238, 238, 0.9);
+  text-shadow: none !important;
+}
+
 .ant-dropdown-trigger {
   height: 32px;
   padding-right: 2px;
