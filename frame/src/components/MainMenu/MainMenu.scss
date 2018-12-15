@@ -72,14 +72,18 @@
 }
 
 #findBox {
+  background-color: rgba(87, 87, 87, 0.2) !important;
   margin: 0;
   margin-left: auto;
   margin-right: auto;
-  color: grey;
+  padding-bottom: 3px !important;
+  color: rgba(223, 223, 223, 0.9) !important;
   border: none;
-  height: 24px;
+  height: 22px;
+  font-size: .8em;
   margin-left: 10px;
   width: 180px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45) !important;
 }
 
 .searchArrowButtonsContainer {
@@ -88,18 +92,20 @@
 }
 
 .searchArrowButton {
-  height: 25px;
+  color: rgba(206, 206, 206, 0.8) !important;
+  height: 50px;
   margin: 1px;
-  width: 28px;
+  width: 35px;
   font-size: .8em;
   margin-top: -10px;
+  border-color: rgba(0,0,0,0.10) !important;
   /* padding: 10px; */
 }
 
 .entriesIndicesFoundContainer {
   display: inline;
   font-size: .85em;
-  color:  #e0ebeb;
+  color:  rgba(206, 206, 206, 0.8) !important;
 }
 
 .entriesEditorButtonsContainer {
@@ -116,11 +122,11 @@
 }
 
 .expandEntriesButtonsWrapper {
-  margin-left: 290px;
+  margin-top: 6px !important;
+  margin-left: 282px;
   z-index: 1000;
-  float: right;
-  margin-bottom: 40px;
-  position: absolute;
+  float: right !important;
+  position: absolute !important;
 }
 
 .treesEntriesContainer {
@@ -164,10 +170,12 @@
 }
 
 .rst__tree {
+  margin-top: 3px !important;
+  padding: 5px !important;
   height: 250px !important;
   margin-left: -5px !important;
   border-radius: 3px !important;
-  box-shadow: 1px 2px 2px 1px rgba(39, 39, 39, 0.85) !important;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
 }
 

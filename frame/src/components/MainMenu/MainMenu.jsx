@@ -351,7 +351,8 @@ export default class MainMenu extends Component {
                     <div className="searchArrowButtonsContainer">
                       <Button
                         className="searchArrowButton"
-                        type="primary"
+                        // type="primary"
+                        shape="circle" 
                         ghost={true} 
                         disabled={!searchFoundCount}
                         onClick={this.selectPrevMatch}
@@ -360,7 +361,8 @@ export default class MainMenu extends Component {
                       </Button>
                       <Button
                         className="searchArrowButton"
-                        type="primary"
+                        // type="primary"
+                        shape="circle" 
                         ghost={true} 
                         disabled={!searchFoundCount}
                         onClick={this.selectNextMatch}
