@@ -78,23 +78,12 @@ const EntryCreateForm = Form.create()(
               {getFieldDecorator('category tags', {
               })(<Input placeholder="Enter words separated by commas" type="textarea" />)}
             </FormItem>
-
             {/* <FormItem label="Date Modified"
               {...formItemLayout}
               >
               {getFieldDecorator('date created', {
                 initialValue: timestampNow,
               })(<Input disabled={true} type="textarea" />)}
-            </FormItem> */}
-            {/* <FormItem className="collection-create-form_last-form-item">
-              {getFieldDecorator('modifier', {
-                initialValue: 'public',
-              })(
-                <Radio.Group>
-                  <Radio value="public">Public</Radio>
-                  <Radio value="private">Private</Radio>
-                </Radio.Group>
-              )}
             </FormItem> */}
           </Form>
         </Modal>
@@ -135,7 +124,7 @@ export class EntryCreate extends Component {
   render() {
     return (
       <div className="primaryGhostButton"
-      style={{display: 'inline'}}>
+        style={{display: 'inline'}}>
         <Button 
           type="primary"
           ghost={true} 
@@ -146,10 +135,10 @@ export class EntryCreate extends Component {
           New
           </Button>
           <EntryCreateForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
+            wrappedComponentRef={this.saveFormRef}
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
+            onCreate={this.handleCreate}
           />
       </div>
     );

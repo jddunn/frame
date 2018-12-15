@@ -25,7 +25,8 @@ import '../../lib/custom-vendor/react-sortable-tree-style.css';
 /** Local comp style */
 import './MainMenu.scss';
 
-import { getTimestamp } from '../../utils/get-timestamp';
+import getTimestamp from '../../utils/get-timestamp';
+import generateUUID from '../../utils/generate-uuid';
 
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
@@ -53,7 +54,7 @@ export default class MainMenu extends Component {
       searchFoundCount: null,
       isTreeCollapsed: false,
 
-      addAsFirstChild: false,
+      addAsFirstChild: true,
       
       /* treeData is the current "library" of entries loaded,
           from a JSON file as specified from config, or which is
@@ -311,6 +312,13 @@ export default class MainMenu extends Component {
       entriesEditorButtonType = 'browse';
     }
     console.log(this.state.visible);
+
+    // Get these default vals for inline entry creation
+    const timestampNow = getTimestamp();
+    const subtitlePlaceholderText = timestampNow + ' ';
+    const uuid = generateUUID();
+    const newChildEntryTitle = `New entry`;
+
     return (
       <React.Fragment>     
         <Menu
@@ -339,8 +347,7 @@ export default class MainMenu extends Component {
               <Divider />
                 <div className="entriesEditorButtonsContainer">
                   <div className="mainEntriesButtonsWrapper">
-
-                        <EntryCreate/>
+                    <EntryCreate/>
                     <div className="primaryGhostButton"
                       style={{display: 'inline'}}>
                       <Button 
@@ -417,7 +424,6 @@ export default class MainMenu extends Component {
                     icon="minus" onClick={this.collapseAll}
                     />
                   </div>
-                  
                   <div>
                     <SortableTree
                       treeData={this.state.treeData}
@@ -464,7 +470,13 @@ export default class MainMenu extends Component {
                                   expandParent: true,
                                   getNodeKey: getNodeKey,
                                   newNode: {
-                                    title: `New entry`,
+                                    title: newChildEntryTitle,
+                                    subtitle: subtitlePlaceholderText,
+                                    timestampCreated: timestampNow,
+                                    timestampLastModified: null,
+                                    editorType: "default",
+                                    data: {},
+                                    dragDisabled: false
                                   },
                                   addAsFirstChild: state.addAsFirstChild,
                                 }).treeData,
