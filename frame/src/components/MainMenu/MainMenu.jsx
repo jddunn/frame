@@ -228,15 +228,13 @@ export default class MainMenu extends Component {
       .join(',\n   ');
   
     global.alert(
-      'Info passed to the button generator:\n\n' +
-        `node: {\n   ${objectString}\n},\n` +
-        `path: [${path.join(', ')}],\n` +
-        `treeIndex: ${treeIndex}`
+        `{\n   ${objectString}\n},\n`
+        // `path: [${path.join(', ')}],\n` +
+        // `treeIndex: ${treeIndex}`
     );
   };
 
   render() {
-    
     const {
       treeData,
       searchString,
@@ -293,185 +291,192 @@ export default class MainMenu extends Component {
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
+
           <Menu.Item key="1" style={{marginTop: '20px'}}>
             <Icon type="desktop" />
             <span>Look</span>
           </Menu.Item>
-          <SubMenu key="sub2" title={<span><Icon type="snippets"/>
-            <span>Entries</span></span>}>
+
+            <SubMenu key="sub2" title={<span><Icon type="snippets"/>
+              <span>Entries</span></span>}>
               <Divider />
                 <div className="entriesEditorButtonsContainer">
                   <div className="mainEntriesButtonsWrapper">
                     <div className="primaryGhostButton"
-                          style={{display: 'inline'}}>
-                    <Button 
-                      className="primaryGhostButton"
-                      type="primary"
-                      ghost={true}
-                      icon="file-add"
-                      className="textButton"
-                      >
-                      New
-                      </Button>
+                      style={{display: 'inline'}}>
+                      <Button 
+                        className="primaryGhostButton"
+                        type="primary"
+                        ghost={true}
+                        icon="file-add"
+                        className="textButton"
+                        >
+                        New
+                        </Button>
                     </div>
                     <div className="primaryGhostButton"
-                          style={{display: 'inline'}}>
-                    <Button 
-                      type="primary"
-                      ghost={true} 
-                      icon="edit"
-                      onClick={this.handleSwitchEntriesEditorType}
-                      className="textButton"
-                      >
-                      {entriesEditorButtonType.charAt(0).toUpperCase() +
-                                      entriesEditorButtonType.slice(1) + ' ' 
-                                      + ''}
-                    </Button>
+                      style={{display: 'inline'}}>
+                      <Button 
+                        type="primary"
+                        ghost={true} 
+                        icon="edit"
+                        onClick={this.handleSwitchEntriesEditorType}
+                        className="textButton"
+                        >
+                        {entriesEditorButtonType.charAt(0).toUpperCase() +
+                          entriesEditorButtonType.slice(1) + ' ' 
+                          + ''}
+                      </Button>
                     </div>
-                  </div>
-
+                </div>
             </div>
             {/* Start sortable tree comp for entries */}
             <div className="treesEntriesContainer">
                 {entriesEditorUsingJson ? (
-                    <div className="jsonEditorMainMenu">
-                      <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
-                    </div>
+                  <div className="jsonEditorMainMenu">
+                    <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
+                  </div>
                 ) : (
                   <div>
-                <div className="entriesButtonsContainer">
-                <Search
-                      id="findBox"
-                      value={searchString}
-                      placeholder={entriesSearchPlaceholderText}
-                      onChange={event =>
-                        this.setState({ searchString: event.target.value })
-                      }
-                      style={{ width: 200 }}
-                  />
-                  <div className="searchArrowButtonsContainer">
-                    <Button
-                      className="searchArrowButton"
-                      type="primary"
-                      ghost={true} 
-                      disabled={!searchFoundCount}
-                      onClick={this.selectPrevMatch}
-                    >
-                      <Icon size="small" type="left" />
-                    </Button>
-                    <Button
-                      className="searchArrowButton"
-                      type="primary"
-                      ghost={true} 
-                      disabled={!searchFoundCount}
-                      onClick={this.selectNextMatch}
-                    >                  
-                      <Icon size="small" type="right" />
-                    </Button>
-                  </div>
-
-                <span className="entriesIndicesFoundContainer">
-                    &nbsp;
-                    {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-                    {' / '}
-                    {searchFoundCount || 0}
-                </span>
-
-                </div>
-
-                    <div className="expandEntriesButtonsWrapper">
-                      <Button 
-                        shape="circle" 
-                        ghost={true}
-                        icon="plus"
-                        onClick={this.expandAll}
-                        />
+                    <div className="entriesButtonsContainer">
+                      <Search
+                        id="findBox"
+                        value={searchString}
+                        placeholder={entriesSearchPlaceholderText}
+                        onChange={event =>
+                          this.setState({ searchString: event.target.value })
+                        }
+                        style={{ width: 200 }}
+                      />
+                    <div className="searchArrowButtonsContainer">
                       <Button
-                        shape="circle" 
-                        ghost={true}
-                        icon="minus" onClick={this.collapseAll}
-                        />
+                        className="searchArrowButton"
+                        type="primary"
+                        ghost={true} 
+                        disabled={!searchFoundCount}
+                        onClick={this.selectPrevMatch}
+                      >
+                        <Icon size="small" type="left" />
+                      </Button>
+                      <Button
+                        className="searchArrowButton"
+                        type="primary"
+                        ghost={true} 
+                        disabled={!searchFoundCount}
+                        onClick={this.selectNextMatch}
+                      >                  
+                        <Icon size="small" type="right" />
+                      </Button>
                     </div>
-                        <div>
-                          <SortableTree
-                            treeData={this.state.treeData}
-                            onChange={this.updateTreeData}
-                            searchQuery={searchString}
-                            searchFocusOffset={searchFocusIndex}
-                            style={
-                              {
-                                forceSubMenuRender: true,
-                                inlineCollapsed: true,
-                                minWidth: '180px',
-                                height: treeHeight,
-                                rowHeight: 10,
-                                backgroundColor: 'transparent',
-                                background: 'transparent',
-                                color: 'grey',
-                              }
-                            }
-                            // rowHeight={45}
-                            searchFinishCallback={matches =>
-                              this.setState({
-                                searchFoundCount: matches.length,
-                                searchFocusIndex:
-                                  matches.length > 0 ? searchFocusIndex % matches.length : 0,
-                              })
-                            }
-                            generateNodeProps={rowInfo => ({
-                              buttons: [
-                              <Button
-                                shape="circle" 
-                                ghost={true}
-                                className="rowContentsToolbarIcon"
-                                onClick={() => this.alertNodeInfo(rowInfo)}
-                                >
-                                <Icon size="small" type="left" />
-                              </Button>,
+                    <span className="entriesIndicesFoundContainer">
+                      &nbsp;
+                      {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+                      {' / '}
+                      {searchFoundCount || 0}
+                    </span>
+                </div>
+                <div className="expandEntriesButtonsWrapper">
+                  <Button 
+                    shape="circle" 
+                    ghost={true}
+                    icon="plus"
+                    onClick={this.expandAll}
+                    />
+                  <Button
+                    shape="circle" 
+                    ghost={true}
+                    icon="minus" onClick={this.collapseAll}
+                    />
+                  </div>
+                  
+                  <div>
+                    <SortableTree
+                      treeData={this.state.treeData}
+                      onChange={this.updateTreeData}
+                      searchQuery={searchString}
+                      searchFocusOffset={searchFocusIndex}
+                      style={
+                          {
+                            forceSubMenuRender: true,
+                            inlineCollapsed: true,
+                            height: treeHeight,
+                            backgroundColor: 'transparent',
+                            background: 'transparent',
+                            color: 'grey',
+                          }
+                      }
+                      searchFinishCallback={matches =>
+                        this.setState({
+                          searchFoundCount: matches.length,
+                          searchFocusIndex:
+                            matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                          })
+                        }
+                      generateNodeProps={rowInfo => ({
+                        buttons: [
+                          <Button
+                            shape="circle" 
+                            ghost={true}
+                            className="rowContentsToolbarIcon"
+                            onClick={() => this.alertNodeInfo(rowInfo)}
+                            >
+                              <Icon size="small" type="left" />
+                          </Button>,
 
-                                <button
-                                  onClick={() =>
-                                    this.setState(state => ({
-                                      treeData: addNodeUnderParent({
-                                        treeData: state.treeData,
-                                        parentKey: rowInfo.path[rowInfo.path.length - 1],
-                                        expandParent: true,
-                                        getNodeKey: getNodeKey,
-                                        newNode: {
-                                          title: `New entry`,
-                                        },
-                                        addAsFirstChild: state.addAsFirstChild,
-                                      }).treeData,
-                                    }))
-                                  }
-                                >
-                                  Add Child
-                                </button>,
-                                <button
-                                  onClick={() =>
-                                    this.setState(state => ({
-                                      treeData: removeNodeAtPath({
-                                        treeData: state.treeData,
-                                        path: rowInfo.path,
-                                        getNodeKey: getNodeKey
-                                      }),
-                                    }))
-                                  }
-                                >
-                                  Remove
-                                </button>,
-                              ],
-                            })}
-                            
-                          />
+                          <Button
+                            shape="circle" 
+                            ghost={true}
+                            className="rowContentsToolbarButtonPlus"
+                            onClick={() =>
+                              this.setState(state => ({
+                                treeData: addNodeUnderParent({
+                                  treeData: state.treeData,
+                                  parentKey: rowInfo.path[rowInfo.path.length - 1],
+                                  expandParent: true,
+                                  getNodeKey: getNodeKey,
+                                  newNode: {
+                                    title: `New entry`,
+                                  },
+                                  addAsFirstChild: state.addAsFirstChild,
+                                }).treeData,
+                              }))
+                            }                  
+                            >
+                              <Icon size="small" type="plus" />
+                          </Button>,
+
+                          <Button
+                            shape="circle" 
+                            ghost={true}
+                            className="rowContentsToolbarButtonMinus"
+                            onClick={() =>
+                              this.setState(state => ({
+                                treeData: removeNodeAtPath({
+                                  treeData: state.treeData,
+                                  path: rowInfo.path,
+                                  getNodeKey: getNodeKey
+                                }),
+                              }))
+                            }
+                            >
+                              <Icon size="small" type="close" />
+                            </Button>,
+                          ],
+                        })}
+                      />
                       <div className="footerContainer">
-                        <p className="footerNoteText" style={{float: 'right', marginTop: '-10px', marginRight: '5px'}}>
+                        <p className="footerNoteText" 
+                          style={ 
+                            { 
+                              float: 'right',
+                              marginTop: '-10px',
+                              marginRight: '5px' 
+                            } 
+                          }>
                           {treeLength + ' entries recorded'}
                         </p>
                       </div>
-
                     </div>
-
                         {/* <button
                           onClick={() =>
                             this.setState(state => ({
@@ -483,7 +488,6 @@ export default class MainMenu extends Component {
                         >
                           Add more
                         </button>
-                        <br />
                         <label htmlFor="addAsFirstChild">
                           Add new nodes at start
                           <input
@@ -497,7 +501,7 @@ export default class MainMenu extends Component {
                             }
                           />
                         </label> */}
-                      </div>
+                  </div>
                 )}
               </div>
               {/* End sortable tree */}
