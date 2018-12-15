@@ -165,21 +165,10 @@
 
 .rst__tree {
   height: 250px !important;
-  // max-height: 250px;
-  // background-color: white !important;
-  border-radius: 5px !important;
-  // border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
-	box-shadow: 1px 2px 2px 1px rgba(39, 39, 39, 0.85) !important;
+  margin-left: -5px !important;
+  border-radius: 3px !important;
+  box-shadow: 1px 2px 2px 1px rgba(39, 39, 39, 0.85) !important;
   background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
-  // background-color: transparent !important;
-}
-
-/* React tree library class overrides */
-.rst__tree .treesEntriesContainer {
-}
-
-.rst__rowContentsDragDisabled {
-  // box-shadow: 2px 3px white, -2px -3px white !important;
 }
 
 .rst__rowLabel {
@@ -188,12 +177,10 @@
 }
 .rst__Toolbar {
   background-color: transparent !important;
-  // display:  none !important;
 }
 
 .rst__toolbarButton {
   background-color: transparent !important;
-  // display:  none !important;
 }
 
 .rst__collapseButton {
@@ -209,34 +196,28 @@
   min-width: 240px;
 }
 
-.rst__rowTitleWithSubtitle {
-
-  height: 10px !important;
-}
-
-.rst__rowTitleWithSubtitle {
-
-}
-
-
 .rst__moveHandle {
-  margin-top: -2px;
-  height: 15px !important;
-  background-color: transparent !important;
+  margin-top: 4px;
+  height: 8px !important;
+  background-color: rgba(0,0,0,0.10);
+  // background-color: transparent !important;
 }
 
 .rst__rowContents {
-  // box-shadow: 1px 2px white, -1px -2px white !important;
-  // border: none;
   box-shadow: none !important;
   min-width: 240px !important;
   height: 35px !important;
-  letter-spacing: 0px;
   font-size: .85vmax !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 5px !important;
   background-color: transparent !important;
   color: rgb(17, 17, 17) !important;
+}
+
+.rst__rowContents span {
+  padding: 0 !important;
+  margin: 0 !important;
+  letter-spacing: 0px !important;
 }
 
 .rst__rowSubtitle {
@@ -313,4 +294,50 @@
 
 .primaryGhostButton:hover {
   cursor: pointer !important;
+}
+
+.rowContentsToolbarIcon {
+  color: rgb(58, 178, 248);
+  border: none !important;
+  float: left !important;
+  height: 15px !important;
+  font-size: .85em !important;
+  width: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin-left: -20px !important;
+  position: absolute !important;
+}
+
+.rowContentsToolbarButtonPlus {
+  color: rgba(32, 136, 255, 0.95) !important;
+  border: none !important;
+  float: left !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 25px !important;
+  padding-top: 1px !important;
+  margin-left: -25px !important;
+  font-size: 1.20em !important;
+  width: 25px !important;
+  position: absolute !important;
+  text-shadow: 0 0 1px rgba(34, 25, 25, 0.8);
+}
+
+.rowContentsToolbarButtonMinus {
+  color: rgba(255, 14, 66, 0.575) !important;
+  border: none !important;
+  float: left !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 25px !important;
+  padding: -7px !important;
+  font-size: .80em !important;
+  margin-left: -8px !important;
+  margin-top: 25px !important;
+  width: 15px !important;
+  position: absolute !important;
+  text-shadow: 0 0 1px rgba(34, 25, 25, 0.8);
 }
