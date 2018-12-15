@@ -343,6 +343,7 @@ export default class MainMenu extends Component {
                       style={{display: 'inline'}}>
                       <Button 
                         type="primary"
+                        className="saveLoadButton"
                         ghost={true} 
                         icon="edit"
                         onClick={this.handleSwitchEntriesEditorType}
@@ -353,6 +354,22 @@ export default class MainMenu extends Component {
                           + ''}
                       </Button>
                     </div>
+                    <div className="saveLoadExportButtonsContainer">
+                      <Button 
+                        shape="circle" 
+                        className="saveLoadButton"
+                        ghost={true}
+                        icon="save"
+                        // onClick={this.expandAll}
+                        />
+                      <Button
+                        shape="circle" 
+                        className="exportButton"
+                        ghost={true}
+                        icon="export"
+                        // onClick={this.collapseAll}
+                      />
+                  </div>
                 </div>
             </div>
             {/* Start sortable tree comp for entries */}
@@ -463,6 +480,7 @@ export default class MainMenu extends Component {
                                   newNode: {
                                     title: newChildEntryTitle,
                                     subtitle: subtitlePlaceholderText,
+                                    id: uuid,
                                     timestampCreated: timestampNow,
                                     timestampLastModified: null,
                                     editorType: "default",

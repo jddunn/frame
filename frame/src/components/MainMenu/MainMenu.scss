@@ -61,61 +61,6 @@
   border-radius: 20px !important;
 }
 
-.entriesButtonsContainer {
-  margin-top: 10px;
-  margin: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  // padding: 10p0x;
-}
-
-#findBox {
-  background-color: rgba(87, 87, 87, 0.2) !important;
-  margin: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: 3px !important;
-  color: rgba(223, 223, 223, 0.9) !important;
-  border: none;
-  height: 22px;
-  font-size: .8em;
-  margin-left: 11px;
-  width: 175px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45) !important;
-}
-
-.searchArrowButtonsContainer {
-  display: inline-block;
-  margin-left: -10px;
-}
-
-.searchArrowButton {
-  color: rgba(206, 206, 206, 0.8) !important;
-  height: 50px;
-  margin: 1px;
-  width: 35px;
-  font-size: .8em;
-  margin-top: -10px;
-  border-color: rgba(0,0,0,0.10) !important;
-  /* padding: 10px; */
-}
-
-.entriesIndicesFoundContainer {
-  display: inline;
-  letter-spacing: 3px !important;
-  font-size: 1.0em !important;
-  color:  rgba(206, 206, 206, 0.8) !important;
-}
-
-.entriesEditorButtonsContainer {
-  margin: 0;
-  margin-left: auto;
-  margin-right: auto;
-  margin-left: 0px;
-  margin-top: 8px;
-}
 
 .mainEntriesButtonsWrapper {
   display: inline;
@@ -171,7 +116,7 @@
 }
 
 .rst__tree {
-  margin-top: 3px !important;
+  margin-top: 6px !important;
   padding: 5px !important;
   height: 250px !important;
   margin-left: -5px !important;
@@ -345,4 +290,81 @@
 .rst__rowSearchFocus {
   outline: none !important;
   background-color: rgba(19, 169, 255, 0.387) !important;
+}
+
+// Custom buttons
+
+.entriesButtonsContainer {
+  margin-top: 10px;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  // padding: 10p0x;
+}
+
+#findBox {
+  background-color: rgba(87, 87, 87, 0.2) !important;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  padding-bottom: 3px !important;
+  color: rgba(223, 223, 223, 0.9) !important;
+  border: none;
+  height: 22px;
+  font-size: .8em;
+  margin-left: 11px;
+  width: 175px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45) !important;
+}
+
+.searchArrowButtonsContainer {
+  display: inline-block;
+  margin-left: -10px;
+}
+
+.searchArrowButton {
+  color: rgba(206, 206, 206, 0.8) !important;
+  height: 50px;
+  margin: 1px;
+  width: 35px;
+  font-size: .8em;
+  margin-top: -10px;
+  border-color: rgba(0,0,0,0.10) !important;
+  /* padding: 10px; */
+}
+
+.entriesIndicesFoundContainer {
+  display: inline;
+  letter-spacing: 3px !important;
+  font-size: 1.0em !important;
+  color:  rgba(206, 206, 206, 0.8) !important;
+}
+
+.entriesEditorButtonsContainer {
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-left: 0px;
+  margin-top: 8px;
+}
+
+.saveLoadExportButtonsContainer {
+  margin-top: -5px;
+  float: right;
+  margin-right: 30px;
+}
+
+.saveLoadButton {
+  border: none !important;
+  font-size: 1.6em !important;
+  color: rgba(248, 248, 248, 0.787) !important;
+}
+
+.exportButton {
+  border: none !important;
+  font-size: 1.68em !important;
+  color: rgba(248, 248, 248, 0.787) !important;
 }
