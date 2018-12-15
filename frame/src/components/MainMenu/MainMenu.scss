@@ -220,8 +220,8 @@
 
 
 .rst__moveHandle {
-  margin-top: -2px;
-  height: 15px !important;
+  margin-top: 4px;
+  height: 10px !important;
   background-color: transparent !important;
 }
 
@@ -314,3 +314,28 @@
 .primaryGhostButton:hover {
   cursor: pointer !important;
 }
+
+.rowContentsToolbarIcon {
+  // font-weight: bold !important;
+  color: rgb(58, 178, 248);
+  border: none !important;
+  float: left !important;
+  height: 15px !important;
+  font-size: .85em !important;
+  width: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin-left: -20px !important;
+  position: absolute !important;
+}
+
+.ant-popover-inner {
+  background-color: blue;
+}
+
+.rowContentsToolbarIcon:hover ~.ant-popover-inner{
+  background-color: red !important;
+}
+

@@ -11,7 +11,8 @@ import SortableTree,
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 
 /** Ant Design */
-import { Menu, Icon, Button, ButtonGroup, Input, Divider } from 'antd';
+import { Menu, Icon, Button, ButtonGroup, Input, Divider
+ } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 
 /** React-sortable-tree has so many style classes it'll be easier 
@@ -221,20 +222,18 @@ export default class MainMenu extends Component {
     }));
   }
 
-  showNodeInfo() {
-    const alertNodeInfo = ({ node, path, treeIndex }) => {
-      const objectString = Object.keys(node)
-        .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
-        .join(',\n   ');
-    
-      alert(
-        'Info passed to the button generator:\n\n' +
-          `node: {\n   ${objectString}\n},\n` +
-          `path: [${path.join(', ')}],\n` +
-          `treeIndex: ${treeIndex}`
-      );
-    };
-  }
+  alertNodeInfo = ({ node, path, treeIndex }) => {
+    const objectString = Object.keys(node)
+      .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
+      .join(',\n   ');
+  
+    global.alert(
+      'Info passed to the button generator:\n\n' +
+        `node: {\n   ${objectString}\n},\n` +
+        `path: [${path.join(', ')}],\n` +
+        `treeIndex: ${treeIndex}`
+    );
+  };
 
   render() {
     
@@ -245,9 +244,7 @@ export default class MainMenu extends Component {
       searchFoundCount,
       isTreeCollapsedsed
     } = this.state;
-
     const getNodeKey = ({ treeIndex }) => treeIndex;
-    
     const { onChangeTreeData } = this.props;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
 
@@ -386,14 +383,12 @@ export default class MainMenu extends Component {
                       <Button 
                         shape="circle" 
                         ghost={true}
-                        className="entriesBrowserToolbarIcon"
                         icon="plus"
                         onClick={this.expandAll}
                         />
                       <Button
                         shape="circle" 
                         ghost={true}
-                        className="entriesBrowserToolbarIcon"
                         icon="minus" onClick={this.collapseAll}
                         />
                     </div>
@@ -423,25 +418,25 @@ export default class MainMenu extends Component {
                                   matches.length > 0 ? searchFocusIndex % matches.length : 0,
                               })
                             }
-                            generateNodeProps={({ node, path }) => ({
+                            generateNodeProps={rowInfo => ({
                               buttons: [
-                                <button
-                                className="btn btn-outline-success"
-                                style={{
-                                  verticalAlign: 'middle',
-                                }}
-                                  onClick={() => this.showNodeInfo(node)}
+                              <Button
+                                shape="circle" 
+                                ghost={true}
+                                className="rowContentsToolbarIcon"
+                                onClick={() => this.alertNodeInfo(rowInfo)}
                                 >
-                                ℹ
-                              </button>,
+                                <Icon size="small" type="left" />
+                              </Button>,
+
                                 <button
                                   onClick={() =>
                                     this.setState(state => ({
                                       treeData: addNodeUnderParent({
                                         treeData: state.treeData,
-                                        parentKey: path[path.length - 1],
+                                        parentKey: rowInfo.path[rowInfo.path.length - 1],
                                         expandParent: true,
-                                        getNodeKey,
+                                        getNodeKey: getNodeKey,
                                         newNode: {
                                           title: `New entry`,
                                         },
@@ -457,8 +452,8 @@ export default class MainMenu extends Component {
                                     this.setState(state => ({
                                       treeData: removeNodeAtPath({
                                         treeData: state.treeData,
-                                        path,
-                                        getNodeKey,
+                                        path: rowInfo.path,
+                                        getNodeKey: getNodeKey
                                       }),
                                     }))
                                   }
