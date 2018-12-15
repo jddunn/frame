@@ -326,12 +326,10 @@ export default class MainMenu extends Component {
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
-
           <Menu.Item key="1" style={{marginTop: '20px'}}>
             <Icon type="desktop" />
             <span>Look</span>
           </Menu.Item>
-
             <SubMenu key="sub2" title={<span><Icon type="snippets"/>
               <span>Entries</span></span>}>
               <Divider />

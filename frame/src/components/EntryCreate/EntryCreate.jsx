@@ -19,6 +19,13 @@ const EntryCreateForm = Form.create()(
 
     constructor(props) {
       super(props);
+      /*
+         We build the 'subtitle' field of an entry dynamically with 
+         a timestamp and from the category tags (so that the subtitle)
+         can be used to search for tags and dates. Because of this,
+         we need to keep track of the entryTags from the specific 
+         input field with state.
+      */
       this.state = {entryTags: {}};
       this.handleTagsInputChange = this.handleTagsInputChange.bind(this);
     }
@@ -27,6 +34,7 @@ const EntryCreateForm = Form.create()(
       let val;
       let tags = [];
       val = event.target.value.trim();
+      val = val.split(/[^a-zA-Z-]+/g).filter(v=>v).join(', ');
       try {
         vals = val.split(',');
         for (let i=0; i<vals.length; i++) {
@@ -118,8 +126,9 @@ const EntryCreateForm = Form.create()(
               >
               {getFieldDecorator('category tags', {
               })(<Input 
-                  placeholder='Separate tags with ", "' type="textarea" 
-                  onChange={this.handleTagsInputChange} 
+                  placeholder='Separate tags by spaces and punct' type="textarea" 
+                  onChange={this.handleTagsInputChange}
+                  value={entryTags.toString()} 
               />)}
             </FormItem>
             {/* <FormItem label="Date Modified"
