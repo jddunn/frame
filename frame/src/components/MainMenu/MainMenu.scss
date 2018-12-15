@@ -333,3 +333,13 @@
   position: absolute !important;
   text-shadow: 0 0 1px rgba(34, 25, 25, 0.8);
 }
+
+.rst__rowSearchMatch {
+  outline: none !important;
+  background-color: rgba(79, 171, 224, 0.13) !important;
+}
+
+.rst__rowSearchFocus {
+  outline: none !important;
+  background-color: rgba(19, 169, 255, 0.387) !important;
+}
