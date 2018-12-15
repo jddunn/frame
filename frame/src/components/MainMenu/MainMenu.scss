@@ -116,6 +116,8 @@
 }
 
 .rst__tree {
+  margin-right: -4px !important;
+  margin-bottom: -7px !important;
   margin-top: 6px !important;
   padding: 5px !important;
   height: 250px !important;
@@ -359,12 +361,12 @@
 
 .saveLoadButton {
   border: none !important;
-  font-size: 1.6em !important;
+  font-size: 1.4em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }
 
 .exportButton {
   border: none !important;
-  font-size: 1.68em !important;
+  font-size: 1.45em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }
