@@ -104,7 +104,8 @@
 
 .entriesIndicesFoundContainer {
   display: inline;
-  font-size: .85em;
+  letter-spacing: 3px !important;
+  font-size: 1.0em !important;
   color:  rgba(206, 206, 206, 0.8) !important;
 }
 
@@ -292,14 +293,16 @@
   color: rgb(58, 178, 248);
   border: none !important;
   float: left !important;
-  height: 15px !important;
-  font-size: .85em !important;
-  width: 15px !important;
+  height: 20px !important;
+  font-size: 1.255em !important;
+  font-weight: bold !important;
+  width: 20px !important;
   margin: 0 !important;
   padding: 0 !important;
   top: 0 !important;
   left: 0 !important;
-  margin-left: -20px !important;
+  margin-top: -5px !important;
+  margin-left: -25px !important;
   position: absolute !important;
 }
 

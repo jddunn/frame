@@ -372,7 +372,7 @@ export default class MainMenu extends Component {
                     <span className="entriesIndicesFoundContainer">
                       &nbsp;
                       {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-                      {' / '}
+                      {'/'}
                       {searchFoundCount || 0}
                     </span>
                 </div>
