@@ -81,14 +81,14 @@
   border: none;
   height: 22px;
   font-size: .8em;
-  margin-left: 10px;
-  width: 180px;
+  margin-left: 11px;
+  width: 175px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45) !important;
 }
 
 .searchArrowButtonsContainer {
   display: inline-block;
-  margin-left: -5px;
+  margin-left: -10px;
 }
 
 .searchArrowButton {
@@ -154,7 +154,7 @@
   font-size: .7em;
   margin: 2px;
   height: 25px;
-  width: 125px;
+  width: 110px;
   font-size: .8em;
   color: white !important;
 }
@@ -298,6 +298,9 @@
   border-color: rgba(255, 223, 0, .8) !important;
   color: rgb(255,223,0) !important;
   text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
+}
+
+.primaryGhostButton {
 }
 
 .primaryGhostButton:hover {

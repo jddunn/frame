@@ -305,7 +305,6 @@ export default class MainMenu extends Component {
                     <div className="primaryGhostButton"
                       style={{display: 'inline'}}>
                       <Button 
-                        className="primaryGhostButton"
                         type="primary"
                         ghost={true}
                         icon="file-add"
