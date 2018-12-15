@@ -207,12 +207,17 @@
   box-shadow: none !important;
   min-width: 240px !important;
   height: 35px !important;
-  letter-spacing: 0px;
   font-size: .85vmax !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 5px !important;
   background-color: transparent !important;
   color: rgb(17, 17, 17) !important;
+}
+
+.rst__rowContents span {
+  padding: 0 !important;
+  margin: 0 !important;
+  letter-spacing: 0px !important;
 }
 
 .rst__rowSubtitle {
@@ -322,14 +327,14 @@
 }
 
 .rowContentsToolbarButtonMinus {
-  color: rgba(255, 14, 66, 0.55) !important;
+  color: rgba(255, 14, 66, 0.575) !important;
   border: none !important;
   float: left !important;
   bottom: 0 !important;
   left: 0 !important;
   height: 25px !important;
   padding: -7px !important;
-  font-size: .90em !important;
+  font-size: .80em !important;
   margin-left: -8px !important;
   margin-top: 25px !important;
   width: 15px !important;
