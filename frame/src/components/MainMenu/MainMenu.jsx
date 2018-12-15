@@ -293,7 +293,6 @@ export default class MainMenu extends Component {
       console.log("Could not find entries");
       foundEntries = false;
     }
-    
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
     const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
     let entriesEditorButtonType;
@@ -302,13 +301,13 @@ export default class MainMenu extends Component {
     } else {
       entriesEditorButtonType = 'browse';
     }
-    console.log(this.state.visible);
 
-    // Get these default vals for inline entry creation
+    // Get these default vals for inline child entry creation
     const timestampNow = getTimestamp();
-    const subtitlePlaceholderText = timestampNow + ' ';
+    // TODO: Make tags a default inherited value from the parent child entry
     const uuid = generateUUID();
     const newChildEntryTitle = `New entry`;
+    const newChildSubtitlePlaceholderText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0' + 'Tags: none';
 
     return (
       <React.Fragment>     
@@ -327,12 +326,10 @@ export default class MainMenu extends Component {
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
-
           <Menu.Item key="1" style={{marginTop: '20px'}}>
             <Icon type="desktop" />
             <span>Look</span>
           </Menu.Item>
-
             <SubMenu key="sub2" title={<span><Icon type="snippets"/>
               <span>Entries</span></span>}>
               <Divider />
@@ -479,7 +476,7 @@ export default class MainMenu extends Component {
                                   getNodeKey: getNodeKey,
                                   newNode: {
                                     title: newChildEntryTitle,
-                                    subtitle: subtitlePlaceholderText,
+                                    subtitle: newChildSubtitlePlaceholderText,
                                     id: uuid,
                                     timestampCreated: timestampNow,
                                     timestampLastModified: null,

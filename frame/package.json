@@ -42,6 +42,7 @@
         "history": "^4.7.2",
         "install": "^0.12.2",
         "jsoneditor": "^5.26.3",
+        "localforage": "^1.7.3",
         "lowdb": "^1.0.0",
         "node-prismjs": "^0.1.2",
         "prop-types": "^15.6.2",

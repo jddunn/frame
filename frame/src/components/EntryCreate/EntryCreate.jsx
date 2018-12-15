@@ -3,16 +3,49 @@ import React, { Component } from 'react';
 import {
   Button, Modal, Form, Input, Radio,
 } from 'antd';
+
 import './EntryCreate.scss';
 
 import getTimestamp from '../../utils/get-timestamp';
 import generateUUID from '../../utils/generate-uuid';
 
 const FormItem = Form.Item;
+const { TextArea } = Input;
+
 
 const EntryCreateForm = Form.create()(
   // eslint-disable-next-line
   class extends Component {
+
+    constructor(props) {
+      super(props);
+      /*
+         We build the 'subtitle' field of an entry dynamically with 
+         a timestamp and from the category tags (so that the subtitle)
+         can be used to search for tags and dates. Because of this,
+         we need to keep track of the entryTags from the specific 
+         input field with state.
+      */
+      this.state = {entryTags: {}};
+      this.handleTagsInputChange = this.handleTagsInputChange.bind(this);
+    }
+
+    handleTagsInputChange(event) {
+      let val;
+      let tags = [];
+      val = event.target.value.trim();
+      val = val.split(/[^a-zA-Z-]+/g).filter(v=>v).join(', ');
+      try {
+        vals = val.split(',');
+        for (let i=0; i<vals.length; i++) {
+          tags.push(vals[i]);
+        }
+      } catch (err) {
+        tags.push(val);
+      }
+      this.setState({entryTags: tags});
+    }
+
     render() {
       const {
         visible, onCancel, onCreate, form,
@@ -31,7 +64,20 @@ const EntryCreateForm = Form.create()(
         wrapperCol: { span: 14, offset: 4
         }
       };
-
+      let entryTags = this.state.entryTags;
+      let tagsLength;
+      try {
+        tagsLength = Object.keys(entryTags).length;
+      } catch (err) {
+        tagsLength = 0;
+      }
+      const subtitleInitialText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0\n' + 'Tags: ';
+      let subtitleDefaultText;
+      if (tagsLength <= 0) {
+        subtitleDefaultText = subtitleInitialText + ' none';
+      } else {
+        subtitleDefaultText = subtitleInitialText + entryTags.toString();
+      }
       return (
         <Modal
           visible={visible}
@@ -55,8 +101,11 @@ const EntryCreateForm = Form.create()(
               {...formItemLayout}
               >
               {getFieldDecorator('subtitle', {
-                initialValue: subtitlePlaceholderText,
-              })(<Input type="textarea" />)}
+                  initialValue: subtitleDefaultText,
+                  rules: [{}],
+                  // })(<Input />);
+                  // initialValue: 'Date: ' + timestampNow + '   ' + 'Tags: ' 
+              })(<TextArea autosize={{ minRows: 2, maxRows: 6 }}/>)}
             </FormItem>
             <FormItem label="Unique ID"
                 {...formItemLayout}
@@ -76,7 +125,11 @@ const EntryCreateForm = Form.create()(
                 {...formItemLayout}
               >
               {getFieldDecorator('category tags', {
-              })(<Input placeholder="Enter words separated by commas" type="textarea" />)}
+              })(<Input 
+                  placeholder='Separate tags by spaces and punct' type="textarea" 
+                  onChange={this.handleTagsInputChange}
+                  value={entryTags.toString()} 
+              />)}
             </FormItem>
             {/* <FormItem label="Date Modified"
               {...formItemLayout}
