@@ -482,6 +482,28 @@ export default class MainMenu extends Component {
                         <SortableTree
                           treeData={this.state.treeData}
                           onChange={treeData => this.setState({ treeData })}
+                             searchQuery={searchString}
+                    searchFocusOffset={searchFocusIndex}
+                    style={
+                            {
+                              forceSubMenuRender: true,
+                              inlineCollapsed: true,
+                              minWidth: '180px',
+                              height: treeHeight,
+                              rowHeight: 10,
+                              backgroundColor: 'transparent',
+                              background: 'transparent',
+                              color: 'grey',
+                            }
+                          }
+                    // rowHeight={45}
+                    searchFinishCallback={matches =>
+                      this.setState({
+                        searchFoundCount: matches.length,
+                        searchFocusIndex:
+                          matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                      })
+                    }
                           generateNodeProps={({ node, path }) => ({
                             buttons: [
                               <button
@@ -503,7 +525,6 @@ export default class MainMenu extends Component {
                                 Add Child
                               </button>,
                               <button
-                              style={{backgroundColor: 'red'}}
                                 onClick={() =>
                                   this.setState(state => ({
                                     treeData: removeNodeAtPath({
