@@ -183,21 +183,6 @@
   padding-left: 5px !important;
   padding-right: 5px !important;
 }
-.rst__Toolbar {
-  background-color: transparent !important;
-}
-
-.rst__toolbarButton {
-  background-color: transparent !important;
-}
-
-.rst__collapseButton {
-  background-color: transparent !important;
-}
-
-.rst__expandButton {
-  background-color: transparent !important;
-}
 
 .rst__rowTitle {
   font-weight: normal !important;
@@ -208,7 +193,6 @@
   margin-top: 4px;
   height: 8px !important;
   background-color: rgba(0,0,0,0.10);
-  // background-color: transparent !important;
 }
 
 .rst__rowContents {
@@ -272,18 +256,15 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10) !important;
 }
 
-
 .ant-btn {
   color: rgba(79, 176, 255, .55); 
   border-color: rgba(79, 176, 255, .55); 
 }
 
-
 .ant-btn:hover {
   cursor: pointer !important;
   color: rgb(255,223,0) !important;
   text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
-
 }
 
 .ant-btn-circle {
