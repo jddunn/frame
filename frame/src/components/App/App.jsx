@@ -206,7 +206,7 @@ export default class App extends Component {
       <Menu.Item key="flow">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Streamlined, Medium-style editor"}>
+          title={"Streamlined, Medium-style editor (default type)"}>
           <Icon type="edit"/>&nbsp;
             {editorTypes.FLOW.charAt(0).toUpperCase() +
             editorTypes.FLOW.slice(1)}
@@ -226,9 +226,9 @@ export default class App extends Component {
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Code editor and IDE (powered by Monaco Editor)"}>
-        <Icon type="appstore"/>&nbsp;
-        {editorTypes.CODE.charAt(0).toUpperCase() +
-          editorTypes.CODE.slice(1)}
+          <Icon type="appstore"/>&nbsp;
+          {editorTypes.CODE.charAt(0).toUpperCase() +
+            editorTypes.CODE.slice(1)}
         </Tooltip>
       </Menu.Item>
       <Menu.Item key="equation" disabled>
