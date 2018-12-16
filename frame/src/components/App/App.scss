@@ -5,102 +5,102 @@ html, body {
     background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     overflow: hidden !important;
-  }
+}
   
-  .app {
-    min-height: 100vh !important;
-  }
-  
-  .footerNoteText {
-    text-shadow: none;
-    letter-spacing: 0px;
-    display: inline;
-    color: rgba(255, 255, 255, .9);
-    font-size: .75em;
-    font-weight: lighter;
-  }
+.app {
+  min-height: 100vh !important;
+}
 
-  .titleWrapper {
-    margin-top: -20px;
-    padding: 7px;
-    width: 100%;
-    border: none !important;
-    box-shadow: none !important;
-    -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  }
+.footerNoteText {
+  text-shadow: none;
+  letter-spacing: 0px;
+  display: inline;
+  color: rgba(255, 255, 255, .9);
+  font-size: .75em;
+  font-weight: lighter;
+}
 
-  .brandWrapper {
-    padding-bottom: 5px;
-    padding-left: 5px;
-    margin-left: 1px;
-  }
+.titleWrapper {
+  margin-top: -20px;
+  padding: 7px;
+  width: 100%;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+}
 
-  .mainMenuContainer {
-    display: block !important;
-    clear: right !important; 
-    height: 100%;
-    width: 100%;
-    color: white;
-    background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    overflow-x: none !important; 
-    box-shadow: none !important;
-    -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  }
+.brandWrapper {
+  padding-bottom: 5px;
+  padding-left: 5px;
+  margin-left: 1px;
+}
 
-  .mainMenuContainer span {
-    font-weight: lighter;
-    letter-spacing: 1px;
-    font-size: 1.15em;
-  }
+.mainMenuContainer {
+  display: block !important;
+  clear: right !important; 
+  height: 100%;
+  width: 100%;
+  color: white;
+  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow-x: none !important; 
+  box-shadow: none !important;
+  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+}
 
-  .ant-menu-submenu-title span {
-    font-weight: lighter;
-    letter-spacing: 1px;
-    font-size: 1.05em;
-  }
+.mainMenuContainer span {
+  font-weight: lighter;
+  letter-spacing: 1px;
+  font-size: 1.15em;
+}
 
-  .ant-menu-item {
-    font-weight: lighter;
-    letter-spacing: 1px;
-    font-size: 1.05em;
-  }
-  
-  .notepadContainer {
-    display: block;
-    width: 100%;
-    min-height: 100vh !important;
-    height: 100% !important;
-    background-color: rgba(250, 250, 250, 1.0);
-    box-shadow: none !important;
-    -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-    overflow-x: none !important; 
-  }
+.ant-menu-submenu-title span {
+  font-weight: lighter;
+  letter-spacing: 1px;
+  font-size: 1.05em;
+}
 
-  .editorWrapper {
-    margin-top: 10px;
-    margin-left: 15px;
-    padding-left: 5px;
-  }
-  
-  .sectionTitleText  {
-    padding-top: 5px;
-    color: rgba(56, 56, 56, 0.88) !important;
-    font-weight: normal;
-    letter-spacing: 1px;
-    font-size: 1.58em;
-    text-shadow: 1px 1px 1px rgba(50,50,50,0.08);
-    margin-left: 5px;
-    margin-bottom: 6px;
-    padding-left: 5px;
-  }
+.ant-menu-item {
+  font-weight: lighter;
+  letter-spacing: 1px;
+  font-size: 1.05em;
+}
+
+.notepadContainer {
+  display: block;
+  width: 100%;
+  min-height: 100vh !important;
+  height: 100% !important;
+  background-color: rgba(250, 250, 250, 1.0);
+  box-shadow: none !important;
+  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  overflow-x: none !important; 
+}
+
+.editorWrapper {
+  margin-top: 10px;
+  margin-left: 15px;
+  padding-left: 5px;
+}
+
+.sectionTitleText  {
+  padding-top: 5px;
+  color: rgba(56, 56, 56, 0.88) !important;
+  font-weight: normal;
+  letter-spacing: 1px;
+  font-size: 1.58em;
+  text-shadow: 1px 1px 1px rgba(50,50,50,0.08);
+  margin-left: 5px;
+  margin-bottom: 6px;
+  padding-left: 5px;
+}
 
 .innerButtonLabel { 
   width: 60px !important;

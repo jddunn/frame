@@ -297,9 +297,9 @@ export default class MainMenu extends Component {
     const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
     let entriesEditorButtonType;
     if (!entriesEditorUsingJson) {
-      entriesEditorButtonType = 'edit';
+      entriesEditorButtonType = 'editor';
     } else {
-      entriesEditorButtonType = 'browse';
+      entriesEditorButtonType = 'browser';
     }
 
     // Get these default vals for inline child entry creation
