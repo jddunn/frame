@@ -201,27 +201,28 @@ export default class App extends Component {
    * Build menu container to hold global buttons and selects.
    * @public
    */
-  editorSwitchMenu = (
+  buildEditorSwitchMenu = (
     <Menu onClick={this.handleEditorSwitchClick}>
       <Menu.Item key="flow">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Streamlined, Medium-style editor"}>
+          <Icon type="edit"/>&nbsp;
+            {editorTypes.FLOW.charAt(0).toUpperCase() +
+            editorTypes.FLOW.slice(1)}
         </Tooltip>
-        <Icon type="edit"/>&nbsp;
-          {editorTypes.FLOW.charAt(0).toUpperCase() +
-          editorTypes.FLOW.slice(1)}
+
       </Menu.Item>
       <Menu.Item key="full">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Full HTML editor with word processor-like capabilities"}>
         <Icon type="form"/>&nbsp;
-        </Tooltip>
-        {editorTypes.FULL.charAt(0).toUpperCase() +
+          {editorTypes.FULL.charAt(0).toUpperCase() +
           editorTypes.FULL.slice(1)}
+        </Tooltip>
       </Menu.Item>
-      <Menu.Item key="code">
+      <Menu.Item key="code" disabled>
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Code editor and IDE (powered by Monaco Editor)"}>
@@ -230,14 +231,14 @@ export default class App extends Component {
           editorTypes.CODE.slice(1)}
         </Tooltip>
       </Menu.Item>
-      <Menu.Item key="equation">
+      <Menu.Item key="equation" disabled>
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Editor with equations and mathematical computations"}>
+          <Icon type="calculator"/>&nbsp;
+            {editorTypes.EQUATION.charAt(0).toUpperCase() +
+            editorTypes.EQUATION.slice(1)}
         </Tooltip>
-        <Icon type="calculator"/>&nbsp;
-        {editorTypes.EQUATION.charAt(0).toUpperCase() +
-          editorTypes.EQUATION.slice(1)}
       </Menu.Item>    
     </Menu>
   );
@@ -309,7 +310,7 @@ export default class App extends Component {
                           style={{borderRadius: '15px', marginRight: '5px'}}
                           dropdownMatchSelectWidth={true}
                           onClick={this.handleDropdownButtonClick}
-                          overlay={this.editorSwitchMenu}
+                          overlay={this.buildEditorSwitchMenu}
                           >
                           <div className="innerButtonLabel">
                             <p>                                 
