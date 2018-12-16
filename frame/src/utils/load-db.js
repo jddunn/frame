@@ -26,3 +26,11 @@ const db = low(adapter);
 export default function loadFromDB () {
 
 }
+
+// export default function loadFromDB () {
+
+// }
+
+// export default function loadFromDB () {
+
+// }

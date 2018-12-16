@@ -354,7 +354,14 @@ export default class MainMenu extends Component {
                     <div className="saveLoadExportButtonsContainer">
                       <Button 
                         shape="circle" 
-                        className="saveLoadButton"
+                        className="loadButton"
+                        ghost={true}
+                        icon="folder-open"
+                        // onClick={this.expandAll}
+                        />
+                      <Button 
+                        shape="circle" 
+                        className="saveButton"
                         ghost={true}
                         icon="save"
                         // onClick={this.expandAll}

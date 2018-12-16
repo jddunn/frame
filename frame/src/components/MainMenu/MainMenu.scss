@@ -113,7 +113,7 @@
   height: 250px !important;
   margin-left: -5px !important;
   border-radius: 3px !important;
-  box-shadow: 1px 0 0 1px rgba(1, 131, 212, 0.9) !important;
+  box-shadow: 1px 1px 1px 1px rgba(1, 131, 212, 0.75) !important;
   background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
 }
 
@@ -351,14 +351,22 @@
   margin-right: 20px;
 }
 
-.saveLoadButton {
+.saveButton {
   border: none !important;
-  font-size: 1.4em !important;
+  font-size: 1.35em !important;
   color: rgba(248, 248, 248, 0.787) !important;
+}
+
+.loadButton {
+  position: absolute !important;
+  margin-left: -30px !important;
+  border: none !important;
+  font-size: 1.55em !important;
+  color: rgba(206, 206, 206, 0.787) !important;
 }
 
 .exportButton {
   border: none !important;
-  font-size: 1.45em !important;
+  font-size: 1.40em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }
