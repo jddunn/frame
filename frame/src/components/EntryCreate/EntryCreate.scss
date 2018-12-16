@@ -1,3 +1,24 @@
 .entryCreateContainer {
   display: inline !important;
 }
+
+.formDisabled p {
+  color: grey !important;
+}
+
+.ant-form-item {
+  margin: 5px !important;
+}
+
+
+.ant-modal-content {
+  border-radius: 3px !important;
+  background: rgba(238, 238, 238, .23) !important;  /* fallback for old browsers */
+  box-shadow: 0 0 0 1px rgba(204, 209, 212, 0.2);
+}
+
+.ant-modal-header {
+  box-shadow: 0 0 0 1px rgba(204, 209, 212, 0.2);
+  border-radius: 3px !important;
+  background: rgba(238, 238, 238, .23) !important;  /* fallback for old browsers */
+}

@@ -297,9 +297,9 @@ export default class MainMenu extends Component {
     const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
     let entriesEditorButtonType;
     if (!entriesEditorUsingJson) {
-      entriesEditorButtonType = 'edit';
+      entriesEditorButtonType = 'editor';
     } else {
-      entriesEditorButtonType = 'browse';
+      entriesEditorButtonType = 'browser';
     }
 
     // Get these default vals for inline child entry creation
@@ -354,7 +354,14 @@ export default class MainMenu extends Component {
                     <div className="saveLoadExportButtonsContainer">
                       <Button 
                         shape="circle" 
-                        className="saveLoadButton"
+                        className="loadButton"
+                        ghost={true}
+                        icon="folder-open"
+                        // onClick={this.expandAll}
+                        />
+                      <Button 
+                        shape="circle" 
+                        className="saveButton"
                         ghost={true}
                         icon="save"
                         // onClick={this.expandAll}
@@ -490,7 +497,8 @@ export default class MainMenu extends Component {
                                     id: uuid,
                                     timestampCreated: timestampNow,
                                     timestampLastModified: null,
-                                    editorType: "default",
+                                    editorType: "flow",
+                                    tags: [],
                                     data: {},
                                     dragDisabled: false
                                   },

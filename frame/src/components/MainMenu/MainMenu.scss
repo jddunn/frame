@@ -7,12 +7,6 @@
   min-width: 320px !important;
 }
 
-.ant-menu {
-  border-radius: 10px !important;
-  box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important;
-  // box-shadow: 1px 1px 1px 1px rgba(40, 42, 44, 0.15) !important;
-}
-
 .treeEntriesContain.entriesSubMenuContainer {
   height: 50px;
 }
@@ -24,8 +18,7 @@
 .ant-menu {
   z-index: 1 !important;
   border-radius: 2px !important;
-  /* box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important; */
-  // box-shadow: 1px 1px 1px 1px rgba(40, 42, 44, 0.15) !important;
+  box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important;
   background-color: transparent !important;
 }
 
@@ -61,14 +54,13 @@
   border-radius: 20px !important;
 }
 
-
 .mainEntriesButtonsWrapper {
   display: inline;
   margin-left: 8px;
 }
 
 .expandEntriesButtonsWrapper {
-  margin-top: 12px !important;
+  margin-top: 10px !important;
   margin-left: 282px;
   z-index: 1000;
   float: right !important;
@@ -85,8 +77,6 @@
 .jsonEditorMainMenu {
   margin-top: 5px !important;
 }
-
-// End tree
 
 .smallButton {
   margin: 2px;
@@ -123,7 +113,7 @@
   height: 250px !important;
   margin-left: -5px !important;
   border-radius: 3px !important;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 1px 1px rgba(1, 131, 212, 0.75) !important;
   background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
 }
 
@@ -167,9 +157,6 @@
 .rst__rowContents:hover {
   cursor: pointer;
   color: rgba(79, 176, 255, .95) !important;
-  // background: #36D1DC;  /* fallback for old browsers */
-  // background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
-  // background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }  
 
 .ant-menu-item {
@@ -290,8 +277,6 @@
   background-color: rgba(19, 169, 255, 0.387) !important;
 }
 
-// Custom buttons
-
 .entriesButtonsContainer {
   margin-top: 10px;
   margin: 0;
@@ -299,7 +284,6 @@
   margin-right: auto;
   padding-top: 5px;
   padding-bottom: 5px;
-  // padding: 10p0x;
 }
 
 #findBox {
@@ -367,14 +351,22 @@
   margin-right: 20px;
 }
 
-.saveLoadButton {
+.saveButton {
   border: none !important;
-  font-size: 1.4em !important;
+  font-size: 1.35em !important;
   color: rgba(248, 248, 248, 0.787) !important;
+}
+
+.loadButton {
+  position: absolute !important;
+  margin-left: -30px !important;
+  border: none !important;
+  font-size: 1.55em !important;
+  color: rgba(206, 206, 206, 0.787) !important;
 }
 
 .exportButton {
   border: none !important;
-  font-size: 1.45em !important;
+  font-size: 1.40em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }
