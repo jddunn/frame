@@ -80,6 +80,7 @@ const EntryCreateForm = Form.create()(
       }
       return (
         <Modal
+          mask={false}
           visible={visible}
           title="Create a new library entry"
           okText="Create"
@@ -97,23 +98,6 @@ const EntryCreateForm = Form.create()(
                 <Input />
               )}
             </FormItem>
-            <FormItem label="Subtitle"
-              {...formItemLayout}
-              >
-              {getFieldDecorator('subtitle', {
-                  initialValue: subtitleDefaultText,
-                  rules: [{}],
-                  // })(<Input />);
-                  // initialValue: 'Date: ' + timestampNow + '   ' + 'Tags: ' 
-              })(<TextArea autosize={{ minRows: 2, maxRows: 6 }}/>)}
-            </FormItem>
-            <FormItem label="Unique ID"
-                {...formItemLayout}
-              >
-              {getFieldDecorator('unique id', {
-                initialValue: uuid,
-              })(<Input disabled={true} type="textarea" />)}
-            </FormItem>
             <FormItem label="Date Created"
                 {...formItemLayout}
               >
@@ -130,6 +114,26 @@ const EntryCreateForm = Form.create()(
                   onChange={this.handleTagsInputChange}
                   value={entryTags.toString()} 
               />)}
+            </FormItem>
+            <FormItem label="Description"
+              {...formItemLayout}
+              >
+              {getFieldDecorator('description', {
+                  initialValue: subtitleDefaultText,
+                  rules: [{}],
+              })(<TextArea 
+                  disabled={true} 
+                  autosize={{ minRows: 2, maxRows: 6 }}/
+                  >
+                  )}
+            </FormItem>
+            <FormItem 
+              label="Unique ID"
+              {...formItemLayout}
+            >
+            {getFieldDecorator('unique id', {
+              initialValue: uuid,
+              })(<Input disabled={true} type="textarea" />)}
             </FormItem>
             {/* <FormItem label="Date Modified"
               {...formItemLayout}

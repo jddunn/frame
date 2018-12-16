@@ -1,3 +1,11 @@
 .entryCreateContainer {
   display: inline !important;
 }
+
+.formDisabled p {
+  color: grey !important;
+}
+
+.ant-form-item {
+  margin: 5px !important;
+}
