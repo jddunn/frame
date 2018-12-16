@@ -28,6 +28,7 @@ const EntryCreateForm = Form.create()(
       */
       this.state = {entryTags: {}, entryTitle: 'New library entry'};
       this.handleEditorChange = this.handleEditorChange.bind(this);
+      this.handleReset = this.handleReset.bind(this);
       this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
       this.handleTagsInputChange = this.handleTagsInputChange.bind(this);
     }
@@ -35,6 +36,10 @@ const EntryCreateForm = Form.create()(
     
     handleEditorChange(value) {
       console.log(`selected ${value}`);
+    }
+
+    handleReset() {
+      this.setState({entryTitle: 'New library entry', entryTags: []});
     }
 
     handleTitleInputChange(event) {
@@ -94,6 +99,7 @@ const EntryCreateForm = Form.create()(
       }
       return (
         <Modal
+          id="entryCreateModal"
           mask={false}
           visible={visible}
           title={entryTitle}
@@ -166,6 +172,12 @@ const EntryCreateForm = Form.create()(
               initialValue: uuid,
               })(<Input disabled={true} type="textarea" />)}
             </FormItem>
+
+            <div className="modalFooterBlock">
+              <Button onClick={this.handleReset}>
+                Clear
+              </Button>
+            </div>
             {/* <FormItem label="Date Modified"
               {...formItemLayout}
               >
@@ -190,7 +202,9 @@ export class EntryCreate extends Component {
   }
 
   handleCancel = () => {
-    this.setState({ visible: false });
+    const form = this.formRef.props.form;
+    form.resetFields();
+    this.setState({ visible: false, entryTags: [], entryTitle: 'New library entry' });
   }
 
   handleCreate = () => {
@@ -201,7 +215,7 @@ export class EntryCreate extends Component {
       }
       console.log('Received values of form: ', values);
       form.resetFields();
-      this.setState({ visible: false });
+      this.setState({ visible: false, entryTags: [], entryTitle: 'New library entry' });
     });
   }
 
