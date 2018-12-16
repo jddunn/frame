@@ -26,14 +26,21 @@ const EntryCreateForm = Form.create()(
          we need to keep track of the entryTags from the specific 
          input field with state.
       */
-      this.state = {entryTags: {}};
+      this.state = {entryTags: {}, entryTitle: 'New library entry'};
       this.handleEditorChange = this.handleEditorChange.bind(this);
+      this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
       this.handleTagsInputChange = this.handleTagsInputChange.bind(this);
     }
 
     
     handleEditorChange(value) {
       console.log(`selected ${value}`);
+    }
+
+    handleTitleInputChange(event) {
+      let val;
+      val = event.target.value;
+      this.setState({entryTitle: val});
     }
 
     handleTagsInputChange(event) {
@@ -71,6 +78,7 @@ const EntryCreateForm = Form.create()(
         }
       };
       let entryTags = this.state.entryTags;
+      let entryTitle = this.state.entryTitle;
       let tagsLength;
       try {
         tagsLength = Object.keys(entryTags).length;
@@ -88,29 +96,31 @@ const EntryCreateForm = Form.create()(
         <Modal
           mask={false}
           visible={visible}
-          title="Create a new library entry"
+          title={entryTitle}
           okText="Create"
           onCancel={onCancel}
           onOk={onCreate}
         >
+          <div className="entryTimestampBlock">
+            <p>{timestampNow}</p>
+          </div>
           <Form formLayout={"horizontal"}>
             <FormItem label="Title"
               {...formItemLayout}
               >
               {getFieldDecorator('title', {
-                initialValue: 'New entry',
-                rules: [{ required: true, message: 'A of entry is required' }],
+                rules: [{ required: true, message: 'Title of entry is required' }],
               })(
-                <Input />
+                <Input onChange={this.handleTitleInputChange} placeholder={entryTitle}/>
               )}
             </FormItem>
-            <FormItem label="Date Created"
+            {/* <FormItem label="Date Created"
                 {...formItemLayout}
               >
               {getFieldDecorator('date created', {
                 initialValue: timestampNow,
               })(<Input disabled={true} type="textarea" />)}
-            </FormItem>
+            </FormItem> */}
             <FormItem label="Document Type"
                 {...formItemLayout}
               >

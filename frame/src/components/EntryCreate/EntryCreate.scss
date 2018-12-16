@@ -13,12 +13,27 @@
 
 .ant-modal-content {
   border-radius: 3px !important;
-  background: rgba(238, 238, 238, .23) !important;  /* fallback for old browsers */
+  background: rgba(238, 238, 238, .93) !important;  /* fallback for old browsers */
   box-shadow: 0 0 0 1px rgba(204, 209, 212, 0.2);
 }
 
 .ant-modal-header {
   box-shadow: 0 0 0 1px rgba(204, 209, 212, 0.2);
   border-radius: 3px !important;
-  background: rgba(238, 238, 238, .23) !important;  /* fallback for old browsers */
+  background: rgba(238, 238, 238, .93) !important;  /* fallback for old browsers */
+}
+
+.ant-modal-title {
+  font-size: 1.4em;
+  height: 40px !important;
+}
+
+.entryTimestampBlock {
+  top: 0 !important;
+  left: 0 !important;
+  color: rgba(65, 65, 65, 0.65);
+  margin-left: 23px !important;
+  margin-top: 40px !important;
+  position: absolute !important;
+  display: inline !important;
 }
