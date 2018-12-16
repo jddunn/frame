@@ -497,7 +497,8 @@ export default class MainMenu extends Component {
                                     id: uuid,
                                     timestampCreated: timestampNow,
                                     timestampLastModified: null,
-                                    editorType: "default",
+                                    editorType: "flow",
+                                    tags: [],
                                     data: {},
                                     dragDisabled: false
                                   },

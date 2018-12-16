@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  Button, Modal, Form, Input, Radio,
+  Button, Modal, Form, Input, Radio, Select
 } from 'antd';
 
 import './EntryCreate.scss';
@@ -11,7 +11,7 @@ import generateUUID from '../../utils/generate-uuid';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
-
+const Option = Select.Option;
 
 const EntryCreateForm = Form.create()(
   // eslint-disable-next-line
@@ -27,7 +27,13 @@ const EntryCreateForm = Form.create()(
          input field with state.
       */
       this.state = {entryTags: {}};
+      this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleTagsInputChange = this.handleTagsInputChange.bind(this);
+    }
+
+    
+    handleEditorChange(value) {
+      console.log(`selected ${value}`);
     }
 
     handleTagsInputChange(event) {
@@ -104,6 +110,21 @@ const EntryCreateForm = Form.create()(
               {getFieldDecorator('date created', {
                 initialValue: timestampNow,
               })(<Input disabled={true} type="textarea" />)}
+            </FormItem>
+            <FormItem label="Document Type"
+                {...formItemLayout}
+              >
+              {getFieldDecorator('document type', {
+                  initialValue: "flow",
+                  rules: [{ required: true, message: 'Document / editor format is required' }],
+              })(
+              <Select defaultValue="flow" style={{ width: 120 }} onChange={this.handleEditorChange}>
+                <Option value="flow">Flow</Option>
+                <Option value="full">Full</Option>
+                <Option value="code" disabled>Code</Option>
+                <Option value="equation" disabled>Equation</Option>
+              </Select>
+              )}
             </FormItem>
             <FormItem label="Category Tags"
                 {...formItemLayout}

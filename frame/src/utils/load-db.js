@@ -1,9 +1,10 @@
 import config from '../../data/config.json';
-/** Data storage */
+/** Data storage (localForage by default) */
+/** LocalForage */
+import localForage from 'localforage';
 /** Lowdb */
 import low from 'lowdb';
 import LocalStorage from 'lowdb/adapters/LocalStorage';
-
 /** Data library / source vars */
 const savedSettings = config.savedSettings;
 const flibsPath = savedSettings.librariesPath;

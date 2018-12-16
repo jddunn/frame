@@ -2,49 +2,41 @@
     "entries": 
             [
             {
-                "title": "Most recent entry is always here",
+                "title": "Welcome to Frame",
                 "subtitle": "Note how the hover behavior is different",
-                "tags": ["example"],
-                "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
-                "timestamp_created": null,
-                "timestamp_last_modified": null,
-                "data": {},
-                "dragDisabled": false
+                "timestampCreated": null,
+                "timestampLastModified": null,
+                "editorType": "default",
+                "data": {
+                    "htmlContents": {
+                        "value": ""
+                    },
+                    "textContents": {
+                        "value": ""
+                    }
+                },
+                "dragDisabled": true
               },
               { 
                   "title": "This is the Full Node Drag theme", 
-                  "tags": ["example"],
-                  "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
-                  "timestamp_created": null,
-                  "timestamp_last_modified": null,
                   "editorType": "full",
-                  "data": {},
-                  "dragDisabled": true
+                  "timestamp": null,
+                  "data": {}
                 },
               { 
                   "title": "You can click anywhere on the node to drag it", 
-                  "tags": ["example"],
-                  "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
-                  "timestamp_created": null,
-                  "timestamp_last_modified": null,
+                  "editorType": "inline",
                   "data": {} 
               },
               { 
                   "title": "Chicken",
-                  "subtitle": "Note how the hover behavior is different",
-                  "tags": ["example"],
-                  "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
-                  "timestamp_created": null,
-                  "timestamp_last_modified": null,
                   "editorType": "full",
                   "children": 
                             [
                             { 
                                 "title": "Egg",
-                                "tags": ["example"],
-                                "id": "670201f5-8e6b-438a-95d5-660d4d47de95",
-                                "timestamp_created": null,
-                                "timestamp_last_modified": null,
+                                "editorType": "inline",
+
                                 "data": {} 
                             }
                             ]
