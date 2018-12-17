@@ -78,31 +78,6 @@ export default class App extends Component {
   }
 
   /**
-   * Loads a single Frame library into state
-   *
-   * @activeFlibId {activeFlibId} str
-   * @public
-   */
-  loadActiveFLibData = (activeFlibId) => {
-    console.log(activeFlibId);
-    this.setState({ activeFlibId });
-  }
-
-  /**
-   * Gets array of file paths of all Frame
-   * libraries found folder path, and loads
-   * into state.
-   *
-   * @dataPath {dataPath} str
-   * @public
-   */
-  loadFLibsCollection = (dataPath) => {
-    console.log(dataPath);
-    const arrOfFLibPaths = [];
-    this.setState({libraryPaths: arrOfFlibPaths});
-  }
-
-  /**
    * Collapse the app menu (Sider button)
    *
    * @collapsed {collapsed} bool
@@ -131,10 +106,9 @@ export default class App extends Component {
    * @event {event} object
    * @public
    */
-  handleEditorSwitchClick = (event) => { 
-    this.setState((state, props) => {
-      return {editorType: event.key};
-    });
+  handleEditorSwitchClick = (event) => {
+    setState("editorType", event.key.toString());
+    this.forceUpdate();
   }
 
   async componentWillMount () {
@@ -142,10 +116,8 @@ export default class App extends Component {
     const library = this.state.library;
     const m_Library = createNewLib(library);
     await getFromDB(m_Library, "entries").then(function(result) {
-      console.log(result);
       Entries = result;
     }).catch(function(err) {
-      console.log(err);
       Entries = null;
     });
     let entriesCount = 0;
@@ -153,7 +125,6 @@ export default class App extends Component {
       entriesCount = Entries.length;
     } catch (err) {
     }
-    console.log(entriesCount);
     // Entries = this.getEntriesInFLib(m_Library);
     // if (Entries != null && Entries != undefined && Entries != "undefined") {
     // } else {
@@ -173,8 +144,11 @@ export default class App extends Component {
                                      selectedEntry.editorType != "undefined" &&
                                      selectedEntry.editorType != "") ?
                                      selectedEntry.editorType : "flow"; 
-    const selectedEntryId = selectedEntry.id;
-  
+    const selectedEntryId = (selectedEntry.id != null && 
+      selectedEntry.id != undefined &&
+      selectedEntry.id != "undefined" &&
+      selectedEntry.id != "") ?
+      selectedEntry.id : null;
     // Set Entries in actual React state since
     // sessionStorage can only do JSON.
     this.setState({
@@ -239,7 +213,7 @@ export default class App extends Component {
       getState("entryId") : null;
     let entry = traverseEntriesById(entryId);
     let editorType = (getState("editorType") != null) ? 
-                      getState("entryType") : "flow";
+                      getState("editorType") : "flow";
     let entryPageTitle;
     try {
       entryPageTitle = (entry.title != null &&
