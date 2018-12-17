@@ -19,13 +19,13 @@ import Notepad from '../Notepad/Notepad';
 import Brand from '../Brand/Brand';
 /** App global comp styles */
 import './App.scss';
-/** Data storage */
-// LocalForage.entries
-import localforage from 'localforage';
-// DB wrapper funcs
+/** Persistent data storage (localForage right now) */
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
-import createNewFLib from '../../utils/create-db';
+import createNewLib from '../../utils/create-db';
+/** State management with session storage */
+import {setState, getState} from '../../utils/session-state';
+
 /** Data library / source vars */
 const savedSettings = config.savedSettings;
 const flibsPath = savedSettings.librariesPath;
@@ -33,23 +33,9 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
+// localforage.clear();
 
-localforage.clear();
-
-/** Global db settings */
-localforage.config({
-  name: 'FrameDB'
-});
-
-const store = sessionStorage; // Store is where we'll save session state management,
-                              // which will be cleared with every reload.
-
-/** Always make sure the example library is saved into the database */
-const DefaultEntries = localforage.createInstance({
-  name: defaultFLib,
-});
-
-/** Types of editors there are */
+/** Notebook editors types */
 const editorTypes = Object.freeze(
   {
     FLOW: "flow", // Dante Editor
@@ -168,9 +154,7 @@ export default class App extends Component {
 
     let Entries;
     const library = this.state.library;
-    const m_Library = localforage.createInstance({
-      name: library,
-    });
+    const m_Library = createNewLib(library);
 
     await getFromDB(m_Library, "entries").then(function(result) {
       console.log(result);

@@ -1,3 +1,11 @@
+/* eslint prefer-arrow-callback: 0 */
+/* eslint func-names: 0 */
+/* eslint no-unused-vars: 0 */
+/* eslint no-var: 0 */
+/* eslint no-console: 0 */
+
+// State management with sessionStorage
+
 /** Extend Storage with JSON helpers */
 Storage.prototype.setObject = function(key, value) {
     this.setItem(key, JSON.stringify(value));
@@ -10,10 +18,10 @@ Storage.prototype.getObject = function(key) {
 
 const sessionStore = sessionStorage;
 
-export function saveSessionState() {
+export function setState(key, val) {
     
 }
 
-export function getSessionState() {
+export function getState(key) {
 
 }
