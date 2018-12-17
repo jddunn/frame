@@ -6,6 +6,9 @@
 /* eslint no-plusplus: 0 */
 
 export default function traverseEntriesById(id, Entries) {
+    // Need to wrap this in try..catch because React
+    // fetches data asynchronously but calls the render funcs
+    // (and therefore this func) before it gets the Entries.
     try {
         for (let i=0;i<Entries.length;i++) {
             if (Entries[i].id === id) {
