@@ -23,7 +23,11 @@ import './App.scss';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import createNewLib from '../../utils/create-db';
-/** State management with session storage */
+import traverseEntriesById from '../../utils/entries-traversal';
+/** State management with session storage.
+ *  This is used to pass state vals across React components,
+ *  in lieu of passing props or using Redux / Flow, for simplicity.
+ */
 import {setState, getState} from '../../utils/session-state';
 
 /** Data library / source vars */
@@ -67,21 +71,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      savedSettings: savedSettings,
       collapsed: false,
-      /** Type of editor to render in notebook */
-      library: defaultFLib,
       Entries: [],
-      editorType: editorTypes.INLINE,
-      /** Current section / page title. */
-      currPageTitle: 'Notebook', 
-      /**
-       * Active entry / document in Notebook 
-       * By default this is the latest entry created or 
-       * modified, or example content. The *entryId*
-       * is a UUID auto-generated with the Crypto API.
-      */
-      currViewedEntryId: null
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
   }
@@ -122,10 +113,6 @@ export default class App extends Component {
     this.setState({ collapsed });
   }
 
-  /** Handles dropdown select click */
-  handleDropdownButtonClick = (event) => {}
-
-
   /**
    * Collapse the app menu with hamburger / logo.
    *
@@ -151,11 +138,9 @@ export default class App extends Component {
   }
 
   async componentWillMount () {
-
     let Entries;
     const library = this.state.library;
     const m_Library = createNewLib(library);
-
     await getFromDB(m_Library, "entries").then(function(result) {
       console.log(result);
       Entries = result;
@@ -163,18 +148,17 @@ export default class App extends Component {
       console.log(err);
       Entries = null;
     });
-
-    let entriesCount = Entries.length;
-
+    let entriesCount = 0;
+    try {
+      entriesCount = Entries.length;
+    } catch (err) {
+    }
     console.log(entriesCount);
-
     // Entries = this.getEntriesInFLib(m_Library);
     // if (Entries != null && Entries != undefined && Entries != "undefined") {
     // } else {
     // m_Library.setItem("entries", exampleEntries.entries);
-
     saveToDB(m_Library, "entries", exampleEntries.entries);
-
     await getFromDB(m_Library, "entries").then(function(result) {
       console.log(result);
       Entries = result;
@@ -182,13 +166,24 @@ export default class App extends Component {
       console.log(err);
       Entries = null;
     });
-
     console.log("Entries: ", Entries);
+    const selectedEntry = Entries[0];
+    const selectedEntryEditorType = (selectedEntry.editorType != null && 
+                                     selectedEntry.editorType != undefined &&
+                                     selectedEntry.editorType != "undefined" &&
+                                     selectedEntry.editorType != "") ?
+                                     selectedEntry.editorType : "flow"; 
+    const selectedEntryId = selectedEntry.id;
+  
+    // Set Entries in actual React state since
+    // sessionStorage can only do JSON.
     this.setState({
       Entries: Entries,
-      editorType: editorTypes.INLINE,
       }
     )
+    setState("library", library);
+    setState("editorType", selectedEntryEditorType);
+    setState("entryId", selectedEntryId);
   }
 
   /**
@@ -239,10 +234,21 @@ export default class App extends Component {
 
   render() {
     // By default editor mode for notes is Flow
-    let editorType;
-    editorType = ((this.state.editorType != null && 
-                  this.state.editorType != undefined)
-                   ? this.state.editorType : 'flow');
+    const Entries = this.state.Entries;
+    let entryId = (getState("entryId") != null) ?
+      getState("entryId") : null;
+    let entry = traverseEntriesById(entryId);
+    let editorType = (getState("editorType") != null) ? 
+                      getState("entryType") : "flow";
+    let entryPageTitle;
+    try {
+      entryPageTitle = (entry.title != null &&
+        entry.title != undefined) ?
+        entry.title : '';
+    } catch (err) {
+      entryPageTitle = 'Notebook';
+    }
+
     return (
       <div style={{ 
         display: 'flex',
@@ -269,7 +275,7 @@ export default class App extends Component {
               onClick={this.toggleCollapsed}>
               <Brand/>
               </div>
-                <MainMenu Entries={this.state.Entries}/>
+                <MainMenu Entries={Entries}/>
               </Sider>
             <Layout>
               <Content>
@@ -278,7 +284,7 @@ export default class App extends Component {
                   {/* App title */}
                   <div className="titleWrapper">
                     <h4 className="sectionTitleText">
-                      {this.state.currPageTitle}
+                      {entryPageTitle}
                     </h4>
                     <div className="notebookSwitch">
                       <Tooltip 
@@ -291,7 +297,7 @@ export default class App extends Component {
                           className="dropdownCustom"
                           style={{borderRadius: '15px', marginRight: '5px'}}
                           dropdownMatchSelectWidth={true}
-                          onClick={this.handleDropdownButtonClick}
+                          // onClick={this.handleDropdownButtonClick}
                           overlay={this.buildEditorSwitchMenu}
                           >
                           <div className="innerButtonLabel">
@@ -307,7 +313,7 @@ export default class App extends Component {
                     {/* End app title */}
                     <div className="editorWrapper">
                       <div id="editor">
-                          <Notepad editorType={this.state.editorType}/>
+                          <Notepad editorType={editorType}/>
                       </div>
                     </div>
                   </div>
