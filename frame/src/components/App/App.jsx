@@ -164,38 +164,32 @@ export default class App extends Component {
     });
   }
 
-  async getEntriesInFLib(Library) {
-    // const m_Entries = await getFromDB(Library, "entries");
-    let m_Entries;
-    const EntriesPromise = await Library.getItem("entries").then(function (result) {
-      console.log(result);
-      m_Entries = result;
-    }).catch(function(err) {
-      console.log(err);
-      m_Entries = null;
-    });
-    return m_Entries;
-  }
-
   async componentWillMount () {
+
     let Entries;
     const library = this.state.library;
     const m_Library = localforage.createInstance({
       name: library,
     });
+
+    await getFromDB(m_Library, "entries").then(function(result) {
+      console.log(result);
+      Entries = result;
+    }).catch(function(err) {
+      console.log(err);
+      Entries = null;
+    });
+
+    let entriesCount = Entries.length;
+
+    console.log(entriesCount);
+
     // Entries = this.getEntriesInFLib(m_Library);
     // if (Entries != null && Entries != undefined && Entries != "undefined") {
     // } else {
     // m_Library.setItem("entries", exampleEntries.entries);
-    saveToDB(m_Library, "entries", exampleEntries.entries);
 
-    // const EntriesPromise = await getFromDB(m_Library).then(function (result) {
-      // console.log(result);
-      // Entries = result;
-    // }).catch(function(err) {
-      // console.log(err);
-      // Entries = null;
-    // });
+    saveToDB(m_Library, "entries", exampleEntries.entries);
 
     await getFromDB(m_Library, "entries").then(function(result) {
       console.log(result);
@@ -206,34 +200,11 @@ export default class App extends Component {
     });
 
     console.log("Entries: ", Entries);
-    // }
     this.setState({
       Entries: Entries,
       editorType: editorTypes.INLINE,
       }
     )
-  }
-
-  /**
-   * Gets example Frame library entries from static JSON file,
-   * the path of which is defined in data/config.json.
-   * 
-   * If there are no other Frame libraries found, the example
-   * library is displayed by default. 
-   * 
-   * @public
-   */
-  getExampleFLibData() {  
-    console.log(exampleFLibrary);
-    // Save to localStorage for now (for exporting and syncing
-    // with actual db later)
-    // db.get('entries')
-      // .push(exampleFLibrary.entries)
-      // .write()
-    // console.log(db);
-    this.setState({currViewedEntryData: obj,
-                   currViewedEntryId: 'example'              
-    });
   }
 
   /**
@@ -281,20 +252,6 @@ export default class App extends Component {
       </Menu.Item>    
     </Menu>
   );
-
-  componentDidMount () {
-
-    
-    // let vals = db.get('entries');
-    // if (vals.length <= 0) {
-      // this.getExampleFLibData();
-      // console.log("Loaded example entries as default lib");
-    // } else {
-      // TODO: Add logic to handle loading the last Frame library
-      // that used by active user
-      // console.log("Loaded last user library that was open");
-    // }
-  }
 
   render() {
     // By default editor mode for notes is Flow

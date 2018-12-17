@@ -8,7 +8,7 @@ Because a Python environment running TensorFlow is required to use the full app 
 
  Eventually, a donation-supported / subscription-based edition could be serviced for online users through a server on the cloud, with extended features and protected data storage, if there's a demand for it.
 
-## Current Screenshots (12-09-2018)
+## Current Screenshots (12-17-2018)
 
 UNFINISHED NON-FUNCTIONAL BUILD; WORK-IN-PROGRESS
 
@@ -38,8 +38,9 @@ Additional libraries and references used:
 
 - AllenNLP [https://allennlp.org/](https://allennlp.org/)
 - Ant Design [https://ant.design/](https://ant.design/)
+- Dante 2 [https://github.com/michelson/dante2](https://github.com/michelson/dante2)
 - electron-builder [https://www.electron.build/](https://www.electron.build/)
+- LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/)
 - react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
 - react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
-- Dante 2 [https://github.com/michelson/dante2](https://github.com/michelson/dante2)
 - React Quill [https://github.com/zenoamaro/react-quill](https://github.com/zenoamaro/react-quill)
