@@ -1,8 +1,9 @@
 'use strict';
+/* eslint no-named-as-default-member: 0 */
+
 /** Global config file for app settings; TODO: Needs integrating */
 import config from '../../data/config.json';
-/** Example Frame entries (loaded by default) */
-import exampleFLibrary from '../../data/libraries_collections/example/example.json';
+import exampleEntries from '../../data/libraries_collections/example/example.json'; // Example Frame library
 import React, { Component } from 'react';
 import {
          Row, Col, Layout, Menu, Breadcrumb,
@@ -19,33 +20,35 @@ import Brand from '../Brand/Brand';
 /** App global comp styles */
 import './App.scss';
 /** Data storage */
-import low from 'lowdb';
-import LocalStorage from 'lowdb/adapters/LocalStorage';
-
-const { Header, Content, Footer, Sider } = Layout;
-
+// LocalForage.entries
+import localforage from 'localforage';
+// DB wrapper funcs
+import saveToDB from '../../utils/save-db';
+import getFromDB from '../../utils/load-db';
+import createNewFLib from '../../utils/create-db';
 /** Data library / source vars */
 const savedSettings = config.savedSettings;
 const flibsPath = savedSettings.librariesPath;
 const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
-/*
-  Lowdb
-  TODO:Write logic to handle switching between LocalStorage
-  and writing to a server file (when not using browser)
-*/
-const adapter = new LocalStorage('db');
-const db = low(adapter);
-const store = sessionStorage; // Store is where we'll save state management,
+
+/** LocalForage */
+
+localforage.clear();
+
+/** Global db settings */
+localforage.config({
+  name: 'FrameDB'
+});
+
+const store = sessionStorage; // Store is where we'll save session state management,
                               // which will be cleared with every reload.
-/* 
-  TODO: Write logic to handle loading entries saved from users
-  locally or on server
-*/
-const Entries = exampleFLibrary;
-db.defaults({ entries: Entries })
-  .write
-  
+
+/** Always make sure the example library is saved into the database */
+const DefaultEntries = localforage.createInstance({
+  name: defaultFLib,
+});
+
 /** Types of editors there are */
 const editorTypes = Object.freeze(
   {
@@ -56,15 +59,7 @@ const editorTypes = Object.freeze(
                          // include interactive calculator
   });
 
-/** Extend Storage with JSON helpers */
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-}
-
-Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key);
-    return value && JSON.parse(value);
-}
+const { Header, Content, Footer, Sider } = Layout;
 
 /**
  * Main app component of Frame. The app is *collapsed*
@@ -89,6 +84,8 @@ export default class App extends Component {
       savedSettings: savedSettings,
       collapsed: false,
       /** Type of editor to render in notebook */
+      library: defaultFLib,
+      Entries: [],
       editorType: editorTypes.INLINE,
       /** Current section / page title. */
       currPageTitle: 'Notebook', 
@@ -167,7 +164,49 @@ export default class App extends Component {
     });
   }
 
-  componentWillMount () {
+  async getEntriesInFLib(Library) {
+    // const m_Entries = await getFromDB(Library, "entries");
+    let m_Entries;
+    const EntriesPromise = await Library.getItem("entries").then(function (result) {
+      console.log(result);
+      m_Entries = result;
+    }).catch(function(err) {
+      console.log(err);
+      m_Entries = null;
+    });
+    return m_Entries;
+  }
+
+  async componentWillMount () {
+    let Entries;
+    const library = this.state.library;
+    const m_Library = localforage.createInstance({
+      name: library,
+    });
+    // Entries = this.getEntriesInFLib(m_Library);
+    // if (Entries != null && Entries != undefined && Entries != "undefined") {
+    // } else {
+    // m_Library.setItem("entries", exampleEntries.entries);
+    saveToDB(m_Library, "entries", exampleEntries.entries);
+
+    // const EntriesPromise = await getFromDB(m_Library).then(function (result) {
+      // console.log(result);
+      // Entries = result;
+    // }).catch(function(err) {
+      // console.log(err);
+      // Entries = null;
+    // });
+
+    await getFromDB(m_Library, "entries").then(function(result) {
+      console.log(result);
+      Entries = result;
+    }).catch(function(err) {
+      console.log(err);
+      Entries = null;
+    });
+
+    console.log("Entries: ", Entries);
+    // }
     this.setState({
       Entries: Entries,
       editorType: editorTypes.INLINE,
@@ -188,10 +227,10 @@ export default class App extends Component {
     console.log(exampleFLibrary);
     // Save to localStorage for now (for exporting and syncing
     // with actual db later)
-    db.get('entries')
-      .push(exampleFLibrary.entries)
-      .write()
-    console.log(db);
+    // db.get('entries')
+      // .push(exampleFLibrary.entries)
+      // .write()
+    // console.log(db);
     this.setState({currViewedEntryData: obj,
                    currViewedEntryId: 'example'              
     });
@@ -244,15 +283,17 @@ export default class App extends Component {
   );
 
   componentDidMount () {
-    let vals = db.get('entries');
-    if (vals.length <= 0) {
-      this.getExampleFLibData();
-      console.log("Loaded example entries as default lib");
-    } else {
+
+    
+    // let vals = db.get('entries');
+    // if (vals.length <= 0) {
+      // this.getExampleFLibData();
+      // console.log("Loaded example entries as default lib");
+    // } else {
       // TODO: Add logic to handle loading the last Frame library
       // that used by active user
-      console.log("Loaded last user library that was open");
-    }
+      // console.log("Loaded last user library that was open");
+    // }
   }
 
   render() {
@@ -287,7 +328,7 @@ export default class App extends Component {
               onClick={this.toggleCollapsed}>
               <Brand/>
               </div>
-                <MainMenu Entries={this.state.Entries.entries}/>
+                <MainMenu Entries={this.state.Entries}/>
               </Sider>
             <Layout>
               <Content>

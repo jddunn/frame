@@ -1,44 +1,23 @@
-import config from '../../data/config.json';
-/** Data storage (localForage by default) */
-/** LocalForage */
-import localForage from 'localforage';
-/** Lowdb */
-// import low from 'lowdb';
-// import LocalStorage from 'lowdb/adapters/LocalStorage';
-/** Data library / source vars */
-const savedSettings = config.savedSettings;
-const flibsPath = savedSettings.librariesPath;
-const defaultFLib = savedSettings.defaultLibrary;
-const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
+/* eslint prefer-arrow-callback: 0 */
+/* eslint func-names: 0 */
+/* eslint no-unused-vars: 0 */
+/* eslint no-var: 0 */
+/* eslint no-console: 0 */
 
 // Load from LocalForage (default offline storage option)
-localforage.setDriver([
-  localforage.INDEXEDDB,
-  localforage.WEBSQL,
-  localforage.LOCALSTORAGE
-  ]).then(function() {
-    const key = defaultFlib;
-    localforage.setItem(key, value, function() {
-      console.log('Using:' + localforage.driver());
-      console.log('Saved: ' + value);
-
-    });
-  });
-
-// Load from Lowdb (for smaller, strippe down app)
-// const adapter = new LocalStorage('db');
-// const db = low(adapter);
-
-// Load from sessionStorage (for demo purposes)
-
-export default function loadFromDB () {
-
+export default function getFromDB (store, key) {
+  // var res;
+  // store.getItem(key).then(function(result) {
+      // return result;
+      // res = result;
+  // });
+  // store.getItem(key).then(function (result) {
+  //       console.log(result);
+  //       return result;
+  //   }).catch(function(err) {
+  //       console.log(err);
+  //       return null;
+  //   });
+  const res = store.getItem(key);
+  return res;
 }
-
-// export default function loadFromDB () {
-
-// }
-
-// export default function loadFromDB () {
-
-// }

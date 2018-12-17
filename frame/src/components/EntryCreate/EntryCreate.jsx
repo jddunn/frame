@@ -26,7 +26,7 @@ const EntryCreateForm = Form.create()(
          we need to keep track of the entryTags from the specific 
          input field with state.
       */
-      this.state = {entryTags: {}, entryTitle: 'New library entry'};
+      this.state = {entryTags: {}, entryTitle: 'New entry'};
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
       this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
@@ -39,7 +39,7 @@ const EntryCreateForm = Form.create()(
     }
 
     handleReset() {
-      this.setState({entryTitle: 'New library entry', entryTags: []});
+      this.setState({entryTitle: 'New entry', entryTags: []});
     }
 
     handleTitleInputChange(event) {
@@ -115,6 +115,7 @@ const EntryCreateForm = Form.create()(
               {...formItemLayout}
               >
               {getFieldDecorator('title', {
+                initialValue: entryTitle,
                 rules: [{ required: true, message: 'Title of entry is required' }],
               })(
                 <Input onChange={this.handleTitleInputChange} placeholder={entryTitle}/>
@@ -204,7 +205,7 @@ export class EntryCreate extends Component {
   handleCancel = () => {
     const form = this.formRef.props.form;
     form.resetFields();
-    this.setState({ visible: false, entryTags: [], entryTitle: 'New library entry' });
+    this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
   }
 
   handleCreate = () => {
@@ -215,7 +216,7 @@ export class EntryCreate extends Component {
       }
       console.log('Received values of form: ', values);
       form.resetFields();
-      this.setState({ visible: false, entryTags: [], entryTitle: 'New library entry' });
+      this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
     });
   }
 
