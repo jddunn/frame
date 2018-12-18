@@ -352,8 +352,9 @@
 }
 
 .saveButton {
+  margin-left: 5px !important;
   border: none !important;
-  font-size: 1.35em !important;
+  font-size: 1.55em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }
 
@@ -366,7 +367,8 @@
 }
 
 .exportButton {
+  margin-right: 5px !important;
   border: none !important;
-  font-size: 1.40em !important;
+  font-size: 1.30em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }

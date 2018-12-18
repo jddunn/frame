@@ -11,7 +11,7 @@ import FJSONEditor from '../FJSONEditor/FJSONEditor';
 /** Modal / form input for new entry */
 import { EntryCreate } from '../EntryCreate/EntryCreate';
 /** Ant Design */
-import { Menu, Icon, Button, ButtonGroup, Input, Divider
+import { Menu, Icon, Button, ButtonGroup, Input, Divider, Tooltip
  } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 /** React-sortable-tree has so many style classes it'll be easier 
@@ -391,15 +391,6 @@ export default class MainMenu extends Component {
                           // onClick={this.expandAll}
                           />
                       </Tooltip>
-                      <Tooltip title="Save your changes">              
-                        <Button 
-                          shape="circle" 
-                          className="saveButton"
-                          ghost={true}
-                          icon="save"
-                          onClick={this.saveTreeData}
-                          />
-                      </Tooltip>
                       <Tooltip title="Export this library to JSON file">
                         <Button
                           shape="circle" 
@@ -407,6 +398,15 @@ export default class MainMenu extends Component {
                           ghost={true}
                           icon="export"
                           // onClick={this.collapseAll}
+                          />
+                      </Tooltip>
+                      <Tooltip title="Save your changes">              
+                        <Button 
+                          shape="circle" 
+                          className="saveButton"
+                          ghost={true}
+                          icon="save"
+                          onClick={this.saveTreeData}
                           />
                       </Tooltip>
                   </div>
@@ -592,12 +592,16 @@ export default class MainMenu extends Component {
             <Divider />
           </SubMenu>
           <Menu.Item key="5">
-            <Icon type="inbox" />
+            <Tooltip title="Ask questions about your library and get answers with context">              
+              <Icon type="inbox" />
+            </Tooltip>
             <span>Ask</span>
           </Menu.Item>
           <Menu.Item key="6">
-            <Icon type="inbox" />
-            <span>Summaries</span>
+            <Tooltip title="Text summaries of important information from your entries">
+              <Icon type="inbox" />
+            </Tooltip>
+              <span>Summaries</span>
           </Menu.Item>
           <SubMenu key="sub3" title={<span><Icon type="appstore" /><span>Settings</span></span>}>
             <Menu.Item>Visual</Menu.Item>
