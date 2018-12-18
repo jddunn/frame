@@ -257,47 +257,6 @@ export default class MainMenu extends Component {
     }));
   }
 
-  alertNodeInfo = ({ node, path, treeIndex }) => {
-    const objectString = Object.keys(node)
-      .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
-      .join(',\n   ');
-  
-    global.alert(
-        `{\n   ${objectString}\n},\n`
-        // `path: [${path.join(', ')}],\n` +
-        // `treeIndex: ${treeIndex}`
-    );
-  };
-
-
-  // Create a new entry with modal form
-
-  showModal = () => {
-    this.setState({ visible: true });
-  }
-
-  handleCancel = () => {
-    alert("NO");
-    this.setState({ visible: false });
-  }
-
-  handleCreate = () => {
-    const form = this.formRef.props.form;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-
-      console.log('Received values of form: ', values);
-      form.resetFields();
-      this.setState({ visible: false });
-    });
-  }
-
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
-  }
-
   render() {
     const {
       treeData,
