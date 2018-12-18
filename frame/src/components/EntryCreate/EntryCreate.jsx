@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  Button, Modal, Form, Input, Radio, Select
+  Button, Modal, Form, Input, Radio, Select, message
 } from 'antd';
 
 import './EntryCreate.scss';
@@ -222,28 +222,21 @@ export class EntryCreate extends Component {
   handleCreate = () => {
     const form = this.formRef.props.form;
     let m_Entries;
+    var _this = this;
     form.validateFields((err, values) => {
       if (err) {
         return;
       }
-      console.log('Received values of form: ', values);
       const library = getState("library");
-      console.log("SAVE TO LIBRARY: ", library);
       const m_Library = openDB(library);
-      // const m_Entries = this.getLibrary(m_Library);
-      console.log("Before async");
-        getFromDB(m_Library, "entries").then(function(result) {
-          console.log("DB RESULT: " , result);
-          m_Entries = result;
-          console.log("m_ENTRIES: ", m_Entries);
-          m_Entries.unshift(values); // Add entry to top of tree
-          console.log(m_Entries);
-          saveToDB(m_Library, "entries", m_Entries);
-          form.resetFields();
-        }).catch(function(err) {
-          console.log("DB ERR: " , err);
-          m_Entries = null;
-          alert("Error creating new entry: ", err);
+      getFromDB(m_Library, "entries").then(function(result) {
+        m_Entries = result;
+        m_Entries.unshift(values); // Add entry to top of tree
+        saveToDB(m_Library, "entries", m_Entries);
+        form.resetFields();
+        message.success("Created new library entry!");
+      }).catch(function(err) {
+        message.fail("Failed to create library entry: ", err);
       });
     });
     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
