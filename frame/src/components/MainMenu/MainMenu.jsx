@@ -94,6 +94,17 @@ export default class MainMenu extends Component {
     // For entry create modal
   }
 
+
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
+      Entries = result;
+    }).catch(function(err) {
+      Entries = [];
+    });
+    return Entries;
+  }
+
   componentDidMount() {
     let treeData = [];
     try {

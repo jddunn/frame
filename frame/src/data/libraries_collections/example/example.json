@@ -17,7 +17,19 @@
                         "value": ""
                     }
                 },
-                "dragDisabled": true
+                "dragDisabled": true,
+                "children": 
+                [
+                { 
+                    "title": "Frame is a different kind of notetaking app",
+                    "id": "0005",
+                    "dateCreated": null,
+                    "dateLastModified": null,
+                    "editorType": "inline",
+                    "expanded": true,
+                    "data": {} 
+                }
+                ]
               },
               { 
                   "title": "This is the Full Node Drag theme", 

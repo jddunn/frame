@@ -1,30 +1,9 @@
 
-.entriesSubMenuContainer {
-  height: 50px;
-}
-
-.ant-menu-submenu-popup {
-  min-width: 320px !important;
-}
-
-.treeEntriesContain.entriesSubMenuContainer {
-  height: 50px;
-}
-
-.ant-menu-submenu-popup {
-  min-width: 320px !important;
-}
-
 .ant-menu {
   z-index: 1 !important;
   border-radius: 2px !important;
   box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.3) !important;
   background-color: transparent !important;
-}
-
-.ant-btn-primary {
-  z-index: 10;
-  position: relative;
 }
 
 /* Footer / brand */
@@ -67,12 +46,6 @@
   position: absolute !important;
 }
 
-.treesEntriesContainer {
-  z-index: 1;
-  border-radius: 3px;
-  // background-color: rgba(0, 104, 152, 0.65);
-}
-
 // JSONEditor browser in main menu
 .jsonEditorMainMenu {
   margin-top: 5px !important;
@@ -108,10 +81,12 @@
 .rst__tree {
   margin-right: -4px !important;
   margin-bottom: -7px !important;
-  margin-top: 6px !important;
+  margin-top: 0px !important;
   padding: 5px !important;
+  padding-top: 0px !important;
+  padding-left: 0px !important;
   height: 250px !important;
-  margin-left: -5px !important;
+  margin-left: -12px !important;
   border-radius: 3px !important;
   box-shadow: 1px 1px 1px 1px rgba(1, 131, 212, 0.75) !important;
   background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
@@ -124,6 +99,7 @@
 
 .rst__rowTitle {
   font-weight: normal !important;
+  font-size: .8em !important;
   min-width: 240px;
 }
 
@@ -137,7 +113,6 @@
   box-shadow: none !important;
   min-width: 240px !important;
   height: 35px !important;
-  font-size: .85vmax !important;
   margin: 0 !important;
   padding: 5px !important;
   background-color: transparent !important;
@@ -151,7 +126,7 @@
 }
 
 .rst__rowSubtitle {
-  font-size: .75vmax !important;
+  font-size: .7em !important;
 }
 
 .rst__rowContents:hover {
@@ -205,7 +180,7 @@
   margin: 2px !important;
   height: 20px !important;
   width: 20px !important;
-  font-size: .8em !important;
+  font-size: .9em !important;
 }
 
 .ant-btn-circle:hover {
@@ -224,7 +199,7 @@
   border: none !important;
   float: left !important;
   height: 20px !important;
-  font-size: 1.255em !important;
+  font-size: .855em !important;
   font-weight: bold !important;
   width: 20px !important;
   margin: 0 !important;
@@ -245,7 +220,7 @@
   height: 25px !important;
   padding-top: 1px !important;
   margin-left: -25px !important;
-  font-size: 1.20em !important;
+  font-size: .90em !important;
   width: 25px !important;
   position: absolute !important;
   text-shadow: 0 0 1px rgba(34, 25, 25, 0.8);
@@ -259,7 +234,7 @@
   left: 0 !important;
   height: 25px !important;
   padding: -7px !important;
-  font-size: .80em !important;
+  font-size: .650em !important;
   margin-left: -8px !important;
   margin-top: 25px !important;
   width: 15px !important;

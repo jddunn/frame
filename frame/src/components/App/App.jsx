@@ -76,6 +76,7 @@ export default class App extends Component {
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     this.getEntries = this.getEntries.bind(this);
+    this.getEntriesStart = this.getEntriesStart.bind(this);
     this.saveNotebookData = this.saveNotebookData.bind(this);
   }
 
@@ -122,26 +123,14 @@ export default class App extends Component {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
-      console.log("GET FROM DB: ", Entries);
       let entriesCount = 0;
       try {
         entriesCount = Entries.length;
       } catch (err) {
       }
-      console.log("THIS IS ENTRIES COUNT: ", entriesCount);
       if (entriesCount <= 0) {
         saveToDB(Library, key, exampleEntries.entries);
         this.getEntries(Library, key);
-        // async() => {
-        //   await getFromDB(Library, key).then(function(result) {
-        //     Entries = result;
-        //     console.log("GET FROM DB2: ", Entries);
-        //     // return Entries;
-        //   }).catch(function(err) {
-        //     Entries = [];
-        //     // return Entries;
-        //   });
-        // }
       } else {
         console.log("RETURNING ENTRIES: ", Entries);
         return Entries;
@@ -157,7 +146,6 @@ export default class App extends Component {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
-      console.log("GET FROM DB: ", Entries);
     }).catch(function(err) {
       Entries = [];
     });
@@ -189,7 +177,6 @@ export default class App extends Component {
         selectedEntryEditorType = "flow";
         selectedEntryId = null;
       }
-      console.log("Selected entry: ", selectedEntry);
       setState("library", library);
       setState("editorType", selectedEntryEditorType);
       setState("entryId", selectedEntryId);
@@ -199,7 +186,6 @@ export default class App extends Component {
         Entries: Entries,
         }
       )
-      console.log("SETTING LIBRARY STATE: ", library);
     });
   }
 
