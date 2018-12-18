@@ -236,7 +236,7 @@ export class EntryCreate extends Component {
           console.log("DB RESULT: " , result);
           m_Entries = result;
           console.log("m_ENTRIES: ", m_Entries);
-          m_Entries.push(values);
+          m_Entries.unshift(values); // Add entry to top of tree
           console.log(m_Entries);
           saveToDB(m_Library, "entries", m_Entries);
           form.resetFields();

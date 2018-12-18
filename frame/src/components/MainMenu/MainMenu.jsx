@@ -603,7 +603,11 @@ export default class MainMenu extends Component {
             </Tooltip>
               <span>Summaries</span>
           </Menu.Item>
-          <SubMenu key="sub3" title={<span><Icon type="appstore" /><span>Settings</span></span>}>
+          <SubMenu key="sub3" title={<span>
+            <Tooltip title="Visual, online, and privacy / security settings">              
+              <Icon type="appstore" />
+            </Tooltip>
+            <span>Settings</span></span>}>
             <Menu.Item>Visual</Menu.Item>
             <Menu.Item>Online</Menu.Item>
             <Menu.Item>Security</Menu.Item>
