@@ -348,7 +348,7 @@ export default class MainMenu extends Component {
                           type="primary"
                           className="saveLoadButton"
                           ghost={true} 
-                          icon="edit"
+                          icon="menu-unfold"
                           onClick={this.handleSwitchEntriesEditorType}
                           className="textButton"
                           >

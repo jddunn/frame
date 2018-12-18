@@ -54,18 +54,6 @@ const { Header, Content, Footer, Sider } = Layout;
 /**
  * Main app component of Frame. The app is *collapsed*
  * when the main menu is collapsed on the side.
- * 
- * Currently the app gets its initial data from the very
- * first *library* found in the *libraries* folder path,
- * which is all defined within config.json in /data. 
- * 
- * If no data is found in the default library, example.json 
- * will be loaded with sample entries.
- * 
- * By design, all the I/O data will be stored as JSON. To
- * keep things simple (as we don't have too many components),
- * state management is done with passing down props, and reading
- * from sessionStorage for persistent settings. 
  */
 export default class App extends Component {
   constructor(props) {
@@ -75,8 +63,8 @@ export default class App extends Component {
       Entries: [],
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
-    this.getEntries = this.getEntries.bind(this);
-    this.getEntriesStart = this.getEntriesStart.bind(this);
+    // this.getEntries = this.getEntries.bind(this);
+    this.getEntries = this.getEntries.bind(this); // Done at beginning of library loading
     this.saveNotebookData = this.saveNotebookData.bind(this);
   }
 
@@ -119,7 +107,7 @@ export default class App extends Component {
     message.success('Saved notebook changes!');
   }
 
-  async getEntriesStart(Library, key) {
+  async getEntries(Library, key) {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
@@ -142,21 +130,21 @@ export default class App extends Component {
     return Entries;
   }
 
-  async getEntries(Library, key) {
-    let Entries = [];
-    await getFromDB(Library, key).then(function(result) {
-      Entries = result;
-    }).catch(function(err) {
-      Entries = [];
-    });
-    return Entries;
-  }
+  // async getEntries(Library, key) {
+  //   let Entries = [];
+  //   await getFromDB(Library, key).then(function(result) {
+  //     Entries = result;
+  //   }).catch(function(err) {
+  //     Entries = [];
+  //   });
+  //   return Entries;
+  // }
 
   async componentWillMount () {
     const library = defaultFLib;
     const Library = openDB(library);
     let Entries = [];
-    await this.getEntriesStart(Library, "entries").then((result) => {
+    await this.getEntries(Library, "entries").then((result) => {
       Entries = result;
       console.log("GOT ASYNC RESULT: ", result);
       const selectedEntry = Entries[0];
