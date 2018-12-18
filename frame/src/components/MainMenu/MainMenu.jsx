@@ -350,10 +350,15 @@ export default class MainMenu extends Component {
           inlineCollapsed={this.state.collapsed}
         >
           <Menu.Item key="1" style={{marginTop: '20px'}}>
-            <Icon type="desktop" />
+            <Tooltip title="View / edit entries">
+              <Icon type="desktop" />
+            </Tooltip>
             <span>Look</span>
           </Menu.Item>
-            <SubMenu key="sub2" title={<span><Icon type="snippets"/>
+            <SubMenu key="sub2" title={<span>
+              <Tooltip title="Browse / select entries">              
+                <Icon type="snippets"/>
+              </Tooltip>
               <span>Entries</span></span>}>
               <Divider />
                 <div className="entriesEditorButtonsContainer">
@@ -361,41 +366,49 @@ export default class MainMenu extends Component {
                     <EntryCreate/>
                     <div className="primaryGhostButton"
                       style={{display: 'inline'}}>
-                      <Button 
-                        type="primary"
-                        className="saveLoadButton"
-                        ghost={true} 
-                        icon="edit"
-                        onClick={this.handleSwitchEntriesEditorType}
-                        className="textButton"
-                        >
-                        {entriesEditorButtonType.charAt(0).toUpperCase() +
-                          entriesEditorButtonType.slice(1) + ' ' 
+                      <Tooltip title="Switch explorer view">
+                        <Button 
+                          type="primary"
+                          className="saveLoadButton"
+                          ghost={true} 
+                          icon="edit"
+                          onClick={this.handleSwitchEntriesEditorType}
+                          className="textButton"
+                          >
+                          {entriesEditorButtonType.charAt(0).toUpperCase() +
+                            entriesEditorButtonType.slice(1) + ' ' 
                           + ''}
-                      </Button>
+                        </Button>
+                      </Tooltip>
                     </div>
                     <div className="saveLoadExportButtonsContainer">
-                      <Button 
-                        shape="circle" 
-                        className="loadButton"
-                        ghost={true}
-                        icon="folder-open"
-                        // onClick={this.expandAll}
-                        />
-                      <Button 
-                        shape="circle" 
-                        className="saveButton"
-                        ghost={true}
-                        icon="save"
-                        onClick={this.saveTreeData}
-                        />
-                      <Button
-                        shape="circle" 
-                        className="exportButton"
-                        ghost={true}
-                        icon="export"
-                        // onClick={this.collapseAll}
-                      />
+                      <Tooltip title="Load / create a new library">              
+                        <Button 
+                          shape="circle" 
+                          className="loadButton"
+                          ghost={true}
+                          icon="folder-open"
+                          // onClick={this.expandAll}
+                          />
+                      </Tooltip>
+                      <Tooltip title="Save your changes">              
+                        <Button 
+                          shape="circle" 
+                          className="saveButton"
+                          ghost={true}
+                          icon="save"
+                          onClick={this.saveTreeData}
+                          />
+                      </Tooltip>
+                      <Tooltip title="Export this library to JSON file">
+                        <Button
+                          shape="circle" 
+                          className="exportButton"
+                          ghost={true}
+                          icon="export"
+                          // onClick={this.collapseAll}
+                          />
+                      </Tooltip>
                   </div>
                 </div>
             </div>
