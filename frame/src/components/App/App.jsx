@@ -38,7 +38,7 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
-localforage.clear();
+// localforage.clear();
 
 /** Notebook editors types */
 const editorTypes = Object.freeze(
@@ -171,7 +171,6 @@ export default class App extends Component {
         selectedEntryId = null;
       }
       console.log("Selected entry: ", selectedEntry);
-
       setState("library", library);
       setState("editorType", selectedEntryEditorType);
       setState("entryId", selectedEntryId);
@@ -237,6 +236,21 @@ export default class App extends Component {
     let entryId = (getState("entryId") != null) ?
       getState("entryId") : null;
     let entry = traverseEntriesById(entryId);
+    if (entry === null) {
+      console.log("Could not find entry with ID: ", entryId);
+      console.log("Setting default entry to top in tree");
+      entry = Entries[0];
+      try {
+        setState("entryId", entry['id']);
+      } catch (err) {
+        setState("entryId", null);
+      }
+      try {
+        setState("editorType", entry['editorType']);
+      } catch (err) {
+        setState("editorType", null);
+      }
+    }
     let editorType = (getState("editorType") != null) ? 
                       getState("editorType") : "flow";
     let entryPageTitle;
@@ -247,7 +261,6 @@ export default class App extends Component {
     } catch (err) {
       entryPageTitle = 'Notebook';
     }
-
     return (
       <div style={{ 
         display: 'flex',

@@ -29,7 +29,6 @@ const Option = Select.Option;
 const EntryCreateForm = Form.create()(
   // eslint-disable-next-line
   class extends Component {
-
     constructor(props) {
       super(props);
       /*
@@ -40,13 +39,11 @@ const EntryCreateForm = Form.create()(
          input field with state.
       */
       this.state = {entryTags: {}, entryTitle: 'New entry'};
-
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
       this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
       this.handleTagsInputChange = this.handleTagsInputChange.bind(this);
     }
-
     
     handleEditorChange(value) {
       console.log(`selected ${value}`);
@@ -184,7 +181,7 @@ const EntryCreateForm = Form.create()(
            <FormItem label="Date Created"
             {...formItemLayout}
             >
-            {getFieldDecorator('date created', {
+            {getFieldDecorator('dateCreated', {
               initialValue: timestampNow,
               })(<Input disabled={true} type="textarea" />)}
             </FormItem>
@@ -222,9 +219,9 @@ export class EntryCreate extends Component {
     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
   }
 
-
   handleCreate = () => {
     const form = this.formRef.props.form;
+    let m_Entries;
     form.validateFields((err, values) => {
       if (err) {
         return;
@@ -234,31 +231,23 @@ export class EntryCreate extends Component {
       console.log("SAVE TO LIBRARY: ", library);
       const m_Library = openDB(library);
       // const m_Entries = this.getLibrary(m_Library);
-      let m_Entries = [];
-      m_Entries.push(values);
-      saveToDB(m_Library, "entries", m_Entries);
-      // async () => {
-      //   console.log("DOING ASYNC");
-      //   await getFromDB(m_Library, "entries").then(function(result) {
-      //     console.log("DB RESULT: " , result);
-      //     m_Entries = result;
-      //     console.log("m_ENTRIES: ", m_Entries);
-      //     // m_Entries.push(values);
-      //     console.log(m_Entries);
-      //     saveToDB(m_Library, "entries", m_Entries);
-      //     form.resetFields();
-      //     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
-      //   }).catch(function(err) {
-      //     console.log("DB ERR: " , err);
-      //     m_Entries = null;
-      //     alert("Error creating new entry: ", err);
-      //     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
-      //   });
-      // };
-      
-      this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
-
+      console.log("Before async");
+        getFromDB(m_Library, "entries").then(function(result) {
+          console.log("DB RESULT: " , result);
+          m_Entries = result;
+          console.log("m_ENTRIES: ", m_Entries);
+          m_Entries.push(values);
+          console.log(m_Entries);
+          saveToDB(m_Library, "entries", m_Entries);
+          form.resetFields();
+        }).catch(function(err) {
+          console.log("DB ERR: " , err);
+          m_Entries = null;
+          alert("Error creating new entry: ", err);
+      });
     });
+    this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
+    return m_Entries;
   }
 
   saveFormRef = (formRef) => {

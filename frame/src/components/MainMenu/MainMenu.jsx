@@ -21,6 +21,18 @@ import '../../lib/custom-vendor/react-sortable-tree-style.css';
 /** Local comp style */
 import './MainMenu.scss';
 
+/** Persistent data storage (localForage right now) */
+import localforage from 'localforage';
+import saveToDB from '../../utils/save-db';
+import getFromDB from '../../utils/load-db';
+import openDB from '../../utils/create-db';
+import traverseEntriesById from '../../utils/entries-traversal';
+/** State management with session storage.
+ *  This is used to pass state vals across React components,
+ *  in lieu of passing props or using Redux / Flow, for simplicity.
+ */
+import {setState, getState} from '../../utils/session-state';
+
 import getTimestamp from '../../utils/get-timestamp';
 import generateUUID from '../../utils/generate-uuid';
 
@@ -62,6 +74,7 @@ export default class MainMenu extends Component {
       visible: false
     };
     this.updateTreeData = this.updateTreeData.bind(this);
+    this.saveTreeData = this.saveTreeData.bind(this);
     
     // JSON Editor funcs
     this.onChangeTreeData = this.onChangeTreeData.bind(this);
@@ -108,6 +121,16 @@ export default class MainMenu extends Component {
       });  
     }
   }
+
+
+  saveTreeData() {
+    const library = getState("library");
+    const Library = openDB(library);
+    saveToDB(Library, "entries", this.state.treeData);
+    console.log("Saved tree data to Library: ", this.state.treeData);
+    this.forceUpdate();
+  }
+
 
   // JSONEditor funcs
   onChangeTreeData(treeData) {
@@ -364,7 +387,7 @@ export default class MainMenu extends Component {
                         className="saveButton"
                         ghost={true}
                         icon="save"
-                        // onClick={this.expandAll}
+                        onClick={this.saveTreeData}
                         />
                       <Button
                         shape="circle" 
@@ -404,10 +427,8 @@ export default class MainMenu extends Component {
                         }
                       />
                     <div className="searchArrowButtonsContainer">
-            
                       <Button
                         className="searchArrowButton"
-                        // type="primary"
                         shape="circle" 
                         ghost={true} 
                         disabled={!searchFoundCount}
@@ -417,7 +438,6 @@ export default class MainMenu extends Component {
                       </Button>
                       <Button
                         className="searchArrowButton"
-                        // type="primary"
                         shape="circle" 
                         ghost={true} 
                         disabled={!searchFoundCount}

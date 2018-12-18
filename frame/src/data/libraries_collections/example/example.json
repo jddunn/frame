@@ -4,8 +4,9 @@
             {
                 "title": "Welcome to Frame",
                 "subtitle": "Note how the hover behavior is different",
-                "timestampCreated": null,
-                "timestampLastModified": null,
+                "id": "0001",
+                "dateCreated": null,
+                "dateLastModified": null,
                 "editorType": "flow",
                 "data": {
                     "htmlContents": {
@@ -19,22 +20,33 @@
               },
               { 
                   "title": "This is the Full Node Drag theme", 
+                  "id": "0002",
+                  "dateCreated": null,
+                  "dateLastModified": null,
                   "editorType": "full",
-                  "timestamp": null,
                   "data": {}
                 },
               { 
                   "title": "You can click anywhere on the node to drag it", 
+                  "id": "0003",
+                  "dateCreated": null,
+                  "dateLastModified": null,
                   "editorType": "inline",
                   "data": {} 
               },
               { 
                   "title": "Chicken",
+                  "id": "0004",
+                  "dateCreated": null,
+                  "dateLastModified": null,
                   "editorType": "full",
                   "children": 
                             [
                             { 
                                 "title": "Egg",
+                                "id": "0005",
+                                "dateCreated": null,
+                                "dateLastModified": null,
                                 "editorType": "inline",
 
                                 "data": {} 
