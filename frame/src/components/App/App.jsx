@@ -20,9 +20,10 @@ import Brand from '../Brand/Brand';
 /** App global comp styles */
 import './App.scss';
 /** Persistent data storage (localForage right now) */
+import localforage from 'localforage';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
-import createNewLib from '../../utils/create-db';
+import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 /** State management with session storage.
  *  This is used to pass state vals across React components,
@@ -37,7 +38,7 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
-// localforage.clear();
+localforage.clear();
 
 /** Notebook editors types */
 const editorTypes = Object.freeze(
@@ -75,6 +76,7 @@ export default class App extends Component {
       Entries: [],
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
+    this.getEntries = this.getEntries.bind(this);
   }
 
   /**
@@ -111,53 +113,76 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  async componentWillMount () {
-    let Entries;
-    const library = this.state.library;
-    const m_Library = createNewLib(library);
-    await getFromDB(m_Library, "entries").then(function(result) {
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
       Entries = result;
-    }).catch(function(err) {
-      Entries = null;
-    });
-    let entriesCount = 0;
-    try {
-      entriesCount = Entries.length;
-    } catch (err) {
-    }
-    // Entries = this.getEntriesInFLib(m_Library);
-    // if (Entries != null && Entries != undefined && Entries != "undefined") {
-    // } else {
-    // m_Library.setItem("entries", exampleEntries.entries);
-    saveToDB(m_Library, "entries", exampleEntries.entries);
-    await getFromDB(m_Library, "entries").then(function(result) {
-      console.log(result);
-      Entries = result;
-    }).catch(function(err) {
-      console.log(err);
-      Entries = null;
-    });
-    console.log("Entries: ", Entries);
-    const selectedEntry = Entries[0];
-    const selectedEntryEditorType = (selectedEntry.editorType != null && 
-                                     selectedEntry.editorType != undefined &&
-                                     selectedEntry.editorType != "undefined" &&
-                                     selectedEntry.editorType != "") ?
-                                     selectedEntry.editorType : "flow"; 
-    const selectedEntryId = (selectedEntry.id != null && 
-      selectedEntry.id != undefined &&
-      selectedEntry.id != "undefined" &&
-      selectedEntry.id != "") ?
-      selectedEntry.id : null;
-    // Set Entries in actual React state since
-    // sessionStorage can only do JSON.
-    this.setState({
-      Entries: Entries,
+      console.log("GET FROM DB: ", Entries);
+      return Entries;
+      let entriesCount = 0;
+      try {
+        entriesCount = Entries.length;
+      } catch (err) {
       }
-    )
-    setState("library", library);
-    setState("editorType", selectedEntryEditorType);
-    setState("entryId", selectedEntryId);
+      if (entriesCount <= 0) {
+        // if (Entries != null && Entries != undefined && Entries != "undefined") {
+        saveToDB(Library, key, exampleEntries.entries);
+        async() => {
+          await getFromDB(Library, key).then(function(result) {
+            Entries = result;
+            console.log("GET FROM DB2: ", Entries);
+            return Entries;
+          }).catch(function(err) {
+            Entries = [];
+            return Entries;
+          });
+        }
+      } else {
+        return Entries;
+      }
+    }).catch(function(err) {
+      Entries = [];
+    });
+    return Entries;
+  }
+
+  async componentDidMount () {
+    const library = defaultFLib;
+    const Library = openDB(library);
+    let Entries = [];
+    await this.getEntries(Library, "entries").then((result) => {
+      Entries = result;
+      const selectedEntry = Entries[0];
+      let selectedEntryEditorType;
+      let selectedEntryId;
+      if (selectedEntry != null && selectedEntry != undefined) {
+        selectedEntryEditorType = (selectedEntry.editorType != null && 
+          selectedEntry.editorType != undefined &&
+          selectedEntry.editorType != "undefined" &&
+          selectedEntry.editorType != "") ?
+          selectedEntry.editorType : "flow"; 
+        selectedEntryId = (selectedEntry.id != null && 
+          selectedEntry.id != undefined &&
+          selectedEntry.id != "undefined" &&
+          selectedEntry.id != "") ?
+          selectedEntry.id : null;
+      } else {
+        selectedEntryEditorType = "flow";
+        selectedEntryId = null;
+      }
+      console.log("Selected entry: ", selectedEntry);
+
+      setState("library", library);
+      setState("editorType", selectedEntryEditorType);
+      setState("entryId", selectedEntryId);
+      // Set Entries in actual React state since
+      // sessionStorage can only do JSON.
+      this.setState({
+        Entries: Entries,
+        }
+      )
+      console.log("SETTING LIBRARY STATE: ", library);
+    });
   }
 
   /**
@@ -218,7 +243,7 @@ export default class App extends Component {
     try {
       entryPageTitle = (entry.title != null &&
         entry.title != undefined) ?
-        entry.title : '';
+        entry.title : 'Notebook - ' + entry.title;
     } catch (err) {
       entryPageTitle = 'Notebook';
     }

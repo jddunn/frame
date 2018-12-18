@@ -9,6 +9,19 @@ import './EntryCreate.scss';
 import getTimestamp from '../../utils/get-timestamp';
 import generateUUID from '../../utils/generate-uuid';
 
+import openDB from '../../utils/create-db';
+import saveToDB from '../../utils/save-db';
+import getFromDB from '../../utils/load-db';
+import traverseEntriesById from '../../utils/entries-traversal';
+import {setState, getState} from '../../utils/session-state';
+
+
+import
+{ toggleExpandedForAll,
+    addNodeUnderParent,
+    insertNode,
+    removeNodeAtPath } from 'react-sortable-tree';
+
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const Option = Select.Option;
@@ -27,6 +40,7 @@ const EntryCreateForm = Form.create()(
          input field with state.
       */
       this.state = {entryTags: {}, entryTitle: 'New entry'};
+
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
       this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
@@ -90,7 +104,7 @@ const EntryCreateForm = Form.create()(
       } catch (err) {
         tagsLength = 0;
       }
-      const subtitleInitialText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0\n' + 'Tags: ';
+      const subtitleInitialText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0' + 'Tags: ';
       let subtitleDefaultText;
       if (tagsLength <= 0) {
         subtitleDefaultText = subtitleInitialText + ' none';
@@ -121,17 +135,10 @@ const EntryCreateForm = Form.create()(
                 <Input onChange={this.handleTitleInputChange} placeholder={entryTitle}/>
               )}
             </FormItem>
-            {/* <FormItem label="Date Created"
-                {...formItemLayout}
-              >
-              {getFieldDecorator('date created', {
-                initialValue: timestampNow,
-              })(<Input disabled={true} type="textarea" />)}
-            </FormItem> */}
             <FormItem label="Document Type"
                 {...formItemLayout}
               >
-              {getFieldDecorator('document type', {
+              {getFieldDecorator('editorType', {
                   initialValue: "flow",
                   rules: [{ required: true, message: 'Document / editor format is required' }],
               })(
@@ -146,11 +153,12 @@ const EntryCreateForm = Form.create()(
             <FormItem label="Category Tags"
                 {...formItemLayout}
               >
-              {getFieldDecorator('category tags', {
+              {getFieldDecorator('tags', {
+                initialValue: '',
               })(<Input 
                   placeholder='Separate tags by spaces and punct' type="textarea" 
                   onChange={this.handleTagsInputChange}
-                  value={entryTags.toString()} 
+                  value={entryTags} 
               />)}
             </FormItem>
             <FormItem label="Description"
@@ -169,11 +177,17 @@ const EntryCreateForm = Form.create()(
               label="Unique ID"
               {...formItemLayout}
             >
-            {getFieldDecorator('unique id', {
+            {getFieldDecorator('id', {
               initialValue: uuid,
               })(<Input disabled={true} type="textarea" />)}
             </FormItem>
-
+           <FormItem label="Date Created"
+            {...formItemLayout}
+            >
+            {getFieldDecorator('date created', {
+              initialValue: timestampNow,
+              })(<Input disabled={true} type="textarea" />)}
+            </FormItem>
             <div className="modalFooterBlock">
               <Button onClick={this.handleReset}>
                 Clear
@@ -208,6 +222,7 @@ export class EntryCreate extends Component {
     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
   }
 
+
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
@@ -215,8 +230,34 @@ export class EntryCreate extends Component {
         return;
       }
       console.log('Received values of form: ', values);
-      form.resetFields();
+      const library = getState("library");
+      console.log("SAVE TO LIBRARY: ", library);
+      const m_Library = openDB(library);
+      // const m_Entries = this.getLibrary(m_Library);
+      let m_Entries = [];
+      m_Entries.push(values);
+      saveToDB(m_Library, "entries", m_Entries);
+      // async () => {
+      //   console.log("DOING ASYNC");
+      //   await getFromDB(m_Library, "entries").then(function(result) {
+      //     console.log("DB RESULT: " , result);
+      //     m_Entries = result;
+      //     console.log("m_ENTRIES: ", m_Entries);
+      //     // m_Entries.push(values);
+      //     console.log(m_Entries);
+      //     saveToDB(m_Library, "entries", m_Entries);
+      //     form.resetFields();
+      //     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
+      //   }).catch(function(err) {
+      //     console.log("DB ERR: " , err);
+      //     m_Entries = null;
+      //     alert("Error creating new entry: ", err);
+      //     this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
+      //   });
+      // };
+      
       this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
+
     });
   }
 
