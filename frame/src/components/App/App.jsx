@@ -77,6 +77,9 @@ export default class App extends Component {
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     this.getEntries = this.getEntries.bind(this);
+
+    this.saveNotebookData = this.saveNotebookData.bind(this);
+    this.successSaveMessage = this.successSaveMessage.bind(this);
   }
 
   /**
@@ -111,6 +114,15 @@ export default class App extends Component {
   handleEditorSwitchClick = (event) => {
     setState("editorType", event.key.toString());
     this.forceUpdate();
+  }
+
+  successSaveMessage() {
+    message.success('Saved notebook changes!');
+  }
+
+  saveNotebookData() {
+    console.log("Saved notebook data changes");
+    this.successSaveMessage();
   }
 
   async getEntries(Library, key) {
@@ -326,7 +338,7 @@ export default class App extends Component {
                           className="saveButtonNotebook"
                           ghost={true}
                           icon="save"
-                          // onClick={this.saveTreeData}
+                          onClick={this.saveNotebookData}
                           />
                       </Tooltip>
                       </div>        
