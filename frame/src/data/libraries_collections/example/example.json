@@ -8,6 +8,7 @@
                 "dateCreated": null,
                 "dateLastModified": null,
                 "editorType": "flow",
+                "expanded": true,
                 "data": {
                     "htmlContents": {
                         "value": ""
@@ -24,6 +25,7 @@
                   "dateCreated": null,
                   "dateLastModified": null,
                   "editorType": "full",
+                  "expanded": true,
                   "data": {}
                 },
               { 
@@ -32,6 +34,7 @@
                   "dateCreated": null,
                   "dateLastModified": null,
                   "editorType": "inline",
+                  "expanded": true,
                   "data": {} 
               },
               { 
@@ -40,6 +43,7 @@
                   "dateCreated": null,
                   "dateLastModified": null,
                   "editorType": "full",
+                  "expanded": true,
                   "children": 
                             [
                             { 
@@ -48,7 +52,7 @@
                                 "dateCreated": null,
                                 "dateLastModified": null,
                                 "editorType": "inline",
-
+                                "expanded": true,
                                 "data": {} 
                             }
                             ]

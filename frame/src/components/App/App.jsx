@@ -118,45 +118,59 @@ export default class App extends Component {
     message.success('Saved notebook changes!');
   }
 
-  async getEntries(Library, key) {
+  async getEntriesStart(Library, key) {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
       console.log("GET FROM DB: ", Entries);
-      return Entries;
       let entriesCount = 0;
       try {
         entriesCount = Entries.length;
       } catch (err) {
       }
+      console.log("THIS IS ENTRIES COUNT: ", entriesCount);
       if (entriesCount <= 0) {
-        // if (Entries != null && Entries != undefined && Entries != "undefined") {
         saveToDB(Library, key, exampleEntries.entries);
-        async() => {
-          await getFromDB(Library, key).then(function(result) {
-            Entries = result;
-            console.log("GET FROM DB2: ", Entries);
-            return Entries;
-          }).catch(function(err) {
-            Entries = [];
-            return Entries;
-          });
-        }
+        this.getEntries(Library, key);
+        // async() => {
+        //   await getFromDB(Library, key).then(function(result) {
+        //     Entries = result;
+        //     console.log("GET FROM DB2: ", Entries);
+        //     // return Entries;
+        //   }).catch(function(err) {
+        //     Entries = [];
+        //     // return Entries;
+        //   });
+        // }
       } else {
+        console.log("RETURNING ENTRIES: ", Entries);
         return Entries;
       }
+    }).catch(function(err) {
+      Entries = [];
+      return Entries;
+    });
+    return Entries;
+  }
+
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
+      Entries = result;
+      console.log("GET FROM DB: ", Entries);
     }).catch(function(err) {
       Entries = [];
     });
     return Entries;
   }
 
-  async componentDidMount () {
+  async componentWillMount () {
     const library = defaultFLib;
     const Library = openDB(library);
     let Entries = [];
-    await this.getEntries(Library, "entries").then((result) => {
+    await this.getEntriesStart(Library, "entries").then((result) => {
       Entries = result;
+      console.log("GOT ASYNC RESULT: ", result);
       const selectedEntry = Entries[0];
       let selectedEntryEditorType;
       let selectedEntryId;
@@ -166,7 +180,7 @@ export default class App extends Component {
           selectedEntry.editorType != "undefined" &&
           selectedEntry.editorType != "") ?
           selectedEntry.editorType : "flow"; 
-        selectedEntryId = (selectedEntry.id != null && 
+          selectedEntryId = (selectedEntry.id != null && 
           selectedEntry.id != undefined &&
           selectedEntry.id != "undefined" &&
           selectedEntry.id != "") ?
@@ -188,6 +202,7 @@ export default class App extends Component {
       console.log("SETTING LIBRARY STATE: ", library);
     });
   }
+
 
   /**
    * Build menu container to hold global buttons and selects.
