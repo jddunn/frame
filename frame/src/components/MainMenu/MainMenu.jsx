@@ -359,7 +359,7 @@ export default class MainMenu extends Component {
               <Tooltip title="Browse / select entries">              
                 <Icon type="snippets"/>
               </Tooltip>
-              <span>Entries</span></span>}>
+              <span>Library</span></span>}>
               <Divider />
                 <div className="entriesEditorButtonsContainer">
                   <div className="mainEntriesButtonsWrapper">
@@ -400,7 +400,7 @@ export default class MainMenu extends Component {
                           // onClick={this.collapseAll}
                           />
                       </Tooltip>
-                      <Tooltip title="Save your changes">              
+                      <Tooltip title="Save your library changes">              
                         <Button 
                           shape="circle" 
                           className="saveButton"

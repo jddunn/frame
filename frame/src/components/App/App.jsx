@@ -320,6 +320,15 @@ export default class App extends Component {
                           </div>
                         </Dropdown.Button>
                         </Tooltip>
+                        <Tooltip title="Save your changes in notebook">              
+                        <Button 
+                          shape="circle" 
+                          className="saveButtonNotebook"
+                          ghost={true}
+                          icon="save"
+                          // onClick={this.saveTreeData}
+                          />
+                      </Tooltip>
                       </div>        
                     </div>
                     {/* End app title */}
