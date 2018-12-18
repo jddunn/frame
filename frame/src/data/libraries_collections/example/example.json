@@ -19,55 +19,75 @@
                 },
                 "dragDisabled": true,
                 "children": 
-                [
-                { 
-                    "title": "Frame is a different kind of notetaking app",
-                    "id": "0005",
-                    "dateCreated": null,
-                    "dateLastModified": null,
-                    "editorType": "inline",
-                    "expanded": true,
-                    "data": {} 
-                }
+                    [
+                    { 
+                        "title": "Frame is a different kind of notetaking app",
+                        "id": "0005",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    },
+                    { 
+                        "title": "Who is this app for?",
+                        "id": "0006",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    },
+                    { 
+                        "title": "Roadmap of the future",
+                        "id": "0007",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    }
                 ]
-              },
-              { 
-                  "title": "This is the Full Node Drag theme", 
-                  "id": "0002",
-                  "dateCreated": null,
-                  "dateLastModified": null,
-                  "editorType": "full",
-                  "expanded": true,
-                  "data": {}
+            },
+            {
+                "title": "Example text - Alice in Wonderland",
+                "subtitle": "Note how the hover behavior is different",
+                "id": "0001",
+                "dateCreated": null,
+                "dateLastModified": null,
+                "editorType": "flow",
+                "expanded": true,
+                "data": {
+                    "htmlContents": {
+                        "value": ""
+                    },
+                    "textContents": {
+                        "value": ""
+                    }
                 },
-              { 
-                  "title": "You can click anywhere on the node to drag it", 
-                  "id": "0003",
-                  "dateCreated": null,
-                  "dateLastModified": null,
-                  "editorType": "inline",
-                  "expanded": true,
-                  "data": {} 
-              },
-              { 
-                  "title": "Chicken",
-                  "id": "0004",
-                  "dateCreated": null,
-                  "dateLastModified": null,
-                  "editorType": "full",
-                  "expanded": true,
-                  "children": 
-                            [
-                            { 
-                                "title": "Egg",
-                                "id": "0005",
-                                "dateCreated": null,
-                                "dateLastModified": null,
-                                "editorType": "inline",
-                                "expanded": true,
-                                "data": {} 
-                            }
-                            ]
-                }        
+                "dragDisabled": true,
+                "children": 
+                    [
+                    { 
+                        "title": "Chapter 1",
+                        "id": "0005",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    },
+                    { 
+                        "title": "Chapter 2",
+                        "id": "0006",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    }
+                ]
+            }
         ]
+        
 }

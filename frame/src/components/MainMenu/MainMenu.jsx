@@ -6,6 +6,7 @@ import SortableTree,
  { toggleExpandedForAll,
     addNodeUnderParent,
     removeNodeAtPath } from 'react-sortable-tree';
+import getFlatDataFromTree from '../../utils/tree-data-utils';
 /** Tree component with file explorer view */
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 /** Modal / form input for new entry */
@@ -274,12 +275,17 @@ export default class MainMenu extends Component {
     // tree to get the full number of entries in a library.
     // Currently this only counts the parent-level nodes.
     try {
-      treeLength = this.state.treeData.length;
-      if (typeof(treeLength) === 'undefined') treeLength = 0;
-    } catch(err) {
-      treeLength = 0;
+      treeLength = getFlatDataFromTree(treeData).length;
+      console.log("Flat data tree length: ", treeLength);
+    } catch (err) {
+      console.log("Err flattening tree: ", err);
+      try {
+        treeLength = this.state.treeData.length;
+        if (typeof(treeLength) === 'undefined') treeLength = 0;
+      } catch(err) {
+        treeLength = 0;
+      }
     }
-
     let foundEntries;
     try {
       foundEntries = (this.state.treeData.length > 0) ? true : false;
