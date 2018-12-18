@@ -15,7 +15,6 @@ import getFromDB from '../../utils/load-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import {setState, getState} from '../../utils/session-state';
 
-
 import
 { toggleExpandedForAll,
     addNodeUnderParent,

@@ -5,11 +5,11 @@
 
 export default function saveToDB(store, key, value) {
     store.setItem(key, value).then(function (result) {
-        console.log("Saved to store ", key, ':', store);
-        console.log(result);
+        // console.log("Saved to store ", key, ':', store);
+        // console.log(result);
         return result;
     }).catch(function(err) {
-        console.log(err);
+        // console.log(err);
         return null;
     });
 }

@@ -1,6 +1,5 @@
 'use strict';
 /* eslint no-named-as-default-member: 0 */
-
 /** Global config file for app settings; TODO: Needs integrating */
 import config from '../../data/config.json';
 import exampleEntries from '../../data/libraries_collections/example/example.json'; // Example Frame library
@@ -77,9 +76,7 @@ export default class App extends Component {
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     this.getEntries = this.getEntries.bind(this);
-
     this.saveNotebookData = this.saveNotebookData.bind(this);
-    this.successSaveMessage = this.successSaveMessage.bind(this);
   }
 
   /**
@@ -116,13 +113,9 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  successSaveMessage() {
-    message.success('Saved notebook changes!');
-  }
-
   saveNotebookData() {
     console.log("Saved notebook data changes");
-    this.successSaveMessage();
+    message.success('Saved notebook changes!');
   }
 
   async getEntries(Library, key) {

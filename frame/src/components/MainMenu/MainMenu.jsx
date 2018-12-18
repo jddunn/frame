@@ -77,7 +77,6 @@ export default class MainMenu extends Component {
     };
     this.updateTreeData = this.updateTreeData.bind(this);
     this.saveTreeData = this.saveTreeData.bind(this);
-    this.successSaveMessage = this.successSaveMessage.bind(this);
     
     // JSON Editor funcs
     this.onChangeTreeData = this.onChangeTreeData.bind(this);
@@ -125,16 +124,12 @@ export default class MainMenu extends Component {
     }
   }
 
-  successSaveMessage() {
-    message.success('Saved library changes!');
-  };
-
   saveTreeData() {
     const library = getState("library");
     const Library = openDB(library);
     saveToDB(Library, "entries", this.state.treeData);
     console.log("Saved tree data to Library: ", this.state.treeData);
-    this.successSaveMessage();
+    message.success('Saved library changes!');
     this.forceUpdate();
   }
 
