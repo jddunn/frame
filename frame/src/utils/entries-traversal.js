@@ -1,5 +1,3 @@
-import { resolve } from "path";
-
 /* eslint prefer-arrow-callback: 0 */
 /* eslint func-names: 0 */
 /* eslint no-unused-vars: 0 */
@@ -34,7 +32,6 @@ export default function traverseEntriesById(id, Entries) {
     }
     while (!res.done) {
         res = next.next();
-        console.log(res.value);
         try {
             
         if (id === res.value.id) {
