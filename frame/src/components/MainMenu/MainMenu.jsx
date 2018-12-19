@@ -238,9 +238,15 @@ export default class MainMenu extends Component {
     }
   }
 
-  // Handles switching the type of Notebook editor
+  // Handles switching the type of entries editor
   handleSwitchEntriesEditorType = (event) => {
     const val = event.target.key;
+    if (!this.state.entriesEditorUsingJson) {
+      alert(`Warning - You are entering an advanced, all-powerful
+                 editor mode. Changing things like the id and 
+                 editorType in the data could break things
+                 if you don't know what you're doing!`); 
+    }
     this.setState((prevState, props) => ({
       entriesEditorUsingJson: !prevState.entriesEditorUsingJson,
     }));
@@ -415,7 +421,7 @@ export default class MainMenu extends Component {
                           onClick={() => { this.exportLibraryToJSONFile(library) }}
                           />
                       </Tooltip>
-                      <Tooltip title="Save your library changes">              
+                      <Tooltip title="Save the current library changes">              
                         <Button 
                           shape="circle" 
                           className="saveButton"
