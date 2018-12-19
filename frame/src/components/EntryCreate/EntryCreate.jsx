@@ -204,6 +204,7 @@ const EntryCreateForm = Form.create()(
 );
 
 export class EntryCreate extends Component {
+
   state = {
     visible: false,
   };
@@ -215,7 +216,11 @@ export class EntryCreate extends Component {
   handleCancel = () => {
     const form = this.formRef.props.form;
     form.resetFields();
-    this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
+    this.setState({ visible: false });
+  }
+
+  refreshMenuList = () => {
+    this.setState({visible: false});
   }
 
   handleCreate = () => {
@@ -226,20 +231,30 @@ export class EntryCreate extends Component {
       if (err) {
         return;
       }
+      console.log("FORM VALUES: ", values);
       const library = getState("library");
       const m_Library = openDB(library);
       getFromDB(m_Library, "entries").then(function(result) {
         m_Entries = result;
         m_Entries.unshift(values); // Add entry to top of tree
-        saveToDB(m_Library, "entries", m_Entries);
-        form.resetFields();
-        message.success("Created new library entry!");
+        saveToDB(m_Library, "entries", m_Entries).then(function(result) {
+          form.resetFields();
+          message.success("Created new library entry!");
+          console.log("CREATED NEW LIB ENTRY");
+          // _this.setState({visible: false});
+          _this.props.updateEntriesMethod();
+          _this.refreshMenuList();
+          // _this.forceUpdate();
+        })
       }).catch(function(err) {
-        message.fail("Failed to create library entry: ", err);
+        alert(err);
+        form.resetFields();
+        message.success("Failed to create new library entry!");
+        _this.refreshMenuList();
+        // _this.setState({visible: false});
       });
     });
-    this.setState({ visible: false, entryTags: [], entryTitle: 'New entry' });
-    return m_Entries;
+    this.forceUpdate();
   }
 
   saveFormRef = (formRef) => {

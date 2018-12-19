@@ -61,11 +61,17 @@ export default class App extends Component {
     this.state = {
       collapsed: false,
       Entries: [],
+      lastEntriesLength: 0 // Keep track of this so the app knows
+                           // when a new entry has been added, and to re-render.
+                           // (This is because deleting / adding entires in-line 
+                           // do not save automatically, but adding a new entry
+                           // with the main button should).
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
-    // this.getEntries = this.getEntries.bind(this);
+    this.getEntriesInitial = this.getEntriesInitial.bind(this);
     this.getEntries = this.getEntries.bind(this); // Done at beginning of library loading
     this.saveNotebookData = this.saveNotebookData.bind(this);
+    this.updateEntries = this.updateEntries.bind(this);
   }
 
   /**
@@ -107,7 +113,7 @@ export default class App extends Component {
     message.success('Saved notebook changes!');
   }
 
-  async getEntries(Library, key) {
+  async getEntriesInitial(Library, key) {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
@@ -130,15 +136,15 @@ export default class App extends Component {
     return Entries;
   }
 
-  // async getEntries(Library, key) {
-  //   let Entries = [];
-  //   await getFromDB(Library, key).then(function(result) {
-  //     Entries = result;
-  //   }).catch(function(err) {
-  //     Entries = [];
-  //   });
-  //   return Entries;
-  // }
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
+      Entries = result;
+    }).catch(function(err) {
+      Entries = [];
+    });
+    return Entries;
+  }
 
   async componentWillMount () {
     const library = defaultFLib;
@@ -172,9 +178,57 @@ export default class App extends Component {
       // sessionStorage can only do JSON.
       this.setState({
         Entries: Entries,
+        lastEntriesLength: Entries.length
         }
       )
     });
+  }
+
+  async updateEntries() {
+    const library = defaultFLib;
+    const Library = openDB(library);
+    let Entries = [];
+    console.log("UPDATING AAPPP 2");
+    await this.getEntries(Library, "entries").then((result) => {
+      Entries = result;
+      console.log("GOT ASYNC RESULT 2: ", result);
+      console.log("ENTRIES LENGTH: ", Entries.length);
+      // if (Entries.length > this.state.lastEntriesLength) {
+        console.log("GOT NEW ENTRY: ", Entries.length);
+        const selectedEntry = Entries[0];
+        let selectedEntryEditorType;
+        let selectedEntryId;
+        if (selectedEntry != null && selectedEntry != undefined) {
+          selectedEntryEditorType = (selectedEntry.editorType != null && 
+            selectedEntry.editorType != undefined &&
+            selectedEntry.editorType != "undefined" &&
+            selectedEntry.editorType != "") ?
+            selectedEntry.editorType : "flow"; 
+            selectedEntryId = (selectedEntry.id != null && 
+            selectedEntry.id != undefined &&
+            selectedEntry.id != "undefined" &&
+            selectedEntry.id != "") ?
+            selectedEntry.id : null;
+        } else {
+          selectedEntryEditorType = "flow";
+          selectedEntryId = null;
+        }
+        setState("library", library);
+        setState("editorType", selectedEntryEditorType);
+        setState("entryId", selectedEntryId);
+        // Set Entries in actual React state since
+        // sessionStorage can only do JSON.
+        this.setState({
+          Entries: Entries,
+          lastEntriesLength: Entries.length
+          }
+        )
+      // }
+    });
+  }
+
+  componentWillUpdate() {
+
   }
 
 
@@ -183,7 +237,7 @@ export default class App extends Component {
    * @public
    */
   buildEditorSwitchMenu = (
-    <Menu onClick={this.handleEditorSwitchClick}>
+    <Menu onClick={this.handleEditorSwitchClick} >
       <Menu.Item key="flow">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
@@ -225,6 +279,7 @@ export default class App extends Component {
   );
 
   render() {
+    console.log("APP UPDATE AGAIN");
     // By default editor mode for notes is Flow
     const Entries = this.state.Entries;
     let entryId = (getState("entryId") != null) ?
@@ -281,7 +336,7 @@ export default class App extends Component {
               onClick={this.toggleCollapsed}>
               <Brand/>
               </div>
-                <MainMenu Entries={Entries}/>
+                <MainMenu Entries={Entries} updateEntriesMethod={this.updateEntries}/>
               </Sider>
             <Layout>
               <Content>
