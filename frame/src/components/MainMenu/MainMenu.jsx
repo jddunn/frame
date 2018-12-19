@@ -95,7 +95,6 @@ export default class MainMenu extends Component {
     // For entry create modal
   }
 
-
   async getEntries(Library, key) {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
@@ -142,7 +141,7 @@ export default class MainMenu extends Component {
     saveToDB(Library, "entries", this.state.treeData);
     console.log("Saved tree data to Library: ", this.state.treeData);
     message.success('Saved library changes!');
-    this.forceUpdate();
+    this.props.updateEntriesMethod();
   }
 
   // JSONEditor funcs
@@ -340,7 +339,7 @@ export default class MainMenu extends Component {
               <Divider />
                 <div className="entriesEditorButtonsContainer">
                   <div className="mainEntriesButtonsWrapper">
-                    <EntryCreate/>
+                    <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod}/>
                     <div className="primaryGhostButton"
                       style={{display: 'inline'}}>
                       <Tooltip title="Switch explorer view">
