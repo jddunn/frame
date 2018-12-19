@@ -1,7 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  Button, Modal, Form, Input, Radio, Select, message
+  Button, Modal, Form, Input, Radio, Select, message,
+  Tooltip
 } from 'antd';
 
 import './EntryCreate.scss';
@@ -103,10 +104,11 @@ const EntryCreateForm = Form.create()(
       } catch (err) {
         tagsLength = 0;
       }
-      const subtitleInitialText = '' + timestampNow + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0';
+      const subtitleInitialText = '' + timestampNow + 
+        '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0';
       let subtitleDefaultText;
       if (tagsLength > 0) {
-        subtitleDefaultText = subtitleInitialText + entryTags.toString();
+        subtitleDefaultText = subtitleInitialText + '[' + entryTags.toString() + ']';
       } else {
         subtitleDefaultText = subtitleInitialText;
       }
@@ -264,15 +266,17 @@ export class EntryCreate extends Component {
     return (
       <div className="primaryGhostButton"
         style={{display: 'inline'}}>
-        <Button 
-          type="primary"
-          ghost={true} 
-          icon="edit"
-          onClick={this.showModal}
-          className="textButton"
-          >
-          New
-          </Button>
+        <Tooltip title="Be sure to save your changes before creating a new entry">
+          <Button 
+            type="primary"
+            ghost={true} 
+            icon="edit"
+            onClick={this.showModal}
+            className="textButton"
+            >
+            New
+            </Button>
+          </Tooltip>
           <EntryCreateForm
             wrappedComponentRef={this.saveFormRef}
             visible={this.state.visible}
