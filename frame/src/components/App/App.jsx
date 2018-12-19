@@ -69,7 +69,6 @@ export default class App extends Component {
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     this.getEntriesInitial = this.getEntriesInitial.bind(this);
-    this.getEntries = this.getEntries.bind(this); // Done at beginning of library loading
     this.saveNotebookData = this.saveNotebookData.bind(this);
     this.updateEntries = this.updateEntries.bind(this);
   }
@@ -126,7 +125,6 @@ export default class App extends Component {
         saveToDB(Library, key, exampleEntries.entries);
         this.getEntries(Library, key);
       } else {
-        console.log("RETURNING ENTRIES: ", Entries);
         return Entries;
       }
     }).catch(function(err) {
@@ -136,23 +134,12 @@ export default class App extends Component {
     return Entries;
   }
 
-  async getEntries(Library, key) {
-    let Entries = [];
-    await getFromDB(Library, key).then(function(result) {
-      Entries = result;
-    }).catch(function(err) {
-      Entries = [];
-    });
-    return Entries;
-  }
-
   async componentWillMount () {
     const library = defaultFLib;
     const Library = openDB(library);
     let Entries = [];
-    await this.getEntries(Library, "entries").then((result) => {
+    await this.getEntriesInitial(Library, "entries").then((result) => {
       Entries = result;
-      console.log("GOT ASYNC RESULT: ", result);
       const selectedEntry = Entries[0];
       let selectedEntryEditorType;
       let selectedEntryId;
@@ -188,12 +175,8 @@ export default class App extends Component {
     const library = defaultFLib;
     const Library = openDB(library);
     let Entries = [];
-    console.log("UPDATING AAPPP 2");
     await this.getEntries(Library, "entries").then((result) => {
       Entries = result;
-      console.log("GOT ASYNC RESULT 2: ", result);
-      console.log("ENTRIES LENGTH: ", Entries.length);
-      // if (Entries.length > this.state.lastEntriesLength) {
         console.log("GOT NEW ENTRY: ", Entries.length);
         const selectedEntry = Entries[0];
         let selectedEntryEditorType;
@@ -216,21 +199,13 @@ export default class App extends Component {
         setState("library", library);
         setState("editorType", selectedEntryEditorType);
         setState("entryId", selectedEntryId);
-        // Set Entries in actual React state since
-        // sessionStorage can only do JSON.
         this.setState({
           Entries: Entries,
           lastEntriesLength: Entries.length
           }
         )
-      // }
     });
   }
-
-  componentWillUpdate() {
-
-  }
-
 
   /**
    * Build menu container to hold global buttons and selects.
