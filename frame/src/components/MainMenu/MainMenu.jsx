@@ -266,7 +266,6 @@ export default class MainMenu extends Component {
   };
 
   exportLibraryToJSONFile(library) {
-    console.log("EXPORTING");
     const Library = openDB(library);
     let content = {};
     let downloadLink;
@@ -275,10 +274,11 @@ export default class MainMenu extends Component {
        current state of the library (so users can get exported data)
        without having to commit to the changes in the actual database
     */
+   try {
       content = JSON.stringify({"entries":
-        JSON.stringify(this.state.treeData,
-           null, ' ').replace(/\\n/g, '')}, 
-           null, ' ').replace(/\\n/g, '');
+      JSON.stringify(this.state.treeData,
+        null, ' ').replace(/\\n/g, '')}, 
+        null, ' ').replace(/\\n/g, '');
       let textFileAsBlob = new Blob([content], {type:'application/json'});
       let fileNameToSaveAs = library;
       downloadLink = document.createElement("a");
@@ -297,9 +297,9 @@ export default class MainMenu extends Component {
       }
       downloadLink.click();
       message.success("Downloaded current library data!");
-    // }).catch(function(err) {
-      // message.fail("Failed to create new library entry!");
-    // });
+   } catch (err) {
+     console.log(err);
+   }
   }
 
   render() {
