@@ -76,8 +76,10 @@ export default class MainMenu extends Component {
       // Showing entry modal creation form
       visible: false
     };
+    // Node interaction
+    this.clickNodeSelect = this.clickNodeSelect.bind(this);
+    // react-sortable-tree func
     this.updateTreeData = this.updateTreeData.bind(this);
-    this.saveTreeData = this.saveTreeData.bind(this);
     // JSON Editor funcs
     this.onChangeTreeData = this.onChangeTreeData.bind(this);
     this.getNewTreeData = this.getNewTreeData.bind(this);
@@ -90,7 +92,8 @@ export default class MainMenu extends Component {
     this.selectPrevMatch = this.selectNextMatch.bind(this);
     this.selectNextMatch = this.selectNextMatch.bind(this);
     this.handleSwitchEntriesEditorType = this.handleSwitchEntriesEditorType.bind(this);
-    // For entry create modal
+    // Save trees to localForage
+    this.saveTreeData = this.saveTreeData.bind(this);    
   }
 
   async getEntries(Library, key) {
@@ -265,6 +268,18 @@ export default class MainMenu extends Component {
     );
   };
 
+  clickNodeSelect(event, rowInfo) {
+    try {
+      setState("entryId", rowInfo.node.id);
+      setState("editorType", rowInfo.node.editorType);
+      message.success('Opening "' + rowInfo.node.title + '"');
+    } catch (err) {
+      console.log(err);
+      message.fail('Failed to open - ' + err);
+    }
+    this.props.updateAppMethod();
+  }
+
   exportLibraryToJSONFile(library) {
     const Library = openDB(library);
     let content = {};
@@ -412,7 +427,7 @@ export default class MainMenu extends Component {
                           // onClick={this.expandAll}
                           />
                       </Tooltip>
-                      <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to filename)'>
+                      <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to file name)'>
                         <Button
                           shape="circle" 
                           className="exportButton"
@@ -524,6 +539,14 @@ export default class MainMenu extends Component {
                           })
                         }
                       generateNodeProps={rowInfo => ({
+                        onClick: (event) => { 
+                          if(event.target.className.includes('collapseButton') || event.target.className.includes('expandButton')) {
+                            // Ignore the onlick, or do something different as the (+) or (-) button has been clicked.
+                          }
+                          else {
+                            this.clickNodeSelect(event, rowInfo);
+                          }
+                        },
                         buttons: [
                           <Button
                             shape="circle" 

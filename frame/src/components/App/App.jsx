@@ -76,6 +76,8 @@ export default class App extends Component {
     this.updateEntries = this.updateEntries.bind(this);
     // Save content in Notebook comp to db
     this.saveNotebookData = this.saveNotebookData.bind(this);
+    // Update app method
+    this.updateApp = this.updateApp.bind(this);
   }
 
   /**
@@ -222,8 +224,9 @@ export default class App extends Component {
     });
   }
 
-  switchToEntry(id) {
-    
+  // Force app to re-render; this func is passed down in props to children
+  updateApp() {
+    this.forceUpdate();
   }
 
   /**
@@ -278,7 +281,7 @@ export default class App extends Component {
     const Entries = this.state.Entries;
     let entryId = (getState("entryId") != null) ?
       getState("entryId") : null;
-    let entry = traverseEntriesById(entryId);
+    let entry = traverseEntriesById(entryId, Entries);
     if (entry === null) {
       console.log("Could not find entry with ID: ", entryId);
       console.log("Setting default entry to top in tree");
@@ -330,7 +333,9 @@ export default class App extends Component {
               onClick={this.toggleCollapsed}>
               <Brand/>
               </div>
-                <MainMenu Entries={Entries} updateEntriesMethod={this.updateEntries}/>
+                <MainMenu Entries={Entries} updateEntriesMethod={this.updateEntries}
+                  updateAppMethod={this.updateApp}
+                />
               </Sider>
             <Layout>
               <Content>
@@ -377,7 +382,7 @@ export default class App extends Component {
                     {/* End app title */}
                     <div className="editorWrapper">
                       <div id="editor">
-                          <Notepad editorType={editorType}/>
+                          <Notepad editorType={editorType} updateAppMethod={this.updateApp}/>
                       </div>
                     </div>
                   </div>
