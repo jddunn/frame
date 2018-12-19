@@ -68,10 +68,14 @@ export default class App extends Component {
                            // with the main button should).
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
+    // Initial load entries from db (this func is only called on componentWillMount)
     this.getEntriesInitial = this.getEntriesInitial.bind(this);
+    // Load entries async from db
     this.getEntries = this.getEntries.bind(this);
-    this.saveNotebookData = this.saveNotebookData.bind(this);
+    // Update entries (this func is passed in props to child comps)
     this.updateEntries = this.updateEntries.bind(this);
+    // Save content in Notebook comp to db
+    this.saveNotebookData = this.saveNotebookData.bind(this);
   }
 
   /**

@@ -257,6 +257,19 @@ export default class MainMenu extends Component {
     }));
   }
 
+  // Show info for node in alert
+  alertNodeInfo = ({ node, path, treeIndex }) => {
+    const objectString = Object.keys(node)
+      .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
+      .join(',\n   ');
+  
+    global.alert(
+        `{\n   ${objectString}\n},\n`
+        // `path: [${path.join(', ')}],\n` +
+        // `treeIndex: ${treeIndex}`
+    );
+  };
+
   render() {
     const {
       treeData,

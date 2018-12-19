@@ -160,7 +160,7 @@ const EntryCreateForm = Form.create()(
             <FormItem label="Description"
               {...formItemLayout}
               >
-              {getFieldDecorator('description', {
+              {getFieldDecorator('subtitle', {
                   initialValue: subtitleDefaultText,
                   rules: [{}],
               })(<TextArea 
@@ -240,18 +240,14 @@ export class EntryCreate extends Component {
         saveToDB(m_Library, "entries", m_Entries).then(function(result) {
           form.resetFields();
           message.success("Created new library entry!");
-          console.log("CREATED NEW LIB ENTRY");
-          // _this.setState({visible: false});
-          _this.props.updateEntriesMethod();
           _this.refreshMenuList();
-          // _this.forceUpdate();
+          _this.props.updateEntriesMethod();
         })
       }).catch(function(err) {
         alert(err);
         form.resetFields();
         message.success("Failed to create new library entry!");
         _this.refreshMenuList();
-        // _this.setState({visible: false});
       });
     });
     this.forceUpdate();
