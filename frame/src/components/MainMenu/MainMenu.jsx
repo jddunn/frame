@@ -412,7 +412,7 @@ export default class MainMenu extends Component {
                           // onClick={this.expandAll}
                           />
                       </Tooltip>
-                      <Tooltip title="Export this library (and unsaved changes) to JSON file">
+                      <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to filename)'>
                         <Button
                           shape="circle" 
                           className="exportButton"
