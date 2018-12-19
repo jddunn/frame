@@ -103,12 +103,12 @@ const EntryCreateForm = Form.create()(
       } catch (err) {
         tagsLength = 0;
       }
-      const subtitleInitialText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0' + 'Tags: ';
+      const subtitleInitialText = '' + timestampNow + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0';
       let subtitleDefaultText;
-      if (tagsLength <= 0) {
-        subtitleDefaultText = subtitleInitialText + ' none';
-      } else {
+      if (tagsLength > 0) {
         subtitleDefaultText = subtitleInitialText + entryTags.toString();
+      } else {
+        subtitleDefaultText = subtitleInitialText;
       }
       return (
         <Modal
