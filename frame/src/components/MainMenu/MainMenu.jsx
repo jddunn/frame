@@ -78,13 +78,11 @@ export default class MainMenu extends Component {
     };
     this.updateTreeData = this.updateTreeData.bind(this);
     this.saveTreeData = this.saveTreeData.bind(this);
-    
     // JSON Editor funcs
     this.onChangeTreeData = this.onChangeTreeData.bind(this);
     this.getNewTreeData = this.getNewTreeData.bind(this);
     this.editorRef = this.editorRef.bind(this);
     this.expand = this.expand.bind(this);
-
     // Expand / collapse children
     this.expandAll = this.expandAll.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
@@ -166,14 +164,6 @@ export default class MainMenu extends Component {
     this._editor = editor;
   }
 
-  // setNewTreeData(json) {
-    // if (this._editor) {
-      // this.setState({
-        // treeData: this._editor.set(json),
-      // });
-    // }
-  // }
-
   expand(expanded) {
     const newTreeData = toggleExpandedForAll({
       treeData: this.state.treeData,
@@ -186,7 +176,6 @@ export default class MainMenu extends Component {
       });
     };
   }
-
 
   // SortableTree funcs
   toggleCollapsed = () => {
@@ -270,6 +259,43 @@ export default class MainMenu extends Component {
     );
   };
 
+  exportLibraryToJSONFile(library) {
+    console.log("EXPORTING");
+    const Library = openDB(library);
+    let content = {};
+    let downloadLink;
+    /*
+       Instead of getting the data from localForage, export the
+       current state of the library (so users can get exported data)
+       without having to commit to the changes in the actual database
+    */
+      content = JSON.stringify({"entries":
+        JSON.stringify(this.state.treeData,
+           null, ' ').replace(/\\n/g, '')}, 
+           null, ' ').replace(/\\n/g, '');
+      let textFileAsBlob = new Blob([content], {type:'application/json'});
+      let fileNameToSaveAs = library;
+      downloadLink = document.createElement("a");
+      downloadLink.download = fileNameToSaveAs;
+      if (window.URL != null) {
+          // Chrome allows the link to be clicked
+          // without actually adding it to the DOM.
+          downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+      } else {
+          // Firefox requires the link to be added to the DOM
+          // before it can be clicked.
+          downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+          downloadLink.onclick = document.body.removeChild(event.target);
+          downloadLink.style.display = "none";
+          document.body.appendChild(downloadLink);
+      }
+      downloadLink.click();
+      message.success("Downloaded current library data!");
+    // }).catch(function(err) {
+      // message.fail("Failed to create new library entry!");
+    // });
+  }
+
   render() {
     const {
       treeData,
@@ -281,7 +307,7 @@ export default class MainMenu extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const { onChangeTreeData } = this.props;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
-
+    const library = getState("library");
     let treeLength;
     // TODO: Eventually we must convert the nested tree to a flat 
     // tree to get the full number of entries in a library.
@@ -320,7 +346,7 @@ export default class MainMenu extends Component {
     const uuid = generateUUID();
     const newChildEntryTitle = `New entry`;
     const newChildSubtitlePlaceholderText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0' + 'Tags: none';
-
+    
     return (
       <React.Fragment>     
         <Menu
@@ -386,7 +412,7 @@ export default class MainMenu extends Component {
                           className="exportButton"
                           ghost={true}
                           icon="export"
-                          // onClick={this.collapseAll}
+                          onClick={() => { this.exportLibraryToJSONFile(library) }}
                           />
                       </Tooltip>
                       <Tooltip title="Save your library changes">              

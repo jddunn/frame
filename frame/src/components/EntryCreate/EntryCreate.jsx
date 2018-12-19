@@ -251,7 +251,7 @@ export class EntryCreate extends Component {
       }).catch(function(err) {
         alert(err);
         form.resetFields();
-        message.success("Failed to create new library entry!");
+        message.fail("Failed to create new library entry!");
         _this.refreshMenuList();
       });
     });

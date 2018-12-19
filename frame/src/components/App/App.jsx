@@ -222,6 +222,10 @@ export default class App extends Component {
     });
   }
 
+  switchToEntry(id) {
+    
+  }
+
   /**
    * Build menu container to hold global buttons and selects.
    * @public
