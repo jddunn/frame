@@ -272,10 +272,10 @@ export default class MainMenu extends Component {
     try {
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
-      message.success('Opening "' + rowInfo.node.title + '"');
+      message.success('Opening "' + rowInfo.node.title + '"', 1);
     } catch (err) {
       console.log(err);
-      message.fail('Failed to open - ' + err);
+      message.fail('Failed to open - ' + err, 1);
     }
     this.props.updateAppMethod();
   }
