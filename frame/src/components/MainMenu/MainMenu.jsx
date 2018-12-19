@@ -269,6 +269,13 @@ export default class MainMenu extends Component {
   };
 
   clickNodeSelect(event, rowInfo) {
+    console.log(event.target);
+    // Attaching an onClick to rowInfo includes all buttons
+    // within the row contents, and we want those buttons
+    // to do different things than selecting the node itself.
+    if (event.target.className.includes('ant-btn')) {
+      return;
+    }
     try {
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
