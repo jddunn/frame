@@ -69,6 +69,7 @@ export default class App extends Component {
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     this.getEntriesInitial = this.getEntriesInitial.bind(this);
+    this.getEntries = this.getEntries.bind(this);
     this.saveNotebookData = this.saveNotebookData.bind(this);
     this.updateEntries = this.updateEntries.bind(this);
   }
@@ -112,6 +113,16 @@ export default class App extends Component {
     message.success('Saved notebook changes!');
   }
 
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
+      Entries = result;
+    }).catch(function(err) {
+      Entries = [];
+    });
+    return Entries;
+  }
+
   async getEntriesInitial(Library, key) {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
@@ -123,7 +134,7 @@ export default class App extends Component {
       }
       if (entriesCount <= 0) {
         saveToDB(Library, key, exampleEntries.entries);
-        this.getEntries(Library, key);
+        this.getInitialEntries(Library, key);
       } else {
         return Entries;
       }
