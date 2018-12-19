@@ -33,10 +33,9 @@ export default function traverseEntriesById(id, Entries) {
     while (!res.done) {
         res = next.next();
         try {
-            
-        if (id === res.value.id) {
-            return res.value;
-        }
+            if (id === res.value.id) {
+                return res.value;
+            }
         } catch (err) {
         }
     }

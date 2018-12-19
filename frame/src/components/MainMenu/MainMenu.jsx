@@ -6,7 +6,7 @@ import SortableTree,
  { toggleExpandedForAll,
     addNodeUnderParent,
     removeNodeAtPath } from 'react-sortable-tree';
-import getFlatDataFromTree from '../../utils/tree-data-utils';
+import getFlatDataFromTree from '../../utils/vendor/tree-data-utils';
 /** Tree component with file explorer view */
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 /** Modal / form input for new entry */
