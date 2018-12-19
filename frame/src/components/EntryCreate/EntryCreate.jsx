@@ -37,7 +37,7 @@ const EntryCreateForm = Form.create()(
          we need to keep track of the entryTags from the specific 
          input field with state.
       */
-      this.state = {entryTags: {}, entryTitle: 'New entry'};
+      this.state = {entryTags: [], entryTitle: 'New entry'};
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
       this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
@@ -60,6 +60,7 @@ const EntryCreateForm = Form.create()(
 
     handleTagsInputChange(event) {
       let val;
+      let vals = [];
       let tags = [];
       val = event.target.value.trim();
       val = val.split(/[^a-zA-Z-]+/g).filter(v=>v).join(', ');
@@ -69,9 +70,11 @@ const EntryCreateForm = Form.create()(
           tags.push(vals[i]);
         }
       } catch (err) {
+        console.log(err);
         tags.push(val);
       }
-      this.setState({entryTags: tags});
+      let uniqueTags = [...new Set(tags)];
+      this.setState({entryTags: uniqueTags});
     }
 
     render() {
