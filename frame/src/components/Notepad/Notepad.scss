@@ -8,7 +8,7 @@
 
 .rdw-editor-toolbar {
     margin-top: 0px !important;
-    margin-left: -10px !important;
+    margin-left: -5px !important;
 }
 
 .rdw-editor-main {
@@ -57,21 +57,21 @@
 
 .rdw-colorpicker-modal {
     min-height: 250px !important;
-    margin-left: -250px !important;
+    margin-left: -150px !important;
 }
 
 .rdw-link-modal {
     min-height: 250px !important;
-    margin-left: -250px !important;
+    margin-left: -150px !important;
 }
 
 .rdw-image-modal {
     min-height: 250px !important;
-    margin-left: -100px !important;
+    margin-left: -50px !important;
 }
 
 .rdw-embedded-modal {
-    margin-left: -100px !important;
+    margin-left: -50px !important;
 }
 
 .rdw-emoji-modal {
@@ -79,10 +79,12 @@
 }
 
 .md-editor-toolbar {
+    margin-top: 75px !important;
     margin-left: 200px !important;
 }
 
 .md-editor-toolbar--isopen {
+    margin-top: 35px !important;
     margin-left: 200px !important;
 }
 
