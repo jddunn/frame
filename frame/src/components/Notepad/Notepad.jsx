@@ -7,18 +7,10 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import Resizable from 're-resizable';
 import { Select } from 'antd';
-// Dante (Medium-style editor clone) 
 import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
-import { Editor} from 'react-draft-wysiwyg';
-import { Editor as MEditor } from 'medium-draft';
-// import {
-//   ImageSideButton,
-//   EmbedSideButton,
-//   SeparatorSideButton,
-//   Block,
-//   addNewBlock,
-//   createEditorState,
-// } from 'medium-draft';
+// TODO: Refactor out Editor and MEditor into different React components
+import { Editor} from 'react-draft-wysiwyg'; // Full text editor
+import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import 'medium-draft/lib/index.css';
 import '../vendor/components/addbutton.scss';
