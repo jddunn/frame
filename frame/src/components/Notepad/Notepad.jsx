@@ -1,8 +1,4 @@
 'use strict';
-/* 
-HTMLEditor, using Dante2 library, which clones Mediun's interface.
-So the editor itself is also a live preview of the content.
- */
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
