@@ -113,7 +113,7 @@
 
 .md-side-toolbar {
     margin-left: 160px !important;
-    margin-top: 15px !important;
+    margin-top: 10px !important;
 }
 
 .editor :global(.public-DraftEditor-content) {
@@ -134,9 +134,18 @@
 
 .danteEditorWrapper {
     margin-top: 12px !important;
+    font-size: 1.2em;
 }
 
 .md-sb-img-button {
     font-weight: normal !important;
     font-size: 1.0em !important;
+}
+
+.rdw-dropdown-wrapper {
+    height: 25px !important;
+}
+
+.rdw-option-wrapper {
+    height: 25px !important;
 }

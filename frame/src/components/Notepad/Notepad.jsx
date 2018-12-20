@@ -11,16 +11,6 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 // TODO: Refactor out Editor and MEditor into different React components
 import { Editor} from 'react-draft-wysiwyg'; // Full text editor
 import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import 'medium-draft/lib/index.css';
-import '../vendor/components/addbutton.scss';
-import '../vendor/components/toolbar.scss';
-import '../vendor/components/blocks/text.scss';
-import '../vendor/components/blocks/atomic.scss';
-import '../vendor/components/blocks/blockquotecaption.scss';
-import '../vendor/components/blocks/caption.scss';
-import '../vendor/components/blocks/todo.scss';
-import '../vendor/components/blocks/image.scss';
 import {
   KeyBindingUtil,
   Modifier,
@@ -34,6 +24,17 @@ import {
   ImageSideButton,
   BreakSideButton,
 } from '../vendor/index';
+import { BlockPicker } from 'react-color';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'medium-draft/lib/index.css';
+import '../vendor/components/addbutton.scss';
+import '../vendor/components/toolbar.scss';
+import '../vendor/components/blocks/text.scss';
+import '../vendor/components/blocks/atomic.scss';
+import '../vendor/components/blocks/blockquotecaption.scss';
+import '../vendor/components/blocks/caption.scss';
+import '../vendor/components/blocks/todo.scss';
+import '../vendor/components/blocks/image.scss';
 // Local style
 import './Notepad.scss';
 
@@ -138,6 +139,27 @@ export default class Notepad extends Component {
     return;
   }
 
+  uploadImageCallBack(file) {
+    return new Promise(
+      (resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://api.imgur.com/3/image');
+        xhr.setRequestHeader('Authorization', 'Client-ID XXXXX');
+        const data = new FormData();
+        data.append('image', file);
+        xhr.send(data);
+        xhr.addEventListener('load', () => {
+          const response = JSON.parse(xhr.responseText);
+          resolve(response);
+        });
+        xhr.addEventListener('error', () => {
+          const error = JSON.parse(xhr.responseText);
+          reject(error);
+        });
+      }
+    );
+  }
+
   render() {
     const editorState = this.state.editorState;
     const editorEnabled = this.state.editorEnabled;
@@ -164,10 +186,22 @@ export default class Notepad extends Component {
           <React.Fragment>
         <div className="editor">
           <Editor
+            spellCheck
             placeholder="Write your story"
             editorState={this.state.editorState} 
             onEditorStateChange={this.onEditorStateChange}
             ref={(element) => { this.editor = element; }}
+            toolbar={{
+              // colorPicker: { component: ColorPic },
+              inline: { inDropdown: true },
+              list: { inDropdown: true },
+              textAlign: { inDropdown: true },
+              link: { inDropdown: true },
+              history: { inDropdown: true },
+              fontFamily: {
+                options: ['Arial', 'Georgia', 'Impact', 'Tahoma','Times New Roman', 'Verdana']},
+              image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: true } },
+            }}
             />
           </div>
        </React.Fragment>
@@ -190,6 +224,7 @@ export default class Notepad extends Component {
                 handleDroppedFiles={this.handleDroppedFiles}
                 placeholder={"Write your story"}
                 sideButtons={this.sideButtons}
+                
               />
             </div>
           </div>
@@ -352,6 +387,7 @@ class AtomicEmbedComponent extends React.Component {
   }
 }
 
+
 const AtomicSeparatorComponent = (props) => (
   <hr />
 );
@@ -372,3 +408,53 @@ const AtomicBlock = (props) => {
   }
   return <p>Block of type <b>{type}</b> is not supported.</p>;
 };
+
+class ColorPic extends Component {
+  static propTypes = {
+    expanded: PropTypes.bool,
+    onExpandEvent: PropTypes.func,
+    onChange: PropTypes.func,
+    currentState: PropTypes.object,
+  };
+
+  stopPropagation = (event) => {
+    event.stopPropagation();
+  };
+
+  onChange = (color) => {
+    const { onChange } = this.props;
+    onChange('color', color.hex);
+  }
+
+  renderModal = () => {
+    const { color } = this.props.currentState;
+    return (
+      <div
+        onClick={this.stopPropagation}
+      >
+        <BlockPicker color={color} onChangeComplete={this.onChange} />
+      </div>
+    );
+  };
+
+  render() {
+    const { expanded, onExpandEvent, icon } = this.props;
+    return (
+      <div
+        aria-haspopup="true"
+        aria-expanded={expanded}
+        aria-label="rdw-color-picker"
+      >
+        <div
+          onClick={onExpandEvent}
+        >
+          <img
+            src={icon}
+            alt=""
+          />
+        </div>
+        {expanded ? this.renderModal() : undefined}
+      </div>
+    );
+  }
+}
