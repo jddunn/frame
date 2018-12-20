@@ -49,11 +49,10 @@
 }
 
 .public-DraftEditorPlaceholder-inner {
-    margin: 15px !important;
-    margin-top: -10px !important;
-    margin-left: 30px !important;
-    padding-top: 15px !important;
-    height: 35px !important;
+    // margin: 15px !important;
+    margin-top: 15px !important;
+    margin-left: 20px !important;
+    // padding-top: 10px !important;
 }
 
 .rdw-colorpicker-modal {
@@ -106,8 +105,8 @@
 }
 
 .md-side-toolbar {
-    margin-left: 120px !important;
-    margin-top: -20px !important;
+    margin-left: 160px !important;
+    margin-top: 10px !important;
 }
 
 .editor :global(.public-DraftEditor-content) {
