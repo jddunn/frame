@@ -7,7 +7,7 @@
 }
 
 .rdw-editor-toolbar {
-    margin-top: 1px !important;
+    margin-top: 0px !important;
     margin-left: -10px !important;
 }
 
@@ -45,15 +45,14 @@
 
 .DraftEditor-editorContainer {
     margin: 15px !important;
+    margin-top: 0px !important;
 }
-
 
 .public-DraftEditorPlaceholder-inner {
     margin: 15px !important;
     margin-top: -10px !important;
     margin-left: 30px !important;
     padding-top: 15px !important;
-    // padding: 15px !important;
     height: 35px !important;
 }
 
@@ -78,10 +77,6 @@
 
 .rdw-emoji-modal {
     margin-left: -100px !important;
-}
-
-.rdw-option-wrapper {
-    // margin-left: -150px !important;
 }
 
 .md-editor-toolbar {
@@ -111,8 +106,8 @@
 }
 
 .md-side-toolbar {
-    margin-left: 150px !important;
-    margin-top: -30px !important;
+    margin-left: 120px !important;
+    margin-top: -20px !important;
 }
 
 .editor :global(.public-DraftEditor-content) {
