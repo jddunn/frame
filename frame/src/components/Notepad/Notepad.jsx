@@ -9,13 +9,39 @@ import Resizable from 're-resizable';
 import { Select } from 'antd';
 // Dante (Medium-style editor clone) 
 import DanteEditor from 'Dante2';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+// import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import {createEditorStateWithText} from 'draft-js-plugins-editor';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 // ReactQuill (Full text editor)
-import ReactQuill, { Editor, Quill, Mixin, Toolbar } from 'react-quill';
+// import Editor from 'draft-js-plugins-editor';
+import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  CodeButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
+} from 'draft-js-buttons';
+import createHashtagPlugin from 'draft-js-hashtag-plugin';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
+// import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import 'react-quill/dist/quill.core.css';
 // Local style
 import './Notepad.scss';
+
+import 'draft-js-static-toolbar-plugin/lib/plugin.css';
 
 // const rawContentState = convertToRaw(EditorState.getCurrentContent);
 // const markup = draftToHtml(
@@ -27,6 +53,22 @@ import './Notepad.scss';
 
 // const blocksFromHTML = convertFromHTML(EditorState.getCurrentContent);
 const Option = Select.Option;
+
+const hashtagPlugin = createHashtagPlugin();
+const linkifyPlugin = createLinkifyPlugin();
+
+// const plugins = [
+//   hashtagPlugin,
+//   linkifyPlugin,
+// ];
+
+// Creates an Instance. At this step, a configuration object can be passed in
+// as an argument.
+const staticToolbarPlugin = createToolbarPlugin();
+const { Toolbar } = staticToolbarPlugin;
+const plugins = [staticToolbarPlugin];
+
+const editorText = "";
 
 export default class Notepad extends Component {
     constructor (props) {
@@ -40,7 +82,7 @@ export default class Notepad extends Component {
           placeholder: '<p>Write your story..</p>',
           // blocksFromHTML: {},
           content: 'content',
-          // editorState: EditorState.createEmpty()
+          editorState: createEditorStateWithText(editorText),
         }
       this.handleChange = this.handleChange.bind(this)
       this.handleThemeChange = this.handleThemeChange.bind(this);
@@ -50,6 +92,19 @@ export default class Notepad extends Component {
       const editorType  = nextProps.editorType;
       this.setState({ editorType: editorType });
     }
+    
+
+    // draft-js
+    onChange = (editorState) => {
+      this.setState({
+        editorState,
+      });
+    };
+  
+    focus = () => {
+      this.editor.focus();
+    };
+  
 
     // Dante funcs
     handleChange (html) {
@@ -128,25 +183,6 @@ export default class Notepad extends Component {
       this.setState({ readOnly: !this.state.readOnly });
     }
 
-
-    // React-Quill props
-    modules = {
-      toolbar: [
-        [{ 'header': [1, 2, false] }],
-        ['bold', 'italic', 'underline','strike', 'blockquote'],
-        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-        ['link', 'image'],
-        ['clean']
-      ],
-    }
-  
-    formats = [
-      'header',
-      'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
-      'link', 'image'
-    ];
-  
     render () {
       const { editorState } = this.state;
       const editorType = this.state.editorType;
@@ -154,6 +190,7 @@ export default class Notepad extends Component {
       switch (editorType) {
         case 'inline':
         editor =     
+        <div className="danteEditorWrapper">
           <DanteEditor
             key_commands={
               { 
@@ -176,11 +213,12 @@ export default class Notepad extends Component {
             //   save_handler= this.saveDanteContent (editorContext, content)
             // }
             />
+            </div>
             break;
           case 'full':
             editor = 
             <React.Fragment>
-              <ReactQuill
+              {/* <ReactQuill
                   style={
                     {
                       marginLeft: '-20px', 
@@ -211,7 +249,17 @@ export default class Notepad extends Component {
                           <Option value="snow">Toolbar</Option>
                           <Option value="bubble">Inline</Option>
                       </Select>
-                </div>
+                </div> */}
+          <div className="editor" onClick={this.focus}>
+            <Editor
+              placeholder="Write your story"
+              // editorState={this.state.editorState}
+              onChange={this.onChange}
+              plugins={plugins}
+              ref={(element) => { this.editor = element; }}
+              />
+            </div>
+
          </React.Fragment>
             break;
           case 'code': 
@@ -251,4 +299,28 @@ export default class Notepad extends Component {
         </React.Fragment>
        )
     }
+}
+
+
+
+export class DraftToolbar extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { 
+    }
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+  }
+  
+
+  render () {
+    const { editorState } = this.state;
+    const editorType = this.state.editorType;
+    return (
+      <React.Fragment>
+      </React.Fragment>
+     )
+  }
 }

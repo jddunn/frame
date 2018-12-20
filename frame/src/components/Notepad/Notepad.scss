@@ -74,3 +74,82 @@
     margin-right: 5px;
     float: right !important;
 }
+
+// draft-js
+.editor {
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    cursor: text;
+    padding: 13px;
+    border-radius: 2px;
+    margin-bottom: 2em;
+    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+    background: #fefefe;
+  }
+  
+  .editor :global(.public-DraftEditor-content) {
+    min-height: 140px;
+  }
+
+  .editorWrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+.draftStaticToolbar {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: inset 1px 0px rgba(200, 200, 220, .1), 0 0px 1px rgba(34,25,25,0.05) !important;
+    -moz-box-shadow: inset 1px 0px rgba(200, 200, 220, .1), 0 0px 1px rgba(34,25,25,0.05) !important;
+    -webkit-box-shadow: inset 1px 0px rgba(200, 200, 220, .1), 0 0px 1px rgba(34,25,25,0.05) !important;
+}
+
+.danteEditorWrapper {
+    //   padding: 15px !important;
+    //   margin: 15px !important;
+}
+
+.DraftEditor-editorContainer {
+    margin: 15px !important;
+    // margin-top: 5px !important;
+}
+
+
+.public-DraftEditorPlaceholder-inner {
+    margin: 15px !important;
+    margin-top: -10px !important;
+    margin-left: 30px !important;
+    padding-top: 15px !important;
+    // padding: 15px !important;
+    height: 35px !important;
+}
+
+.rdw-colorpicker-modal {
+    min-height: 250px !important;
+    margin-left: -250px !important;
+}
+
+.rdw-link-modal {
+    min-height: 250px !important;
+    margin-left: -250px !important;
+}
+
+.rdw-image-modal {
+    min-height: 250px !important;
+    margin-left: -100px !important;
+}
+
+.rdw-embedded-modal {
+    margin-left: -100px !important;
+}
+
+.rdw-emoji-modal {
+    margin-left: -100px !important;
+}
+
+.rdw-option-wrapper {
+    // margin-left: -150px !important;
+}
