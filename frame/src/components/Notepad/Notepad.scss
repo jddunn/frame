@@ -7,11 +7,13 @@
 }
 
 .rdw-editor-toolbar {
-    -webkit-box-shadow: -1px 1px 1px -2px rgba(48, 48, 48, 0.35)!important;
-    -moz-box-shadow: -1px 1px 1px -2px rgba(48, 48, 48, 0.35) !important;
-    box-shadow: -1px 1px 1px -2px rgba(48, 48, 48, 0.35) !important;
+    -webkit-box-shadow: -1px 1px 1px -2px rgba(48, 48, 48, 0.55)!important;
+    -moz-box-shadow: -1px 1px 1px -2px rgba(48, 48, 48, 0.55) !important;
+    box-shadow: -1px 1px 1px -2px rgba(48, 48, 48, 0.55) !important;
     margin-top: -1px !important;
     margin-left: -5px !important;
+    background-color: rgba(161, 126, 126, 0.030) !important;
+    font-size: .98em !important;
 }
 
 .rdw-editor-main {

@@ -21,47 +21,23 @@ import '../vendor/components/blocks/blockquotecaption.scss';
 import '../vendor/components/blocks/caption.scss';
 import '../vendor/components/blocks/todo.scss';
 import '../vendor/components/blocks/image.scss';
-
 import {
   KeyBindingUtil,
   Modifier,
   AtomicBlockUtils,
 } from 'draft-js';
-
 import {
-  StringToTypeMap,
   Block,
-  keyBindingFn,
   createEditorState,
   addNewBlockAt,
-  beforeInput,
   getCurrentBlock,
   ImageSideButton,
   BreakSideButton,
-  rendererFn,
-  HANDLED,
-  NOT_HANDLED
 } from '../vendor/index';
-import {
-  setRenderOptions,
-  blockToHTML,
-  entityToHTML,
-  styleToHTML,
-} from '../vendor/exporter';
-
 // Local style
 import './Notepad.scss';
 
 const Option = Select.Option;
-
-const sampleMarkup =
-  '<p>Write your story</p>';
-
-const blocksFromHTML = convertFromHTML(sampleMarkup);
-const contentState = ContentState.createFromBlockArray(
-  blocksFromHTML.contentBlocks,
-  blocksFromHTML.entityMap
-);
 
 // Main notebook comp (handles editor switching)
 export default class Notepad extends Component {
@@ -81,9 +57,6 @@ export default class Notepad extends Component {
     }, {
       title: 'Embed',
       component: EmbedSideButton,
-    }, {
-      title: 'Separator',
-      component: SeparatorSideButton,
     },
     {
       title: 'Break',
