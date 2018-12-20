@@ -282,7 +282,7 @@ export default class MainMenu extends Component {
       message.success('Opening "' + rowInfo.node.title + '"', 1);
     } catch (err) {
       console.log(err);
-      message.fail('Failed to open - ' + err, 1);
+      message.error('Failed to open - ' + err, 1);
     }
     this.props.updateAppMethod();
   }
