@@ -4,6 +4,8 @@ Work-in-progress
 
 Frontend components and config for Frame, which builds for both Electron and the web.
 
+IMPORT: Included in the folder is /custom_node_modules. You should replace the packages from this folder into your actual /node_modules after running "npm install", since there are certain unofficial fixes made to some libraries to fix bugs.
+
 Notes:
 
 - State management is done with key-value retrieval in Window.sessionStorage API and helper functions. As the project grows this should move to Redux and other libraries.

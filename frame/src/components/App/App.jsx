@@ -238,17 +238,18 @@ export default class App extends Component {
       <Menu.Item key="flow">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Streamlined, Medium-style editor (default type)"}>
+          title={"Streamlined, Medium-style editor (default type); currently, only adding images \
+                  from a local file works"}>
           <Icon type="edit"/>&nbsp;
             {editorTypes.FLOW.charAt(0).toUpperCase() +
             editorTypes.FLOW.slice(1)}
         </Tooltip>
-
       </Menu.Item>
       <Menu.Item key="full">
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Full HTML editor with word processor-like capabilities"}>
+          title={"Full HTML editor with word processor-like capabilities; currently, only \
+                  adding images from an online source works"}>
         <Icon type="form"/>&nbsp;
           {editorTypes.FULL.charAt(0).toUpperCase() +
           editorTypes.FULL.slice(1)}
