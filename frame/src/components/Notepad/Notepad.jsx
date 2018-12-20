@@ -8,319 +8,396 @@ import PropTypes from 'prop-types';
 import Resizable from 're-resizable';
 import { Select } from 'antd';
 // Dante (Medium-style editor clone) 
-import DanteEditor from 'Dante2';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-// import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import {createEditorStateWithText} from 'draft-js-plugins-editor';
-import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
+import { Editor} from 'react-draft-wysiwyg';
+import { Editor as MEditor } from 'medium-draft';
+// import {
+//   ImageSideButton,
+//   EmbedSideButton,
+//   SeparatorSideButton,
+//   Block,
+//   addNewBlock,
+//   createEditorState,
+// } from 'medium-draft';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-// ReactQuill (Full text editor)
-// import Editor from 'draft-js-plugins-editor';
-import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import 'medium-draft/lib/index.css';
+
+import '../vendor/addbutton.scss';
+import '../vendor/toolbar.scss';
+import '../vendor/blocks/text.scss';
+import '../vendor/blocks/atomic.scss';
+import '../vendor/blocks/blockquotecaption.scss';
+import '../vendor/blocks/caption.scss';
+import '../vendor/blocks/todo.scss';
+import '../vendor/blocks/image.scss';
+
 import {
-  ItalicButton,
-  BoldButton,
-  UnderlineButton,
-  CodeButton,
-  HeadlineOneButton,
-  HeadlineTwoButton,
-  HeadlineThreeButton,
-  UnorderedListButton,
-  OrderedListButton,
-  BlockquoteButton,
-  CodeBlockButton,
-} from 'draft-js-buttons';
-import createHashtagPlugin from 'draft-js-hashtag-plugin';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-// import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css';
-import 'react-quill/dist/quill.core.css';
+  KeyBindingUtil,
+  Modifier,
+  AtomicBlockUtils,
+} from 'draft-js';
+
+import {
+  StringToTypeMap,
+  Block,
+  keyBindingFn,
+  createEditorState,
+  addNewBlockAt,
+  beforeInput,
+  getCurrentBlock,
+  ImageSideButton,
+  rendererFn,
+  HANDLED,
+  NOT_HANDLED
+} from '../vendor/index';
+import {
+  setRenderOptions,
+  blockToHTML,
+  entityToHTML,
+  styleToHTML,
+} from '../vendor/exporter';
+
+
 // Local style
 import './Notepad.scss';
 
-import 'draft-js-static-toolbar-plugin/lib/plugin.css';
-
-// const rawContentState = convertToRaw(EditorState.getCurrentContent);
-// const markup = draftToHtml(
-  // rawContentState, 
-  // hashtagConfig, 
-  // directional, 
-  // customEntityTransform
-// );
-
-// const blocksFromHTML = convertFromHTML(EditorState.getCurrentContent);
 const Option = Select.Option;
 
-const hashtagPlugin = createHashtagPlugin();
-const linkifyPlugin = createLinkifyPlugin();
+const sampleMarkup =
+  '<p>Write your story</p>';
 
-// const plugins = [
-//   hashtagPlugin,
-//   linkifyPlugin,
-// ];
+const blocksFromHTML = convertFromHTML(sampleMarkup);
+const state = ContentState.createFromBlockArray(
+  blocksFromHTML.contentBlocks,
+  blocksFromHTML.entityMap
+);
+const editorState = EditorState.createWithContent(state);
 
-// Creates an Instance. At this step, a configuration object can be passed in
-// as an argument.
-const staticToolbarPlugin = createToolbarPlugin();
-const { Toolbar } = staticToolbarPlugin;
-const plugins = [staticToolbarPlugin];
+class SeparatorSideButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+  }
 
-const editorText = "";
-
-export default class Notepad extends Component {
-    constructor (props) {
-      super(props)
-      this.state = { 
-          // DanteEditor props
-          editorType: 'inline', // Default use DanteEditor
-          theme: 'snow',
-          width: 800,
-          editorHtml: '',
-          placeholder: '<p>Write your story..</p>',
-          // blocksFromHTML: {},
-          content: 'content',
-          editorState: createEditorStateWithText(editorText),
-        }
-      this.handleChange = this.handleChange.bind(this)
-      this.handleThemeChange = this.handleThemeChange.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps) {
-      const editorType  = nextProps.editorType;
-      this.setState({ editorType: editorType });
-    }
-    
-
-    // draft-js
-    onChange = (editorState) => {
-      this.setState({
+  onClick() {
+    let editorState = this.props.getEditorState();
+    const content = editorState.getCurrentContent();
+    const contentWithEntity = content.createEntity('separator', 'IMMUTABLE', {});
+    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+    this.props.setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(
         editorState,
-      });
-    };
-  
-    focus = () => {
-      this.editor.focus();
-    };
-  
+        entityKey,
+        '-'
+      )
+    );
+    this.props.close();
+  }
 
-    // Dante funcs
-    handleChange (html) {
-        this.setState({ editorHtml: html });
-    }
-    
-    handleThemeChange (value) {
-      console.log(value);
-      this.setState({ theme: value })
-    }
-    
-    updateContent = (value) => {
-      this.setState({content:value})
-    }
-
-    // React-Quill funcs
-    getInitialState = () => {
-      return ({
-        theme: 'snow',
-        enabled: true,
-        readOnly: false,
-        value: EMPTY_DELTA,
-        events: []
-      });
-    }
-
-    formatRange = (range) => {
-      return(range
-        ? [range.index, range.index + range.length].join(',')
-        : 'none');
-    }
-  
-    onEditorChange = (value, data, source, editor) => {
-      this.setState({
-        value: editor.getContents(),
-        events: [
-          'text-change('+this.state.value+' -> '+value+')'
-        ].concat(this.state.events)
-      });
-    }
-  
-    onEditorChangeSelection = (range, source) => {
-      this.setState({
-        selection: range,
-        events: [
-          'selection-change('+
-            this.formatRange(this.state.selection)
-          +' -> '+
-            this.formatRange(range)
-          +')'
-        ].concat(this.state.events)
-      });
-    }
-  
-    onEditorFocus = (range, source) => {
-      this.setState({
-        events: [
-          'focus('+this.formatRange(range)+')'
-        ].concat(this.state.events)
-      });
-    }
-  
-    onEditorBlur = (previousRange, source) => {
-      this.setState({
-        events: [
-          'blur('+this.formatRange(previousRange)+')'
-        ].concat(this.state.events)
-      });
-    }
-  
-    onToggle = () => {
-      this.setState({ enabled: !this.state.enabled });
-    }
-  
-    onToggleReadOnly = () => {
-      this.setState({ readOnly: !this.state.readOnly });
-    }
-
-    render () {
-      const { editorState } = this.state;
-      const editorType = this.state.editorType;
-      let editor = {};
-      switch (editorType) {
-        case 'inline':
-        editor =     
-        <div className="danteEditorWrapper">
-          <DanteEditor
-            key_commands={
-              { 
-                'alt-shift': [{ key: 65, cmd: 'add-new-block' }],
-                'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' },
-                { key: 50, cmd: 'toggle_block:header-two' },
-                { key: 53, cmd: 'toggle_block:blockquote' }, ],
-                cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, 
-                { key: 73, cmd: 'toggle_inline:ITALIC' }, 
-                { key: 75, cmd: 'insert:link' }, ], 
-              }
-            }
-            config={this.config}
-            body_placeholder={this.blocksFromHTML}
-            // data_storage
-              //   ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
-            //   xhr
-            //   ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
-            // data_storage= {
-            //   save_handler= this.saveDanteContent (editorContext, content)
-            // }
-            />
-            </div>
-            break;
-          case 'full':
-            editor = 
-            <React.Fragment>
-              {/* <ReactQuill
-                  style={
-                    {
-                      marginLeft: '-20px', 
-                      marginTop: '-10px'
-                    }
-                  }
-                  placeholder={this.state.editorPlaceholderHtml}
-                  value={this.state.editorHtml}
-                  theme={this.state.theme}
-                  modules={this.modules}
-                  formats={this.formats}
-                  bounds={'.app'}
-                  placeholder='Write your story'
-                  onChange={this.handleChange} />
-                  <div className="quillThemeSwitcher">
-                      <Select 
-                          style={
-                            {
-                              fontSize: '.85em', 
-                              color: 'rgba(200, 200, 200, .95)',
-                              float: 'right !important'
-                            }
-                          }
-                          className="quillThemeSwitcher"
-                          dropdownMatchSelectWidth={true}
-                          defaultValue="snow"
-                          onChange={this.handleThemeChange}>
-                          <Option value="snow">Toolbar</Option>
-                          <Option value="bubble">Inline</Option>
-                      </Select>
-                </div> */}
-          <div className="editor" onClick={this.focus}>
-            <Editor
-              placeholder="Write your story"
-              // editorState={this.state.editorState}
-              onChange={this.onChange}
-              plugins={plugins}
-              ref={(element) => { this.editor = element; }}
-              />
-            </div>
-
-         </React.Fragment>
-            break;
-          case 'code': 
-            editor = null;
-            break;
-          case 'equation':
-            editor = null;
-            break;
-          default:
-            editor =     
-            <DanteEditor
-                key_commands={
-                  { 
-                    'alt-shift': [{ key: 65, cmd: 'add-new-block' }],
-                    'alt-cmd': [ { key: 49, cmd: 'toggle_block:header-one' },
-                    { key: 50, cmd: 'toggle_block:header-two' },
-                    { key: 53, cmd: 'toggle_block:blockquote' }, ],
-                    cmd: [ { key: 66, cmd: 'toggle_inline:BOLD' }, 
-                    { key: 73, cmd: 'toggle_inline:ITALIC' }, 
-                    { key: 75, cmd: 'insert:link' }, ], 
-                  }
-                }
-                config={this.config}
-                body_placeholder={this.blocksFromHTML}
-              // data_storage
-              //   ={{ url:path.resolve(__dirname, './dante_state_data.json'), method: 'POST', }}
-              //   xhr
-              //   ={{ before_handler: function() {  }, failure_handler: function(error) { }, }}
-              // data_storage= {
-              //   save_handler= this.saveDanteContent (editorContext, content)
-              // }
-            />
-      } 
-      return (
-        <React.Fragment>
-          {editor}       
-        </React.Fragment>
-       )
-    }
+  render() {
+    return (
+      <button
+        className="md-sb-button md-sb-img-button"
+        type="button"
+        title="Add a separator"
+        onClick={this.onClick}
+      >
+        <i className="fa fa-minus" />
+      </button>
+    );
+  }
 }
 
 
+class EmbedSideButton extends React.Component {
 
-export class DraftToolbar extends Component {
-  constructor (props) {
-    super(props)
-    this.state = { 
+  static propTypes = {
+    setEditorState: PropTypes.func,
+    getEditorState: PropTypes.func,
+    close: PropTypes.func,
+  };
+
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+    this.addEmbedURL = this.addEmbedURL.bind(this);
+  }
+
+  onClick() {
+    const url = window.prompt('Enter a URL', 'https://www.youtube.com/watch?v=PMNFaAUs2mo');
+    this.props.close();
+    if (!url) {
+      return;
     }
+    this.addEmbedURL(url);
+  }
 
+  addEmbedURL(url) {
+    let editorState = this.props.getEditorState();
+    const content = editorState.getCurrentContent();
+    const contentWithEntity = content.createEntity('embed', 'IMMUTABLE', {url});
+    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+    this.props.setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(
+        editorState,
+        entityKey,
+        'E'
+      )
+    );
+  }
+
+  render() {
+    return (
+      <button
+        className="md-sb-button md-sb-img-button"
+        type="button"
+        title="Add an Embed"
+        onClick={this.onClick}
+      >
+        <i className="fa fa-code" />
+      </button>
+    );
+  }
+}
+
+
+class AtomicEmbedComponent extends React.Component {
+
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showIframe: false,
+    };
+    this.enablePreview = this.enablePreview.bind(this);
+  }
+
+  componentDidMount() {
+    this.renderEmbedly();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.showIframe !== this.state.showIframe && this.state.showIframe === true) {
+      this.renderEmbedly();
+    }
+  }
+
+  getScript() {
+    const script = document.createElement('script');
+    script.async = 1;
+    script.src = '//cdn.embedly.com/widgets/platform.js';
+    script.onload = () => {
+      window.embedly();
+    };
+    document.body.appendChild(script);
+  }
+
+  renderEmbedly() {
+    if (window.embedly) {
+      window.embedly();
+    } else {
+      this.getScript();
+    }
+  }
+
+  enablePreview() {
+    this.setState({
+      showIframe: true,
+    });
+  }
+
+  render() {
+    const { url } = this.props.data;
+    const innerHTML = `<div><a class="embedly-card" href="${url}" data-card-controls="0" data-card-theme="dark">Embedded ― ${url}</a></div>`;
+    return (
+      <div className="md-block-atomic-embed">
+        <div dangerouslySetInnerHTML={{ __html: innerHTML }} />
+      </div>
+    );
+  }
+}
+
+const AtomicSeparatorComponent = (props) => (
+  <hr />
+);
+
+const AtomicBlock = (props) => {
+  const { blockProps, block } = props;
+  const content = blockProps.getEditorState().getCurrentContent();
+  const entity = content.getEntity(block.getEntityAt(0));
+  const data = entity.getData();
+  const type = entity.getType();
+  if (blockProps.components[type]) {
+    const AtComponent = blockProps.components[type];
+    return (
+      <div className={`md-block-atomic-wrapper md-block-atomic-wrapper-${type}`}>
+        <AtComponent data={data} />
+      </div>
+    );
+  }
+  return <p>Block of type <b>{type}</b> is not supported.</p>;
+};
+
+
+export default class Notepad extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editorState: createEditorState(),
+      editorEnabled: true,
+      placeholder: 'Write here...',
+      _isMounted: false,
+    };
+
+    // handleOnChange = (e) => {
+    //   console.log("CHANGE: ", e);
+    //   if (this.state._isMounted) 
+    //   this.setState({ editorState: e});
+    // }
+
+    this.sideButtons = [{
+      title: 'Image',
+      component: ImageSideButton,
+    }, {
+      title: 'Embed',
+      component: EmbedSideButton,
+    }, {
+      title: 'Separator',
+      component: SeparatorSideButton,
+    }];
+
+    // this.exporter = setRenderOptions({
+      // styleToHTML,
+      // blockToHTML: newBlockToHTML,
+      // entityToHTML: newEntityToHTML,
+    // });
+
+    this.getEditorState = () => this.state.editorState;
+    this.handleDroppedFiles = this.handleDroppedFiles.bind(this);
+    this.onChange = this.onChange.bind(this);
+
+    this.onEditorStateChange = this.onEditorStateChange.bind(this); 
+    this.refsEditor = React.createRef();
+  }
+
+  onChange = (editorState, callback = null) => {
+    if (this.state._isMounted)
+    if (this.state.editorEnabled) {
+      this.setState({ editorState }, () => {
+        if (callback) {
+          callback();
+        }
+      });
+    }
+  };
+
+  onEditorStateChange = (editorState) => {
+    console.log("Editor state change: ", editorState);
+    if (this.state._isMounted) 
+    this.setState({
+      editorState,
+    });
+  }
+
+  componentDidMount() {
+    this.setState({_isMounted: true});
+  }
+
+  componentWillUnmount() {
+    this.setState({_isMounted: false});
   }
 
   componentWillReceiveProps(nextProps) {
+    const editorType  = nextProps.editorType;
+    this.setState({ editorType: editorType });
   }
-  
 
-  render () {
-    const { editorState } = this.state;
+
+  handleDroppedFiles(selection, files) {
+    window.ga('send', 'event', 'draftjs', 'filesdropped', files.length + ' files');
+    const file = files[0];
+    if (file.type.indexOf('image/') === 0) {
+      // eslint-disable-next-line no-undef
+      const src = URL.createObjectURL(file);
+      this.onChange(addNewBlockAt(
+        this.state.editorState,
+        selection.getAnchorKey(),
+        Block.IMAGE, {
+          src,
+        }
+      ));
+      // return HANDLED;
+    }
+    // return NOT_HANDLED
+    return;
+  }
+
+  render() {
+    const editorState = this.state.editorState;
+    const editorEnabled = this.state.editorEnabled;
     const editorType = this.state.editorType;
+    let editor = {};
+    switch (editorType) {
+      case 'inline':
+      editor =     
+        <div className="editor-action">
+          <MEditor
+            ref={(e) => {this._editor = e;}}
+            editorState={editorState}
+            onChange={this.onChange}
+            editorEnabled={editorEnabled}
+            handleDroppedFiles={this.handleDroppedFiles}
+            placeholder={"Write your story"}
+            sideButtons={this.sideButtons}
+            onChange={this.onChange} />
+            />
+          </div>
+          break;
+        case 'full':
+          editor = 
+          <React.Fragment>
+        <div className="editor">
+          <Editor
+            placeholder="Write your story"
+            editorState={this.state.editorState} 
+            onEditorStateChange={this.onEditorStateChange}
+            ref={(element) => { this.editor = element; }}
+            />
+          </div>
+       </React.Fragment>
+          break;
+        case 'code': 
+          editor = null;
+          break;
+        case 'equation':
+          editor = null;
+          break;
+        default:
+          editor =     
+          <div className="danteEditorWrapper">
+            <div className="editor-action">
+              <MEditor
+                ref={(e) => {this._editor = e;}}
+                editorState={editorState}
+                onChange={this.onChange}
+                editorEnabled={editorEnabled}
+                handleDroppedFiles={this.handleDroppedFiles}
+                placeholder={"Write your story"}
+                sideButtons={this.sideButtons}
+              />
+            </div>
+          </div>
+    }
     return (
-      <React.Fragment>
-      </React.Fragment>
-     )
+      <div>
+        {editor}
+        </div>
+    );
   }
 }

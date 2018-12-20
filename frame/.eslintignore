@@ -1,5 +1,6 @@
 package.json
 
+
 # Logs
 logs
 *.log
@@ -53,3 +54,6 @@ main.js.map
 .idea
 npm-debug.log.*
 __snapshots__
+
+assets
+vendor
