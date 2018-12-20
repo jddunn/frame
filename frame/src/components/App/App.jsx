@@ -24,6 +24,7 @@ import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
+import replaceEntry from '../../utils/replace-entry';
 /** State management with session storage.
  *  This is used to pass state vals across React components,
  *  in lieu of passing props or using Redux / Flow, for simplicity.
@@ -61,11 +62,6 @@ export default class App extends Component {
     this.state = {
       collapsed: false,
       Entries: [],
-      lastEntriesLength: 0 // Keep track of this so the app knows
-                           // when a new entry has been added, and to re-render.
-                           // (This is because deleting / adding entires in-line 
-                           // do not save automatically, but adding a new entry
-                           // with the main button should).
     }
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     // Initial load entries from db (this func is only called on componentWillMount)
@@ -109,14 +105,39 @@ export default class App extends Component {
    * @event {event} object
    * @public
    */
-  handleEditorSwitchClick = (event) => {
+  handleEditorSwitchClick = async (event) => {
     setState("editorType", event.key.toString());
+    const library = getState("library");
+    const Library = openDB(library);
+    const entryId = getState("entryId");
+    await this.getEntries(Library, "entries").then(async(result) => {
+      const Entries = result;
+      const entry = traverseEntriesById(entryId, Entries);
+      try {
+        entry.editorType = event.key.toString();
+      } catch (err) {
+        entry.editorType = "flow";
+      }
+      if (entry != null) {
+        const newEntries = replaceEntry(entry, Entries);
+        this.setState({Entries: newEntries})
+      }
+    });
     this.forceUpdate();
   }
 
   saveNotebookData() {
-    console.log("Saved notebook data changes");
-    message.success('Saved notebook changes!');
+    const Entries = this.state.Entries;
+    const library = getState("library");
+    const Library = openDB(library);
+    saveToDB(Library, "entries", Entries).then(function(result) {
+      console.log("Saved notebook data changes");
+      message.success('Saved notebook changes!');
+      this.forceUpdate();      
+    }).catch(function(err) {
+      message.fail("Failed to create new library entry!");
+      this.forceUpdate();
+    });
   }
 
   async getEntries(Library, key) {
@@ -182,7 +203,6 @@ export default class App extends Component {
       // sessionStorage can only do JSON.
       this.setState({
         Entries: Entries,
-        lastEntriesLength: Entries.length
         }
       )
     });
@@ -218,7 +238,6 @@ export default class App extends Component {
         setState("entryId", selectedEntryId);
         this.setState({
           Entries: Entries,
-          lastEntriesLength: Entries.length
           }
         )
     });
