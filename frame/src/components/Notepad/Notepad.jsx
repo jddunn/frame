@@ -5,6 +5,7 @@ So the editor itself is also a live preview of the content.
  */
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
+import {setState, getState} from '../../utils/session-state';
 import Resizable from 're-resizable';
 import { Select } from 'antd';
 import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
@@ -40,9 +41,20 @@ import './Notepad.scss';
 
 const Option = Select.Option;
 
+const m_editorType = getState("editorType");
+
 // Main notebook comp (handles editor switching)
 export default class Notepad extends Component {
+
+  static propTypes = {
+    setEditorState: PropTypes.func,
+    getEditorState: PropTypes.func,
+    close: PropTypes.func,
+  };
+
+  
   constructor(props) {
+
     super(props);
 
     this.state = {
@@ -50,20 +62,21 @@ export default class Notepad extends Component {
       editorEnabled: true,
       placeholder: 'Write here...',
       _isMounted: false,
+      // uploadedImages: [],
     };
 
     this.sideButtons = [{
-      title: 'Image',
-      component: ImageSideButton,
-    }, {
-      title: 'Embed',
-      component: EmbedSideButton,
-    },
-    {
-      title: 'Break',
-      component: BreakSideButton,
-    }
-  ];
+        title: 'Image',
+        component: ImageSideButton,
+      }, {
+        title: 'Embed',
+        component: EmbedSideButton,
+      },
+      {
+        title: 'Break',
+        component: BreakSideButton,
+      }
+    ];
 
     // this.exporter = setRenderOptions({
       // styleToHTML,
@@ -71,12 +84,23 @@ export default class Notepad extends Component {
       // entityToHTML: newEntityToHTML,
     // });
 
-    this.getEditorState = () => this.state.editorState;
+    this.getEditorState = this.getEditorState.bind(this);
+    this.setEditorState = this.setEditorState.bind(this);
     this.handleDroppedFiles = this.handleDroppedFiles.bind(this);
     this.onChange = this.onChange.bind(this);
 
     this.onEditorStateChange = this.onEditorStateChange.bind(this); 
     this.refsEditor = React.createRef();
+    this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
+    // this._uploadImageCallBack = this._uploadImageCallBack.bind(this);
+  }
+
+  getEditorState() {
+    return(this.state.editorState);
+  }
+
+  setEditorState(state) {
+    this.setState({editorState: state});
   }
   
   onChange = (editorState, callback = null) => {
@@ -116,6 +140,7 @@ export default class Notepad extends Component {
 
   componentWillReceiveProps(nextProps) {
     const editorType  = nextProps.editorType;
+    const editorId = nextProps.editorId;
     if (this.state._isMounted)
     this.setState({ editorType: editorType });
   }
@@ -140,6 +165,25 @@ export default class Notepad extends Component {
   }
 
   uploadImageCallBack(file) {
+    console.log(file);
+    // return new Promise(
+    //   (resolve, reject) => {
+    //   const selectionState = this.getEditorState().getSelection();
+    //   const anchorKey = selectionState.getAnchorKey();
+    //   console.log(file);
+    //   if (file.type.indexOf('image/') === 0) {
+    //     const src = URL.createObjectURL(file);
+    //     this.onChange(addNewBlockAt(
+    //       this.getEditorState(),
+    //       anchorKey,
+    //       Block.IMAGE, {
+    //         src: src,
+    //       }
+    //     ));
+    //     // resolve(this.getEditorState());
+    //   }
+    // });
+    // return;
     return new Promise(
       (resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -159,6 +203,35 @@ export default class Notepad extends Component {
       }
     );
   }
+
+  // _uploadImageCallBack(file){
+  //   // long story short, every time we upload an image, we
+  //   // need to save it to the state so we can get it's data
+  //   // later when we decide what to do with it.
+    
+  //  // Make sure you have a uploadImages: [] as your default state
+  //   let uploadedImages = this.state.uploadedImages;
+
+  //   const imageObject = {
+  //     file: file,
+  //     localSrc: URL.createObjectURL(file),
+  //   }
+
+  //   uploadedImages.push(imageObject);
+
+  //   this.setState({uploadedImages: uploadedImages})
+    
+  //   // We need to return a promise with the image src
+  //   // the img src we will use here will be what's needed
+  //   // to preview it in the browser. This will be different than what
+  //   // we will see in the index.md file we generate.
+  //   return new Promise(
+  //     (resolve, reject) => {
+  //       resolve({ data: { link: imageObject.localSrc } });
+  //     }
+  //   );
+  // }
+
 
   render() {
     const editorState = this.state.editorState;
@@ -200,7 +273,7 @@ export default class Notepad extends Component {
               history: { inDropdown: true },
               fontFamily: {
                 options: ['Arial', 'Georgia', 'Impact', 'Tahoma','Times New Roman', 'Verdana']},
-              image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: true } },
+              image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: false } },
             }}
             />
           </div>
@@ -224,7 +297,6 @@ export default class Notepad extends Component {
                 handleDroppedFiles={this.handleDroppedFiles}
                 placeholder={"Write your story"}
                 sideButtons={this.sideButtons}
-                
               />
             </div>
           </div>
@@ -247,19 +319,23 @@ class SeparatorSideButton extends React.Component {
   }
 
   onClick() {
-    let editorState = this.props.getEditorState();
-    const content = editorState.getCurrentContent();
-    const contentWithEntity = content.createEntity('separator', 'IMMUTABLE', {});
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
-    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-    this.props.setEditorState(
-      AtomicBlockUtils.insertAtomicBlock(
-        editorState,
-        entityKey,
-        '-'
-      )
-    );
-    this.props.close();
+    let editorState; 
+    try {
+      editorState = this.props.getEditorState();
+      const content = editorState.getCurrentContent();
+      const contentWithEntity = content.createEntity('separator', 'IMMUTABLE', {});
+      const entityKey = contentWithEntity.getLastCreatedEntityKey();
+      editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+      this.props.setEditorState(
+        AtomicBlockUtils.insertAtomicBlock(
+          editorState,
+          entityKey,
+          '-'
+        )
+      );
+      this.props.close();
+    } catch (err) {
+    }
   }
 
   render() {
@@ -300,18 +376,21 @@ class EmbedSideButton extends React.Component {
   }
 
   addEmbedURL(url) {
-    let editorState = this.props.getEditorState();
-    const content = editorState.getCurrentContent();
-    const contentWithEntity = content.createEntity('embed', 'IMMUTABLE', {url});
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
-    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-    this.props.setEditorState(
-      AtomicBlockUtils.insertAtomicBlock(
-        editorState,
-        entityKey,
-        'E'
-      )
-    );
+    try {
+      let editorState = this.props.getEditorState();
+      const content = editorState.getCurrentContent();
+      const contentWithEntity = content.createEntity('embed', 'IMMUTABLE', {url});
+      const entityKey = contentWithEntity.getLastCreatedEntityKey();
+      editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+      this.props.setEditorState(
+        AtomicBlockUtils.insertAtomicBlock(
+          editorState,
+          entityKey,
+          'E'
+        )
+      );
+    } catch (err) {
+    }
   }
 
   render() {
@@ -387,27 +466,6 @@ class AtomicEmbedComponent extends React.Component {
   }
 }
 
-
-const AtomicSeparatorComponent = (props) => (
-  <hr />
-);
-
-const AtomicBlock = (props) => {
-  const { blockProps, block } = props;
-  const content = blockProps.getEditorState().getCurrentContent();
-  const entity = content.getEntity(block.getEntityAt(0));
-  const data = entity.getData();
-  const type = entity.getType();
-  if (blockProps.components[type]) {
-    const AtComponent = blockProps.components[type];
-    return (
-      <div className={`md-block-atomic-wrapper md-block-atomic-wrapper-${type}`}>
-        <AtComponent data={data} />
-      </div>
-    );
-  }
-  return <p>Block of type <b>{type}</b> is not supported.</p>;
-};
 
 class ColorPic extends Component {
   static propTypes = {
