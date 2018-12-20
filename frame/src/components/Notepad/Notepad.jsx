@@ -49,7 +49,6 @@ import {
   styleToHTML,
 } from '../vendor/exporter';
 
-
 // Local style
 import './Notepad.scss';
 
@@ -59,183 +58,12 @@ const sampleMarkup =
   '<p>Write your story</p>';
 
 const blocksFromHTML = convertFromHTML(sampleMarkup);
-const state = ContentState.createFromBlockArray(
+const contentState = ContentState.createFromBlockArray(
   blocksFromHTML.contentBlocks,
   blocksFromHTML.entityMap
 );
-const editorState = EditorState.createWithContent(state);
 
-class SeparatorSideButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick() {
-    let editorState = this.props.getEditorState();
-    const content = editorState.getCurrentContent();
-    const contentWithEntity = content.createEntity('separator', 'IMMUTABLE', {});
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
-    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-    this.props.setEditorState(
-      AtomicBlockUtils.insertAtomicBlock(
-        editorState,
-        entityKey,
-        '-'
-      )
-    );
-    this.props.close();
-  }
-
-  render() {
-    return (
-      <button
-        className="md-sb-button md-sb-img-button"
-        type="button"
-        title="Add a separator"
-        onClick={this.onClick}
-      >
-        <i className="fa fa-minus" />
-      </button>
-    );
-  }
-}
-
-
-class EmbedSideButton extends React.Component {
-
-  static propTypes = {
-    setEditorState: PropTypes.func,
-    getEditorState: PropTypes.func,
-    close: PropTypes.func,
-  };
-
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-    this.addEmbedURL = this.addEmbedURL.bind(this);
-  }
-
-  onClick() {
-    const url = window.prompt('Enter a URL', 'https://www.youtube.com/watch?v=PMNFaAUs2mo');
-    this.props.close();
-    if (!url) {
-      return;
-    }
-    this.addEmbedURL(url);
-  }
-
-  addEmbedURL(url) {
-    let editorState = this.props.getEditorState();
-    const content = editorState.getCurrentContent();
-    const contentWithEntity = content.createEntity('embed', 'IMMUTABLE', {url});
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
-    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-    this.props.setEditorState(
-      AtomicBlockUtils.insertAtomicBlock(
-        editorState,
-        entityKey,
-        'E'
-      )
-    );
-  }
-
-  render() {
-    return (
-      <button
-        className="md-sb-button md-sb-img-button"
-        type="button"
-        title="Add an Embed"
-        onClick={this.onClick}
-      >
-        <i className="fa fa-code" />
-      </button>
-    );
-  }
-}
-
-
-class AtomicEmbedComponent extends React.Component {
-
-  static propTypes = {
-    data: PropTypes.object.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showIframe: false,
-    };
-    this.enablePreview = this.enablePreview.bind(this);
-  }
-
-  componentDidMount() {
-    this.renderEmbedly();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.showIframe !== this.state.showIframe && this.state.showIframe === true) {
-      this.renderEmbedly();
-    }
-  }
-
-  getScript() {
-    const script = document.createElement('script');
-    script.async = 1;
-    script.src = '//cdn.embedly.com/widgets/platform.js';
-    script.onload = () => {
-      window.embedly();
-    };
-    document.body.appendChild(script);
-  }
-
-  renderEmbedly() {
-    if (window.embedly) {
-      window.embedly();
-    } else {
-      this.getScript();
-    }
-  }
-
-  enablePreview() {
-    this.setState({
-      showIframe: true,
-    });
-  }
-
-  render() {
-    const { url } = this.props.data;
-    const innerHTML = `<div><a class="embedly-card" href="${url}" data-card-controls="0" data-card-theme="dark">Embedded ― ${url}</a></div>`;
-    return (
-      <div className="md-block-atomic-embed">
-        <div dangerouslySetInnerHTML={{ __html: innerHTML }} />
-      </div>
-    );
-  }
-}
-
-const AtomicSeparatorComponent = (props) => (
-  <hr />
-);
-
-const AtomicBlock = (props) => {
-  const { blockProps, block } = props;
-  const content = blockProps.getEditorState().getCurrentContent();
-  const entity = content.getEntity(block.getEntityAt(0));
-  const data = entity.getData();
-  const type = entity.getType();
-  if (blockProps.components[type]) {
-    const AtComponent = blockProps.components[type];
-    return (
-      <div className={`md-block-atomic-wrapper md-block-atomic-wrapper-${type}`}>
-        <AtComponent data={data} />
-      </div>
-    );
-  }
-  return <p>Block of type <b>{type}</b> is not supported.</p>;
-};
-
-
+// Main notebook comp (handles editor switching)
 export default class Notepad extends Component {
   constructor(props) {
     super(props);
@@ -246,12 +74,6 @@ export default class Notepad extends Component {
       placeholder: 'Write here...',
       _isMounted: false,
     };
-
-    // handleOnChange = (e) => {
-    //   console.log("CHANGE: ", e);
-    //   if (this.state._isMounted) 
-    //   this.setState({ editorState: e});
-    // }
 
     this.sideButtons = [{
       title: 'Image',
@@ -282,7 +104,7 @@ export default class Notepad extends Component {
     this.onEditorStateChange = this.onEditorStateChange.bind(this); 
     this.refsEditor = React.createRef();
   }
-
+  
   onChange = (editorState, callback = null) => {
     if (this.state._isMounted)
     if (this.state.editorEnabled) {
@@ -293,6 +115,14 @@ export default class Notepad extends Component {
       });
     }
   };
+
+  getBlocksFromHTML(html) {
+
+  }
+
+  getHTMLFromBlocks(html) {
+
+  }
 
   onEditorStateChange = (editorState) => {
     console.log("Editor state change: ", editorState);
@@ -315,7 +145,6 @@ export default class Notepad extends Component {
     if (this.state._isMounted)
     this.setState({ editorType: editorType });
   }
-
 
   handleDroppedFiles(selection, files) {
     window.ga('send', 'event', 'draftjs', 'filesdropped', files.length + ' files');
@@ -399,3 +228,174 @@ export default class Notepad extends Component {
     );
   }
 }
+
+
+// Medium-draft sidebar menu comps
+
+class SeparatorSideButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    let editorState = this.props.getEditorState();
+    const content = editorState.getCurrentContent();
+    const contentWithEntity = content.createEntity('separator', 'IMMUTABLE', {});
+    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+    this.props.setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(
+        editorState,
+        entityKey,
+        '-'
+      )
+    );
+    this.props.close();
+  }
+
+  render() {
+    return (
+      <button
+        className="md-sb-button md-sb-img-button"
+        type="button"
+        title="Add a separator"
+        onClick={this.onClick}
+      >
+        <i className="fa fa-minus" />
+      </button>
+    );
+  }
+}
+
+class EmbedSideButton extends React.Component {
+
+  static propTypes = {
+    setEditorState: PropTypes.func,
+    getEditorState: PropTypes.func,
+    close: PropTypes.func,
+  };
+
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+    this.addEmbedURL = this.addEmbedURL.bind(this);
+  }
+
+  onClick() {
+    const url = window.prompt('Enter a URL', 'https://www.youtube.com/watch?v=PMNFaAUs2mo');
+    this.props.close();
+    if (!url) {
+      return;
+    }
+    this.addEmbedURL(url);
+  }
+
+  addEmbedURL(url) {
+    let editorState = this.props.getEditorState();
+    const content = editorState.getCurrentContent();
+    const contentWithEntity = content.createEntity('embed', 'IMMUTABLE', {url});
+    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+    this.props.setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(
+        editorState,
+        entityKey,
+        'E'
+      )
+    );
+  }
+
+  render() {
+    return (
+      <button
+        className="md-sb-button md-sb-img-button"
+        type="button"
+        title="Add an Embed"
+        onClick={this.onClick}
+      >
+        <i className="fa fa-code" />
+      </button>
+    );
+  }
+}
+
+class AtomicEmbedComponent extends React.Component {
+
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showIframe: false,
+    };
+    this.enablePreview = this.enablePreview.bind(this);
+  }
+
+  componentDidMount() {
+    this.renderEmbedly();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.showIframe !== this.state.showIframe && this.state.showIframe === true) {
+      this.renderEmbedly();
+    }
+  }
+
+  getScript() {
+    const script = document.createElement('script');
+    script.async = 1;
+    script.src = '//cdn.embedly.com/widgets/platform.js';
+    script.onload = () => {
+      window.embedly();
+    };
+    document.body.appendChild(script);
+  }
+
+  renderEmbedly() {
+    if (window.embedly) {
+      window.embedly();
+    } else {
+      this.getScript();
+    }
+  }
+
+  enablePreview() {
+    this.setState({
+      showIframe: true,
+    });
+  }
+
+  render() {
+    const { url } = this.props.data;
+    const innerHTML = `<div><a class="embedly-card" href="${url}" data-card-controls="0" data-card-theme="dark">Embedded ― ${url}</a></div>`;
+    return (
+      <div className="md-block-atomic-embed">
+        <div dangerouslySetInnerHTML={{ __html: innerHTML }} />
+      </div>
+    );
+  }
+}
+
+const AtomicSeparatorComponent = (props) => (
+  <hr />
+);
+
+const AtomicBlock = (props) => {
+  const { blockProps, block } = props;
+  const content = blockProps.getEditorState().getCurrentContent();
+  const entity = content.getEntity(block.getEntityAt(0));
+  const data = entity.getData();
+  const type = entity.getType();
+  if (blockProps.components[type]) {
+    const AtComponent = blockProps.components[type];
+    return (
+      <div className={`md-block-atomic-wrapper md-block-atomic-wrapper-${type}`}>
+        <AtComponent data={data} />
+      </div>
+    );
+  }
+  return <p>Block of type <b>{type}</b> is not supported.</p>;
+};
