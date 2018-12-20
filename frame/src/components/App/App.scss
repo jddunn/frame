@@ -23,12 +23,13 @@ html, body {
 .titleWrapper {
   margin-top: -20px;
   padding: 7px;
+  padding-bottom: 8px !important;
   width: 100%;
   border: none !important;
   box-shadow: none !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  -webkit-box-shadow: -1px 1px 1px -1px rgba(48, 48, 48, 0.35)!important;
+  -moz-box-shadow: -1px 1px 1px -1px rgba(48, 48, 48, 0.35) !important;
+  box-shadow: -1px 1px 1px -1px rgba(48, 48, 48, 0.35) !important;
 }
 
 .brandWrapper {

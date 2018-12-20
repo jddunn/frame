@@ -7,8 +7,13 @@
 }
 
 .rdw-editor-toolbar {
-    margin-top: 0px !important;
+    -webkit-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
+    -moz-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
+    box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
+    margin-top: 1px !important;
     margin-left: -5px !important;
+    background-color: rgba(112, 88, 88, 0.03) !important;
+    font-size: .98em !important;
 }
 
 .rdw-editor-main {
@@ -108,7 +113,7 @@
 
 .md-side-toolbar {
     margin-left: 160px !important;
-    margin-top: 15px !important;
+    margin-top: 10px !important;
 }
 
 .editor :global(.public-DraftEditor-content) {
@@ -129,9 +134,18 @@
 
 .danteEditorWrapper {
     margin-top: 12px !important;
+    font-size: 1.2em;
 }
 
 .md-sb-img-button {
     font-weight: normal !important;
     font-size: 1.0em !important;
+}
+
+.rdw-dropdown-wrapper {
+    height: 25px !important;
+}
+
+.rdw-option-wrapper {
+    height: 25px !important;
 }
