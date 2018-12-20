@@ -42,7 +42,16 @@ const Option = Select.Option;
 
 // Main notebook comp (handles editor switching)
 export default class Notepad extends Component {
+
+  static propTypes = {
+    setEditorState: PropTypes.func,
+    getEditorState: PropTypes.func,
+    close: PropTypes.func,
+  };
+
+  
   constructor(props) {
+
     super(props);
 
     this.state = {
@@ -53,17 +62,17 @@ export default class Notepad extends Component {
     };
 
     this.sideButtons = [{
-      title: 'Image',
-      component: ImageSideButton,
-    }, {
-      title: 'Embed',
-      component: EmbedSideButton,
-    },
-    {
-      title: 'Break',
-      component: BreakSideButton,
-    }
-  ];
+        title: 'Image',
+        component: ImageSideButton,
+      }, {
+        title: 'Embed',
+        component: EmbedSideButton,
+      },
+      {
+        title: 'Break',
+        component: BreakSideButton,
+      }
+    ];
 
     // this.exporter = setRenderOptions({
       // styleToHTML,
@@ -72,11 +81,14 @@ export default class Notepad extends Component {
     // });
 
     this.getEditorState = () => this.state.editorState;
+    this.setEditorState = (state) => this.setState({editorState: state});
     this.handleDroppedFiles = this.handleDroppedFiles.bind(this);
     this.onChange = this.onChange.bind(this);
 
     this.onEditorStateChange = this.onEditorStateChange.bind(this); 
     this.refsEditor = React.createRef();
+    this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
+    this._uploadImageCallBack = this._uploadImageCallBack.bind(this);
   }
   
   onChange = (editorState, callback = null) => {
@@ -140,6 +152,25 @@ export default class Notepad extends Component {
   }
 
   uploadImageCallBack(file) {
+    console.log(file);
+    // return new Promise(
+    //   (resolve, reject) => {
+    //   const selectionState = this.getEditorState().getSelection();
+    //   const anchorKey = selectionState.getAnchorKey();
+    //   console.log(file);
+    //   if (file.type.indexOf('image/') === 0) {
+    //     const src = URL.createObjectURL(file);
+    //     this.onChange(addNewBlockAt(
+    //       this.getEditorState(),
+    //       anchorKey,
+    //       Block.IMAGE, {
+    //         src: src,
+    //       }
+    //     ));
+    //     // resolve(this.getEditorState());
+    //   }
+    // });
+    // return;
     return new Promise(
       (resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -159,6 +190,35 @@ export default class Notepad extends Component {
       }
     );
   }
+
+  // _uploadImageCallBack(file){
+  //   // long story short, every time we upload an image, we
+  //   // need to save it to the state so we can get it's data
+  //   // later when we decide what to do with it.
+    
+  //  // Make sure you have a uploadImages: [] as your default state
+  //   let uploadedImages = this.state.uploadedImages;
+
+  //   const imageObject = {
+  //     file: file,
+  //     localSrc: URL.createObjectURL(file),
+  //   }
+
+  //   uploadedImages.push(imageObject);
+
+  //   this.setState({uploadedImages: uploadedImages})
+    
+  //   // We need to return a promise with the image src
+  //   // the img src we will use here will be what's needed
+  //   // to preview it in the browser. This will be different than what
+  //   // we will see in the index.md file we generate.
+  //   return new Promise(
+  //     (resolve, reject) => {
+  //       resolve({ data: { link: imageObject.localSrc } });
+  //     }
+  //   );
+  // }
+
 
   render() {
     const editorState = this.state.editorState;
@@ -200,7 +260,7 @@ export default class Notepad extends Component {
               history: { inDropdown: true },
               fontFamily: {
                 options: ['Arial', 'Georgia', 'Impact', 'Tahoma','Times New Roman', 'Verdana']},
-              image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: true } },
+              image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: false } },
             }}
             />
           </div>
@@ -224,7 +284,6 @@ export default class Notepad extends Component {
                 handleDroppedFiles={this.handleDroppedFiles}
                 placeholder={"Write your story"}
                 sideButtons={this.sideButtons}
-                
               />
             </div>
           </div>
