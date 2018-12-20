@@ -1,16 +1,14 @@
-// react-draft-js
-
-.rdw-editor-toolbar {
-    margin-top: -10px !important;
-    margin-left: -10px !important;
+.notebookEditorWrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;  
+    max-height: 100% !important;
+    resize: none !important;
 }
 
-/* For some reason we also have to add styles for this class too?
-   But they don't work when combined with the above..
-*/
-.toolbarClassName {
-    margin-top: -9px !important;
-    margin-left: -20px !important;
+.rdw-editor-toolbar {
+    margin-top: 0px !important;
+    margin-left: -10px !important;
 }
 
 .rdw-editor-main {
@@ -27,54 +25,6 @@
     font-size: .9em;
 }
 
-
-// Dante
-
-.dante-menu {
-    margin-left: 200px !important;
-}
-
-.dante-menu--active {
-    margin-left: 200px !important;
-}
-
-
-// Quill
-
-.quillThemeSwitcher {
-    float: right !important;
-}
-
-.ql-bubble {
-    background-color: transparent !important;
-    border: none !important;
-}
-
-.ql-snow {
-    background-color: transparent !important;
-    border: none !important;
-}
-
-.ql-toolbar {
-    box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.15) !important;
-    -moz-box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.15) !important;
-    -webkit-box-shadow: inset 1px 0px rgba(200, 200, 220, .4), 0 1px 1px rgba(34,25,25,0.15) !important;
-}
-
-.ql-tooltip {
-    background-color: rgba(65, 61, 64, .8) !important;
-    float: right !important;
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-}
-
-
-.quillThemeSwitcher {
-    margin-right: 5px;
-    float: right !important;
-}
-
 // draft-js
 .editor {
     box-sizing: border-box;
@@ -85,46 +35,24 @@
     margin-bottom: 2em;
     box-shadow: inset 0px 1px 8px -3px #ABABAB;
     background: #fefefe;
-  }
-  
-  .editor :global(.public-DraftEditor-content) {
-    min-height: 140px;
-  }
-
-  .editorWrapper {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-  }
-
-.draftStaticToolbar {
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    box-shadow: inset 1px 0px rgba(200, 200, 220, .1), 0 0px 1px rgba(34,25,25,0.05) !important;
-    -moz-box-shadow: inset 1px 0px rgba(200, 200, 220, .1), 0 0px 1px rgba(34,25,25,0.05) !important;
-    -webkit-box-shadow: inset 1px 0px rgba(200, 200, 220, .1), 0 0px 1px rgba(34,25,25,0.05) !important;
 }
 
-.danteEditorWrapper {
-    //   padding: 15px !important;
-    //   margin: 15px !important;
+.editorWrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
 }
 
 .DraftEditor-editorContainer {
     margin: 15px !important;
-    // margin-top: 5px !important;
+    margin-top: 0px !important;
 }
 
-
 .public-DraftEditorPlaceholder-inner {
-    margin: 15px !important;
-    margin-top: -10px !important;
-    margin-left: 30px !important;
-    padding-top: 15px !important;
-    // padding: 15px !important;
-    height: 35px !important;
+    // margin: 15px !important;
+    margin-top: 15px !important;
+    margin-left: 20px !important;
+    // padding-top: 10px !important;
 }
 
 .rdw-colorpicker-modal {
@@ -150,6 +78,58 @@
     margin-left: -100px !important;
 }
 
-.rdw-option-wrapper {
-    // margin-left: -150px !important;
+.md-editor-toolbar {
+    margin-left: 200px !important;
+}
+
+.md-editor-toolbar--isopen {
+    margin-left: 200px !important;
+}
+
+.md-RichEditor-root {
+    resize:vertical !important;
+    height: calc(100% - 20px) !important;
+    width:100% !important;
+    overflow: hidden !important; 
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: -10px !important;
+    background: rgba(250, 250, 250, 1.0) !important;
+}
+
+.rdw-editor-main {
+    resize:vertical !important;
+    height: calc(100% - 20px) !important;
+    width:100% !important;
+    overflow: hidden !important; 
+}
+
+.md-side-toolbar {
+    margin-left: 160px !important;
+    margin-top: 15px !important;
+}
+
+.editor :global(.public-DraftEditor-content) {
+    min-height: 140px;
+    max-height: 800px !important;
+    max-width: 100% !important;
+    overflow: auto !important;
+}
+
+.public-DraftEditor-content {
+    padding-top: -30px !important;
+    min-height: 140px;
+    max-height: 800px !important;
+    max-width: 100% !important;
+    overflow: auto !important;
+    height: 800px !important;
+}
+
+.danteEditorWrapper {
+    margin-top: 12px !important;
+}
+
+.md-sb-img-button {
+    font-weight: normal !important;
+    font-size: 1.0em !important;
 }

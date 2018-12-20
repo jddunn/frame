@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App/App'
+
+import './assets/css/all.css';
+import './assets/js/all';
 // import registerServiceWorker from "./registerServiceWorker";
 
 // Create root element in DOM
