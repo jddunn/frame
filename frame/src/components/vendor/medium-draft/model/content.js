@@ -5,7 +5,7 @@ import {
   ContentState,
 } from 'draft-js';
 
-import Link, { findLinkEntities } from '../components/entities/link';
+import Link, { findLinkEntities } from '../entities/link';
 
 
 const defaultDecorators = new CompositeDecorator([

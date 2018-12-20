@@ -21,15 +21,14 @@ import { Editor as MEditor } from 'medium-draft';
 // } from 'medium-draft';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import 'medium-draft/lib/index.css';
-
-import '../vendor/addbutton.scss';
-import '../vendor/toolbar.scss';
-import '../vendor/blocks/text.scss';
-import '../vendor/blocks/atomic.scss';
-import '../vendor/blocks/blockquotecaption.scss';
-import '../vendor/blocks/caption.scss';
-import '../vendor/blocks/todo.scss';
-import '../vendor/blocks/image.scss';
+import '../vendor/components/addbutton.scss';
+import '../vendor/components/toolbar.scss';
+import '../vendor/components/blocks/text.scss';
+import '../vendor/components/blocks/atomic.scss';
+import '../vendor/components/blocks/blockquotecaption.scss';
+import '../vendor/components/blocks/caption.scss';
+import '../vendor/components/blocks/todo.scss';
+import '../vendor/components/blocks/image.scss';
 
 import {
   KeyBindingUtil,
@@ -46,6 +45,7 @@ import {
   beforeInput,
   getCurrentBlock,
   ImageSideButton,
+  BreakSideButton,
   rendererFn,
   HANDLED,
   NOT_HANDLED
@@ -270,7 +270,12 @@ export default class Notepad extends Component {
     }, {
       title: 'Separator',
       component: SeparatorSideButton,
-    }];
+    },
+    {
+      title: 'Break',
+      component: BreakSideButton,
+    }
+  ];
 
     // this.exporter = setRenderOptions({
       // styleToHTML,
@@ -315,6 +320,7 @@ export default class Notepad extends Component {
 
   componentWillReceiveProps(nextProps) {
     const editorType  = nextProps.editorType;
+    if (this.state._isMounted)
     this.setState({ editorType: editorType });
   }
 
@@ -395,7 +401,7 @@ export default class Notepad extends Component {
           </div>
     }
     return (
-      <div>
+      <div className="notebookEditorWrapper">
         {editor}
         </div>
     );

@@ -37,18 +37,12 @@ $toolbar-color: #323845;
   transition: all 0.1s ease;
   visibility: hidden;
   box-shadow: 0 1px 3px 0 #747171;
-  // background-image: linear-gradient(to bottom,rgba(49,49,47,.99),#262625);
-
-  // transition: top 75ms ease-out,left 75ms ease-out;
 
   &.md-editor-toolbar--isopen {
     visibility: visible;
-    // transition: top 75ms ease-out,left 75ms ease-out;
-    // animation: pop-upwards 180ms forwards linear;
   }
 
   &.md-editor-toolbar--linkinput {
-    // display:block;
     animation: pop-downwards 200ms forwards linear;
   }
 
@@ -78,8 +72,6 @@ $toolbar-color: #323845;
 
     &:focus {
       outline: none;
-      // border-color: #50FF4D;
-      // background-color: #eee;
     }
   }
 

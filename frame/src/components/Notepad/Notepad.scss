@@ -1,3 +1,11 @@
+.notebookEditorWrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;  
+    max-height: 100% !important;
+    resize: none !important;
+}
+
 .rdw-editor-toolbar {
     margin-top: -10px !important;
     margin-left: -10px !important;
@@ -29,9 +37,7 @@
     background: #fefefe;
 }
   
-.editor :global(.public-DraftEditor-content) {
-    min-height: 140px;
-}
+
 
 .editorWrapper {
     margin: 0 !important;
@@ -90,13 +96,39 @@
 }
 
 .md-RichEditor-root {
+    resize:vertical !important;
+    height: calc(100% - 20px) !important;
+    width:100% !important;
+    overflow: hidden !important; 
     margin: 0 !important;
     padding: 0 !important;
     margin-top: -10px !important;
     background: rgba(250, 250, 250, 1.0) !important;
 }
 
+.rdw-editor-main {
+    resize:vertical !important;
+    height: calc(100% - 20px) !important;
+    width:100% !important;
+    overflow: hidden !important; 
+}
+
 .md-side-toolbar {
     margin-left: 150px !important;
     margin-top: -30px !important;
+}
+
+.editor :global(.public-DraftEditor-content) {
+    min-height: 140px;
+    max-height: 800px !important;
+    max-width: 100% !important;
+    overflow: auto !important;
+}
+
+.public-DraftEditor-content {
+    min-height: 140px;
+    max-height: 800px !important;
+    max-width: 100% !important;
+    overflow: auto !important;
+    height: 800px !important;
 }
