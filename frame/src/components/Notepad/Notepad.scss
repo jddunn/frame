@@ -7,7 +7,7 @@
 }
 
 .rdw-editor-toolbar {
-    margin-top: -10px !important;
+    margin-top: 1px !important;
     margin-left: -10px !important;
 }
 
@@ -36,8 +36,6 @@
     box-shadow: inset 0px 1px 8px -3px #ABABAB;
     background: #fefefe;
 }
-  
-
 
 .editorWrapper {
     margin: 0 !important;
@@ -47,7 +45,6 @@
 
 .DraftEditor-editorContainer {
     margin: 15px !important;
-    // margin-top: 5px !important;
 }
 
 
@@ -126,9 +123,14 @@
 }
 
 .public-DraftEditor-content {
+    padding-top: -30px !important;
     min-height: 140px;
     max-height: 800px !important;
     max-width: 100% !important;
     overflow: auto !important;
     height: 800px !important;
+}
+
+.danteEditorWrapper {
+    margin-top: 12px !important;
 }
