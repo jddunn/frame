@@ -14,12 +14,14 @@ import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 import MainMenu from '../MainMenu/MainMenu';
 /** Notebook / Editor */
 import Notepad from '../Notepad/Notepad';
+/** Analysis / chatbot interface component */
+import Analyzer from '../Analyzer/Analyzer';
 /** Branding for logo / nav */
 import Brand from '../Brand/Brand';
 /** App global comp styles */
 import './App.scss';
 /** Persistent data storage (localForage right now) */
-import localforage from 'localforage';
+// import localforage from 'localforage';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
@@ -41,8 +43,7 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
-// localforage.clear();
-
+// localforage.clear(); // This resets the enitre db in the local Chrome app
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -53,6 +54,11 @@ const { Header, Content, Footer, Sider } = Layout;
 export default class App extends Component {
   constructor(props) {
     super(props);
+    /** 
+     *  The only persistent data we keep in state is Entries,
+     *  so that can be modified and rendered before saving
+     *  to storage.
+     */
     this.state = {
       collapsed: false,
       Entries: [],
@@ -63,7 +69,6 @@ export default class App extends Component {
     this.getEntries = this.getEntries.bind(this);
     // Update entries (this func is passed in props to child comps)
     this.updateEntries = this.updateEntries.bind(this);
-
     // Update app method
     this.updateApp = this.updateApp.bind(this);
   }
@@ -204,6 +209,16 @@ export default class App extends Component {
     let entryId = (getState("entryId") != null) ?
       getState("entryId") : null;
     let entry = traverseEntriesById(entryId, Entries);
+    let activeLink = getState("activeLink");
+
+    // As we get more sections, this will eventually need
+    // refactored, since a splitNotebookLayout would only
+    // be true on the explore / inquire page (currently)
+    let splitNotebookLayout = (activeLink != null &&
+                               activeLink != undefined &&
+                               activeLink != "undefined" &&
+                               activeLink != "look") ?
+      false : true;
     if (entry === null) {
       // console.log("Could not find entry with ID: ", entryId);
       // console.log("Setting default entry to top in tree");
@@ -268,9 +283,9 @@ export default class App extends Component {
                     <h4 className="sectionTitleText">
                       {entryPageTitle}
                     </h4>
-
                     </div>
                     {/* End app title */}
+
                     <div className="editorWrapper">
                       <div id="editor">
                           <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}/>

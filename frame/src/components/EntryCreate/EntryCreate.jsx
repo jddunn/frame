@@ -131,7 +131,7 @@ const EntryCreateForm = Form.create()(
                 initialValue: 'New entry',
                 rules: [{ required: true, message: 'Title of entry is required' }],
               })(
-                <Input onChange={this.handleTitleInputChange} placeholder='New entry'/>
+                <Input onChange={this.handleTitleInputChange}  autocomplete="off" placeholder='New entry'/>
               )}
             </FormItem>
             <FormItem label="Document Type"

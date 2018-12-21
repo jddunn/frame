@@ -18,23 +18,15 @@ import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
-import styles from './Summaries.scss';
+import styles from './Analyzer.scss';
 
-import { parseTextForPeople } from '../../utils';
-
-export default class Summaries extends Component {
+export default class Analyzer extends Component {
 
   constructor(props) {
 
     super(props);
 
     this.state = {
-      editorState: createEditorState(),
-      editorEnabled: true,
-      placeholder: 'Write here...',
-      _isMounted: false,
-      editorType: "flow"
-      // uploadedImages: [],
     };
   }
 
@@ -43,9 +35,9 @@ export default class Summaries extends Component {
 
   render() {
     return (
-      <div className="brandContainer">
-          <h4 className="brandTitle">F R A M E</h4> <p className="brandSubtitle">v 0.1.0</p>
-      </div>
+        <React.Fragment>
+          ANALYZER
+        </React.Fragment>
     );
   }
 }
