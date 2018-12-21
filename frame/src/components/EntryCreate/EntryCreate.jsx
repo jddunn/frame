@@ -38,7 +38,9 @@ const EntryCreateForm = Form.create()(
          we need to keep track of the entryTags from the specific 
          input field with state.
       */
-      this.state = {entryTags: [], entryTitle: 'New entry'};
+      this.state = {entryTags: [], entryTitle: 'New entry', entrySubtitle: '', 
+                    timestamp:'', entrySubtitleTagsPlaceholder: ''
+    };
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
       this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
@@ -50,13 +52,16 @@ const EntryCreateForm = Form.create()(
     }
 
     handleReset() {
-      this.setState({entryTitle: 'New entry', entryTags: []});
+      this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+                        timestamp:'', entrySubtitleTagsPlaceholder: ''
+      });
     }
 
     handleTitleInputChange(event) {
       let val;
       val = event.target.value;
-      this.setState({entryTitle: val});
+      const timestampNow = getTimestamp();
+      this.setState({entryTitle: val, timestamp: timestampNow});
     }
 
     handleTagsInputChange(event) {
@@ -75,7 +80,15 @@ const EntryCreateForm = Form.create()(
         tags.push(val);
       }
       let uniqueTags = [...new Set(tags)];
-      this.setState({entryTags: uniqueTags});
+      const timestampNow = getTimestamp();
+      const subtitleInitialText = '' + timestampNow + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0';
+      let subtitleDefaultText = subtitleInitialText;
+      if (uniqueTags.length > 0) {
+        subtitleDefaultText += '[' + uniqueTags.toString() + ']';
+      }
+      this.setState({entryTags: uniqueTags, entrySubtitle: subtitleDefaultText, 
+        entrySubtitleTagsPlaceholder: '[' + uniqueTags.toString() + ']',
+        timestamp: timestampNow});
     }
 
     render() {
@@ -83,14 +96,10 @@ const EntryCreateForm = Form.create()(
         visible, onCancel, onCreate, form,
       } = this.props;
       const { getFieldDecorator } = form;
-
-      const timestampNow = getTimestamp();
-      const subtitlePlaceholderText = timestampNow + ' - ';
       const uuid = generateUUID();
-
       const formItemLayout = {
         labelCol: { span: 6 },
-        wrapperCol: { span: 12 }
+        wrapperCol: { span: 13 }
       };
       const buttonItemLayout = {
         wrapperCol: { span: 14, offset: 4
@@ -98,20 +107,9 @@ const EntryCreateForm = Form.create()(
       };
       let entryTags = this.state.entryTags;
       let entryTitle = this.state.entryTitle;
-      let tagsLength;
-      try {
-        tagsLength = Object.keys(entryTags).length;
-      } catch (err) {
-        tagsLength = 0;
-      }
-      const subtitleInitialText = '' + timestampNow + 
-        '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0';
-      let subtitleDefaultText;
-      if (tagsLength > 0) {
-        subtitleDefaultText = subtitleInitialText + '[' + entryTags.toString() + ']';
-      } else {
-        subtitleDefaultText = subtitleInitialText;
-      }
+      const timestampNow = getTimestamp();
+      const entrySubtitle = timestampNow + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
+                    this.state.entrySubtitleTagsPlaceholder;
       return (
         <Modal
           id="entryCreateModal"
@@ -130,10 +128,10 @@ const EntryCreateForm = Form.create()(
               {...formItemLayout}
               >
               {getFieldDecorator('title', {
-                initialValue: entryTitle,
+                initialValue: 'New entry',
                 rules: [{ required: true, message: 'Title of entry is required' }],
               })(
-                <Input onChange={this.handleTitleInputChange} placeholder={entryTitle}/>
+                <Input onChange={this.handleTitleInputChange} placeholder='New entry'/>
               )}
             </FormItem>
             <FormItem label="Document Type"
@@ -166,9 +164,9 @@ const EntryCreateForm = Form.create()(
               {...formItemLayout}
               >
               {getFieldDecorator('subtitle', {
-                  initialValue: subtitleDefaultText,
+                  initialValue: entrySubtitle,
                   rules: [{}],
-              })(<TextArea 
+              })(<Input.TextArea 
                   disabled={true} 
                   autosize={{ minRows: 2, maxRows: 6 }}/
                   >
@@ -215,6 +213,8 @@ export class EntryCreate extends Component {
   };
 
   showModal = () => {
+    const form = this.formRef.props.form;
+    form.resetFields();
     this.setState({ visible: true });
   }
 
@@ -234,6 +234,7 @@ export class EntryCreate extends Component {
     var _this = this;
     form.validateFields((err, values) => {
       if (err) {
+        message.error(err);
         return;
       }
       console.log("FORM VALUES: ", values);
@@ -243,19 +244,18 @@ export class EntryCreate extends Component {
         m_Entries = result;
         m_Entries.unshift(values); // Add entry to top of tree
         saveToDB(m_Library, "entries", m_Entries).then(function(result) {
-          form.resetFields();
           message.success("Created new library entry!");
-          _this.refreshMenuList();
+          form.resetFields();
+          _this.setState({visible: false})
           _this.props.updateEntriesMethod();
         })
       }).catch(function(err) {
-        alert(err);
+        message.fail("Failed to create new library entry! ", err);
         form.resetFields();
-        message.fail("Failed to create new library entry!");
-        _this.refreshMenuList();
+        _this.setState({visible: false});
       });
     });
-    this.forceUpdate();
+    this.setState({visible: false});
   }
 
   saveFormRef = (formRef) => {
