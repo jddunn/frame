@@ -38,6 +38,7 @@ Additional libraries and references used:
 
 - AllenNLP [https://allennlp.org/](https://allennlp.org/)
 - Ant Design [https://ant.design/](https://ant.design/)
+- compromise [https://github.com/spencermountain/compromise](https://github.com/spencermountain/compromise)
 - Draft.js [https://draftjs.org/](https://draftjs.org/)
 - electron-builder [https://www.electron.build/](https://www.electron.build/)
 - LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/)
