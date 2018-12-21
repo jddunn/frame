@@ -6,11 +6,19 @@
     resize: none !important;
 }
 
+.notebookEditorWrapperSplit {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;  
+    max-height: 50% !important;
+    resize: none !important;
+}
+
 .rdw-editor-toolbar {
     -webkit-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
     -moz-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
     box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
-    margin-top: 1px !important;
+    margin-top: -10px !important;
     margin-left: -5px !important;
     background-color: rgba(112, 88, 88, 0.03) !important;
     font-size: .98em !important;
@@ -100,7 +108,11 @@
     overflow: hidden !important; 
     margin: 0 !important;
     padding: 0 !important;
+    // margin-top: -10px !important;
     margin-top: -10px !important;
+    -webkit-box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
+    -moz-box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
+    box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
     background: rgba(250, 250, 250, 1.0) !important;
 }
 

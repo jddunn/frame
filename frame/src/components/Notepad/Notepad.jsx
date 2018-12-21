@@ -529,7 +529,9 @@ export default class Notepad extends Component {
               />
             </div>
           </div>
-    }
+    };
+
+    const splitNotebookLayout = this.props.splitNotebookLayout;
     return (
       <React.Fragment>
       <div className="notebookSwitch">
@@ -566,9 +568,17 @@ export default class Notepad extends Component {
             />
           </Tooltip>
         </div>
-      <div className="notebookEditorWrapper">
-        {editor}
-      </div>
+        <React.Fragment>
+          {splitNotebookLayout ? (
+            <div className="notebookEditorWrapper">
+              {editor}
+            </div>
+          ) : (
+            <div className="notebookEditorWrapperSplit">
+              {editor}
+            </div>
+          )}
+        </React.Fragment>
       </React.Fragment>
     );
   }

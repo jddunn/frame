@@ -62,6 +62,7 @@ export default class App extends Component {
     this.state = {
       collapsed: false,
       Entries: [],
+      _isMounted: false
     }
     // Initial load entries from db (this func is only called on componentWillMount)
     this.getEntriesInitial = this.getEntriesInitial.bind(this);
@@ -125,6 +126,14 @@ export default class App extends Component {
       return Entries;
     });
     return Entries;
+  }
+
+  componentDidMount() {
+    this.setState({_isMounted: true});
+  }
+
+  componentWillUnmount () {
+    this.setState({_isMounted: false});
   }
 
   async componentWillMount () {
@@ -200,6 +209,10 @@ export default class App extends Component {
 
   // Force app to re-render; this func is passed down in props to children
   updateApp() {
+    // const needUpdate = getState("needUpdate");
+    // if (needUpdate) 
+      // setState("needUpdate", false);
+    if (this.state._isMounted)
     this.forceUpdate();
   }
 
@@ -214,11 +227,8 @@ export default class App extends Component {
     // As we get more sections, this will eventually need
     // refactored, since a splitNotebookLayout would only
     // be true on the explore / inquire page (currently)
-    let splitNotebookLayout = (activeLink != null &&
-                               activeLink != undefined &&
-                               activeLink != "undefined" &&
-                               activeLink != "look") ?
-      false : true;
+    let splitNotebookLayout = activeLink != "look" ?
+      true : false;
     if (entry === null) {
       // console.log("Could not find entry with ID: ", entryId);
       // console.log("Setting default entry to top in tree");
@@ -244,6 +254,8 @@ export default class App extends Component {
     } catch (err) {
       entryPageTitle = 'Notebook';
     }
+
+    console.log("Are we splitting notebook layout: ", splitNotebookLayout);
     return (
       <div style={{ 
         display: 'flex',
@@ -276,19 +288,41 @@ export default class App extends Component {
               </Sider>
             <Layout>
               <Content>
-                <div className="center notepadContainer">
-                  <br></br>
-                  {/* App title */}
+                <div className="center mainPageContainer">
                   <div className="titleWrapper">
                     <h4 className="sectionTitleText">
                       {entryPageTitle}
                     </h4>
-                    </div>
-                    {/* End app title */}
-
-                    <div className="editorWrapper">
-                      <div id="editor">
-                          <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}/>
+                  </div>
+                    
+                    {/* 
+                        Within the notepad, we divide the vertical layout in half
+                        to show the explore / inquire content simultaneously with
+                        the editor text, and both will update together in real-time. 
+                    */}
+                    
+                    <div className="notepadContainer">
+                      <div>
+                        {splitNotebookLayout ? (
+                        <div className="editorWrapper">
+                          <div id="editor">
+                            <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
+                              splitNotebookLayout={splitNotebookLayout}
+                            />
+                          </div>
+                          <div className="analyzerWrapper">
+                            <Analyzer entryId={entryId}/>
+                          </div>
+                        </div>
+                        ) : (
+                        <div className="editorWrapper">
+                          <div id="editor">
+                              <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
+                                        splitNotebookLayout={splitNotebookLayout}
+                              />
+                          </div>
+                        </div>
+                        )}
                       </div>
                     </div>
                   </div>
