@@ -45,6 +45,7 @@ import '../vendor/components/blocks/todo.scss';
 import '../vendor/components/blocks/image.scss';
 // Local style
 import './Notepad.scss';
+import { getHTMLFromContent, getContentFromHTML, HTMLToText } from "../../utils/translate-html";
 
 const Option = Select.Option;
 
@@ -147,16 +148,8 @@ export default class Notepad extends Component {
     }
   };
 
-  getBlocksFromHTML(html) {
-
-  }
-
-  getHTMLFromBlocks(html) {
-
-  }
-
   onEditorStateChange = (editorState) => {
-    console.log("Editor state change: ", editorState);
+    // console.log("Editor state change: ", editorState);
     if (this.state._isMounted) 
     this.setState({
       editorState,
@@ -171,12 +164,47 @@ export default class Notepad extends Component {
     this.setState({_isMounted: false});
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const editorType  = nextProps.editorType;
-    const editorId = nextProps.editorId;
-    if (this.state._isMounted)
-    this.setState({ editorType: editorType });
+    const entryId = nextProps.entryId;
+    const m_nextProps = nextProps;
+    const library = getState("library");
+    const Library = openDB(library);
+    console.log("FOUND PROPS FOR NEXT ENTRY: ", entryId);
+    if (this.state._isMounted) {
+    await this.getEntries(Library, "entries").then(async(result) => {
+      const Entries = result;
+      const entry = traverseEntriesById(entryId, Entries);
+      if (entry != null) {
+        try {
+          // entry['content'] = this.state.editorState;
+          if (entry['html'] == null || entry['html'] == undefined) {
+            entry['html'] = getHTMLFromContent(this.state.editorState);
+            entry['editorType'] = m_nextProps.editorType;
+            console.log("Making new HTML: ", entry['html']);
+            const newEntries = replaceEntry(entry, Entries);
+            const res = getContentFromHTML(entry['html']);
+            console.log("RESULT: ", res);
+
+            this.setState({Entries: newEntries, editorState: getContentFromHTML(entry['html']),
+            editorType: m_nextProps.editorType});
+          } else {
+            console.log("Found editor html: ", entry['html']);
+            console.log("Making new HTML: ", entry['html']);
+            const res = getContentFromHTML(entry['html']);
+            console.log("RESULT: ", res);
+            this.setState({editorType: m_nextProps.editorType, Entries: Entries, editorState: getContentFromHTML(entry['html']),
+            editorType: m_nextProps.editorType});
+          }
+        } catch (err) {
+          console.log(err);
+          this.setState({editorType: m_nextProps.editorType});
+        }
+      }
+    }
+    )}
   }
+  
 
   /**
    * Handles the dropdown select menu to switch editor modes.
@@ -200,10 +228,21 @@ export default class Notepad extends Component {
         entry.editorType = "flow";
       }
       if (entry != null) {
-        const newEntries = replaceEntry(entry, Entries);
-        this.setState({Entries: newEntries})
+        try {
+          // entry['content'] = this.state.editorState;
+          entry['html'] = getHTMLFromContent(this.state.editorState);
+          entry['editorType'] = m_nextProps.editorType;
+          const newEntries = replaceEntry(entry, Entries);
+          const res = getContentFromHTML(entry['html']);
+          console.log("RESULT: ", res);
+          this.setState({Entries: newEntries, editorState: EditorState.createWithContent(getContentFromHTML(entry['html'])),
+           editorType: event.key.toString()});
+        } catch (err) {
+          console.log(err);
+          this.setState({Entries: Entries, editorState: EditorState.createEmpty(), editorType: event.key.toString()});
+        }
       }
-    });
+    })
     this.props.updateAppMethod();
   }
 
@@ -255,18 +294,35 @@ export default class Notepad extends Component {
     </Menu>
   );
 
-  saveNotebookData() {
-    const Entries = this.state.Entries;
+  async saveNotebookData() {
+    const entryId = getState("entryId");
     const library = getState("library");
+    const editorType = getState("editorType");
     const Library = openDB(library);
-    saveToDB(Library, "entries", Entries).then(function(result) {
-      console.log("Saved notebook data changes");
-      message.success('Saved notebook changes!');
-      this.forceUpdate();      
-    }).catch(function(err) {
-      message.error("Failed to create new library entry!");
-      this.forceUpdate();
-    });
+    const m_this = this;
+    console.log("SAVING NOTEBOOK");
+    await this.getEntries(Library, "entries").then(async(result) => {
+      const Entries = result;
+      const entry = traverseEntriesById(entryId, Entries);
+      console.log(entry);
+      if (entry != null) {
+        // entry['content'] = this.state.editorState;
+        entry['html'] = getHTMLFromContent(this.state.editorState);
+        entry['editorType'] = editorType;
+        console.log("entry 2:", entry);
+        const newEntries = replaceEntry(entry, Entries);
+        console.log("Replaced new entry: ", newEntries);
+        saveToDB(Library, "entries", newEntries).then(async function(result) {
+          console.log("Saved notebook changes");
+          message.success('Saved notebook changes!');
+          // m_this.props.updateAppMethod();
+        }).catch(function(err) {
+          message.error("Failed to save notebook! " + err);
+          // m_this.props.updateAppMethod();
+        });
+      }
+    })
+
   }
 
 

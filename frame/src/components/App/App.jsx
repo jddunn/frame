@@ -75,7 +75,7 @@ export default class App extends Component {
    * @public
    */
   onCollapse = (collapsed) => {
-    console.log(collapsed);
+    // console.log(collapsed);
     this.setState({ collapsed });
   }
 
@@ -167,7 +167,7 @@ export default class App extends Component {
     let Entries = [];
     await this.getEntries(Library, "entries").then((result) => {
       Entries = result;
-        console.log("GOT NEW ENTRY: ", Entries.length);
+        // console.log("GOT NEW ENTRY: ", Entries.length);
         const selectedEntry = Entries[0];
         let selectedEntryEditorType;
         let selectedEntryId;
@@ -203,7 +203,7 @@ export default class App extends Component {
 
 
   render() {
-    console.log("APP UPDATE AGAIN");
+    // console.log("APP UPDATE AGAIN");
     // By default editor mode for notes is Flow
     const Entries = this.state.Entries;
     let entryId = (getState("entryId") != null) ?
@@ -278,7 +278,7 @@ export default class App extends Component {
                     {/* End app title */}
                     <div className="editorWrapper">
                       <div id="editor">
-                          <Notepad editorType={editorType} updateAppMethod={this.updateApp}/>
+                          <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}/>
                       </div>
                     </div>
                   </div>

@@ -6,8 +6,10 @@
 /* eslint no-plusplus: 0 */
 /* eslint no-empty: 0 */
 
-import { EditorState, getCurrentContent,
+import { getCurrentContent,
          convertToHTML, convertFromHTML } from 'draft-convert';
+
+import { EditorState } from 'draft-js';
 
 export function getHTMLFromContent(editorState) {
     const html = convertToHTML(editorState.getCurrentContent());
@@ -15,7 +17,11 @@ export function getHTMLFromContent(editorState) {
 }
 
 export function getContentFromHTML(html) {
-    const editorState = EditorState.createWithContent(convertFromHTML(html));
+    console.log(html);
+    const blocks = convertFromHTML(html);
+    console.log(blocks);
+    const editorState = EditorState.createWithContent(blocks);
+    console.log("EDITOR STATE: ", editorState);
     return editorState;
 }
 
