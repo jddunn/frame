@@ -28,8 +28,11 @@ export function getContentFromHTML(html) {
 // We only use this because we assume the user won't execute malicious code inside his notebook
 export function HTMLToText(html) {
      // Set the HTML content with the providen
-     const tempDivElement = document.createElement("div");
-     tempDivElement.innerHTML = html;
-     // Retrieve the text property of the element (cross-browser support)
-     return tempDivElement.textContent || tempDivElement.innerText || "";
+    //  const tempDivElement = document.createElement("div");
+    //  tempDivElement.innerHTML = html;
+    // return tempDivElement.textContent.replace(reg, " ") || tempDivElement.innerText.replace(reg, " ") || "";
+    let text = "";
+    const reg = /(<([^>]+)>)/ig;
+    text = html.replace(reg, " ")
+    return text;
 }

@@ -14,7 +14,8 @@ import { EntryCreate } from '../EntryCreate/EntryCreate';
 /** Ant Design */
 import { 
   Menu, Icon, Button, ButtonGroup,
-  Input, Divider, Tooltip, message
+  Input, Divider, Tooltip, message,
+  Upload
  } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 /** React-sortable-tree has so many style classes it'll be easier 
@@ -431,6 +432,7 @@ export default class MainMenu extends Component {
                           className="loadButton"
                           ghost={true}
                           icon="folder-open"
+                          onClick={() => { this.loadLibraryFromJSONFile() }}
                           // onClick={this.expandAll}
                           />
                       </Tooltip>

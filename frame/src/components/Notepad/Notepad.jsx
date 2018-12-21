@@ -178,6 +178,7 @@ export default class Notepad extends Component {
           // entry['content'] = this.state.editorState;
           if (entry['html'] == null || entry['html'] == undefined) {
             entry['html'] = getHTMLFromContent(EditorState.createEmpty());
+            entry['strippedText'] = HTMLToText(entry['html']);
             entry['editorType'] = editorType;
             console.log("Making new HTML: ", entry['html']);
             const newEntries = replaceEntry(entry, Entries);
@@ -219,6 +220,7 @@ export default class Notepad extends Component {
         try {
           // entry['content'] = this.state.editorState;
           entry['html'] = getHTMLFromContent(this.state.editorState);
+          entry['strippedText'] = HTMLToText(entry['html']);
           // try {
           // entry['editorType'] = event.key.toString();
           // } catch (err) {
@@ -300,6 +302,7 @@ export default class Notepad extends Component {
       if (entry != null) {
         // entry['content'] = this.state.editorState;
         entry['html'] = getHTMLFromContent(this.state.editorState);
+        entry['strippedText'] = HTMLToText(entry['html']);
         entry['editorType'] = editorType;
         console.log("entry 2:", entry);
         const newEntries = replaceEntry(entry, Entries);
