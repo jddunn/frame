@@ -340,14 +340,14 @@ export default class MainMenu extends Component {
     switch (index) {
       case 1:
         setState("activeLink", "look");
-        // this.props.updateAppMethod();
+        this.props.updateAppMethod();
         break;
       case 5: 
         setState("activeLink", "explore");
         this.props.updateAppMethod();
         break;
       default:
-        // this.props.updateAppMethod();
+        this.props.updateAppMethod();
         break;
     }
   }

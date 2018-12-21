@@ -1,16 +1,40 @@
 html, body {
     height: 100% !important;
     width: 100% !important;
-    background: #2980b9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    overflow: hidden !important;
+    min-height: 100% !important;
+    min-width: 100% !important;
+}
+
+body {
+  min-height: 100vh !important;
+  min-width: 100% !important;
+  background: #2980b9;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow: hidden !important;
 }
   
 .app {
+  height: 100% !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100vh !important;
+
+}
+
+.ant-layout {
+  height: 100% !important;
   min-height: 100vh !important;
 }
 
+
+.ant-layout-content {
+  min-height: 100vh !important;
+}
+
+.ant-layout-sider {
+  min-height: 100vh !important;
+}
 
 .footerNoteText {
   text-shadow: none;
@@ -83,21 +107,22 @@ html, body {
 }
 
 .mainPageContainer {
-  display: block;
   width: 100%;
-  min-height: 100vh !important;
   height: 100% !important;
+  min-height: 100% !important;
   background-color: rgba(250, 250, 250, 1.0);
   box-shadow: none !important;
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  overflow-x: none !important; 
 }
 
 .notepadContainer {
-  width: 100% !important;
+  width: 100%;
   height: 100% !important;
+  min-height: 100% !important;
+  margin-top: -10px !important;
+  overflow: scroll !important;
   // box-shadow: 0 0 1px rgba(239, 239, 239, .3) !important;
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;

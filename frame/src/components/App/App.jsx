@@ -227,8 +227,9 @@ export default class App extends Component {
     // As we get more sections, this will eventually need
     // refactored, since a splitNotebookLayout would only
     // be true on the explore / inquire page (currently)
-    let splitNotebookLayout = activeLink != "look" ?
-      true : false;
+    console.log(getState("activeLink"));
+    let splitNotebookLayout = activeLink === "look" ?
+      false : true;
     if (entry === null) {
       // console.log("Could not find entry with ID: ", entryId);
       // console.log("Setting default entry to top in tree");
@@ -257,13 +258,7 @@ export default class App extends Component {
 
     console.log("Are we splitting notebook layout: ", splitNotebookLayout);
     return (
-      <div style={{ 
-        display: 'flex',
-        flex: '0 0 auto',
-        flexDirection: 'column',
-        height: '100%',
-        width: '100%',
-        margin: 0 }}>
+        <React.Fragment>
           <Layout >
             <Sider
               width={350}
@@ -305,7 +300,7 @@ export default class App extends Component {
                       <div>
                         {splitNotebookLayout ? (
                         <div className="editorWrapper">
-                          <div id="editor">
+                          <div id="editor" style = {{maxHeight: '400px !important'}}>
                             <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                               splitNotebookLayout={splitNotebookLayout}
                             />
@@ -316,7 +311,7 @@ export default class App extends Component {
                         </div>
                         ) : (
                         <div className="editorWrapper">
-                          <div id="editor">
+                          <div id="editor" style = {{maxHeight: '800px !important'}}>
                               <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
                                         splitNotebookLayout={splitNotebookLayout}
                               />
@@ -329,7 +324,7 @@ export default class App extends Component {
                 </Content>
               </Layout>
             </Layout>
-          </div>
+          </React.Fragment>
         );
     }
 }

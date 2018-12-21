@@ -1,3 +1,8 @@
+.app {
+    height: 100% !important;
+    width: 100% !important;
+}  
+
 .notebookEditorWrapper {
     padding: 0 !important;
     margin: 0 !important;
@@ -15,22 +20,24 @@
 }
 
 .rdw-editor-toolbar {
+    position: fixed !important;
+    z-index: 10000;
     -webkit-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
     -moz-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
     box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
-    margin-top: -10px !important;
-    margin-left: -5px !important;
+    margin: 20px !important;
+    margin-top: 0px !important;
+    margin-left: 0px !important;
     background-color: rgba(112, 88, 88, 0.03) !important;
     font-size: .98em !important;
+    width: 100% !important;
 }
 
 .rdw-editor-main {
-    margin-left: 2px;
-    margin-top: -10px;
+    position: fixed !important;
 }
 
 .rdw-dropdown-wrapper {
-    height: 22px !important;
 }
 
 .rdw-dropdown-selectedtext {
@@ -40,32 +47,35 @@
 
 // draft-js
 .editor {
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    cursor: text;
-    padding: 13px;
-    border-radius: 2px;
-    margin-bottom: 2em;
+    // cursor: text;
+    // border-radius: 2px;
+    // margin-bottom: 2em;
     box-shadow: inset 0px 1px 8px -3px #ABABAB;
-    background: #fefefe;
+    // background: #fefefe;
 }
 
 .editorWrapper {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    height: 100vh !important;
 }
 
 .DraftEditor-editorContainer {
+    width: 100% !important;
+    height: 100% !important;
     margin: 15px !important;
-    margin-top: 0px !important;
+    margin-top: 35px !important;
 }
 
 .public-DraftEditorPlaceholder-inner {
-    // margin: 15px !important;
     margin-top: 15px !important;
     margin-left: 20px !important;
-    // padding-top: 10px !important;
+    position: fixed !important;
+    min-height: 140px;
+    max-height: 600px !important;
+    max-width: 100% !important;
+    height: 600px !important;
 }
 
 .rdw-colorpicker-modal {
@@ -105,11 +115,8 @@
     resize:vertical !important;
     height: calc(100% - 20px) !important;
     width:100% !important;
-    overflow: hidden !important; 
     margin: 0 !important;
     padding: 0 !important;
-    // margin-top: -10px !important;
-    margin-top: -10px !important;
     -webkit-box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
     -moz-box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
     box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
@@ -117,10 +124,11 @@
 }
 
 .rdw-editor-main {
-    resize:vertical !important;
-    height: calc(100% - 20px) !important;
-    width:100% !important;
-    overflow: hidden !important; 
+    resize: none !important;
+    width: calc(100% - 320px) !important;
+    overflow: auto !important;
+    // overflow: hidden !important;
+    // height: calc(100% - 20px) !important;
 }
 
 .md-side-toolbar {
@@ -129,24 +137,21 @@
 }
 
 .editor :global(.public-DraftEditor-content) {
-    min-height: 140px;
-    height: 600px !important;
-    max-height: 600px !important;
-    max-width: 100% !important;
-    overflow: auto !important;
+    max-width: 95% !important;
+}
+
+.DraftEditor-root {
+    margin-top: 60px !important;
+    max-width: 95% !important;
 }
 
 .public-DraftEditor-content {
-    padding-top: -30px !important;
-    min-height: 140px;
-    max-height: 600px !important;
-    max-width: 100% !important;
-    overflow: auto !important;
+    // padding-top: -30px !important;
+    max-width: 95% !important;
     height: 600px !important;
 }
 
 .danteEditorWrapper {
-    margin-top: 12px !important;
     font-size: 1.2em;
 }
 
@@ -162,7 +167,6 @@
     -moz-box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
     box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
     color: grey !important;
-    height: 25px !important;
 }
 
 .rdw-option-wrapper {
@@ -171,5 +175,4 @@
     -moz-box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
     box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
     border-radius: 3px !important;
-    height: 25px !important;
 }
