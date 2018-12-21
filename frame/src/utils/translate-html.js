@@ -17,11 +17,8 @@ export function getHTMLFromContent(editorState) {
 }
 
 export function getContentFromHTML(html) {
-    console.log(html);
     const blocks = convertFromHTML(html);
-    console.log(blocks);
     const editorState = EditorState.createWithContent(blocks);
-    console.log("EDITOR STATE: ", editorState);
     return editorState;
 }
 

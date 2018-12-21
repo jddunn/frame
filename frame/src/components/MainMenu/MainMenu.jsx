@@ -341,7 +341,7 @@ export default class MainMenu extends Component {
     try {
       treeLength = getFlatDataFromTree(treeData).length;
     } catch (err) {
-      console.log("Err flattening tree: ", err);
+      // console.log("Err flattening tree: ", err);
       try {
         treeLength = this.state.treeData.length;
         if (typeof(treeLength) === 'undefined') treeLength = 0;
@@ -353,7 +353,7 @@ export default class MainMenu extends Component {
     try {
       foundEntries = (this.state.treeData.length > 0) ? true : false;
     } catch (err) {
-      console.log("Could not find entries! ", err);
+      // console.log("Could not find entries! ", err);
       foundEntries = false;
     }
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';

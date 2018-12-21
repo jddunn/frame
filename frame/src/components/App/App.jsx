@@ -205,8 +205,8 @@ export default class App extends Component {
       getState("entryId") : null;
     let entry = traverseEntriesById(entryId, Entries);
     if (entry === null) {
-      console.log("Could not find entry with ID: ", entryId);
-      console.log("Setting default entry to top in tree");
+      // console.log("Could not find entry with ID: ", entryId);
+      // console.log("Setting default entry to top in tree");
       entry = Entries[0];
       try {
         setState("entryId", entry['id']);
