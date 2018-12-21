@@ -116,23 +116,29 @@ html, body {
 }
 
 .notebookSwitch {
-  float: right;
   position: absolute !important;
   right: 0px !important;
-  margin: 10px !important;
-  margin-right: 60px !important;
-  margin-top: -48px !important;
+  top: -8px !important;
+  bottom: 20px !important;
+  margin: 20px !important;
+  font-size: .9em !important;
+  margin-right: 55px !important;
+  display: inline !important;
   border-radius: 10px !important;
 }
 
 .saveButtonNotebook {
-  margin: 0 !important;
+  margin: 5px !important;
+  margin-top: 2px !important;
   padding: 0 !important;
   border: none !important;
   position: absolute !important;
-  font-size: 2.1em !important;
-  margin-left: 10px !important;
-  margin-top: -7px !important;
+  font-size: 1.5em !important;
+  margin-left: 15px !important;
+  right: 0px !important;
+  top: 0px !important;
+  margin-right: 15px !important;
+  display: inline !important;
 }
 
 .ant-btn-default {
@@ -142,6 +148,10 @@ html, body {
 .ant-btn-primary {
   color: rgba(238, 238, 238, 0.9);
   text-shadow: none !important;
+}
+
+.ant-btn-group .ant-dropdown-button .dropdownCustom {
+  margin-top: -5px !important;
 }
 
 .ant-dropdown-trigger {

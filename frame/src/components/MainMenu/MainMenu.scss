@@ -328,10 +328,12 @@
 
 .saveButton {
   margin-left: 5px !important;
+  outline: none !important;
   border: none !important;
   font-size: 1.55em !important;
   color: rgba(248, 248, 248, 0.787) !important;
 }
+
 
 .loadButton {
   position: absolute !important;

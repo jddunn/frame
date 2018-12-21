@@ -503,16 +503,18 @@ export default class Notepad extends Component {
           </div>
         </Dropdown.Button>
         </Tooltip>
-        <Tooltip title="Save your changes in notebook">              
-        <Button 
-          shape="circle" 
-          className="saveButtonNotebook"
-          ghost={true}
-          icon="save"
-          onClick={this.saveNotebookData}
-          />
-      </Tooltip>
-      </div>        
+        </div>
+        <div className="saveButtonNotebook">
+          <Tooltip title="Save your changes in notebook">              
+          <Button 
+            shape="circle"
+            className="saveButtonNotebook"
+            ghost={true}
+            icon="save"
+            onClick={this.saveNotebookData}
+            />
+          </Tooltip>
+        </div>
       <div className="notebookEditorWrapper">
         {editor}
       </div>
