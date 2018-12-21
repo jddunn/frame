@@ -112,7 +112,6 @@ export default class MainMenu extends Component {
     try {
       if (this.props.Entries.length > 0) {
         treeData = this.props.Entries;
-        console.log("Tree data found: ", treeData);
       }
     } catch (err) {
     }
@@ -141,7 +140,6 @@ export default class MainMenu extends Component {
     const library = getState("library");
     const Library = openDB(library);
     saveToDB(Library, "entries", this.state.treeData);
-    console.log("Saved tree data to Library: ", this.state.treeData);
     message.success('Saved library changes!');
     this.props.updateEntriesMethod();
   }
@@ -270,7 +268,6 @@ export default class MainMenu extends Component {
   };
 
   clickNodeSelect(event, rowInfo) {
-    console.log(event.target);
     // Attaching an onClick to rowInfo includes all buttons
     // within the row contents, and we want those buttons
     // to do different things than selecting the node itself.
@@ -343,7 +340,6 @@ export default class MainMenu extends Component {
     // Currently this only counts the parent-level nodes.
     try {
       treeLength = getFlatDataFromTree(treeData).length;
-      console.log("Flat data tree length: ", treeLength);
     } catch (err) {
       console.log("Err flattening tree: ", err);
       try {
@@ -357,7 +353,7 @@ export default class MainMenu extends Component {
     try {
       foundEntries = (this.state.treeData.length > 0) ? true : false;
     } catch (err) {
-      console.log("Could not find entries");
+      console.log("Could not find entries! ", err);
       foundEntries = false;
     }
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
@@ -445,7 +441,7 @@ export default class MainMenu extends Component {
                           onClick={() => { this.exportLibraryToJSONFile(library) }}
                           />
                       </Tooltip>
-                      <Tooltip title="Save the current library changes">              
+                      <Tooltip title="Save the current library changes (not notebook)">              
                         <Button 
                           shape="circle"
                           className="saveButton"

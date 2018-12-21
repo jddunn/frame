@@ -168,7 +168,6 @@ export default class Notepad extends Component {
     const library = getState("library");
     const Library = openDB(library);
     let editorType = nextProps.editorType;
-    console.log("FOUND PROPS FOR NEXT ENTRY: ", entryId, editorType);
     if (this.state._isMounted) {
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
@@ -180,7 +179,6 @@ export default class Notepad extends Component {
             entry['html'] = getHTMLFromContent(EditorState.createEmpty());
             entry['strippedText'] = HTMLToText(entry['html']);
             entry['editorType'] = editorType;
-            console.log("Making new HTML: ", entry['html']);
             const newEntries = replaceEntry(entry, Entries);
             const res = getContentFromHTML(entry['html']);
             this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
@@ -208,7 +206,6 @@ export default class Notepad extends Component {
    * @public
    */
   handleEditorSwitchClick = async (event) => {
-    console.log("HANDLING SWITCH CLICK: ", event);
     setState("editorType", event.key.toString());
     const library = getState("library");
     const Library = openDB(library);
@@ -228,11 +225,9 @@ export default class Notepad extends Component {
           // }          
           const newEntries = replaceEntry(entry, Entries);
           const res = getContentFromHTML(entry['html']);
-          console.log("RESULT: ", res);
           this.setState({Entries: newEntries, editorState: EditorState.createWithContent(getContentFromHTML(entry['html'])),
            editorType: entry['editorType']});
         } catch (err) {
-          console.log(err);
           this.setState({Entries: Entries, editorState: EditorState.createEmpty(), editorType: event.key.toString()});
         }
       }
@@ -294,21 +289,16 @@ export default class Notepad extends Component {
     const editorType = getState("editorType");
     const Library = openDB(library);
     const m_this = this;
-    console.log("SAVING NOTEBOOK");
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
       const entry = traverseEntriesById(entryId, Entries);
-      console.log(entry);
       if (entry != null) {
         // entry['content'] = this.state.editorState;
         entry['html'] = getHTMLFromContent(this.state.editorState);
         entry['strippedText'] = HTMLToText(entry['html']);
         entry['editorType'] = editorType;
-        console.log("entry 2:", entry);
         const newEntries = replaceEntry(entry, Entries);
-        console.log("Replaced new entry: ", newEntries);
         saveToDB(Library, "entries", newEntries).then(async function(result) {
-          console.log("Saved notebook changes");
           message.success('Saved notebook changes!');
           m_this.props.updateAppMethod();
         }).catch(function(err) {

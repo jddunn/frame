@@ -25,9 +25,9 @@ export function getContentFromHTML(html) {
     return editorState;
 }
 
-// We only use this because we assume the user won't execute malicious code inside his notebook
 export function HTMLToText(html) {
      // Set the HTML content with the providen
+    // We only use this because we assume the user won't execute malicious code inside his notebook
     //  const tempDivElement = document.createElement("div");
     //  tempDivElement.innerHTML = html;
     // return tempDivElement.textContent.replace(reg, " ") || tempDivElement.innerText.replace(reg, " ") || "";
