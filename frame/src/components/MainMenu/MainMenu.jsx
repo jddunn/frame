@@ -282,7 +282,7 @@ export default class MainMenu extends Component {
       message.success('Opening "' + rowInfo.node.title + '"', 1);
     } catch (err) {
       console.log(err);
-      message.fail('Failed to open - ' + err, 1);
+      message.error('Failed to open - ' + err, 1);
     }
     this.props.updateAppMethod();
   }
@@ -563,7 +563,7 @@ export default class MainMenu extends Component {
                             >
                               <Icon size="small" type="left" />
                           </Button>,
-
+                          <Tooltip title="Changes need to be saved after">
                           <Button
                             shape="circle" 
                             ghost={true}
@@ -591,9 +591,10 @@ export default class MainMenu extends Component {
                               }))
                             }                  
                             >
-                              <Icon size="small" type="plus" />
-                          </Button>,
-
+                                <Icon size="small" type="plus" />
+                          </Button>
+                          </Tooltip>,
+                          <Tooltip title="Changes need to be saved after">
                           <Button
                             shape="circle" 
                             ghost={true}
@@ -609,7 +610,8 @@ export default class MainMenu extends Component {
                             }
                             >
                               <Icon size="small" type="close" />
-                            </Button>,
+                            </Button>
+                            </Tooltip>,
                           ],
                         })}
                       />

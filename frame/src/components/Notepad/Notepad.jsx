@@ -1,17 +1,24 @@
 'use strict';
-/* 
-HTMLEditor, using Dante2 library, which clones Mediun's interface.
-So the editor itself is also a live preview of the content.
- */
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
 import Resizable from 're-resizable';
-import { Select } from 'antd';
+import {
+  Row, Col, Layout, Menu, Breadcrumb,
+  Icon, Button, Switch, Dropdown, message,
+  Tooltip, Select
+  } from 'antd';
 import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
 // TODO: Refactor out Editor and MEditor into different React components
 import { Editor} from 'react-draft-wysiwyg'; // Full text editor
 import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
+
+import saveToDB from '../../utils/save-db';
+import getFromDB from '../../utils/load-db';
+import openDB from '../../utils/create-db';
+import traverseEntriesById from '../../utils/entries-traversal';
+import replaceEntry from '../../utils/replace-entry';
+
 import {
   KeyBindingUtil,
   Modifier,
@@ -25,7 +32,7 @@ import {
   ImageSideButton,
   BreakSideButton,
 } from '../vendor/index';
-import { BlockPicker } from 'react-color';
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import 'medium-draft/lib/index.css';
 import '../vendor/components/addbutton.scss';
@@ -38,10 +45,19 @@ import '../vendor/components/blocks/todo.scss';
 import '../vendor/components/blocks/image.scss';
 // Local style
 import './Notepad.scss';
+import { getHTMLFromContent, getContentFromHTML, HTMLToText } from "../../utils/translate-html";
 
 const Option = Select.Option;
 
-const m_editorType = getState("editorType");
+/** Notebook editors types */
+const editorTypes = Object.freeze(
+  {
+    FLOW: "flow", // Dante Editor
+    FULL: "full", // Quilljs (react-quill-js)
+    CODE: "code", // Monaco Editor (VS Studio base)
+    EQUATION: "equation" // Unknown? But needs to 
+                         // include interactive calculator
+  });
 
 // Main notebook comp (handles editor switching)
 export default class Notepad extends Component {
@@ -51,6 +67,7 @@ export default class Notepad extends Component {
     getEditorState: PropTypes.func,
     close: PropTypes.func,
   };
+  
 
   
   constructor(props) {
@@ -84,6 +101,10 @@ export default class Notepad extends Component {
       // entityToHTML: newEntityToHTML,
     // });
 
+    this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
+
+    this.getEntries = this.getEntries.bind(this);
+
     this.getEditorState = this.getEditorState.bind(this);
     this.setEditorState = this.setEditorState.bind(this);
     this.handleDroppedFiles = this.handleDroppedFiles.bind(this);
@@ -93,6 +114,19 @@ export default class Notepad extends Component {
     this.refsEditor = React.createRef();
     this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
     // this._uploadImageCallBack = this._uploadImageCallBack.bind(this);
+
+    // Save content in Notebook comp to db
+    this.saveNotebookData = this.saveNotebookData.bind(this);
+  }
+
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
+      Entries = result;
+    }).catch(function(err) {
+      Entries = [];
+    });
+    return Entries;
   }
 
   getEditorState() {
@@ -114,16 +148,8 @@ export default class Notepad extends Component {
     }
   };
 
-  getBlocksFromHTML(html) {
-
-  }
-
-  getHTMLFromBlocks(html) {
-
-  }
-
   onEditorStateChange = (editorState) => {
-    console.log("Editor state change: ", editorState);
+    // console.log("Editor state change: ", editorState);
     if (this.state._isMounted) 
     this.setState({
       editorState,
@@ -138,12 +164,167 @@ export default class Notepad extends Component {
     this.setState({_isMounted: false});
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const editorType  = nextProps.editorType;
-    const editorId = nextProps.editorId;
-    if (this.state._isMounted)
-    this.setState({ editorType: editorType });
+    const entryId = nextProps.entryId;
+    const m_nextProps = nextProps;
+    const library = getState("library");
+    const Library = openDB(library);
+    console.log("FOUND PROPS FOR NEXT ENTRY: ", entryId);
+    if (this.state._isMounted) {
+    await this.getEntries(Library, "entries").then(async(result) => {
+      const Entries = result;
+      const entry = traverseEntriesById(entryId, Entries);
+      if (entry != null) {
+        try {
+          // entry['content'] = this.state.editorState;
+          if (entry['html'] == null || entry['html'] == undefined) {
+            entry['html'] = getHTMLFromContent(this.state.editorState);
+            entry['editorType'] = m_nextProps.editorType;
+            console.log("Making new HTML: ", entry['html']);
+            const newEntries = replaceEntry(entry, Entries);
+            const res = getContentFromHTML(entry['html']);
+            console.log("RESULT: ", res);
+
+            this.setState({Entries: newEntries, editorState: getContentFromHTML(entry['html']),
+            editorType: m_nextProps.editorType});
+          } else {
+            console.log("Found editor html: ", entry['html']);
+            console.log("Making new HTML: ", entry['html']);
+            const res = getContentFromHTML(entry['html']);
+            console.log("RESULT: ", res);
+            this.setState({editorType: m_nextProps.editorType, Entries: Entries, editorState: getContentFromHTML(entry['html']),
+            editorType: m_nextProps.editorType});
+          }
+        } catch (err) {
+          console.log(err);
+          this.setState({editorType: m_nextProps.editorType});
+        }
+      }
+    }
+    )}
   }
+  
+
+  /**
+   * Handles the dropdown select menu to switch editor modes.
+   * *this.state.editorType* is passed to Notepad props.
+   *
+   * @event {event} object
+   * @public
+   */
+  handleEditorSwitchClick = async (event) => {
+    console.log("HANDLING SWITCH CLICK: ", event);
+    setState("editorType", event.key.toString());
+    const library = getState("library");
+    const Library = openDB(library);
+    const entryId = getState("entryId");
+    await this.getEntries(Library, "entries").then(async(result) => {
+      const Entries = result;
+      const entry = traverseEntriesById(entryId, Entries);
+      try {
+        entry.editorType = event.key.toString();
+      } catch (err) {
+        entry.editorType = "flow";
+      }
+      if (entry != null) {
+        try {
+          // entry['content'] = this.state.editorState;
+          entry['html'] = getHTMLFromContent(this.state.editorState);
+          entry['editorType'] = m_nextProps.editorType;
+          const newEntries = replaceEntry(entry, Entries);
+          const res = getContentFromHTML(entry['html']);
+          console.log("RESULT: ", res);
+          this.setState({Entries: newEntries, editorState: EditorState.createWithContent(getContentFromHTML(entry['html'])),
+           editorType: event.key.toString()});
+        } catch (err) {
+          console.log(err);
+          this.setState({Entries: Entries, editorState: EditorState.createEmpty(), editorType: event.key.toString()});
+        }
+      }
+    })
+    this.props.updateAppMethod();
+  }
+
+
+  /**
+   * Build menu container to hold global buttons and selects.
+   * @public
+   */
+  buildEditorSwitchMenu = (
+    <Menu onClick={this.handleEditorSwitchClick} >
+      <Menu.Item key="flow">
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Streamlined, Medium-style editor (default type); currently, only adding images \
+                  from a local file works"}>
+          <Icon type="edit"/>&nbsp;
+            {editorTypes.FLOW.charAt(0).toUpperCase() +
+            editorTypes.FLOW.slice(1)}
+        </Tooltip>
+      </Menu.Item>
+      <Menu.Item key="full">
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Full HTML editor with word processor-like capabilities; currently, only \
+                  adding images from an online source works"}>
+        <Icon type="form"/>&nbsp;
+          {editorTypes.FULL.charAt(0).toUpperCase() +
+          editorTypes.FULL.slice(1)}
+        </Tooltip>
+      </Menu.Item>
+      <Menu.Item key="code" disabled>
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Code editor and IDE (powered by Monaco Editor)"}>
+          <Icon type="appstore"/>&nbsp;
+          {editorTypes.CODE.charAt(0).toUpperCase() +
+            editorTypes.CODE.slice(1)}
+        </Tooltip>
+      </Menu.Item>
+      <Menu.Item key="equation" disabled>
+        <Tooltip placement="left"
+          overlayStyle={{width: '120px', opacity: '.80'}}
+          title={"Editor with equations and mathematical computations"}>
+          <Icon type="calculator"/>&nbsp;
+            {editorTypes.EQUATION.charAt(0).toUpperCase() +
+            editorTypes.EQUATION.slice(1)}
+        </Tooltip>
+      </Menu.Item>    
+    </Menu>
+  );
+
+  async saveNotebookData() {
+    const entryId = getState("entryId");
+    const library = getState("library");
+    const editorType = getState("editorType");
+    const Library = openDB(library);
+    const m_this = this;
+    console.log("SAVING NOTEBOOK");
+    await this.getEntries(Library, "entries").then(async(result) => {
+      const Entries = result;
+      const entry = traverseEntriesById(entryId, Entries);
+      console.log(entry);
+      if (entry != null) {
+        // entry['content'] = this.state.editorState;
+        entry['html'] = getHTMLFromContent(this.state.editorState);
+        entry['editorType'] = editorType;
+        console.log("entry 2:", entry);
+        const newEntries = replaceEntry(entry, Entries);
+        console.log("Replaced new entry: ", newEntries);
+        saveToDB(Library, "entries", newEntries).then(async function(result) {
+          console.log("Saved notebook changes");
+          message.success('Saved notebook changes!');
+          // m_this.props.updateAppMethod();
+        }).catch(function(err) {
+          message.error("Failed to save notebook! " + err);
+          // m_this.props.updateAppMethod();
+        });
+      }
+    })
+
+  }
+
 
   handleDroppedFiles(selection, files) {
     window.ga('send', 'event', 'draftjs', 'filesdropped', files.length + ' files');
@@ -236,7 +417,11 @@ export default class Notepad extends Component {
   render() {
     const editorState = this.state.editorState;
     const editorEnabled = this.state.editorEnabled;
-    const editorType = this.state.editorType;
+    let editorType = this.state.editorType;
+    if (editorType == undefined ||  editorType == null) {
+      editorType = "flow";
+      setState("editorType", "flow");
+    }
     let editor = {};
     switch (editorType) {
       case 'inline':
@@ -287,6 +472,7 @@ export default class Notepad extends Component {
           break;
         default:
           editor =     
+          
           <div className="danteEditorWrapper">
             <div className="editor-action">
               <MEditor
@@ -302,9 +488,43 @@ export default class Notepad extends Component {
           </div>
     }
     return (
+      <React.Fragment>
+      <div className="notebookSwitch">
+      <Tooltip 
+        placement="left"
+        overlayStyle={{width: '180px', opacity: '.95'}}
+        title=
+          {"Switch editor mode (this changes the document format)"}
+        >
+        <Dropdown.Button
+          className="dropdownCustom"
+          style={{borderRadius: '15px', marginRight: '5px'}}
+          dropdownMatchSelectWidth={true}
+          // onClick={this.handleDropdownButtonClick}
+          overlay={this.buildEditorSwitchMenu}
+          >
+          <div className="innerButtonLabel">
+            <p>                                 
+              {editorType.charAt(0).toUpperCase() +
+               editorType.slice(1)}
+            </p>
+          </div>
+        </Dropdown.Button>
+        </Tooltip>
+        <Tooltip title="Save your changes in notebook">              
+        <Button 
+          shape="circle" 
+          className="saveButtonNotebook"
+          ghost={true}
+          icon="save"
+          onClick={this.saveNotebookData}
+          />
+      </Tooltip>
+      </div>        
       <div className="notebookEditorWrapper">
         {editor}
-        </div>
+      </div>
+      </React.Fragment>
     );
   }
 }
@@ -403,116 +623,6 @@ class EmbedSideButton extends React.Component {
       >
         <i className="fa fa-code" />
       </button>
-    );
-  }
-}
-
-class AtomicEmbedComponent extends React.Component {
-
-  static propTypes = {
-    data: PropTypes.object.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showIframe: false,
-    };
-    this.enablePreview = this.enablePreview.bind(this);
-  }
-
-  componentDidMount() {
-    this.renderEmbedly();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.showIframe !== this.state.showIframe && this.state.showIframe === true) {
-      this.renderEmbedly();
-    }
-  }
-
-  getScript() {
-    const script = document.createElement('script');
-    script.async = 1;
-    script.src = '//cdn.embedly.com/widgets/platform.js';
-    script.onload = () => {
-      window.embedly();
-    };
-    document.body.appendChild(script);
-  }
-
-  renderEmbedly() {
-    if (window.embedly) {
-      window.embedly();
-    } else {
-      this.getScript();
-    }
-  }
-
-  enablePreview() {
-    this.setState({
-      showIframe: true,
-    });
-  }
-
-  render() {
-    const { url } = this.props.data;
-    const innerHTML = `<div><a class="embedly-card" href="${url}" data-card-controls="0" data-card-theme="dark">Embedded ― ${url}</a></div>`;
-    return (
-      <div className="md-block-atomic-embed">
-        <div dangerouslySetInnerHTML={{ __html: innerHTML }} />
-      </div>
-    );
-  }
-}
-
-
-class ColorPic extends Component {
-  static propTypes = {
-    expanded: PropTypes.bool,
-    onExpandEvent: PropTypes.func,
-    onChange: PropTypes.func,
-    currentState: PropTypes.object,
-  };
-
-  stopPropagation = (event) => {
-    event.stopPropagation();
-  };
-
-  onChange = (color) => {
-    const { onChange } = this.props;
-    onChange('color', color.hex);
-  }
-
-  renderModal = () => {
-    const { color } = this.props.currentState;
-    return (
-      <div
-        onClick={this.stopPropagation}
-      >
-        <BlockPicker color={color} onChangeComplete={this.onChange} />
-      </div>
-    );
-  };
-
-  render() {
-    const { expanded, onExpandEvent, icon } = this.props;
-    return (
-      <div
-        aria-haspopup="true"
-        aria-expanded={expanded}
-        aria-label="rdw-color-picker"
-      >
-        <div
-          onClick={onExpandEvent}
-        >
-          <img
-            src={icon}
-            alt=""
-          />
-        </div>
-        {expanded ? this.renderModal() : undefined}
-      </div>
     );
   }
 }

@@ -24,6 +24,10 @@ import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
+import replaceEntry from '../../utils/replace-entry';
+import {getHTMLFromContent,
+  getContentFromHTML,
+  HTMLToText} from '../../utils/translate-html';
 /** State management with session storage.
  *  This is used to pass state vals across React components,
  *  in lieu of passing props or using Redux / Flow, for simplicity.
@@ -39,15 +43,6 @@ const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.js
 /** LocalForage */
 // localforage.clear();
 
-/** Notebook editors types */
-const editorTypes = Object.freeze(
-  {
-    FLOW: "flow", // Dante Editor
-    FULL: "full", // Quilljs (react-quill-js)
-    CODE: "code", // Monaco Editor (VS Studio base)
-    EQUATION: "equation" // Unknown? But needs to 
-                         // include interactive calculator
-  });
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -61,21 +56,14 @@ export default class App extends Component {
     this.state = {
       collapsed: false,
       Entries: [],
-      lastEntriesLength: 0 // Keep track of this so the app knows
-                           // when a new entry has been added, and to re-render.
-                           // (This is because deleting / adding entires in-line 
-                           // do not save automatically, but adding a new entry
-                           // with the main button should).
     }
-    this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
     // Initial load entries from db (this func is only called on componentWillMount)
     this.getEntriesInitial = this.getEntriesInitial.bind(this);
     // Load entries async from db
     this.getEntries = this.getEntries.bind(this);
     // Update entries (this func is passed in props to child comps)
     this.updateEntries = this.updateEntries.bind(this);
-    // Save content in Notebook comp to db
-    this.saveNotebookData = this.saveNotebookData.bind(this);
+
     // Update app method
     this.updateApp = this.updateApp.bind(this);
   }
@@ -87,7 +75,7 @@ export default class App extends Component {
    * @public
    */
   onCollapse = (collapsed) => {
-    console.log(collapsed);
+    // console.log(collapsed);
     this.setState({ collapsed });
   }
 
@@ -102,22 +90,8 @@ export default class App extends Component {
     });
   }
 
-  /**
-   * Handles the dropdown select menu to switch editor modes.
-   * *this.state.editorType* is passed to Notepad props.
-   *
-   * @event {event} object
-   * @public
-   */
-  handleEditorSwitchClick = (event) => {
-    setState("editorType", event.key.toString());
-    this.forceUpdate();
-  }
 
-  saveNotebookData() {
-    console.log("Saved notebook data changes");
-    message.success('Saved notebook changes!');
-  }
+
 
   async getEntries(Library, key) {
     let Entries = [];
@@ -182,7 +156,6 @@ export default class App extends Component {
       // sessionStorage can only do JSON.
       this.setState({
         Entries: Entries,
-        lastEntriesLength: Entries.length
         }
       )
     });
@@ -194,7 +167,7 @@ export default class App extends Component {
     let Entries = [];
     await this.getEntries(Library, "entries").then((result) => {
       Entries = result;
-        console.log("GOT NEW ENTRY: ", Entries.length);
+        // console.log("GOT NEW ENTRY: ", Entries.length);
         const selectedEntry = Entries[0];
         let selectedEntryEditorType;
         let selectedEntryId;
@@ -218,7 +191,6 @@ export default class App extends Component {
         setState("entryId", selectedEntryId);
         this.setState({
           Entries: Entries,
-          lastEntriesLength: Entries.length
           }
         )
     });
@@ -229,55 +201,9 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  /**
-   * Build menu container to hold global buttons and selects.
-   * @public
-   */
-  buildEditorSwitchMenu = (
-    <Menu onClick={this.handleEditorSwitchClick} >
-      <Menu.Item key="flow">
-        <Tooltip placement="left"
-          overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Streamlined, Medium-style editor (default type); currently, only adding images \
-                  from a local file works"}>
-          <Icon type="edit"/>&nbsp;
-            {editorTypes.FLOW.charAt(0).toUpperCase() +
-            editorTypes.FLOW.slice(1)}
-        </Tooltip>
-      </Menu.Item>
-      <Menu.Item key="full">
-        <Tooltip placement="left"
-          overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Full HTML editor with word processor-like capabilities; currently, only \
-                  adding images from an online source works"}>
-        <Icon type="form"/>&nbsp;
-          {editorTypes.FULL.charAt(0).toUpperCase() +
-          editorTypes.FULL.slice(1)}
-        </Tooltip>
-      </Menu.Item>
-      <Menu.Item key="code" disabled>
-        <Tooltip placement="left"
-          overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Code editor and IDE (powered by Monaco Editor)"}>
-          <Icon type="appstore"/>&nbsp;
-          {editorTypes.CODE.charAt(0).toUpperCase() +
-            editorTypes.CODE.slice(1)}
-        </Tooltip>
-      </Menu.Item>
-      <Menu.Item key="equation" disabled>
-        <Tooltip placement="left"
-          overlayStyle={{width: '120px', opacity: '.80'}}
-          title={"Editor with equations and mathematical computations"}>
-          <Icon type="calculator"/>&nbsp;
-            {editorTypes.EQUATION.charAt(0).toUpperCase() +
-            editorTypes.EQUATION.slice(1)}
-        </Tooltip>
-      </Menu.Item>    
-    </Menu>
-  );
 
   render() {
-    console.log("APP UPDATE AGAIN");
+    // console.log("APP UPDATE AGAIN");
     // By default editor mode for notes is Flow
     const Entries = this.state.Entries;
     let entryId = (getState("entryId") != null) ?
@@ -347,43 +273,12 @@ export default class App extends Component {
                     <h4 className="sectionTitleText">
                       {entryPageTitle}
                     </h4>
-                    <div className="notebookSwitch">
-                      <Tooltip 
-                        placement="left"
-                        overlayStyle={{width: '180px', opacity: '.95'}}
-                        title=
-                          {"Switch editor mode (this changes the document format)"}
-                        >
-                        <Dropdown.Button
-                          className="dropdownCustom"
-                          style={{borderRadius: '15px', marginRight: '5px'}}
-                          dropdownMatchSelectWidth={true}
-                          // onClick={this.handleDropdownButtonClick}
-                          overlay={this.buildEditorSwitchMenu}
-                          >
-                          <div className="innerButtonLabel">
-                            <p>                                 
-                              {editorType.charAt(0).toUpperCase() +
-                               editorType.slice(1)}
-                            </p>
-                          </div>
-                        </Dropdown.Button>
-                        </Tooltip>
-                        <Tooltip title="Save your changes in notebook">              
-                        <Button 
-                          shape="circle" 
-                          className="saveButtonNotebook"
-                          ghost={true}
-                          icon="save"
-                          onClick={this.saveNotebookData}
-                          />
-                      </Tooltip>
-                      </div>        
+
                     </div>
                     {/* End app title */}
                     <div className="editorWrapper">
                       <div id="editor">
-                          <Notepad editorType={editorType} updateAppMethod={this.updateApp}/>
+                          <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}/>
                       </div>
                     </div>
                   </div>

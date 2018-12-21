@@ -10,7 +10,6 @@ function *traverseEntriesGenerator(Entries) {
     if (!Entries) { return; }
     for (let i = 0; i< Entries.length; i++){
         const val = Entries[i];
-        console.log("Val: ", val);
         yield val;
         if (val.children) {
         yield *traverseEntriesGenerator(val.children);
@@ -39,5 +38,7 @@ export default function traverseEntriesById(id, Entries) {
         } catch (err) {
         }
     }
+    // return null;
+    if (res.value) return res.value;
     return null;
 }

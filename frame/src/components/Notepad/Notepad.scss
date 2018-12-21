@@ -118,7 +118,8 @@
 
 .editor :global(.public-DraftEditor-content) {
     min-height: 140px;
-    max-height: 800px !important;
+    height: 600px !important;
+    max-height: 600px !important;
     max-width: 100% !important;
     overflow: auto !important;
 }
@@ -126,10 +127,10 @@
 .public-DraftEditor-content {
     padding-top: -30px !important;
     min-height: 140px;
-    max-height: 800px !important;
+    max-height: 600px !important;
     max-width: 100% !important;
     overflow: auto !important;
-    height: 800px !important;
+    height: 600px !important;
 }
 
 .danteEditorWrapper {
@@ -143,9 +144,20 @@
 }
 
 .rdw-dropdown-wrapper {
+    background-color: rgba(241, 237, 237, 0.15) !important;
+    border-radius: 3px !important;
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
+    box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
+    color: grey !important;
     height: 25px !important;
 }
 
 .rdw-option-wrapper {
+    background-color: rgba(241, 237, 237, 0.15) !important;
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
+    box-shadow: 1px 1px 1px 0px rgba(104, 104, 104, 0.08);
+    border-radius: 3px !important;
     height: 25px !important;
 }
