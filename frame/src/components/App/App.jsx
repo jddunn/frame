@@ -46,6 +46,7 @@ const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.js
 
 /** LocalForage */
 // localforage.clear(); // This resets the enitre db in the local Chrome app
+sessionStorage.clear();
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -307,7 +308,7 @@ export default class App extends Component {
                               splitNotebookLayout={splitNotebookLayout}
                             />
                             <div className="analyzerWrapper">
-                              <Analyzer entryId={entryId}/>
+                              <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
                             </div>
                           </div>
                       </div>
