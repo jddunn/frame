@@ -659,14 +659,14 @@ export default class MainMenu extends Component {
             <Tooltip title="Ask questions about your library and get answers with context">              
               <Icon type="inbox" />
             </Tooltip>
-            <span>Ask</span>
+            <span>Explore / Inquire</span>
           </Menu.Item>
-          <Menu.Item key="6">
+          {/* <Menu.Item key="6">
             <Tooltip title="Text summaries of important information from your entries">
               <Icon type="inbox" />
             </Tooltip>
               <span>Summaries</span>
-          </Menu.Item>
+          </Menu.Item> */}
           <SubMenu key="sub3" title={<span>
             <Tooltip title="Visual, online, and privacy / security settings">              
               <Icon type="appstore" />

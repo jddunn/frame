@@ -33,6 +33,7 @@
         "@types/react": "^16.3.17",
         "@types/react-dom": "^16.0.6",
         "antd": "^3.11.0",
+        "compromise": "^11.12.4",
         "draft-convert": "^2.1.4",
         "draft-js": "^0.10.5",
         "draftjs-to-html": "^0.8.4",
