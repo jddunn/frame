@@ -20,6 +20,23 @@ import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
 import {
+  parseTextForPeople,
+  parseTextForPlaces,
+  parseTextForPhoneNumbers,
+  parseTextForOrganizations,
+  parseTextForHashtags,
+  parseTextForQuestions,
+  parseTextForQuotes,
+  parseTextForTopics,
+  parseTextForStatements,
+  parseTextForURLs,
+  parseTextForTerms,
+  parseTextForBigrams,
+  parseTextForTrigrams
+  }
+  from '../../utils/node-nlp-service';
+ 
+import {
   KeyBindingUtil,
   Modifier,
   AtomicBlockUtils,
@@ -176,8 +193,23 @@ export default class Notepad extends Component {
         try {
           // entry['content'] = this.state.editorState;
           if (entry['html'] == null || entry['html'] == undefined) {
-            entry['html'] = getHTMLFromContent(EditorState.createEmpty());
-            entry['strippedText'] = HTMLToText(entry['html']);
+            entry['html'] = getHTMLFromContent(this.state.editorState);
+            const strippedText = HTMLToText(entry['html']);
+            entry['strippedText'] = strippedText;
+            entry['entities'] = {people: parseTextForPeople(strippedText),
+                                 places: parseTextForPlaces(strippedText),
+                                 phoneNumbers: parseTextForPhoneNumbers(strippedText),
+                                 organizations: parseTextForOrganizations(strippedText),
+                                 hashtags: parseTextForHashtags(strippedText),
+                                 questions: parseTextForQuestions(strippedText),
+                                 quotes: parseTextForQuotes(strippedText),
+                                 topics: parseTextForTopics(strippedText),
+                                 statements: parseTextForStatements(strippedText),
+                                 urls: parseTextForURLs(strippedText),
+                                 terms: parseTextForTerms(strippedText),
+                                 bigrams: parseTextForBigrams(strippedText),
+                                 trigrams: parseTextForTrigrams(strippedText)
+            };
             entry['editorType'] = editorType;
             const newEntries = replaceEntry(entry, Entries);
             const res = getContentFromHTML(entry['html']);
@@ -215,10 +247,23 @@ export default class Notepad extends Component {
       const entry = traverseEntriesById(entryId, Entries);
       if (entry != null) {
         try {
-          // entry['content'] = this.state.editorState;
           entry['html'] = getHTMLFromContent(this.state.editorState);
-          entry['strippedText'] = HTMLToText(entry['html']);
-          // try {
+          const strippedText = HTMLToText(entry['html']);
+          entry['strippedText'] = strippedText;
+          entry['entities'] = {people: parseTextForPeople(strippedText),
+                               places: parseTextForPlaces(strippedText),
+                               phoneNumbers: parseTextForPhoneNumbers(strippedText),
+                               organizations: parseTextForOrganizations(strippedText),
+                               hashtags: parseTextForHashtags(strippedText),
+                               questions: parseTextForQuestions(strippedText),
+                               quotes: parseTextForQuotes(strippedText),
+                               topics: parseTextForTopics(strippedText),
+                               statements: parseTextForStatements(strippedText),
+                               urls: parseTextForURLs(strippedText),
+                               terms: parseTextForTerms(strippedText),
+                               bigrams: parseTextForBigrams(strippedText),
+                               trigrams: parseTextForTrigrams(strippedText)
+          };
           // entry['editorType'] = event.key.toString();
           // } catch (err) {
             // entry['editorType'] = "flow";
@@ -295,7 +340,22 @@ export default class Notepad extends Component {
       if (entry != null) {
         // entry['content'] = this.state.editorState;
         entry['html'] = getHTMLFromContent(this.state.editorState);
-        entry['strippedText'] = HTMLToText(entry['html']);
+        const strippedText = HTMLToText(entry['html']);
+        entry['strippedText'] = strippedText;
+        entry['entities'] = {people: parseTextForPeople(strippedText),
+                             places: parseTextForPlaces(strippedText),
+                             phoneNumbers: parseTextForPhoneNumbers(strippedText),
+                             organizations: parseTextForOrganizations(strippedText),
+                             hashtags: parseTextForHashtags(strippedText),
+                             questions: parseTextForQuestions(strippedText),
+                             quotes: parseTextForQuotes(strippedText),
+                             topics: parseTextForTopics(strippedText),
+                             statements: parseTextForStatements(strippedText),
+                             urls: parseTextForURLs(strippedText),
+                             terms: parseTextForTerms(strippedText),
+                             bigrams: parseTextForBigrams(strippedText),
+                             trigrams: parseTextForTrigrams(strippedText)
+        };
         entry['editorType'] = editorType;
         const newEntries = replaceEntry(entry, Entries);
         saveToDB(Library, "entries", newEntries).then(async function(result) {
@@ -307,7 +367,6 @@ export default class Notepad extends Component {
         });
       }
     })
-
   }
 
 
