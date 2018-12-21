@@ -344,6 +344,7 @@ export default class MainMenu extends Component {
         break;
       case 5: 
         setState("activeLink", "explore");
+        setState("analysisDrawerVisible", true);
         this.props.updateAppMethod();
         break;
       default:
@@ -413,7 +414,7 @@ export default class MainMenu extends Component {
               left: '0 !important',
               float: 'left',
             }}
-            defaultSelectedKeys={['sub2']}
+            defaultSelectedKeys={['sub2', '1']}
             defaultOpenKeys={['sub2']}
             mode="inline"
             theme="dark"
