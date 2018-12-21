@@ -370,7 +370,7 @@ export default class MainMenu extends Component {
     // TODO: Make tags a default inherited value from the parent child entry
     const uuid = generateUUID();
     const newChildEntryTitle = `New entry`;
-    const newChildSubtitlePlaceholderText = 'Date: ' + timestampNow + '\xa0\xa0\xa0\xa0' + 'Tags: none';
+    const newChildSubtitlePlaceholderText = timestampNow;
     
     return (
       <React.Fragment>     
