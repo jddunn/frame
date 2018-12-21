@@ -506,6 +506,19 @@ export default class MainMenu extends Component {
                       {'/'}
                       {searchFoundCount || 0}
                     </span>
+
+                    <Tooltip title="Refresh app">
+                        <Button 
+                          className="refreshButton"
+                          shape="circle" 
+                          ghost={true} 
+                          icon="redo"
+                          onClick={()=>{window.location.reload()}}
+                          >
+                          
+                        </Button>
+                      </Tooltip>
+
                 </div>
                 <div className="expandEntriesButtonsWrapper">
                   <Button 
