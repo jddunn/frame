@@ -13,6 +13,8 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 import { Editor} from 'react-draft-wysiwyg'; // Full text editor
 import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
 
+/** Analysis / chatbot interface component */
+
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
@@ -529,7 +531,9 @@ export default class Notepad extends Component {
               />
             </div>
           </div>
-    }
+    };
+
+    const splitNotebookLayout = this.props.splitNotebookLayout;
     return (
       <React.Fragment>
       <div className="notebookSwitch">
@@ -566,9 +570,17 @@ export default class Notepad extends Component {
             />
           </Tooltip>
         </div>
-      <div className="notebookEditorWrapper">
-        {editor}
-      </div>
+        <React.Fragment>
+          {splitNotebookLayout ? (
+            <div className="notebookEditorWrapper">
+              {editor}
+            </div>
+          ) : (
+            <div className="notebookEditorWrapperSplit">
+              {editor}
+            </div>
+          )}
+        </React.Fragment>
       </React.Fragment>
     );
   }

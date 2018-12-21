@@ -75,7 +75,8 @@ export default class MainMenu extends Component {
       */
       entriesEditorUsingJson: false,
       // Showing entry modal creation form
-      visible: false
+      visible: false,
+      _isMounted: false
     };
     // Switch menu links
     this.switchLink = this.switchLink.bind(this);
@@ -120,14 +121,24 @@ export default class MainMenu extends Component {
     if (this._editor) {
       this._editor.set(treeData);
       this._editor.expandAll();
-      this.setState({treeData: treeData
+      this.setState({treeData: treeData,
+        _isMounted: true
       });
     } else {
-      this.setState({treeData: treeData});
+      this.setState({treeData: treeData,
+              _isMounted: true
+      });
     }
   }
 
+  componentWillUnmount () {
+    this.setState({
+      _isMounted: true
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
+    if (this.state._isMounted)
     if (this._editor) {
       this._editor.set(nextProps.Entries);
       this.setState({treeData: nextProps.Entries
@@ -325,14 +336,18 @@ export default class MainMenu extends Component {
   }
 
   switchLink(index) {
+    if (this.state._isMounted)
     switch (index) {
       case 1:
         setState("activeLink", "look");
+        this.props.updateAppMethod();
         break;
       case 5: 
         setState("activeLink", "explore");
+        this.props.updateAppMethod();
         break;
       default:
+        this.props.updateAppMethod();
         break;
     }
   }
@@ -386,316 +401,319 @@ export default class MainMenu extends Component {
     const uuid = generateUUID();
     const newChildEntryTitle = `New entry`;
     const newChildSubtitlePlaceholderText = timestampNow;
-    
-    return (
-      <React.Fragment>     
-        <Menu
-          className="mainMenuContainer"
-          style={{
-            margin: '0 !important',
-            padding: '0 !important',
-            top: '0 !important',
-            left: '0 !important',
-            float: 'left',
-          }}
-          defaultSelectedKeys={['sub2']}
-          defaultOpenKeys={['sub2']}
-          mode="inline"
-          theme="dark"
-          inlineCollapsed={this.state.collapsed}
-        >
-          <Menu.Item key="1" style={{marginTop: '20px'}}
-            onClick={this.switchLink(1)}
+    if (this.state._isMounted) {
+      return (
+        <React.Fragment>     
+          <Menu
+            className="mainMenuContainer"
+            style={{
+              margin: '0 !important',
+              padding: '0 !important',
+              top: '0 !important',
+              left: '0 !important',
+              float: 'left',
+            }}
+            defaultSelectedKeys={['sub2']}
+            defaultOpenKeys={['sub2']}
+            mode="inline"
+            theme="dark"
+            inlineCollapsed={this.state.collapsed}
           >
-            <Tooltip title="View / edit entries">
-              <Icon type="desktop" />
-            </Tooltip>
-            <span>Look</span>
-          </Menu.Item>
-            <SubMenu key="sub2" title={<span>
-              <Tooltip title="Browse / select entries">              
-                <Icon type="snippets"/>
+            <Menu.Item key="1" style={{marginTop: '20px'}}
+              onClick={() => { this.switchLink(1) }}
+            >
+              <Tooltip title="View / edit entries">
+                <Icon type="desktop" />
               </Tooltip>
-              <span>Library</span></span>}>
-              <Divider />
-                <div className="entriesEditorButtonsContainer">
-                  <div className="mainEntriesButtonsWrapper">
-                    <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod}/>
-                    <div className="primaryGhostButton"
-                      style={{display: 'inline'}}>
-                      <Tooltip title="Switch explorer view">
-                        <Button 
-                          type="primary"
-                          className="saveLoadButton"
-                          ghost={true} 
-                          icon="menu-unfold"
-                          onClick={this.handleSwitchEntriesEditorType}
-                          className="textButton"
-                          >
-                          {entriesEditorButtonType.charAt(0).toUpperCase() +
-                            entriesEditorButtonType.slice(1) + ' ' 
-                          + ''}
-                        </Button>
-                      </Tooltip>
-                    </div>
-                    <div className="saveLoadExportButtonsContainer">
-                      <Tooltip title="Load / create a new library">              
-                        <Button 
-                          shape="circle" 
-                          className="loadButton"
-                          ghost={true}
-                          icon="folder-open"
-                          onClick={() => { this.loadLibraryFromJSONFile() }}
-                          // onClick={this.expandAll}
-                          />
-                      </Tooltip>
-                      <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to file name)'>
-                        <Button
-                          shape="circle" 
-                          className="exportButton"
-                          ghost={true}
-                          icon="export"
-                          onClick={() => { this.exportLibraryToJSONFile(library) }}
-                          />
-                      </Tooltip>
-                      <Tooltip title="Save the current library changes (not notebook)">              
-                        <Button 
-                          shape="circle"
-                          className="saveButton"
-                          ghost={true}
-                          icon="save"
-                          onClick={this.saveTreeData}
-                          />
-                      </Tooltip>
-                  </div>
-                </div>
-            </div>
-            {/* Start sortable tree comp for entries */}
-            <div className="treesEntriesContainer">
-                {entriesEditorUsingJson ? (
-                  <div className="jsonEditorMainMenu">
-                    <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
-                  </div>
-                ) : (
-                  <div>
-                    <div className="entriesButtonsContainer">
-                      <Search
-                        id="findBox"
-                        value={searchString}
-                        placeholder={entriesSearchPlaceholderText}
-                        onChange={event =>
-                          this.setState({ searchString: event.target.value })
-                        }
-                        style={{ width: 200 }}
-                      />
-                      <Button 
-                        className="clearSearchButton"
-                        shape="circle" 
-                        ghost={true}
-                        icon="close"
-                        onClick={event => 
-                          this.setState({searchString: ''})
-                        }
-                      />
-                    <div className="searchArrowButtonsContainer">
-                      <Button
-                        className="searchArrowButton"
-                        shape="circle" 
-                        ghost={true} 
-                        disabled={!searchFoundCount}
-                        onClick={this.selectPrevMatch}
-                      >
-                        <Icon size="small" type="left" />
-                      </Button>
-                      <Button
-                        className="searchArrowButton"
-                        shape="circle" 
-                        ghost={true} 
-                        disabled={!searchFoundCount}
-                        onClick={this.selectNextMatch}
-                      >                  
-                        <Icon size="small" type="right" />
-                      </Button>
-                    </div>
-                    <span className="entriesIndicesFoundContainer">
-                      &nbsp;
-                      {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-                      {'/'}
-                      {searchFoundCount || 0}
-                    </span>
-
-                    <Tooltip title="Refresh app">
-                        <Button 
-                          className="refreshButton"
-                          shape="circle" 
-                          ghost={true} 
-                          icon="redo"
-                          onClick={()=>{window.location.reload()}}
-                          >
-                          
-                        </Button>
-                      </Tooltip>
-
-                </div>
-                <div className="expandEntriesButtonsWrapper">
-                  <Button 
-                    shape="circle" 
-                    ghost={true}
-                    icon="plus"
-                    onClick={this.expandAll}
-                    />
-                  <Button
-                    shape="circle" 
-                    ghost={true}
-                    icon="minus" onClick={this.collapseAll}
-                    />
-                  </div>
-                  <div>
-                    <SortableTree
-                      treeData={this.state.treeData}
-                      onChange={this.updateTreeData}
-                      searchQuery={searchString}
-                      searchFocusOffset={searchFocusIndex}
-                      style={
-                          {
-                            forceSubMenuRender: true,
-                            inlineCollapsed: true,
-                            height: treeHeight,
-                            backgroundColor: 'transparent',
-                            background: 'transparent',
-                            color: 'grey',
-                          }
-                      }
-                      searchFinishCallback={matches =>
-                        this.setState({
-                          searchFoundCount: matches.length,
-                          searchFocusIndex:
-                            matches.length > 0 ? searchFocusIndex % matches.length : 0,
-                          })
-                        }
-                      generateNodeProps={rowInfo => ({
-                        onClick: (event) => { 
-                          if(event.target.className.includes('collapseButton') || event.target.className.includes('expandButton')) {
-                            // Ignore the onlick, or do something different as the (+) or (-) button has been clicked.
-                          }
-                          else {
-                            this.clickNodeSelect(event, rowInfo);
-                          }
-                        },
-                        buttons: [
-                          <Button
-                            shape="circle" 
-                            ghost={true}
-                            className="rowContentsToolbarIcon"
-                            onClick={() => this.alertNodeInfo(rowInfo)}
+              <span>Look</span>
+            </Menu.Item>
+              <SubMenu key="sub2" title={<span>
+                <Tooltip title="Browse / select entries">              
+                  <Icon type="snippets"/>
+                </Tooltip>
+                <span>Library</span></span>}>
+                <Divider />
+                  <div className="entriesEditorButtonsContainer">
+                    <div className="mainEntriesButtonsWrapper">
+                      <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod}/>
+                      <div className="primaryGhostButton"
+                        style={{display: 'inline'}}>
+                        <Tooltip title="Switch explorer view">
+                          <Button 
+                            type="primary"
+                            className="saveLoadButton"
+                            ghost={true} 
+                            icon="menu-unfold"
+                            onClick={this.handleSwitchEntriesEditorType}
+                            className="textButton"
                             >
-                              <Icon size="small" type="left" />
-                          </Button>,
-                          <Tooltip title="Changes need to be saved after inline adding">
-                          <Button
-                            shape="circle" 
-                            ghost={true}
-                            className="rowContentsToolbarButtonPlus"
-                            onClick={() =>
-                              this.setState(state => ({
-                                treeData: addNodeUnderParent({
-                                  treeData: state.treeData,
-                                  parentKey: rowInfo.path[rowInfo.path.length - 1],
-                                  expandParent: true,
-                                  getNodeKey: getNodeKey,
-                                  newNode: {
-                                    title: newChildEntryTitle,
-                                    subtitle: newChildSubtitlePlaceholderText,
-                                    id: uuid,
-                                    timestampCreated: timestampNow,
-                                    timestampLastModified: null,
-                                    editorType: "flow",
-                                    tags: [],
-                                    data: {},
-                                    dragDisabled: false
-                                  },
-                                  addAsFirstChild: state.addAsFirstChild,
-                                }).treeData,
-                              }))
-                            }                  
-                            >
-                          <Icon size="small" type="plus" />
+                            {entriesEditorButtonType.charAt(0).toUpperCase() +
+                              entriesEditorButtonType.slice(1) + ' ' 
+                            + ''}
                           </Button>
-                          </Tooltip>,
-                          <Tooltip title="Changes need to be saved after inline deleting">
+                        </Tooltip>
+                      </div>
+                      <div className="saveLoadExportButtonsContainer">
+                        <Tooltip title="Load / create a new library">              
+                          <Button 
+                            shape="circle" 
+                            className="loadButton"
+                            ghost={true}
+                            icon="folder-open"
+                            onClick={() => { this.loadLibraryFromJSONFile() }}
+                            // onClick={this.expandAll}
+                            />
+                        </Tooltip>
+                        <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to file name)'>
                           <Button
                             shape="circle" 
+                            className="exportButton"
                             ghost={true}
-                            className="rowContentsToolbarButtonMinus"
+                            icon="export"
+                            onClick={() => { this.exportLibraryToJSONFile(library) }}
+                            />
+                        </Tooltip>
+                        <Tooltip title="Save the current library changes (not notebook)">              
+                          <Button 
+                            shape="circle"
+                            className="saveButton"
+                            ghost={true}
+                            icon="save"
+                            onClick={this.saveTreeData}
+                            />
+                        </Tooltip>
+                    </div>
+                  </div>
+              </div>
+              {/* Start sortable tree comp for entries */}
+              <div className="treesEntriesContainer">
+                  {entriesEditorUsingJson ? (
+                    <div className="jsonEditorMainMenu">
+                      <FJSONEditor json={this.state.treeData} onChange={this.getNewTreeData} editorRef={this.editorRef} />
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="entriesButtonsContainer">
+                        <Search
+                          id="findBox"
+                          value={searchString}
+                          placeholder={entriesSearchPlaceholderText}
+                          onChange={event =>
+                            this.setState({ searchString: event.target.value })
+                          }
+                          style={{ width: 200 }}
+                        />
+                        <Button 
+                          className="clearSearchButton"
+                          shape="circle" 
+                          ghost={true}
+                          icon="close"
+                          onClick={event => 
+                            this.setState({searchString: ''})
+                          }
+                        />
+                      <div className="searchArrowButtonsContainer">
+                        <Button
+                          className="searchArrowButton"
+                          shape="circle" 
+                          ghost={true} 
+                          disabled={!searchFoundCount}
+                          onClick={this.selectPrevMatch}
+                        >
+                          <Icon size="small" type="left" />
+                        </Button>
+                        <Button
+                          className="searchArrowButton"
+                          shape="circle" 
+                          ghost={true} 
+                          disabled={!searchFoundCount}
+                          onClick={this.selectNextMatch}
+                        >                  
+                          <Icon size="small" type="right" />
+                        </Button>
+                      </div>
+                      <span className="entriesIndicesFoundContainer">
+                        &nbsp;
+                        {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+                        {'/'}
+                        {searchFoundCount || 0}
+                      </span>
+
+                      <Tooltip title="Refresh app">
+                          <Button 
+                            className="refreshButton"
+                            shape="circle" 
+                            ghost={true} 
+                            icon="redo"
+                            onClick={()=>{window.location.reload()}}
+                            >
+                            
+                          </Button>
+                        </Tooltip>
+
+                  </div>
+                  <div className="expandEntriesButtonsWrapper">
+                    <Button 
+                      shape="circle" 
+                      ghost={true}
+                      icon="plus"
+                      onClick={this.expandAll}
+                      />
+                    <Button
+                      shape="circle" 
+                      ghost={true}
+                      icon="minus" onClick={this.collapseAll}
+                      />
+                    </div>
+                    <div>
+                      <SortableTree
+                        treeData={this.state.treeData}
+                        onChange={this.updateTreeData}
+                        searchQuery={searchString}
+                        searchFocusOffset={searchFocusIndex}
+                        style={
+                            {
+                              forceSubMenuRender: true,
+                              inlineCollapsed: true,
+                              height: treeHeight,
+                              backgroundColor: 'transparent',
+                              background: 'transparent',
+                              color: 'grey',
+                            }
+                        }
+                        searchFinishCallback={matches =>
+                          this.setState({
+                            searchFoundCount: matches.length,
+                            searchFocusIndex:
+                              matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                            })
+                          }
+                        generateNodeProps={rowInfo => ({
+                          onClick: (event) => { 
+                            if(event.target.className.includes('collapseButton') || event.target.className.includes('expandButton')) {
+                              // Ignore the onlick, or do something different as the (+) or (-) button has been clicked.
+                            }
+                            else {
+                              this.clickNodeSelect(event, rowInfo);
+                            }
+                          },
+                          buttons: [
+                            <Button
+                              shape="circle" 
+                              ghost={true}
+                              className="rowContentsToolbarIcon"
+                              onClick={() => this.alertNodeInfo(rowInfo)}
+                              >
+                                <Icon size="small" type="left" />
+                            </Button>,
+                            <Tooltip title="Changes need to be saved after inline adding">
+                            <Button
+                              shape="circle" 
+                              ghost={true}
+                              className="rowContentsToolbarButtonPlus"
+                              onClick={() =>
+                                this.setState(state => ({
+                                  treeData: addNodeUnderParent({
+                                    treeData: state.treeData,
+                                    parentKey: rowInfo.path[rowInfo.path.length - 1],
+                                    expandParent: true,
+                                    getNodeKey: getNodeKey,
+                                    newNode: {
+                                      title: newChildEntryTitle,
+                                      subtitle: newChildSubtitlePlaceholderText,
+                                      id: uuid,
+                                      timestampCreated: timestampNow,
+                                      timestampLastModified: null,
+                                      editorType: "flow",
+                                      tags: [],
+                                      data: {},
+                                      dragDisabled: false
+                                    },
+                                    addAsFirstChild: state.addAsFirstChild,
+                                  }).treeData,
+                                }))
+                              }                  
+                              >
+                            <Icon size="small" type="plus" />
+                            </Button>
+                            </Tooltip>,
+                            <Tooltip title="Changes need to be saved after inline deleting">
+                            <Button
+                              shape="circle" 
+                              ghost={true}
+                              className="rowContentsToolbarButtonMinus"
+                              onClick={() =>
+                                this.setState(state => ({
+                                  treeData: removeNodeAtPath({
+                                    treeData: state.treeData,
+                                    path: rowInfo.path,
+                                    getNodeKey: getNodeKey
+                                  }),
+                                }))
+                              }
+                              >
+                                <Icon size="small" type="close" />
+                              </Button>
+                              </Tooltip>,
+                            ],
+                          })}
+                        />
+                        <div className="footerContainer">
+                          <p className="footerNoteText" 
+                            style={ 
+                              { 
+                                float: 'right',
+                                marginTop: '-10px',
+                                marginRight: '5px' 
+                              } 
+                            }>
+                            {treeLength + ' entries recorded'}
+                          </p>
+                        </div>
+                      </div>
+                          {/* <button
                             onClick={() =>
                               this.setState(state => ({
-                                treeData: removeNodeAtPath({
-                                  treeData: state.treeData,
-                                  path: rowInfo.path,
-                                  getNodeKey: getNodeKey
+                                treeData: state.treeData.concat({
+                                  title: `New entry`,
                                 }),
                               }))
                             }
-                            >
-                              <Icon size="small" type="close" />
-                            </Button>
-                            </Tooltip>,
-                          ],
-                        })}
-                      />
-                      <div className="footerContainer">
-                        <p className="footerNoteText" 
-                          style={ 
-                            { 
-                              float: 'right',
-                              marginTop: '-10px',
-                              marginRight: '5px' 
-                            } 
-                          }>
-                          {treeLength + ' entries recorded'}
-                        </p>
-                      </div>
+                          >
+                          */} 
                     </div>
-                        {/* <button
-                          onClick={() =>
-                            this.setState(state => ({
-                              treeData: state.treeData.concat({
-                                title: `New entry`,
-                              }),
-                            }))
-                          }
-                        >
-                        */} 
-                  </div>
-                )}
-              </div>
-              {/* End sortable tree */}
-            <Divider />
-          </SubMenu>
-          <Menu.Item key="5" 
-            onClick={this.switchLink(5)}
-          >
-            <Tooltip title="Ask questions about your library and get answers with context,
-                              text summarizations, and other stats
-            ">              
-              <Icon type="inbox" />
-            </Tooltip>
-            <span>Explore / Inquire</span>
-          </Menu.Item>
-          <SubMenu key="sub3" title={<span>
-            <Tooltip title="Visual, online, and privacy / security settings">              
-              <Icon type="appstore" />
-            </Tooltip>
-            <span>Settings</span></span>}>
-            <Menu.Item>Visual</Menu.Item>
-            <Menu.Item>Online</Menu.Item>
-            <Menu.Item>Security</Menu.Item>
-            <Menu.Item>About</Menu.Item>
-          </SubMenu>
-        </Menu>
-        {/* End main menu comp */}
-    </React.Fragment>
-    );
+                  )}
+                </div>
+                {/* End sortable tree */}
+              <Divider />
+            </SubMenu>
+            <Menu.Item key="5" 
+               onClick={() => { this.switchLink(5) }}
+            >
+              <Tooltip title="Ask questions about your library and get answers with context,
+                                text summarizations, and other stats
+              ">              
+                <Icon type="inbox" />
+              </Tooltip>
+              <span>Explore / Inquire</span>
+            </Menu.Item>
+            <SubMenu key="sub3" title={<span>
+              <Tooltip title="Visual, online, and privacy / security settings">              
+                <Icon type="appstore" />
+              </Tooltip>
+              <span>Settings</span></span>}>
+              <Menu.Item>Visual</Menu.Item>
+              <Menu.Item>Online</Menu.Item>
+              <Menu.Item>Security</Menu.Item>
+              <Menu.Item>About</Menu.Item>
+            </SubMenu>
+          </Menu>
+          {/* End main menu comp */}
+      </React.Fragment>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

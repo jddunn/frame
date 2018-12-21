@@ -35,9 +35,9 @@ export default class Analyzer extends Component {
 
   render() {
     return (
-        <React.Fragment>
+        <div className="analysisContainer">
           ANALYZER
-        </React.Fragment>
+        </div>
     );
   }
 }
