@@ -516,7 +516,6 @@ export default class Notepad extends Component {
           break;
         default:
           editor =     
-          
           <div className="danteEditorWrapper">
             <div className="editor-action">
               <MEditor

@@ -77,6 +77,8 @@ export default class MainMenu extends Component {
       // Showing entry modal creation form
       visible: false
     };
+    // Switch menu links
+    this.switchLink = this.switchLink.bind(this);
     // Node interaction
     this.clickNodeSelect = this.clickNodeSelect.bind(this);
     // react-sortable-tree func
@@ -322,6 +324,19 @@ export default class MainMenu extends Component {
    }
   }
 
+  switchLink(index) {
+    switch (index) {
+      case 1:
+        setState("activeLink", "look");
+        break;
+      case 5: 
+        setState("activeLink", "explore");
+        break;
+      default:
+        break;
+    }
+  }
+
   render() {
     const {
       treeData,
@@ -389,7 +404,9 @@ export default class MainMenu extends Component {
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
-          <Menu.Item key="1" style={{marginTop: '20px'}}>
+          <Menu.Item key="1" style={{marginTop: '20px'}}
+            onClick={this.switchLink(1)}
+          >
             <Tooltip title="View / edit entries">
               <Icon type="desktop" />
             </Tooltip>
@@ -655,18 +672,16 @@ export default class MainMenu extends Component {
               {/* End sortable tree */}
             <Divider />
           </SubMenu>
-          <Menu.Item key="5">
-            <Tooltip title="Ask questions about your library and get answers with context">              
+          <Menu.Item key="5" 
+            onClick={this.switchLink(5)}
+          >
+            <Tooltip title="Ask questions about your library and get answers with context,
+                              text summarizations, and other stats
+            ">              
               <Icon type="inbox" />
             </Tooltip>
             <span>Explore / Inquire</span>
           </Menu.Item>
-          {/* <Menu.Item key="6">
-            <Tooltip title="Text summaries of important information from your entries">
-              <Icon type="inbox" />
-            </Tooltip>
-              <span>Summaries</span>
-          </Menu.Item> */}
           <SubMenu key="sub3" title={<span>
             <Tooltip title="Visual, online, and privacy / security settings">              
               <Icon type="appstore" />
