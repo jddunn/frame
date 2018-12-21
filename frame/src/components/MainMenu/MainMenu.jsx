@@ -445,7 +445,7 @@ export default class MainMenu extends Component {
                       </Tooltip>
                       <Tooltip title="Save the current library changes">              
                         <Button 
-                          shape="circle" 
+                          shape="circle"
                           className="saveButton"
                           ghost={true}
                           icon="save"
@@ -563,7 +563,7 @@ export default class MainMenu extends Component {
                             >
                               <Icon size="small" type="left" />
                           </Button>,
-                          <Tooltip title="Changes need to be saved after">
+                          <Tooltip title="Changes need to be saved after inline adding">
                           <Button
                             shape="circle" 
                             ghost={true}
@@ -591,10 +591,10 @@ export default class MainMenu extends Component {
                               }))
                             }                  
                             >
-                                <Icon size="small" type="plus" />
+                          <Icon size="small" type="plus" />
                           </Button>
                           </Tooltip>,
-                          <Tooltip title="Changes need to be saved after">
+                          <Tooltip title="Changes need to be saved after inline deleting">
                           <Button
                             shape="circle" 
                             ghost={true}
