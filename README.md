@@ -38,9 +38,10 @@ Additional libraries and references used:
 
 - AllenNLP [https://allennlp.org/](https://allennlp.org/)
 - Ant Design [https://ant.design/](https://ant.design/)
-- Dante 2 [https://github.com/michelson/dante2](https://github.com/michelson/dante2)
+- Draft.js [https://draftjs.org/](https://draftjs.org/)
 - electron-builder [https://www.electron.build/](https://www.electron.build/)
 - LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/)
-- react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
+- medium-draft [https://github.com/brijeshb42/medium-draft](https://github.com/brijeshb42/medium-draft)
+- React Draft WYSIWYG [https://jpuri.github.io/react-draft-wysiwyg/#/](https://jpuri.github.io/react-draft-wysiwyg/#/)
 - react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
-- React Quill [https://github.com/zenoamaro/react-quill](https://github.com/zenoamaro/react-quill)
+- react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
