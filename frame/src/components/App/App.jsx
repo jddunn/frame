@@ -300,18 +300,18 @@ export default class App extends Component {
                       <div>
                         {splitNotebookLayout ? (
                         <div className="editorWrapper">
-                          <div id="editor" style = {{maxHeight: '400px !important'}}>
+                          <div id="editor">
                             <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                               splitNotebookLayout={splitNotebookLayout}
                             />
                           </div>
-                          <div className="analyzerWrapper">
-                            <Analyzer entryId={entryId}/>
-                          </div>
+                        <div className="analyzerWrapper">
+                          <Analyzer entryId={entryId}/>
                         </div>
+                      </div>
                         ) : (
                         <div className="editorWrapper">
-                          <div id="editor" style = {{maxHeight: '800px !important'}}>
+                          <div id="editor">
                               <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
                                         splitNotebookLayout={splitNotebookLayout}
                               />
