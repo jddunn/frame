@@ -33,10 +33,14 @@ export default class Analyzer extends Component {
   componentDidMount() {
   }
 
+  componentWilLReceiveProps(nextProps) {
+  }
+
   render() {
+    const entryId = getState("entryId");
     return (
         <div className="analysisContainer">
-          ANALYZER
+          ANALYZER on {entryId}
         </div>
     );
   }

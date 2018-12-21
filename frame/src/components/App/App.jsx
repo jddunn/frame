@@ -307,7 +307,7 @@ export default class App extends Component {
                               splitNotebookLayout={splitNotebookLayout}
                             />
                             <div className="analyzerWrapper">
-                              <Analyzer entryId={entryId}/>
+                              <Analyzer entryId={entryId} uppdateAppMethod={this.updateApp}/>
                             </div>
                           </div>
                       </div>
