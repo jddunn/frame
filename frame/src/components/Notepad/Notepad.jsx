@@ -13,6 +13,8 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 import { Editor} from 'react-draft-wysiwyg'; // Full text editor
 import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
 
+/** Analysis / chatbot interface component */
+
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';

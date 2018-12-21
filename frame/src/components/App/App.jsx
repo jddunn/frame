@@ -14,8 +14,10 @@ import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 import MainMenu from '../MainMenu/MainMenu';
 /** Notebook / Editor */
 import Notepad from '../Notepad/Notepad';
+
 /** Analysis / chatbot interface component */
 import Analyzer from '../Analyzer/Analyzer';
+
 /** Branding for logo / nav */
 import Brand from '../Brand/Brand';
 /** App global comp styles */
@@ -304,10 +306,10 @@ export default class App extends Component {
                             <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                               splitNotebookLayout={splitNotebookLayout}
                             />
+                            <div className="analyzerWrapper">
+                              <Analyzer entryId={entryId}/>
+                            </div>
                           </div>
-                        <div className="analyzerWrapper">
-                          <Analyzer entryId={entryId}/>
-                        </div>
                       </div>
                         ) : (
                         <div className="editorWrapper">
