@@ -201,7 +201,7 @@ export default class Notepad extends Component {
                                  phoneNumbers: parseTextForPhoneNumbers(strippedText),
                                  organizations: parseTextForOrganizations(strippedText),
                                  hashtags: parseTextForHashtags(strippedText),
-                                 questions: parseTextForQuestions(questions),
+                                 questions: parseTextForQuestions(strippedText),
                                  quotes: parseTextForQuotes(strippedText),
                                  topics: parseTextForTopics(strippedText),
                                  statements: parseTextForStatements(strippedText),
