@@ -90,9 +90,6 @@ export default class App extends Component {
     });
   }
 
-
-
-
   async getEntries(Library, key) {
     let Entries = [];
     await getFromDB(Library, key).then(function(result) {
@@ -201,9 +198,7 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-
   render() {
-    // console.log("APP UPDATE AGAIN");
     // By default editor mode for notes is Flow
     const Entries = this.state.Entries;
     let entryId = (getState("entryId") != null) ?
@@ -221,7 +216,7 @@ export default class App extends Component {
       try {
         setState("editorType", entry['editorType']);
       } catch (err) {
-        setState("editorType", null);
+        setState("editorType", "flow");
       }
     }
     let editorType = (getState("editorType") != null) ? 
