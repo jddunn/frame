@@ -19,6 +19,8 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
+import parseTextForPeople from '../../utils/node-nlp-service';
+ 
 import {
   KeyBindingUtil,
   Modifier,
@@ -178,6 +180,8 @@ export default class Notepad extends Component {
           if (entry['html'] == null || entry['html'] == undefined) {
             entry['html'] = getHTMLFromContent(EditorState.createEmpty());
             entry['strippedText'] = HTMLToText(entry['html']);
+            entry['entities'] = {people: parseTextForPeople(entry['strippedText'])};
+            console.log("Entry people: ", entry['entities']);
             entry['editorType'] = editorType;
             const newEntries = replaceEntry(entry, Entries);
             const res = getContentFromHTML(entry['html']);
@@ -218,6 +222,7 @@ export default class Notepad extends Component {
           // entry['content'] = this.state.editorState;
           entry['html'] = getHTMLFromContent(this.state.editorState);
           entry['strippedText'] = HTMLToText(entry['html']);
+          entry['entities'] = {people: parseTextForPeople(entry['strippedText'])};
           // try {
           // entry['editorType'] = event.key.toString();
           // } catch (err) {
@@ -296,6 +301,8 @@ export default class Notepad extends Component {
         // entry['content'] = this.state.editorState;
         entry['html'] = getHTMLFromContent(this.state.editorState);
         entry['strippedText'] = HTMLToText(entry['html']);
+        entry['entities'] = {people: parseTextForPeople(entry['strippedText'])};
+        console.log(entry['entities']);
         entry['editorType'] = editorType;
         const newEntries = replaceEntry(entry, Entries);
         saveToDB(Library, "entries", newEntries).then(async function(result) {
@@ -307,7 +314,6 @@ export default class Notepad extends Component {
         });
       }
     })
-
   }
 
 
