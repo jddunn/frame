@@ -25,16 +25,15 @@ export default class Analyzer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { placement: 'bottom', _isMounted: false};
+    this.state = { placement: 'bottom', _isMounted: false,
+                    selectedEntry: {},
+                    Entries: []};
+    this.getEntries = this.getEntries.bind(this);
   }
   
   onClose = () => {
     setState("analysisDrawerVisible", false);
-    console.log("Close state: ", getState("analysisDrawerVisible"));
     this.props.updateAppMethod();
-    // this.setState({
-      // visible: false,
-    // });
   };
 
   onChange = (e) => {
@@ -43,46 +42,86 @@ export default class Analyzer extends Component {
     });
   }
 
-  componentDidMount() {
-    if (this.state._isMounted) {
-      // const analysisDrawerVisible = getState("analysisDrawerVisible");
-      // this.setState({visible: analysisDrawerVisible})
-    }
+  async getEntries(Library, key) {
+    let Entries = [];
+    await getFromDB(Library, key).then(function(result) {
+      Entries = result;
+    }).catch(function(err) {
+      Entries = [];
+    });
+    return Entries;
   }
 
-  componentWilLReceiveProps(nextProps) {
+  async componentWillMount() {
+    this.setState({_isMounted: true});
+
+  }
+
+  componentWillUnmount() {
+    this.setState({_isMounted: false});
+  }
+
+  async componentWillReceiveProps(nextProps) {
     if (this.state._isMounted) {
-      // const analysisDrawerVisible = getState("analysisDrawerVisible");
-      // this.setState({visible: analysisDrawerVisible})
+      const entryId = nextProps.entryId;
+      const m_nextProps = nextProps;
+      const library = getState("library");
+      const Library = openDB(library);
+      await this.getEntries(Library, "entries").then(async(result) => {
+        const Entries = result;
+        const entry = traverseEntriesById(entryId, Entries);
+        if (entry != null) {
+          this.setState({Entries: Entries, selectedEntry: entry});
+        }
+      })
     }
   }
 
   render() {
     const entryId = getState("entryId");
-    let analysisDrawerVisible = getState("analysisDrawerVisible");
 
+    const library = getState("library");
+    const Library = openDB(library);
+
+    const _this = this;
+
+    let divContainer = null;
+
+    let drawerTitle = "";
+
+    let analysisDrawerVisible = getState("analysisDrawerVisible");
     if (analysisDrawerVisible == null || analysisDrawerVisible == undefined ||
         analysisDrawerVisible == "undefined"
     ) {
         analysisDrawerVisible = false;
     }
-    return (
-      <div className="analysisContainer">
-        <Drawer
-          title="Basic Drawer"
-          mask={false}
-          placement={this.state.placement}
-          closable={true}
-          onClose={this.onClose}
-          visible={analysisDrawerVisible}
-        >
-          <p>
-            ANALYZER on {entryId}
-          </p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Drawer>
-      </div>
-    );
+    if (this.state._isMounted) {
+      let selectedEntry = this.state.selectedEntry;
+
+      if (selectedEntry == null || selectedEntry == undefined ||
+          selectedEntry == "undefined"
+        ) {
+          selectedEntry = Entries[0];
+        }
+      const Entries = this.state.Entries;
+      drawerTitle = '"' + selectedEntry.title + '"' + '   (' +
+        selectedEntry.id + ')     -   Analysis';
+      return(
+        <div className="analysisContainer">
+          <Drawer
+            title={drawerTitle}
+            mask={false}
+            placement={_this.state.placement}
+            closable={true}
+            onClose={_this.onClose}
+            visible={analysisDrawerVisible}
+          >
+
+          </Drawer>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }

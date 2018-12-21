@@ -46,6 +46,7 @@ const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.js
 
 /** LocalForage */
 // localforage.clear(); // This resets the enitre db in the local Chrome app
+sessionStorage.clear();
 
 const { Header, Content, Footer, Sider } = Layout;
 
