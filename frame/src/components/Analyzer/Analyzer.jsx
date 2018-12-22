@@ -106,8 +106,8 @@ export default class Analyzer extends Component {
             let termsLength = terms.length;
             let showArrow = false;
             if (termsLength > 0) { defaultOpenKeysLeft.push('2'); showArrow = true; }
-            let entityTitle = "Topics \xa0\xa0  \xa0\xa0 (" + termsLength + ") \xa0\xa0";
-            divContainerRight.push(
+            let entityTitle = "Terms \xa0\xa0  \xa0\xa0 (" + termsLength + ") \xa0\xa0";
+            divContainerLeft.push(
               <Panel header={entityTitle} key="2" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(terms, null, 2)}</p>
