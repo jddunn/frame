@@ -13,7 +13,6 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 import { Editor} from 'react-draft-wysiwyg'; // Full text editor
 import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
 
-/** Analysis / chatbot interface component */
 
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
@@ -21,6 +20,12 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
+/**
+ *  JS NLP stuff (we make these calls in the Notebook component,
+ *  so analysis can be done seamlessly with saving inside the editor.
+ *  The Analyzer component will render the results that are created
+ *  in Notepad.
+*/
 import {
   parseTextForPeople,
   parseTextForPlaces,
@@ -34,7 +39,14 @@ import {
   parseTextForURLs,
   parseTextForTerms,
   parseTextForBigrams,
-  parseTextForTrigrams
+  parseTextForTrigrams,
+  countChars,
+  countSyllables,
+  countWords,
+  countSentences,
+  countTotalSyllables,
+  fleschReadability,
+  getFleschReadability,
   }
   from '../../utils/node-nlp-service';
  
@@ -213,6 +225,25 @@ export default class Notepad extends Component {
                                  trigrams: parseTextForTrigrams(strippedText)
             };
             entry['editorType'] = editorType;
+            // Get text stats
+            const charCount = countChars(strippedText);
+            const syllableCount = countTotalSyllables(strippedText);
+            const wordCount = countWords(strippedText);
+            const sentenceCount = countSentences(strippedText);
+            const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
+            const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
+            const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
+            const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+            entry['stats'] = {
+              charCount: charCount,
+              syllableCount: syllableCount,
+              wordCount: wordCount,
+              sentenceCount: sentenceCount,
+              avgWordsPerSentence: avgWordsPerSentence,
+              avgSyllablesPerSentence: avgSyllablesPerSentence,
+              avgSyllablesPerWord: avgSyllablesPerWord,
+              fleschReadability: fleschReadability
+            }
             const newEntries = replaceEntry(entry, Entries);
             const res = getContentFromHTML(entry['html']);
             this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
@@ -270,6 +301,25 @@ export default class Notepad extends Component {
           // } catch (err) {
             // entry['editorType'] = "flow";
           // }          
+          // Get text stats
+          const charCount = countChars(strippedText);
+          const syllableCount = countTotalSyllables(strippedText);
+          const wordCount = countWords(strippedText);
+          const sentenceCount = countSentences(strippedText);
+          const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
+          const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
+          const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
+          const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+          entry['stats'] = {
+            charCount: charCount,
+            syllableCount: syllableCount,
+            wordCount: wordCount,
+            sentenceCount: sentenceCount,
+            avgWordsPerSentence: avgWordsPerSentence,
+            avgSyllablesPerSentence: avgSyllablesPerSentence,
+            avgSyllablesPerWord: avgSyllablesPerWord,
+            fleschReadability: fleschReadability
+          }
           const newEntries = replaceEntry(entry, Entries);
           const res = getContentFromHTML(entry['html']);
           this.setState({Entries: newEntries, editorState: EditorState.createWithContent(getContentFromHTML(entry['html'])),
@@ -359,6 +409,25 @@ export default class Notepad extends Component {
                              trigrams: parseTextForTrigrams(strippedText)
         };
         entry['editorType'] = editorType;
+        // Get text stats
+        const charCount = countChars(strippedText);
+        const syllableCount = countTotalSyllables(strippedText);
+        const wordCount = countWords(strippedText);
+        const sentenceCount = countSentences(strippedText);
+        const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
+        const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
+        const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
+        const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+        entry['stats'] = {
+          charCount: charCount,
+          syllableCount: syllableCount,
+          wordCount: wordCount,
+          sentenceCount: sentenceCount,
+          avgWordsPerSentence: avgWordsPerSentence,
+          avgSyllablesPerSentence: avgSyllablesPerSentence,
+          avgSyllablesPerWord: avgSyllablesPerWord,
+          fleschReadability: fleschReadability
+        }
         const newEntries = replaceEntry(entry, Entries);
         saveToDB(Library, "entries", newEntries).then(async function(result) {
           message.success('Saved notebook changes!');

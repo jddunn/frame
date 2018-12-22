@@ -218,4 +218,4 @@ dist/
 
 # Virtualenv
 
-lookback-venv/
+frame-nlp-service-venv
