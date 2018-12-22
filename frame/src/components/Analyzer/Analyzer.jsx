@@ -84,13 +84,9 @@ export default class Analyzer extends Component {
 
   render() {
     const entryId = getState("entryId");
-
     const library = getState("library");
     const Library = openDB(library);
-
     const _this = this;
-
-    let divContainer = null;
 
     let drawerTitle = "";
 
@@ -107,10 +103,9 @@ export default class Analyzer extends Component {
           selectedEntry == "undefined"
         ) {
           selectedEntry = Entries[0];
-        }
+      }
       const Entries = this.state.Entries;
       drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
-
       const dateCreated = selectedEntry.dateCreated;
       let entryTags = selectedEntry.tags;
       
@@ -135,10 +130,6 @@ export default class Analyzer extends Component {
       } catch (err) {
         console.log(err);
       }
-
-      if (fleschReadability >= 25) {
-      }
-
       if (fleschReadability != null && fleschReadability != undefined &&
         fleschReadability != "undefined") {
           if (fleschReadability >= 90) {
@@ -159,19 +150,15 @@ export default class Analyzer extends Component {
           } else {
             fleschReadabilityDescription = fleschReadability;
           }
-        }
-
-
+      }
       try {
         entryTags = entryTags.split(' ').join(', ');
       } catch (err) {
         entryTags = 'none';
       }
-      
       if (entryTags.length <= 0) {
         entryTags = 'none';
       }
-
       return(
         <div className="analysisContainer">
           <Drawer
