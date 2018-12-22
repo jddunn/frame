@@ -85,13 +85,15 @@
 }
 
 .FancyTabs-panel {
-    margin-top: 15px !important;
+    margin-top: 10px !important;
     border: none !important;
     background: none !important;
     margin-left: 20px !important;
 }
 
-
+span.ant-radio + * {
+    font-size: .91em !important;
+}
 
 .ant-drawer-title {
     z-index: 100 !important;
