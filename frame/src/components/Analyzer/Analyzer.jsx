@@ -326,6 +326,7 @@ export default class Analyzer extends Component {
           this.setState({Entries: Entries, selectedEntry: entry});
         }
       })
+    this.forceUpdate();
     }
   }
 
