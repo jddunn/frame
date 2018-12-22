@@ -436,7 +436,7 @@ export default class Analyzer extends Component {
           }
       }
       try {
-        entryTags = entryTags.split(' ').join(', ');
+        entryTags = entryTags.split(' ').join(' ');
       } catch (err) {
         entryTags = 'none';
       }

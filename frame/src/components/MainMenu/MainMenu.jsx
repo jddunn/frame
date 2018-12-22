@@ -98,11 +98,10 @@ export default class MainMenu extends Component {
     this.handleSwitchEntriesEditorType = this.handleSwitchEntriesEditorType.bind(this);
     // Save trees to localForage
     this.saveTreeData = this.saveTreeData.bind(this);    
+    // Export library to JSON
+    this.exportLibraryToJSONFile = this.exportLibraryToJSONFile.bind(this);
     // Upload library JSON
     this.handleUploadFile = this.handleUploadFile.bind(this);
-    // What to do when the user clicking "upload" file in app (needs a custom 
-    // function or a bad request will be sent by default with Ant Design)
-    this.handleUploadFileFinishClick = this.handleUploadFileFinishClick.bind(this);
   }
 
   async getEntries(Library, key) {
@@ -336,9 +335,8 @@ export default class MainMenu extends Component {
       message.success("Downloaded current library data!");
    } catch (err) {
      console.log(err);
-   }
+    }
   }
-
 
   handleUploadFile = (e) => {
     console.log("ETARGET: ", e);
@@ -362,11 +360,6 @@ export default class MainMenu extends Component {
       }
     })(file);
     reader.readAsText(file);
-  }
-
-  handleUploadFileFinishClick(e) {
-    console.log(e);
-
   }
 
   switchLink(index) {
@@ -489,21 +482,19 @@ export default class MainMenu extends Component {
                         </Tooltip>
                       </div>
                       <div className="saveLoadExportButtonsContainer">
-                        <Tooltip title="Load / create a new library">     
                           <Upload beforeUpload={this.handleUploadFile} 
                             afterUpload={null} accept="json" customRequest={null}
                             showUploadList={false}
                           >
+                          <Tooltip title="Upload / import an existing library (JSON)">     
                             <Button 
                                 shape="circle" 
                                 className="loadButton"
                                 ghost={true}
                                 icon="folder-open"
-                                onClick={() => { this.loadLibraryFromJSONFile}}
-                                // onClick={this.expandAll}
                                 />
-                            </Upload>
-                        </Tooltip>
+                            </Tooltip>
+                          </Upload>
                         <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to file name)'>
                           <Button
                             shape="circle" 
