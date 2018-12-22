@@ -13,9 +13,7 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
-// TODO: Refactor out Editor and MEditor into different React components
-import { Editor} from 'react-draft-wysiwyg'; // Full text editor
-import { Editor as MEditor, BreakBlock } from 'medium-draft'; // Medium-style text editor
+import ReactJson from 'react-json-view'
 
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
@@ -139,7 +137,6 @@ export default class Analyzer extends Component {
       }
 
       if (fleschReadability >= 25) {
-        console.log("OH YEAH FLESCH");
       }
 
       if (fleschReadability != null && fleschReadability != undefined &&
@@ -367,6 +364,14 @@ export default class Analyzer extends Component {
                   <div className='FancyTabs-panelInner'>
                     Duis <a href='#'>aute</a> irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                   </div>
+                </TabPanel>
+                <TabPanel tabId='t4'>
+                  <div className='FancyTabs-panelInner'>
+                    Duis <a href='#'>aute</a> irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </div>
+                </TabPanel>
+                <TabPanel tabId='t5'>
+                  <ReactJson src={selectedEntry} />
                 </TabPanel>
               </div>
             </Wrapper>
