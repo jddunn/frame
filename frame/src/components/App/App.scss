@@ -61,6 +61,7 @@ body {
 }
 
 .brandWrapper {
+  width: calc(100% -2px) !important;
   background: #2980b9;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -68,6 +69,8 @@ body {
   padding-left: 5px;
   padding-top: 2px !important;
   margin-left: 1px;
+  position: sticky !important;
+  z-index: 500 !important;
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
@@ -78,6 +81,7 @@ body {
   clear: right !important; 
   height: 100%;
   width: 100%;
+  max-width: 350px !important;
   color: white;
   background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
@@ -87,6 +91,8 @@ body {
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  position: sticky !important;
+  z-index: 450 !important;
 }
 
 .mainMenuContainer span {
@@ -122,7 +128,7 @@ body {
   width: 100% !important;
   height: 100% !important;
   display: inline !important;
-  position: fixed !important;
+  position: sticky !important;
   margin-top: -250px !important;
   z-index: 100 !important;
   margin-left: 150px !important;
@@ -189,7 +195,7 @@ body {
   margin-right: 55px !important;
   display: inline !important;
   border-radius: 10px !important;
-  position: absolute !important;
+  position: fixed !important;
 }
 
 #editor {
@@ -200,17 +206,16 @@ body {
 
 .saveButtonNotebook {
   margin: 5px !important;
-  margin-top: 2px !important;
+  margin-top: 4px !important;
   padding: 0 !important;
   border: none !important;
   z-index: 1000 !important;
   font-size: 1.5em !important;
-  margin-left: 15px !important;
   right: 0px !important;
   top: 0px !important;
-  margin-right: 15px !important;
+  margin-right: 25px !important;
   display: inline !important;
-  position: absolute !important;
+  position: fixed !important;
 }
 
 .ant-btn-default {

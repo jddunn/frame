@@ -20,7 +20,7 @@
 }
 
 .rdw-editor-toolbar {
-    position: fixed !important;
+    position: sticky !important;
     z-index: 500 !important;
     -webkit-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
     -moz-box-shadow: -2px 1px 1px -1px rgba(19, 19, 19, 0.45) !important;
@@ -67,7 +67,7 @@
 .public-DraftEditorPlaceholder-inner {
     margin-top: 15px !important;
     margin-left: 20px !important;
-    position: fixed !important;
+    position: sticky !important;
     min-height: 140px;
     max-height: 600px !important;
     max-width: 100% !important;
