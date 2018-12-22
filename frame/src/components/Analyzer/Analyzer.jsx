@@ -421,7 +421,7 @@ export default class Analyzer extends Component {
             '  -  Very easy to read (5th - 6th grade reading level)';
           } else if (fleschReadability >= 65) {
             fleschReadabilityDescription = fleschReadability.toString() +
-            '  -  Fairly Easy To Read (6th - 7th grade reading level)';
+            '  -  Fairly easy to read (6th - 7th grade reading level)';
           } else if (fleschReadability >= 50) {
             fleschReadabilityDescription = fleschReadability.toString() + 
             ' - Fairly difficult to read (10th - 12th grade reading level)';
