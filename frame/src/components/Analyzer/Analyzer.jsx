@@ -13,7 +13,8 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
-import ReactJson from 'react-json-view'
+import ReactJson from 'react-json-view';
+// import DOMify from 'react-domify';
 
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
@@ -33,7 +34,9 @@ export default class Analyzer extends Component {
     super(props);
     this.state = { placement: 'bottom', _isMounted: false,
                     selectedEntry: {},
-                    Entries: []};
+                    Entries: [],
+                    lastEntryId: "",
+                  };
     this.getEntries = this.getEntries.bind(this);
     this.buildInformationExtraction = this.buildInformationExtraction.bind(this);
   }
@@ -63,7 +66,7 @@ export default class Analyzer extends Component {
     let divContainerRight = [];
     let divContainers = []; /** We'll be returning an array within an array */
     let people, places, phoneNumbers, hashtags, 
-        questions, quotes, topics, statements,
+        questions, quotes, topics, dates, statements,
         urls, terms, bigrams, trigrams, organizations;
     /** Also return this so we can expand items with values by default */
     let defaultOpenKeysLeft = [];
@@ -130,15 +133,30 @@ export default class Analyzer extends Component {
               </Panel>
             )
           } 
+          if (propKey === 'dates') {
+            dates = entities[i][1];
+            if (dates === undefined || dates === null) dates = [];
+            let datesLength = dates.length;
+            let showArrow = false;
+            if (datesLength > 0) { defaultOpenKeysLeft.push('4'); showArrow = true; }
+            let entityTitle = "Dates \xa0\xa0  \xa0\xa0 (" + datesLength + ") \xa0\xa0";
+            divContainerLeft.push(
+              <Panel header={entityTitle} key="4" showArrow={showArrow}>
+                <pre>
+                  <p>{JSON.stringify(dates, null, 2)}</p>
+                </pre>
+              </Panel>
+            )
+          } 
           if (propKey === 'places') {
             places = entities[i][1];
             if (places === undefined || places === null) places = [];
             let placesLength = places.length;
             let showArrow = false;
-            if (placesLength > 0) { defaultOpenKeysLeft.push('4'); showArrow = true; }
+            if (placesLength > 0) { defaultOpenKeysLeft.push('5'); showArrow = true; }
             let entityTitle = "Places \xa0\xa0  \xa0\xa0 (" + placesLength + ") \xa0\xa0";
             divContainerLeft.push(
-              <Panel header={entityTitle} key="4" showArrow={showArrow}>
+              <Panel header={entityTitle} key="5" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(places, null, 2)}</p>
                 </pre>
@@ -150,10 +168,10 @@ export default class Analyzer extends Component {
             if (organizations === undefined || organizations === null) organizations = [];
             let organizationsLength = organizations.length;
             let showArrow = false;
-            if (organizationsLength > 0) { defaultOpenKeysLeft.push('5'); showArrow = true; }
+            if (organizationsLength > 0) { defaultOpenKeysLeft.push('6'); showArrow = true; }
             let entityTitle = "Organizations \xa0\xa0  \xa0\xa0 (" + organizationsLength + ") \xa0\xa0";
             divContainerLeft.push(
-              <Panel header={entityTitle} key="5" showArrow={showArrow}>
+              <Panel header={entityTitle} key="6" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(organizations, null, 2)}</p>
                 </pre>
@@ -165,10 +183,10 @@ export default class Analyzer extends Component {
             if (phoneNumbers === undefined || phoneNumbers === null) phoneNumbers = [];
             let phoneNumbersLength = phoneNumbers.length;
             let showArrow = false;
-            if (phoneNumbersLength > 0) { defaultOpenKeysLeft.push('6'); showArrow = true; }
+            if (phoneNumbersLength > 0) { defaultOpenKeysLeft.push('7'); showArrow = true; }
             let entityTitle = "Phone Numbers \xa0\xa0  \xa0\xa0 (" + phoneNumbersLength + ") \xa0\xa0";
             divContainerLeft.push(
-              <Panel header={entityTitle} key="6" showArrow={showArrow}>
+              <Panel header={entityTitle} key="7" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(phoneNumbers, null, 2)}</p>
                 </pre>
@@ -180,10 +198,10 @@ export default class Analyzer extends Component {
             if (hashtags === undefined || hashtags === null) hashtags = [];
             let hashtagsLength = hashtags.length;
             let showArrow = false;
-            if (hashtagsLength > 0) { defaultOpenKeysLeft.push('7'); showArrow = true; }
+            if (hashtagsLength > 0) { defaultOpenKeysLeft.push('8'); showArrow = true; }
             let entityTitle = "Hashtags \xa0\xa0  \xa0\xa0 (" + hashtagsLength + ") \xa0\xa0";
             divContainerLeft.push(
-              <Panel header={entityTitle} key="7" showArrow={showArrow}>
+              <Panel header={entityTitle} key="8" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(hashtags, null, 2)}</p>
                 </pre>
@@ -195,10 +213,10 @@ export default class Analyzer extends Component {
             if (urls === undefined || urls === null) urls = [];
             let urlsLength = urls.length;
             let showArrow = false;
-            if (urlsLength > 0) { defaultOpenKeysLeft.push('8'); showArrow = true; }
+            if (urlsLength > 0) { defaultOpenKeysLeft.push('9'); showArrow = true; }
             let entityTitle = "URL Links \xa0\xa0  \xa0\xa0 (" + urlsLength + ") \xa0\xa0";
             divContainerLeft.push(
-              <Panel header={entityTitle} key="8" showArrow={showArrow}>
+              <Panel header={entityTitle} key="9" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(urls, null, 2)}</p>
                 </pre>
@@ -210,10 +228,10 @@ export default class Analyzer extends Component {
             if (quotes  === undefined || quotes === null) quotes = [];
             let quotesLength = quotes.length;
             let showArrow = false;
-            if (quotesLength > 0) { defaultOpenKeysRight.push('9'); showArrow = true; }
+            if (quotesLength > 0) { defaultOpenKeysRight.push('10'); showArrow = true; }
             let entityTitle = "Quotations \xa0\xa0  \xa0\xa0 (" + quotesLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="9" showArrow={showArrow}>
+              <Panel header={entityTitle} key="10" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(quotes, null, 2)}</p>
                 </pre>
@@ -225,10 +243,10 @@ export default class Analyzer extends Component {
             if (statements === undefined || statements === null) statements = [];
             let statementsLength = statements.length;
             let showArrow = false;
-            if (statementsLength > 0) { defaultOpenKeysRight.push('10'); showArrow = true; }
+            if (statementsLength > 0) { defaultOpenKeysRight.push('11'); showArrow = true; }
             let entityTitle = "Statements \xa0\xa0  \xa0\xa0 (" + statementsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="10" showArrow={showArrow}>
+              <Panel header={entityTitle} key="11" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(statements, null, 2)}</p>
                 </pre>
@@ -240,10 +258,10 @@ export default class Analyzer extends Component {
             if (questions === undefined || questions === null) questions = [];
             let questionsLength = questions.length;
             let showArrow = false;
-            if (questionsLength > 0) { defaultOpenKeysRight.push('11'); showArrow = true; }
+            if (questionsLength > 0) { defaultOpenKeysRight.push('12'); showArrow = true; }
             let entityTitle = "Questions \xa0\xa0  \xa0\xa0 (" + questionsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="11" showArrow={showArrow}>
+              <Panel header={entityTitle} key="12" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(questions, null, 2)}</p>
                 </pre>
@@ -255,10 +273,10 @@ export default class Analyzer extends Component {
             if (bigrams === undefined || bigrams === null) bigrams = [];
             let bigramsLength = bigrams.length;
             let showArrow = false;
-            if (bigramsLength > 0) { defaultOpenKeysRight.push('12'); showArrow = true; }
+            if (bigramsLength > 0) { defaultOpenKeysRight.push('13'); showArrow = true; }
             let entityTitle = "Bigrams \xa0\xa0  \xa0\xa0 (" + bigramsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="12" showArrow={showArrow}>
+              <Panel header={entityTitle} key="13" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(bigrams, null, 2)}</p>
                 </pre>
@@ -270,10 +288,10 @@ export default class Analyzer extends Component {
             if (trigrams === undefined || trigrams === null) trigrams = [];
             let trigramsLength = trigrams.length;
             let showArrow = false;
-            if (trigramsLength > 0) { defaultOpenKeysRight.push('13'); showArrow = true; }
+            if (trigramsLength > 0) { defaultOpenKeysRight.push('14'); showArrow = true; }
             let entityTitle = "Trigrams \xa0\xa0  \xa0\xa0 (" + trigramsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="13" showArrow={showArrow}>
+              <Panel header={entityTitle} key="14" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(trigrams, null, 2)}</p>
                 </pre>
@@ -313,6 +331,24 @@ export default class Analyzer extends Component {
     this.setState({_isMounted: false});
   }
 
+  async componentWillUpdate() {
+    if (this.state._isMounted) {
+      const entryId = getState("entryId");
+      const library = getState("library");
+      const Library = openDB(library);
+      if (this.state.lastEntryId !== entryId) {
+        await this.getEntries(Library, "entries").then(async(result) => {
+          const Entries = result;
+          const entry = traverseEntriesById(entryId, Entries);
+          if (entry != null) {
+            this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
+          }
+        })
+      this.forceUpdate();
+      }
+    }
+  }
+
   async componentWillReceiveProps(nextProps) {
     if (this.state._isMounted) {
       const entryId = nextProps.entryId;
@@ -323,7 +359,7 @@ export default class Analyzer extends Component {
         const Entries = result;
         const entry = traverseEntriesById(entryId, Entries);
         if (entry != null) {
-          this.setState({Entries: Entries, selectedEntry: entry});
+          this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
         }
       })
     this.forceUpdate();
@@ -417,6 +453,14 @@ export default class Analyzer extends Component {
       console.log("Containers left: ", entitiesContainerLeft);
       console.log("Containers right: ", entitiesContainerRight)
 
+      let extractiveSummary = selectedEntry['summaryExtractive'];
+
+      if (extractiveSummary === null || extractiveSummary === "undefined" ||
+        extractiveSummary === "undefined") 
+      { 
+        extractiveSummary = '';
+      }
+
       return(
         <div className="analysisContainer">
           <Drawer
@@ -464,7 +508,7 @@ export default class Analyzer extends Component {
                         <div>
                           {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--megaphone' /> */}
                           <span className='FancyTabs-tabText'>
-                            Summary
+                            Summarize
                           </span>
                         </div>
                       ))}
@@ -500,7 +544,7 @@ export default class Analyzer extends Component {
               <div className='FancyTabs-panel'>
                 <TabPanel tabId='t1'>
                   <div className='FancyTabs-panelInner'>
-
+                  <div className="analysisStatsContainer">
                   <div className="tabInnerSection">
                     <h4 className="tabInnerLabel">
                       Character Count
@@ -603,6 +647,7 @@ export default class Analyzer extends Component {
                       </div>
                     </div>
                   </div>
+                </div>
                 </TabPanel>
                 <TabPanel tabId='t2'>
                   <div className='FancyTabs-panelInner'>
@@ -611,12 +656,18 @@ export default class Analyzer extends Component {
                 </TabPanel>
                 <TabPanel tabId='t3'>
                   <div className='FancyTabs-panelInner'>
-                    Duis <a href='#'>aute</a> irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <div className="extractiveSumamryContainer">
+                      <h4 className="sectionHeadlineText">Extractive Summary</h4>
+                      <p className="summaryContent">{extractiveSummary}</p>
+                    </div>
+                    <div className="abstractiveSummaryContainer">
+                      <h4 className="sectionHeadlineText">Abstractive Summary</h4>
+                      <p className="summaryContent"></p>
+                    </div>
                   </div>
                 </TabPanel>
                 <TabPanel tabId='t4'>
                   <div className='FancyTabs-panelInner'>
-                    
                     <div className="entitiesCollapseLeft">
                       <Collapse defaultActiveKey={entitiesDefaultOpenKeysLeft} onChange={this.callback}>
                         {entitiesContainerLeft}
@@ -627,7 +678,6 @@ export default class Analyzer extends Component {
                         {entitiesContainerRight}
                       </Collapse>
                     </div>
-
                   </div>
                 </TabPanel>
                 <TabPanel tabId='t5'>

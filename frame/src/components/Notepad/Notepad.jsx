@@ -20,6 +20,8 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
+const sumBasic = require('node-sumbasic');
+
 /**
  *  JS NLP stuff (we make these calls in the Notebook component,
  *  so analysis can be done seamlessly with saving inside the editor.
@@ -29,8 +31,9 @@ import replaceEntry from '../../utils/replace-entry';
 import {
   parseTextForPeople,
   parseTextForPlaces,
-  parseTextForPhoneNumbers,
+  parseTextForDates,
   parseTextForOrganizations,
+  parseTextForPhoneNumbers,
   parseTextForHashtags,
   parseTextForQuestions,
   parseTextForQuotes,
@@ -214,6 +217,7 @@ export default class Notepad extends Component {
               terms: parseTextForTerms(strippedText),
               topics: parseTextForTopics(strippedText),
               people: parseTextForPeople(strippedText),
+              dates: parseTextForDates(strippedText),
               organizations: parseTextForOrganizations(strippedText),
               places: parseTextForPlaces(strippedText),
               phoneNumbers: parseTextForPhoneNumbers(strippedText),
@@ -235,6 +239,15 @@ export default class Notepad extends Component {
             const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
             const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
             const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+            const docs = [];
+            let summaryExtractive;
+            docs.push(strippedText);
+            if (sentenceCount > 3) {
+              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5));
+            } else {
+              summaryExtractive = '';
+            }
+            entry['summaryExtractive'] = summaryExtractive;
             entry['stats'] = {
               charCount: charCount,
               syllableCount: syllableCount,
@@ -288,6 +301,7 @@ export default class Notepad extends Component {
             terms: parseTextForTerms(strippedText),
             topics: parseTextForTopics(strippedText),
             people: parseTextForPeople(strippedText),
+            dates: parseTextForDates(strippedText),
             organizations: parseTextForOrganizations(strippedText),
             places: parseTextForPlaces(strippedText),
             phoneNumbers: parseTextForPhoneNumbers(strippedText),
@@ -312,6 +326,15 @@ export default class Notepad extends Component {
           const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
           const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
           const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+          const docs = [];
+          let summaryExtractive;
+          docs.push(strippedText);
+          if (sentenceCount > 3) {
+            summaryExtractive = sumBasic(docs, sentenceCount / 3, sentenceCount / 5);
+          } else {
+            summaryExtractive = '';
+          }
+          entry['summaryExtractive'] = summaryExtractive;
           entry['stats'] = {
             charCount: charCount,
             syllableCount: syllableCount,
@@ -400,6 +423,7 @@ export default class Notepad extends Component {
           terms: parseTextForTerms(strippedText),
           topics: parseTextForTopics(strippedText),
           people: parseTextForPeople(strippedText),
+          dates: parseTextForDates(strippedText),
           organizations: parseTextForOrganizations(strippedText),
           places: parseTextForPlaces(strippedText),
           phoneNumbers: parseTextForPhoneNumbers(strippedText),
@@ -421,6 +445,15 @@ export default class Notepad extends Component {
         const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
         const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
         const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+        const docs = [];
+        let summaryExtractive;
+        docs.push(strippedText);
+        if (sentenceCount > 3) {
+          summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5));
+        } else {
+          summaryExtractive = '';
+        }
+        entry['summaryExtractive'] = summaryExtractive;
         entry['stats'] = {
           charCount: charCount,
           syllableCount: syllableCount,

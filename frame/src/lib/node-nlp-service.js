@@ -86,53 +86,58 @@ export function countChars(text) {
 }
 
 export function parseTextForPeople(text) {
-    return(nlp(text).people().out('topk'));
+    return(nlp(text).people().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForPlaces(text) {
-    return(nlp(text).places().out('topk'));
+    return(nlp(text).places().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForPhoneNumbers(text) {
-    return(nlp(text).phoneNumbers().out('topk'));
+    return(nlp(text).phoneNumbers().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForOrganizations(text) {
-    return(nlp(text).organizations().out('topk'));
+    return(nlp(text).organizations().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForHashtags(text) {
-    return(nlp(text).hashTags().out('topk'));
+    return(nlp(text).hashTags().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForQuestions(text) {
-    return(nlp(text).questions().out('topk'));
+    return(nlp(text).questions().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForQuotes(text) {
-    return(nlp(text).quotations().out('topk'));
+    return(nlp(text).quotations().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForTopics(text) {
-    return(nlp(text).topics().out('topk'));
+    // return(nlp(text).topics().out('topk'));
+    return(nlp(text).topics().slice(0, 50).out('frequency'));
+}
+
+export function parseTextForDates(text) {
+    return(nlp('text').dates().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForStatements(text) {
-    return(nlp(text).statements().out('topk'));
+    return(nlp(text).statements().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForURLs(text) {
-    return(nlp(text).urls().out('topk'));
+    return(nlp(text).urls().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForTerms(text) {
-    return(nlp(text).terms().out('topk'));
+    return(nlp(text).terms().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForBigrams(text) {
-    return(nlp(text).ngrams().bigrams().out('topk'));
+    return(nlp(text).ngrams().bigrams().slice(0, 50).out('frequency'));
 }
 
 export function parseTextForTrigrams(text) {
-    return(nlp(text).ngrams().trigrams().out('topk'));
+    return(nlp(text).ngrams().trigrams().slice(0, 50).out('frequency'));
 }
