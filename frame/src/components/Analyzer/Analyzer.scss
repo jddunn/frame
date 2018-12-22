@@ -7,17 +7,35 @@
     margin-bottom: 0px !important;
     margin-left: 150px !important;
     width: calc(80% - 50px) !important;
-    height: calc(65% - 20px) !important;
-    overflow: scroll !important;
+    overflow-x: hidden !important;
+    height: calc(75% - 20px) !important;
+    max-height: 350px !important;
+    // background: none !important;
     background-color: rgba(247, 247, 247, 0.967) !important;
 }
 
 .ant-drawer-content {
     height: 100% !important;
     background-color: rgba(247, 247, 247, 0.967) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
 }
 
 .ant-drawer-body {
+    background-color: rgba(247, 247, 247, 0.967) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+}
+
+.ant-drawer-wrapper-body {
+    background-color: rgba(247, 247, 247, 0.967) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+.ant-drawer-wrapper {
     background-color: rgba(247, 247, 247, 0.967) !important;
 }
 
@@ -65,7 +83,7 @@
 }
 
 .FancyTabs-panel {
-    margin-top: 7px !important;
+    margin-top: 10px !important;
     border: none !important;
     background: none !important;
     margin-left: 15px !important;
@@ -76,6 +94,8 @@
 .ant-drawer-title {
     z-index: 100 !important;
     margin: 5px !important;
+    margin-top: 0px !important;
+    height: 15px !important;
     font-size: 1.3em !important;
     letter-spacing: 1px !important;
     color: rgba(51, 51, 51, 0.856) !important;

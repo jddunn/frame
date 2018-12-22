@@ -111,7 +111,7 @@ export default class Analyzer extends Component {
           selectedEntry = Entries[0];
         }
       const Entries = this.state.Entries;
-      drawerTitle = '"' + selectedEntry.title + '"' + '\xa0\xa0\xa0-\xa0\xa0\xa0Analysis';
+      drawerTitle = '"' + selectedEntry.title + '"' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
 
       const dateCreated = selectedEntry.dateCreated;
       let entryTags = selectedEntry.tags;
@@ -264,7 +264,7 @@ export default class Analyzer extends Component {
                   </div>
                   <div className="tabInnerSection">
                     <h4 className="tabInnerLabel">
-                      Char Count
+                      Character Count
                     </h4>
                     <h4 className="tabInnerContent">
                         {charCount}
