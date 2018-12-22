@@ -129,7 +129,7 @@
 }
 
 .FancyTabs-tab:focus {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   outline: 0;
 }
 
@@ -147,16 +147,12 @@
 }
 
 .FancyTabs-tabInner.is-active {
-  background: #A9F47E;
-  border-color: #41D0CB;
-  border-width: 1px;
-  transform: translateY(0);
-  -webkit-transform: translateY(0);
+  /* transform: translateY(0); */
+  /* -webkit-transform: translateY(0); */
 }
 
 .FancyTabs-tabInner.is-active::after {
   content: "";
-  background: #fff;
   height: 1px;
   position: absolute;
   bottom: -1px;

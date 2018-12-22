@@ -111,7 +111,7 @@ export default class Analyzer extends Component {
           selectedEntry = Entries[0];
         }
       const Entries = this.state.Entries;
-      drawerTitle = '"' + selectedEntry.title + '"' + '   -   Analysis';
+      drawerTitle = '"' + selectedEntry.title + '"' + '\xa0\xa0\xa0-\xa0\xa0\xa0Analysis';
 
       const dateCreated = selectedEntry.dateCreated;
       let entryTags = selectedEntry.tags;
@@ -128,7 +128,7 @@ export default class Analyzer extends Component {
       try {
         charCount = selectedEntry['stats']['charCount'];
         wordCount = selectedEntry['stats']['wordCount'];
-        sentenceCount = selectedEntry['stats']['wordCount'];
+        sentenceCount = selectedEntry['stats']['sentenceCount'];
         syllableCount = selectedEntry['stats']['syllableCount'];
         avgSyllablesPerWord = selectedEntry['stats']['avgSyllablesPerWord'];
         avgSyllablesPerSentence = selectedEntry['stats']['avgSyllablesPerSentence'];

@@ -8,24 +8,87 @@
     margin-left: 150px !important;
     width: calc(80% - 50px) !important;
     height: calc(65% - 20px) !important;
+    overflow: scroll !important;
+    background-color: rgba(247, 247, 247, 0.967) !important;
+}
+
+.ant-drawer-content {
+    height: 100% !important;
+    background-color: rgba(247, 247, 247, 0.967) !important;
+}
+
+.ant-drawer-body {
+    background-color: rgba(247, 247, 247, 0.967) !important;
+}
+
+.ant-drawer-header {
+    background: none !important;
+}
+
+.FancyTabs-tabInner {
+    background-color: rgba(135, 211, 235, 0);
+    font-size: .9em !important;
+    letter-spacing: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding: 15px !important;
+    margin: 15px !important;
+    height: 40px !important;
+}
+
+.FancyTabs-tabText {
+    padding-bottom: 15px !important;
+}
+
+.FancyTabs-tab {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: -15px !important;
+}
+
+.FancyTabs-tablistItem {
+    height: 25px !important;
+}
+
+.FancyTabs-tablist {
+    margin-top: -10px !important;
 }
 
 .FancyTabs-tabInner.is-active {
-    background-color: rgba(6, 197, 255, 0.856) !important;
+    border: none !important;
+    border-color: rgba(33, 198, 248, 0.8)  !important;
+    color: rgba(33, 198, 248, 0.8);
+    outline-color: rgba(33, 198, 248, 0.8)  !important;
+    text-decoration-color: rgba(33, 198, 248, 0.8) !important;
+    background-color: rgba(6, 197, 255, 0.0056) !important;
+    text-decoration: underline !important;
 }
 
 .FancyTabs-panel {
-    border-top: 5px solid  rgba(6, 197, 255, 0.856) !important;
+    margin-top: 7px !important;
+    border: none !important;
+    background: none !important;
+    margin-left: 15px !important;
 }
 
+
+
 .ant-drawer-title {
+    z-index: 100 !important;
     margin: 5px !important;
     font-size: 1.3em !important;
     letter-spacing: 1px !important;
     color: rgba(51, 51, 51, 0.856) !important;
 }
 
+.ant-drawer.ant-drawer-bottom ant-drawer-open.no-mask {
+    background-color: rgba(247, 247, 247, 0.967) !important;
+}
+
 .ant-drawer-body {
+    background: none !important;
+    width: 100% !important;
+    height: 100% !important;
     margin: 20px !important;
     margin-top: 0px !important;
     padding-top: 0px !important;
@@ -58,6 +121,8 @@
 }
 
 .FancyTabs-tabText {
+    margin: 0 !important;
+    padding: 0 !important;
     letter-spacing: 1px !important;
-    font-size: 1.1em !important;
+    font-size: 1.35em !important;
 }
