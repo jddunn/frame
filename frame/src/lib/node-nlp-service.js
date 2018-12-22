@@ -55,8 +55,9 @@ export function countTotalSyllables(text) {
 }
 
 export function countSentences(text) {
-    const sentences = text.split(/((?:\S[^\.\?\!]*)[\.\?\!]*)/g);
-    return sentences.length;
+    const sentencesByPunct = text.split(/((?:\S[^\.\?\!]*)[\.\?\!]*)/g);
+    const sentencesSplitByLines = text.split(/\r?\n/);
+    return sentencesByPunct.length + sentencesSplitByLines.length;
 }
 
 export function getFleschReadability(totalSyllables, totalWords, totalSentences) {

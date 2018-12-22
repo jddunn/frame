@@ -327,7 +327,8 @@
 }
 
 .saveButton {
-  margin-left: 5px !important;
+  position: absolute !important;
+  margin-left: -20px !important;
   outline: none !important;
   border: none !important;
   font-size: 1.55em !important;
@@ -337,14 +338,17 @@
 
 .loadButton {
   position: absolute !important;
-  margin-left: -30px !important;
+  margin-top: -8px !important;
+  margin-left: -83px !important;
   border: none !important;
   font-size: 1.55em !important;
   color: rgba(206, 206, 206, 0.787) !important;
 }
 
 .exportButton {
-  margin-right: 5px !important;
+  margin-top: 5px !important;
+  margin-left: -48px !important;
+  position: absolute !important;
   border: none !important;
   font-size: 1.30em !important;
   color: rgba(248, 248, 248, 0.787) !important;
