@@ -16,10 +16,8 @@
 .ant-drawer-content {
     height: 100% !important;
     background-color: rgba(247, 247, 247, 0.767) !important;
-
     overflow-x: hidden !important;
     overflow-y: auto !important;
-
 }
 
 .ant-drawer-body {
@@ -87,14 +85,14 @@
 }
 
 .FancyTabs-panel {
-    margin-top: 10px !important;
+    margin-top: 2px !important;
     border: none !important;
     background: none !important;
     margin-left: 20px !important;
 }
 
 span.ant-radio + * {
-    font-size: .91em !important;
+    font-size: .81em !important;
 }
 
 .ant-drawer-title {
@@ -146,8 +144,8 @@ span.ant-radio + * {
 .tabInnerSection {
     margin: 10px !important;
     padding: 0px !important;
-    margin-top: 1px !important;
-    margin-bottom: 1px !important;
+    margin-top: 3px !important;
+    margin-bottom: 3px !important;
 }
 
 .FancyTabs-tabText {
@@ -156,3 +154,28 @@ span.ant-radio + * {
     letter-spacing: 1px !important;
     font-size: 1.35em !important;
 }
+
+.entitiesCollapseLeft {
+    margin: 0 !important;
+    padding: 0 !important;
+    left: 0 !important;
+    width: calc(50% - 50px) !important;
+    float: left !important;
+}
+
+.entitiesCollapseRight {
+    margin: 0 !important;
+    padding: 0 !important;
+    right: 0 !important;
+    margin-right: 50px !important;
+    width: calc(50% - 50px) !important;
+    float: right !important;
+}
+
+/* Ant Design Collapse */
+.ant-collapse-header {
+    height: 33px !important;
+    padding-top: 5px !important;
+    font-size: 1.05em !important;
+    letter-spacing: 1px !important;
+} 

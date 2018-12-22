@@ -210,19 +210,20 @@ export default class Notepad extends Component {
             entry['html'] = getHTMLFromContent(this.state.editorState);
             const strippedText = HTMLToText(entry['html']);
             entry['strippedText'] = strippedText;
-            entry['entities'] = {people: parseTextForPeople(strippedText),
-                                 places: parseTextForPlaces(strippedText),
-                                 phoneNumbers: parseTextForPhoneNumbers(strippedText),
-                                 organizations: parseTextForOrganizations(strippedText),
-                                 hashtags: parseTextForHashtags(strippedText),
-                                 questions: parseTextForQuestions(strippedText),
-                                 quotes: parseTextForQuotes(strippedText),
-                                 topics: parseTextForTopics(strippedText),
-                                 statements: parseTextForStatements(strippedText),
-                                 urls: parseTextForURLs(strippedText),
-                                 terms: parseTextForTerms(strippedText),
-                                 bigrams: parseTextForBigrams(strippedText),
-                                 trigrams: parseTextForTrigrams(strippedText)
+            entry['entities'] = {
+              terms: parseTextForTerms(strippedText),
+              topics: parseTextForTopics(strippedText),
+              people: parseTextForPeople(strippedText),
+              organizations: parseTextForOrganizations(strippedText),
+              places: parseTextForPlaces(strippedText),
+              phoneNumbers: parseTextForPhoneNumbers(strippedText),
+              urls: parseTextForURLs(strippedText),
+              hashtags: parseTextForHashtags(strippedText),
+              quotes: parseTextForQuotes(strippedText),
+              statements: parseTextForStatements(strippedText),
+              questions: parseTextForQuestions(strippedText),
+              bigrams: parseTextForBigrams(strippedText),
+              trigrams: parseTextForTrigrams(strippedText)
             };
             entry['editorType'] = editorType;
             // Get text stats
@@ -283,19 +284,20 @@ export default class Notepad extends Component {
           entry['html'] = getHTMLFromContent(this.state.editorState);
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
-          entry['entities'] = {people: parseTextForPeople(strippedText),
-                               places: parseTextForPlaces(strippedText),
-                               phoneNumbers: parseTextForPhoneNumbers(strippedText),
-                               organizations: parseTextForOrganizations(strippedText),
-                               hashtags: parseTextForHashtags(strippedText),
-                               questions: parseTextForQuestions(strippedText),
-                               quotes: parseTextForQuotes(strippedText),
-                               topics: parseTextForTopics(strippedText),
-                               statements: parseTextForStatements(strippedText),
-                               urls: parseTextForURLs(strippedText),
-                               terms: parseTextForTerms(strippedText),
-                               bigrams: parseTextForBigrams(strippedText),
-                               trigrams: parseTextForTrigrams(strippedText)
+          entry['entities'] = {
+            terms: parseTextForTerms(strippedText),
+            topics: parseTextForTopics(strippedText),
+            people: parseTextForPeople(strippedText),
+            organizations: parseTextForOrganizations(strippedText),
+            places: parseTextForPlaces(strippedText),
+            phoneNumbers: parseTextForPhoneNumbers(strippedText),
+            urls: parseTextForURLs(strippedText),
+            hashtags: parseTextForHashtags(strippedText),
+            quotes: parseTextForQuotes(strippedText),
+            statements: parseTextForStatements(strippedText),
+            questions: parseTextForQuestions(strippedText),
+            bigrams: parseTextForBigrams(strippedText),
+            trigrams: parseTextForTrigrams(strippedText)
           };
           // entry['editorType'] = event.key.toString();
           // } catch (err) {
@@ -394,19 +396,20 @@ export default class Notepad extends Component {
         entry['html'] = getHTMLFromContent(this.state.editorState);
         const strippedText = HTMLToText(entry['html']);
         entry['strippedText'] = strippedText;
-        entry['entities'] = {people: parseTextForPeople(strippedText),
-                             places: parseTextForPlaces(strippedText),
-                             phoneNumbers: parseTextForPhoneNumbers(strippedText),
-                             organizations: parseTextForOrganizations(strippedText),
-                             hashtags: parseTextForHashtags(strippedText),
-                             questions: parseTextForQuestions(strippedText),
-                             quotes: parseTextForQuotes(strippedText),
-                             topics: parseTextForTopics(strippedText),
-                             statements: parseTextForStatements(strippedText),
-                             urls: parseTextForURLs(strippedText),
-                             terms: parseTextForTerms(strippedText),
-                             bigrams: parseTextForBigrams(strippedText),
-                             trigrams: parseTextForTrigrams(strippedText)
+        entry['entities'] = {
+          terms: parseTextForTerms(strippedText),
+          topics: parseTextForTopics(strippedText),
+          people: parseTextForPeople(strippedText),
+          organizations: parseTextForOrganizations(strippedText),
+          places: parseTextForPlaces(strippedText),
+          phoneNumbers: parseTextForPhoneNumbers(strippedText),
+          urls: parseTextForURLs(strippedText),
+          hashtags: parseTextForHashtags(strippedText),
+          quotes: parseTextForQuotes(strippedText),
+          statements: parseTextForStatements(strippedText),
+          questions: parseTextForQuestions(strippedText),
+          bigrams: parseTextForBigrams(strippedText),
+          trigrams: parseTextForTrigrams(strippedText)
         };
         entry['editorType'] = editorType;
         // Get text stats
