@@ -8,9 +8,9 @@ html, body {
 body {
   min-height: 100vh !important;
   min-width: 100% !important;
-  background: #2980b9;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  // background: #2980b9;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow: hidden !important;
 }
   
@@ -62,9 +62,9 @@ body {
 
 .brandWrapper {
   width: calc(100% -2px) !important;
-  background: #2980b9;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  // background: #2980b9;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   padding-bottom: 4px;
   padding-left: 5px;
   padding-top: 2px !important;
@@ -83,9 +83,9 @@ body {
   width: 100%;
   max-width: 350px !important;
   color: white;
-  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  // background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-x: none !important; 
   box-shadow: none !important;
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
@@ -111,6 +111,10 @@ body {
   font-weight: lighter;
   letter-spacing: 1px;
   font-size: 1.05em;
+}
+
+.ant-menu-vertical {
+  background: none !important;
 }
 
 .mainPageContainer {

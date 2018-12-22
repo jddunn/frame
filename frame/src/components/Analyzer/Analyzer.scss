@@ -10,32 +10,31 @@
     overflow-x: hidden !important;
     height: calc(55% - 20px) !important;
     // background: none !important;
-    background-color: rgba(247, 247, 247, 0.767) !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
 }
 
 .ant-drawer-content {
     height: 100% !important;
-    background-color: rgba(247, 247, 247, 0.767) !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-body {
-    background-color: rgba(247, 247, 247, 0.767) !important;
-
+    background-color: rgba(239, 244, 248, 0.657) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
 
 }
 
 .ant-drawer-wrapper-body {
-    background-color: rgba(247, 247, 247, 0.767) !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-wrapper {
-    background-color: rgba(247, 247, 247, 0.767) !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
 }
 
 .ant-drawer-header {
@@ -53,7 +52,6 @@
     padding: 0 !important;
     padding: 15px !important;
     margin: 15px !important;
-    height: 40px !important;
 }
 
 .FancyTabs-tabText {
@@ -67,11 +65,13 @@
 }
 
 .FancyTabs-tablistItem {
-    height: 25px !important;
 }
 
 .FancyTabs-tablist {
-    margin-top: -10px !important;
+    height: 62px !important;
+    box-shadow: 0 1px 1px 0 rgba(53, 53, 53, 0.1) !important;
+    margin-top: -8px !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
 }
 
 .FancyTabs-tabInner.is-active {
@@ -85,10 +85,10 @@
 }
 
 .FancyTabs-panel {
-    margin-top: 2px !important;
+    margin-top: 5px !important;
     border: none !important;
     background: none !important;
-    margin-left: 20px !important;
+    margin-left: 40px !important;
 }
 
 span.ant-radio + * {
@@ -101,14 +101,14 @@ span.ant-radio + * {
     margin: 0 !important;
     padding: 0 !important;
     margin-top: 0px !important;
-    height: 15px !important;
     font-size: 1.3em !important;
     letter-spacing: 1px !important;
     color: rgba(51, 51, 51, 0.856) !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
 }
 
 .ant-drawer.ant-drawer-bottom ant-drawer-open.no-mask {
-    background-color: rgba(247, 247, 247, 0.767) !important;
+    background-color: rgba(239, 244, 248, 0.657) !important;
 }
 
 .ant-drawer-body {
@@ -125,7 +125,7 @@ span.ant-radio + * {
 .tabInnerLabel {
     font-weight: normal !important;
     min-width: 100px !important;
-    font-size: .95em !important;
+    font-size: 1.0em !important;
     letter-spacing: 1px !important;
     display: inline !important;
     margin-right: 20px !important;
@@ -137,8 +137,9 @@ span.ant-radio + * {
     font-size: .95em !important;
     letter-spacing: 1px !important;
     display: inline !important;
-    margin-left: 30px !important;
+    margin-left: 35px !important;
     margin-right: 10px !important;
+    color: rgba(15, 98, 112, 0.688) !important;
 }
 
 .tabInnerSection {
@@ -152,7 +153,7 @@ span.ant-radio + * {
     margin: 0 !important;
     padding: 0 !important;
     letter-spacing: 1px !important;
-    font-size: 1.35em !important;
+    font-size: 1.25em !important;
 }
 
 .entitiesCollapseLeft {
@@ -178,4 +179,41 @@ span.ant-radio + * {
     padding-top: 5px !important;
     font-size: 1.05em !important;
     letter-spacing: 1px !important;
+    background-color: rgba(239, 244, 248, 0.757) !important;
 } 
+
+.ant-collapse {
+    background-color: rgba(239, 244, 248, 0.657) !important;
+}
+
+.ant-collapse-content-box {
+    background-color: rgba(239, 244, 248, 0.657) !important;
+}
+
+.sectionHeadlineText {
+    text-align: center !important;
+    margin: auto !important;
+    margin-top: 5px !important;
+    letter-spacing: 1px !important;
+    font-size: 1.1em !important;
+}
+
+.summaryContent {
+    min-height: 60px !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    letter-spacing: 1px !important;
+    font-size: 1.0em !important;
+    max-width: calc(75% - 20px) !important;
+}
+
+.analysisStatsContainer {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+

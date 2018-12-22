@@ -46,6 +46,7 @@
         "localforage": "^1.7.3",
         "medium-draft": "^0.6.0-beta1",
         "node-prismjs": "^0.1.2",
+        "node-sumbasic": "^0.1.7",
         "prop-types": "^15.6.2",
         "re-resizable": "^4.10.0",
         "react": "^16.6.3",

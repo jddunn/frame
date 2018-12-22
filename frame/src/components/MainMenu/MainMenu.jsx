@@ -429,7 +429,7 @@ export default class MainMenu extends Component {
               <span>Look</span>
             </Menu.Item>
               <SubMenu key="sub2" title={<span>
-                <Tooltip title="Browse / select entries">              
+                <Tooltip title="Select, navigate, and organize entries">              
                   <Icon type="snippets"/>
                 </Tooltip>
                 <span>Library</span></span>}>
@@ -696,7 +696,7 @@ export default class MainMenu extends Component {
               ">              
                 <Icon type="inbox" />
               </Tooltip>
-              <span>Explore / Inquire</span>
+              <span>Ask / Analyze</span>
             </Menu.Item>
             <SubMenu key="sub3" title={<span>
               <Tooltip title="Visual, online, and privacy / security settings">              
