@@ -549,7 +549,7 @@ export default class Notepad extends Component {
             ref={(e) => {this._editor = e;}}
             editorState={editorState}
             onChange={this.onChange}
-            editorEnabled={editorEnabled}
+            editorEnabled={true}
             handleDroppedFiles={this.handleDroppedFiles}
             placeholder={"Write your story"}
             sideButtons={this.sideButtons}
@@ -596,7 +596,7 @@ export default class Notepad extends Component {
                 ref={(e) => {this._editor = e;}}
                 editorState={editorState}
                 onChange={this.onChange}
-                editorEnabled={editorEnabled}
+                editorEnabled={true}
                 handleDroppedFiles={this.handleDroppedFiles}
                 placeholder={"Write your story"}
                 sideButtons={this.sideButtons}
