@@ -1,0 +1,92 @@
+{
+    "entries": 
+            [
+            {
+                "title": "Welcome to Frame",
+                "subtitle": "Note how the hover behavior is different",
+                "id": "0001",
+                "dateCreated": null,
+                "dateLastModified": null,
+                "editorType": "flow",
+                "expanded": true,
+                "data": {
+                    "htmlContents": {
+                        "value": ""
+                    },
+                    "textContents": {
+                        "value": ""
+                    }
+                },
+                "dragDisabled": true,
+                "children": 
+                    [
+                    { 
+                        "title": "Frame is a different kind of notetaking app",
+                        "id": "0005",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    },
+                    { 
+                        "title": "Who is this app for?",
+                        "id": "0006",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    },
+                    { 
+                        "title": "Roadmap of the future",
+                        "id": "0007",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    }
+                ]
+            },
+            {
+                "title": "Example text - Alice in Wonderland",
+                "subtitle": "Note how the hover behavior is different",
+                "id": "0001",
+                "dateCreated": null,
+                "dateLastModified": null,
+                "editorType": "flow",
+                "expanded": true,
+                "data": {
+                    "htmlContents": {
+                        "value": ""
+                    },
+                    "textContents": {
+                        "value": ""
+                    }
+                },
+                "dragDisabled": true,
+                "children": 
+                    [
+                    { 
+                        "title": "Chapter 1",
+                        "id": "0005",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    },
+                    { 
+                        "title": "Chapter 2",
+                        "id": "0006",
+                        "dateCreated": null,
+                        "dateLastModified": null,
+                        "editorType": "inline",
+                        "expanded": true,
+                        "data": {} 
+                    }
+                ]
+            }
+        ]
+}

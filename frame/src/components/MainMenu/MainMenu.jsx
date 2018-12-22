@@ -98,6 +98,11 @@ export default class MainMenu extends Component {
     this.handleSwitchEntriesEditorType = this.handleSwitchEntriesEditorType.bind(this);
     // Save trees to localForage
     this.saveTreeData = this.saveTreeData.bind(this);    
+    // Upload library JSON
+    this.handleUploadFile = this.handleUploadFile.bind(this);
+    // What to do when the user clicking "upload" file in app (needs a custom 
+    // function or a bad request will be sent by default with Ant Design)
+    this.handleUploadFileFinishClick = this.handleUploadFileFinishClick.bind(this);
   }
 
   async getEntries(Library, key) {
@@ -308,10 +313,9 @@ export default class MainMenu extends Component {
        without having to commit to the changes in the actual database
     */
    try {
-      content = JSON.stringify({"entries":
-      JSON.stringify(this.state.treeData,
-        null, ' ').replace(/\\n/g, '')}, 
-        null, ' ').replace(/\\n/g, '');
+      // content = JSON.stringify({"entries":
+      content = JSON.stringify(this.state.treeData,
+        null, 4);
       let textFileAsBlob = new Blob([content], {type:'application/json'});
       let fileNameToSaveAs = library;
       downloadLink = document.createElement("a");
@@ -333,6 +337,36 @@ export default class MainMenu extends Component {
    } catch (err) {
      console.log(err);
    }
+  }
+
+
+  handleUploadFile = (e) => {
+    console.log("ETARGET: ", e);
+    const file = e;
+    const reader = new FileReader();
+    // Closure to capture the file information.
+    const _this = this;
+    reader.onload = (function (theFile) {
+      return function (e) {
+        try {
+          const json = JSON.parse(e.target.result);
+          console.log("JSON: ", json);
+          message.success("Successfully uploaded library " + e.target);
+          message.success("You will not be able to view the new library in your notebook without saving first. \
+          If you want to preview contents before saving, look in the editor mode in the main menu!");
+          _this.setState({treeData: json});
+        } catch (err) {
+          message.fail("Unable to upload new library from JSON! ", err);
+          console.log(err);
+        }
+      }
+    })(file);
+    reader.readAsText(file);
+  }
+
+  handleUploadFileFinishClick(e) {
+    console.log(e);
+
   }
 
   switchLink(index) {
@@ -455,15 +489,20 @@ export default class MainMenu extends Component {
                         </Tooltip>
                       </div>
                       <div className="saveLoadExportButtonsContainer">
-                        <Tooltip title="Load / create a new library">              
-                          <Button 
-                            shape="circle" 
-                            className="loadButton"
-                            ghost={true}
-                            icon="folder-open"
-                            onClick={() => { this.loadLibraryFromJSONFile() }}
-                            // onClick={this.expandAll}
-                            />
+                        <Tooltip title="Load / create a new library">     
+                          <Upload beforeUpload={this.handleUploadFile} 
+                            afterUpload={null} accept="json" customRequest={null}
+                            showUploadList={false}
+                          >
+                            <Button 
+                                shape="circle" 
+                                className="loadButton"
+                                ghost={true}
+                                icon="folder-open"
+                                onClick={() => { this.loadLibraryFromJSONFile}}
+                                // onClick={this.expandAll}
+                                />
+                            </Upload>
                         </Tooltip>
                         <Tooltip title='Export library and unsaved changes as JSON (if on desktop, add ".json" to file name)'>
                           <Button

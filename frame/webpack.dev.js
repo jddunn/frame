@@ -13,6 +13,7 @@ module.exports = merge(common,
     output: { path: path.resolve("./output/webpack/development"),filename: "bundle-web-dev.js"},
     devtool: 'inline-source-map',
     devServer: {
+        disableHostCheck: true,
         hot: true,
         historyApiFallback: true,
         contentBase: "./output/webpack/devserver",
