@@ -48,7 +48,7 @@ import {
   fleschReadability,
   getFleschReadability,
   }
-  from '../../utils/node-nlp-service';
+  from '../../lib/node-nlp-service';
  
 import {
   KeyBindingUtil,

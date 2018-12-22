@@ -111,7 +111,7 @@ export default class Analyzer extends Component {
           selectedEntry = Entries[0];
         }
       const Entries = this.state.Entries;
-      drawerTitle = '"' + selectedEntry.title + '"' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
+      drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
 
       const dateCreated = selectedEntry.dateCreated;
       let entryTags = selectedEntry.tags;
@@ -191,7 +191,7 @@ export default class Analyzer extends Component {
                         <div>
                           {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
                           <span className='FancyTabs-tabText'>
-                            Overview
+                            Analysis Overview
                           </span>
                         </div>
                       ))}
@@ -256,14 +256,6 @@ export default class Analyzer extends Component {
 
                   <div className="tabInnerSection">
                     <h4 className="tabInnerLabel">
-                      Entry ID
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {selectedEntry.id}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
                       Character Count
                     </h4>
                     <h4 className="tabInnerContent">
@@ -316,6 +308,15 @@ export default class Analyzer extends Component {
                     </h4>
                     <h4 className="tabInnerContent">
                       {fleschReadabilityDescription}
+                    </h4>
+                  </div>
+
+                  <div className="tabInnerSection">
+                    <h4 className="tabInnerLabel">
+                      Entry ID
+                    </h4>
+                    <h4 className="tabInnerContent">
+                        {selectedEntry.id}
                     </h4>
                   </div>
 

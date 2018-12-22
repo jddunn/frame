@@ -8,8 +8,7 @@
     margin-left: 150px !important;
     width: calc(80% - 50px) !important;
     overflow-x: hidden !important;
-    height: calc(75% - 20px) !important;
-    max-height: 350px !important;
+    height: calc(55% - 20px) !important;
     // background: none !important;
     background-color: rgba(247, 247, 247, 0.967) !important;
 }
@@ -40,6 +39,9 @@
 }
 
 .ant-drawer-header {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: none !important;
     background: none !important;
 }
 
@@ -83,17 +85,19 @@
 }
 
 .FancyTabs-panel {
-    margin-top: 10px !important;
+    margin-top: 15px !important;
     border: none !important;
     background: none !important;
-    margin-left: 15px !important;
+    margin-left: 20px !important;
 }
 
 
 
 .ant-drawer-title {
     z-index: 100 !important;
-    margin: 5px !important;
+    // margin: 5px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     margin-top: 0px !important;
     height: 15px !important;
     font-size: 1.3em !important;
@@ -109,7 +113,9 @@
     background: none !important;
     width: 100% !important;
     height: 100% !important;
-    margin: 20px !important;
+    // margin: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     margin-top: 0px !important;
     padding-top: 0px !important;
 }
