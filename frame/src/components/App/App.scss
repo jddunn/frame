@@ -134,7 +134,7 @@ body {
   height: 100% !important;
   min-height: 100% !important;
   margin-top: -10px !important;
-  overflow: scroll !important;
+  overflow: hidden !important;
   // box-shadow: 0 0 1px rgba(239, 239, 239, .3) !important;
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
@@ -275,3 +275,19 @@ body {
   box-shadow: none !important;
 }
 
+
+/* Custom scrollbar */
+
+
+::-webkit-scrollbar {
+  width: 11px !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 56, 94, 0.486);
+  border-radius: 5px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #ddd !important;
+  border-radius: 5px !important;
+}

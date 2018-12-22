@@ -10,32 +10,34 @@
     overflow-x: hidden !important;
     height: calc(55% - 20px) !important;
     // background: none !important;
-    background-color: rgba(247, 247, 247, 0.967) !important;
+    background-color: rgba(247, 247, 247, 0.767) !important;
 }
 
 .ant-drawer-content {
     height: 100% !important;
-    background-color: rgba(247, 247, 247, 0.967) !important;
+    background-color: rgba(247, 247, 247, 0.767) !important;
+
     overflow-x: hidden !important;
     overflow-y: auto !important;
 
 }
 
 .ant-drawer-body {
-    background-color: rgba(247, 247, 247, 0.967) !important;
+    background-color: rgba(247, 247, 247, 0.767) !important;
+
     overflow-x: hidden !important;
     overflow-y: auto !important;
 
 }
 
 .ant-drawer-wrapper-body {
-    background-color: rgba(247, 247, 247, 0.967) !important;
+    background-color: rgba(247, 247, 247, 0.767) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-wrapper {
-    background-color: rgba(247, 247, 247, 0.967) !important;
+    background-color: rgba(247, 247, 247, 0.767) !important;
 }
 
 .ant-drawer-header {
@@ -108,7 +110,7 @@ span.ant-radio + * {
 }
 
 .ant-drawer.ant-drawer-bottom ant-drawer-open.no-mask {
-    background-color: rgba(247, 247, 247, 0.967) !important;
+    background-color: rgba(247, 247, 247, 0.767) !important;
 }
 
 .ant-drawer-body {

@@ -344,7 +344,6 @@ export default class Analyzer extends Component {
                         </RadioGroup>
                       </div>
                     </div>
-                    {/* Lorem <a href='#'>ipsum</a> dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. */}
                   </div>
                 </TabPanel>
                 <TabPanel tabId='t2'>
@@ -368,8 +367,6 @@ export default class Analyzer extends Component {
               </div>
             </Wrapper>
             {/* End tabs */}
-
-
           </Drawer>
         </div>
       );
@@ -379,6 +376,7 @@ export default class Analyzer extends Component {
   }
 }
 
+// Tab switch handler
 function analysisTabs(content, tabState) {
   let cl = 'FancyTabs-tabInner';
   if (tabState.isActive) cl += ' is-active';
