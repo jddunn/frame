@@ -246,12 +246,19 @@ export default class Notepad extends Component {
             let summaryByParagraphs;
             const docs = [];
             docs.push(strippedText);
-            if (sentenceCount > 3) {
-              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-              summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-              summaryByParagraphs = summarizeParagraphs(strippedText);
+            if (sentenceCount > 1) {
+              try {
+                summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+                summaryExtractive = summaryExtractive.replace('&#x27;', "'");
+                summaryByParagraphs = summarizeParagraphs(strippedText);
+              } catch (err) {
+                console.log(err);
+                summaryExtractive = '';
+                summaryByParagraphs = '';
+              }
             } else {
               summaryExtractive = '';
+              summaryByParagraphs = '';
             }
             entry['summaryExtractive'] = summaryExtractive;
             entry['summaryByParagraphs'] = summaryByParagraphs;
@@ -336,12 +343,19 @@ export default class Notepad extends Component {
           docs.push(strippedText);
           let summaryExtractive;
           let summaryByParagraphs;
-          if (sentenceCount > 3) {
-            summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-            summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-            summaryByParagraphs = summarizeParagraphs(strippedText);
+          if (sentenceCount > 1) {
+            try {
+              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+              summaryExtractive = summaryExtractive.replace('&#x27;', "'");
+              summaryByParagraphs = summarizeParagraphs(strippedText);
+            } catch (err) {
+              console.log(err);
+              summaryExtractive = '';
+              summaryByParagraphs = '';
+            }
           } else {
             summaryExtractive = '';
+            summaryByParagraphs = '';
           }
           entry['summaryExtractive'] = summaryExtractive;
           entry['summaryByParagraphs'] = summaryByParagraphs;
@@ -464,12 +478,19 @@ export default class Notepad extends Component {
         let summaryByParagraphs;
         const docs = [];
         docs.push(strippedText);
-        if (sentenceCount > 3) {
-          summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-          summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-          summaryByParagraphs = summarizeParagraphs(strippedText);
+        if (sentenceCount > 1) {
+          try {
+            summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+            summaryExtractive = summaryExtractive.replace('&#x27;', "'");
+            summaryByParagraphs = summarizeParagraphs(strippedText);
+          } catch (err) {
+            console.log(err);
+            summaryExtractive = '';
+            summaryByParagraphs = '';
+          }
         } else {
           summaryExtractive = '';
+          summaryByParagraphs = '';
         }
         entry['summaryExtractive'] = summaryExtractive;
         entry['summaryByParagraphs'] = summaryByParagraphs;

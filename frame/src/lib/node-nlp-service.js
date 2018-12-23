@@ -15,15 +15,17 @@ import nlp from 'compromise';
 const sumBasic = require('node-sumbasic');
 
 export function summarizeParagraphs(text) {
-    const splitParagraphs = text.split("\r\n");
+    const splitParagraphs = text.split("/\r\n|\n|\r/");
     const splitSummaries = []
-    for (let i=0; i<splitParagraphs.length; i++) {
-        const docs = [];
-        const sentCount = countSentences(splitParagraphs[i]);
-        docs.push(splitParagraphs[i]);
-        const splitRes = sumBasic(docs, parseInt(sentCount / 3), parseInt(sentCount / 5));
-        splitSummaries.push(splitRes);
-    }
+    if (splitParagraphs.length > 0) {
+        for (let i=0; i<splitParagraphs.length; i++) {
+            const docs = [];
+            const sentCount = countSentences(splitParagraphs[i]);
+            docs.push(splitParagraphs[i]);
+            const splitRes = sumBasic(docs, parseInt(sentCount / 3), parseInt(sentCount / 5));
+            splitSummaries.push(splitRes);
+        }
+    } 
     return splitSummaries;
 }
 
