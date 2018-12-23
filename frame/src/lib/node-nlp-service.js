@@ -15,8 +15,9 @@ import nlp from 'compromise';
 const sumBasic = require('node-sumbasic');
 
 export function summarizeParagraphs(text) {
-    const splitParagraphs = text.split("/\r\n|\n|\r/");
+    const splitParagraphs = text.split(/\n/g);
     const splitSummaries = []
+    console.log("Split paragraphs: ", splitParagraphs);
     if (splitParagraphs.length > 0) {
         for (let i=0; i<splitParagraphs.length; i++) {
             const docs = [];
@@ -26,6 +27,7 @@ export function summarizeParagraphs(text) {
             splitSummaries.push(splitRes);
         }
     } 
+    console.log("SPLIT SUMMARIES: ", splitSummaries);
     return splitSummaries;
 }
 
