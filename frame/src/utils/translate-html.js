@@ -22,14 +22,25 @@ export function getContentFromHTML(html) {
     return editorState;
 }
 
+
 export function HTMLToText(html) {
-     // Set the HTML content with the providen
-    // We only use this because we assume the user won't execute malicious code inside his notebook
-    //  const tempDivElement = document.createElement("div");
-    //  tempDivElement.innerHTML = html;
-    // return tempDivElement.textContent.replace(reg, " ") || tempDivElement.innerText.replace(reg, " ") || "";
-    let text = "";
+    let stripped = html;
+    stripped = stripped.split("<p>").join("\r\r\n\n");
     const reg = /(<([^>]+)>)/ig;
-    text = html.replace(reg, " ")
-    return text;
+    stripped = stripped.replace(reg, "")
+
+    // stripped = stripped.replace(/<br>/g, "$br$");
+    // stripped = stripped.replace(/(?:\r\n|\r|\n)/g, '$br$');
+    // const tmp = document.createElement("DIV");
+    // const.innerHTML = html;
+    // html = tmp.textContent || tmp.innerText;
+    // stripped = stripped.replace(/\$br\$/g, "<br>");
+    return stripped;
 }
+
+// export function HTMLToText(html) {
+    // let text = "";
+    // const reg = /(<([^>]+)>)/ig;
+    // text = html.replace(reg, " ")
+    // return text;
+// }

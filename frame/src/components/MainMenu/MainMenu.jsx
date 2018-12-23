@@ -1,6 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import Resizable from 're-resizable';
 /** Sortable tree component */
 import SortableTree,
  { toggleExpandedForAll,

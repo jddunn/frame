@@ -7,8 +7,25 @@
 /* eslint no-empty: 0 */
 /* eslint prefer-default-export: 0 */
 /* eslint no-useless-escape: 0 */
+/* eslint radix: 0 */
+/* eslint no-use-before-define: 0 */
 
 import nlp from 'compromise';
+
+const sumBasic = require('node-sumbasic');
+
+export function summarizeParagraphs(text) {
+    const splitParagraphs = text.split("\r\n");
+    const splitSummaries = []
+    for (let i=0; i<splitParagraphs.length; i++) {
+        const docs = [];
+        const sentCount = countSentences(splitParagraphs[i]);
+        docs.push(splitParagraphs[i]);
+        const splitRes = sumBasic(docs, parseInt(sentCount / 3), parseInt(sentCount / 5));
+        splitSummaries.push(splitRes);
+    }
+    return splitSummaries;
+}
 
 export function isVowel(c) {
     if      ((c === 'a') || (c === 'A')) { return true; }
@@ -116,7 +133,7 @@ export function parseTextForQuotes(text) {
 
 export function parseTextForTopics(text) {
     // return(nlp(text).topics().out('topk'));
-    return(nlp(text).topics().slice(0, 50).out('frequency'));
+    return(nlp(text).topics().slice(0, 30).out('frequency'));
 }
 
 export function parseTextForDates(text) {
@@ -132,13 +149,17 @@ export function parseTextForURLs(text) {
 }
 
 export function parseTextForTerms(text) {
-    return(nlp(text).terms().slice(0, 50).out('frequency'));
+    return(nlp(text).terms().slice(0, 30).out('frequency'));
 }
 
 export function parseTextForBigrams(text) {
-    return(nlp(text).ngrams().bigrams().slice(0, 50).out('frequency'));
+    return(nlp(text).ngrams().bigrams().slice(0, 20).out('frequency'));
 }
 
 export function parseTextForTrigrams(text) {
-    return(nlp(text).ngrams().trigrams().slice(0, 50).out('frequency'));
+    return(nlp(text).ngrams().trigrams().slice(0, 20).out('frequency'));
+}
+
+export function normalizeText(text) {
+    return (nlp(text).normalize());
 }

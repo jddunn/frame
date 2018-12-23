@@ -2,11 +2,11 @@
 import React, { Component } from "react";
 import PropTypes, { shape } from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
-import Resizable from 're-resizable';
 import {
   Row, Col, Layout, Menu, Breadcrumb,
   Icon, Button, Switch, Dropdown, message,
-  Tooltip, Select, Drawer, Radio, Collapse, List
+  Tooltip, Select, Drawer, Radio, Collapse, List,
+  Divider
   } from 'antd';
 
 import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
@@ -71,6 +71,30 @@ export default class Analyzer extends Component {
     /** Also return this so we can expand items with values by default */
     let defaultOpenKeysLeft = [];
     let defaultOpenKeysRight = [];
+
+
+    let detectedLanguagesContainer;
+
+    try {
+      if (entry !== null && entry !== undefined) {
+        let detectedLanguages = entry['detectedLanguages'];
+        if (detectedLanguages === undefined || detectedLanguages === null) detectedLanguages = [];
+        let detectedLanguagesLength = detectedLanguages.length;
+        let showArrow = false;
+        if (detectedLanguagesLength > 0) { defaultOpenKeysRight.push('11'); showArrow = true; }
+        let entityTitle = "Languages Detected (ISO 639-3 Format)\xa0\xa0  \xa0\xa0 (" + detectedLanguagesLength + ") \xa0\xa0";
+        detectedLanguagesContainer = (
+          <Panel header={entityTitle} key="11" showArrow={showArrow}>
+            <pre>
+              <p>{JSON.stringify(detectedLanguages, null, 2)}</p>
+            </pre>
+          </Panel>
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
     try {
       if (entry !== null && entry !== undefined) {
         const entities = Object.entries(entry['entities']);
@@ -246,7 +270,7 @@ export default class Analyzer extends Component {
             if (statementsLength > 0) { defaultOpenKeysRight.push('11'); showArrow = true; }
             let entityTitle = "Statements \xa0\xa0  \xa0\xa0 (" + statementsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="11" showArrow={showArrow}>
+              <Panel header={entityTitle} key="12" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(statements, null, 2)}</p>
                 </pre>
@@ -261,7 +285,7 @@ export default class Analyzer extends Component {
             if (questionsLength > 0) { defaultOpenKeysRight.push('12'); showArrow = true; }
             let entityTitle = "Questions \xa0\xa0  \xa0\xa0 (" + questionsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="12" showArrow={showArrow}>
+              <Panel header={entityTitle} key="13" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(questions, null, 2)}</p>
                 </pre>
@@ -276,7 +300,7 @@ export default class Analyzer extends Component {
             if (bigramsLength > 0) { defaultOpenKeysRight.push('13'); showArrow = true; }
             let entityTitle = "Bigrams \xa0\xa0  \xa0\xa0 (" + bigramsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="13" showArrow={showArrow}>
+              <Panel header={entityTitle} key="14" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(bigrams, null, 2)}</p>
                 </pre>
@@ -291,7 +315,7 @@ export default class Analyzer extends Component {
             if (trigramsLength > 0) { defaultOpenKeysRight.push('14'); showArrow = true; }
             let entityTitle = "Trigrams \xa0\xa0  \xa0\xa0 (" + trigramsLength + ") \xa0\xa0";
             divContainerRight.push(
-              <Panel header={entityTitle} key="14" showArrow={showArrow}>
+              <Panel header={entityTitle} key="15" showArrow={showArrow}>
                 <pre>
                   <p>{JSON.stringify(trigrams, null, 2)}</p>
                 </pre>
@@ -304,6 +328,7 @@ export default class Analyzer extends Component {
       console.log("INFO ERR: ", err);
     }
     divContainers.push(divContainerLeft);
+    divContainerRight.splice(1, 0, detectedLanguagesContainer)
     divContainers.push(divContainerRight);
     divContainers.push(defaultOpenKeysLeft);
     divContainers.push(defaultOpenKeysRight);
@@ -450,19 +475,37 @@ export default class Analyzer extends Component {
       const entitiesDefaultOpenKeysLeft = informationExtractionResults[2];
       const entitiesDefaultOpenKeysRight = informationExtractionResults[3];
 
-      console.log("Containers left: ", entitiesContainerLeft);
-      console.log("Containers right: ", entitiesContainerRight)
-
       let extractiveSummary = selectedEntry['summaryExtractive'];
-
       if (extractiveSummary === null || extractiveSummary === "undefined" ||
         extractiveSummary === "undefined") 
       { 
         extractiveSummary = '';
       }
-
+      let summaryByParagraphs = selectedEntry['summaryByParagraphs'];
+      let summaryByParagraphsContainer = [];
+      try {
+        for (let i=0; i<summaryByParagraphs.length; i++) {
+          summaryByParagraphsContainer.push(<p>{summaryByParagraphs[i]}</p>)
+        }
+      } catch (err) {
+        console.log("ERRRR: ", err);
+      }
+      if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
+      summaryByParagraphs === "undefined") 
+      { 
+        summaryByParagraphs = '';
+      }
+      console.log("SUMMARIES BY PARAGRAPHS CONTAINER: ", summaryByParagraphsContainer);
+      let detectedLanguages = selectedEntry['detectedLanguages'];
+      let detectedLanguage;
+      try {
+        detectedLanguage = selectedEntry['detectedLanguages'][0]
+      } catch (err) {
+        detectedLanguage = "none";
+      }
       return(
         <div className="analysisContainer">
+
           <Drawer
             title={drawerTitle}
             mask={false}
@@ -488,7 +531,6 @@ export default class Analyzer extends Component {
                       ))}
                     </Tab>
                   </li>
-
                   
                   <li className='FancyTabs-tablistItem'>
                     <Tab id='t2' className='FancyTabs-tab'>
@@ -611,6 +653,15 @@ export default class Analyzer extends Component {
                     </h4>
                   </div>
 
+                  <div className="tabInnerSection">                  
+                    <h4 className="tabInnerLabel">
+                      Entry Language
+                    </h4>
+                    <h4 className="tabInnerContent">
+                        {detectedLanguage}
+                    </h4>
+                  </div>
+
                   <div className="tabInnerSection">
                     <h4 className="tabInnerLabel">
                         Category Tags
@@ -656,13 +707,22 @@ export default class Analyzer extends Component {
                 </TabPanel>
                 <TabPanel tabId='t3'>
                   <div className='FancyTabs-panelInner'>
+                  <div className="abstractiveSummaryContainer">
+                      <h4 className="sectionHeadlineText">Abstractive Summary</h4>
+                      <p className="summaryContent"></p>
+                      <Divider />
+                    </div>
+
                     <div className="extractiveSumamryContainer">
                       <h4 className="sectionHeadlineText">Extractive Summary</h4>
                       <p className="summaryContent">{extractiveSummary}</p>
+                      <Divider />
                     </div>
-                    <div className="abstractiveSummaryContainer">
-                      <h4 className="sectionHeadlineText">Abstractive Summary</h4>
-                      <p className="summaryContent"></p>
+
+                    <div className="pargraphsSummaryContainer">
+                      <h4 className="sectionHeadlineText">Summary by Paragraphs</h4>
+                      <p className="summaryContent">{summaryByParagraphsContainer}</p>
+                      <Divider />
                     </div>
                   </div>
                 </TabPanel>

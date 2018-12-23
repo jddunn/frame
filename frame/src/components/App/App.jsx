@@ -307,8 +307,13 @@ export default class App extends Component {
                             <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                               splitNotebookLayout={splitNotebookLayout}
                             />
+
+
                             <div className="analyzerWrapper">
+                              defaultSize="auto">
+            
                               <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
+
                             </div>
                           </div>
                       </div>
