@@ -82,7 +82,7 @@ export default class Analyzer extends Component {
         let detectedLanguagesLength = detectedLanguages.length;
         let showArrow = false;
         if (detectedLanguagesLength > 0) { defaultOpenKeysRight.push('11'); showArrow = true; }
-        let entityTitle = "Languages Detected (ISO 639-3 Format)\xa0\xa0  \xa0\xa0 (" + detectedLanguagesLength + ") \xa0\xa0";
+        let entityTitle = "Languages Detected (ISO 639-3)\xa0\xa0  \xa0\xa0 (" + detectedLanguagesLength + ") \xa0\xa0";
         detectedLanguagesContainer = (
           <Panel header={entityTitle} key="11" showArrow={showArrow}>
             <pre>
@@ -710,23 +710,25 @@ export default class Analyzer extends Component {
                 </TabPanel>
                 <TabPanel tabId='t3'>
                   <div className='FancyTabs-panelInner'>
-                  <div className="abstractiveSummaryContainer">
-                      <h4 className="sectionHeadlineText">Abstractive Summary</h4>
-                      <p className="summaryContent"></p>
-                      <Divider />
-                    </div>
 
-                    <div className="extractiveSumamryContainer">
-                      <h4 className="sectionHeadlineText">Extractive Summary</h4>
-                      <p className="summaryContent">{extractiveSummary}</p>
-                      <Divider />
-                    </div>
-
-                    <div className="pargraphsSummaryContainer">
-                      <h4 className="sectionHeadlineText">Summary by Paragraphs</h4>
-                      <p className="summaryContent">{summaryByParagraphsContainer}</p>
-                      <Divider />
-                    </div>
+                  <Collapse bordered={false} defaultActiveKey={['1', '2', '3']}>
+                    <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="1">
+                      <div className="abstractiveSummaryContainer">
+                        <p className="summaryContent"></p>
+                      </div>
+                    </Panel>
+                    <Panel className="panelHeaderBorderless"  header="Extractive Summary" key="2">
+                      <div className="extractiveSumamryContainer">
+                        <p className="summaryContent">{extractiveSummary}</p>
+                      </div>                   
+                     </Panel>
+                    <Panel className="panelHeaderBorderless" header="Summary by Paragraphs" key="3">
+                      <div className="pargraphsSummaryContainer">
+                        <p className="summaryContent">{summaryByParagraphsContainer}</p>
+                      </div>
+                    </Panel>
+                  </Collapse>
+            
                   </div>
                 </TabPanel>
                 <TabPanel tabId='t4'>
