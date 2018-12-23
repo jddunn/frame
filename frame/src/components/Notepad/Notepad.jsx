@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
-import Resizable from 're-resizable';
 import {
   Row, Col, Layout, Menu, Breadcrumb,
   Icon, Button, Switch, Dropdown, message,
@@ -13,14 +12,11 @@ import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTM
 import { Editor} from 'react-draft-wysiwyg'; // Full text editor
 import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
 
-
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
-
-const sumBasic = require('node-sumbasic');
 
 /**
  *  JS NLP stuff (we make these calls in the Notebook component,
@@ -28,7 +24,10 @@ const sumBasic = require('node-sumbasic');
  *  The Analyzer component will render the results that are created
  *  in Notepad.
 */
+const sumBasic = require('node-sumbasic'); // Extractive summarizer
+const franc = require('franc'); // Language detection
 import {
+  normalizeText,
   parseTextForPeople,
   parseTextForPlaces,
   parseTextForDates,
@@ -50,6 +49,7 @@ import {
   countTotalSyllables,
   fleschReadability,
   getFleschReadability,
+  summarizeParagraphs
   }
   from '../../lib/node-nlp-service';
  
@@ -213,6 +213,9 @@ export default class Notepad extends Component {
             entry['html'] = getHTMLFromContent(this.state.editorState);
             const strippedText = HTMLToText(entry['html']);
             entry['strippedText'] = strippedText;
+            const combinedText = entry['title'] + ' ' + strippedText;
+            const detectedLanguages = franc.all(combinedText).slice(0, 10);
+            entry['detectedLanguages'] = detectedLanguages;
             entry['entities'] = {
               terms: parseTextForTerms(strippedText),
               topics: parseTextForTopics(strippedText),
@@ -239,17 +242,19 @@ export default class Notepad extends Component {
             const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
             const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
             const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
-            const docs = [];
             let summaryExtractive;
+            let summaryByParagraphs;
+            const docs = [];
             docs.push(strippedText);
             if (sentenceCount > 3) {
               summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
               summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-              console.log("Summary extraction: ", summaryExtractive);
+              summaryByParagraphs = summarizeParagraphs(strippedText);
             } else {
               summaryExtractive = '';
             }
             entry['summaryExtractive'] = summaryExtractive;
+            entry['summaryByParagraphs'] = summaryByParagraphs;
             entry['stats'] = {
               charCount: charCount,
               syllableCount: syllableCount,
@@ -299,6 +304,9 @@ export default class Notepad extends Component {
           entry['html'] = getHTMLFromContent(this.state.editorState);
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
+          const combinedText = entry['title'] + ' ' + strippedText;
+          const detectedLanguages = franc.all(combinedText).slice(0, 10);
+          entry['detectedLanguages'] = detectedLanguages;
           entry['entities'] = {
             terms: parseTextForTerms(strippedText),
             topics: parseTextForTopics(strippedText),
@@ -315,10 +323,6 @@ export default class Notepad extends Component {
             bigrams: parseTextForBigrams(strippedText),
             trigrams: parseTextForTrigrams(strippedText)
           };
-          // entry['editorType'] = event.key.toString();
-          // } catch (err) {
-            // entry['editorType'] = "flow";
-          // }          
           // Get text stats
           const charCount = countChars(strippedText);
           const syllableCount = countTotalSyllables(strippedText);
@@ -329,16 +333,18 @@ export default class Notepad extends Component {
           const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
           const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
           const docs = [];
-          let summaryExtractive;
           docs.push(strippedText);
+          let summaryExtractive;
+          let summaryByParagraphs;
           if (sentenceCount > 3) {
             summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
             summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-            console.log("Summary extraction: ", summaryExtractive);
+            summaryByParagraphs = summarizeParagraphs(strippedText);
           } else {
             summaryExtractive = '';
           }
           entry['summaryExtractive'] = summaryExtractive;
+          entry['summaryByParagraphs'] = summaryByParagraphs;
           entry['stats'] = {
             charCount: charCount,
             syllableCount: syllableCount,
@@ -422,7 +428,12 @@ export default class Notepad extends Component {
         // entry['content'] = this.state.editorState;
         entry['html'] = getHTMLFromContent(this.state.editorState);
         const strippedText = HTMLToText(entry['html']);
+
         entry['strippedText'] = strippedText;
+        const combinedText = entry['title'] + ' ' + strippedText;
+        const detectedLanguages = franc.all(combinedText).slice(0, 10);
+        entry['detectedLanguages'] = detectedLanguages;
+
         entry['entities'] = {
           terms: parseTextForTerms(strippedText),
           topics: parseTextForTopics(strippedText),
@@ -449,17 +460,19 @@ export default class Notepad extends Component {
         const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
         const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
         const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
-        const docs = [];
         let summaryExtractive;
+        let summaryByParagraphs;
+        const docs = [];
         docs.push(strippedText);
         if (sentenceCount > 3) {
           summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 3), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
           summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-          console.log("Summary extraction: ", summaryExtractive);
+          summaryByParagraphs = summarizeParagraphs(strippedText);
         } else {
           summaryExtractive = '';
         }
         entry['summaryExtractive'] = summaryExtractive;
+        entry['summaryByParagraphs'] = summaryByParagraphs;
         entry['stats'] = {
           charCount: charCount,
           syllableCount: syllableCount,
