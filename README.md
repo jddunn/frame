@@ -40,6 +40,7 @@ Additional libraries and references used:
 - Ant Design [https://ant.design/](https://ant.design/)
 - compromise [https://github.com/spencermountain/compromise](https://github.com/spencermountain/compromise)
 - Draft.js [https://draftjs.org/](https://draftjs.org/)
+- franc [https://github.com/wooorm/franc](https://github.com/wooorm/franc)
 - electron-builder [https://www.electron.build/](https://www.electron.build/)
 - LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/)
 - medium-draft [https://github.com/brijeshb42/medium-draft](https://github.com/brijeshb42/medium-draft)

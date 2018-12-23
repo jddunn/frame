@@ -56,7 +56,6 @@
         "react-draft-wysiwyg": "^1.12.13",
         "react-hot-loader": "^4.3.3",
         "react-json-view": "^1.19.1",
-        "react-linkify": "^0.2.2",
         "react-redux": "5.0.7",
         "react-router": "^4.3.1",
         "react-router-dom": "^4.3.1",

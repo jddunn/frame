@@ -22,8 +22,6 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
-import Linkify from 'react-linkify';
-
 import './tabStyle.css';;
 import './Analyzer.scss';
 
@@ -264,7 +262,6 @@ export default class Analyzer extends Component {
               </Panel>
             )
           }
-
           if (propKey === 'statements') {
             statements = entities[i][1];
             if (statements === undefined || statements === null) statements = [];
