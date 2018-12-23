@@ -18,12 +18,16 @@ export function summarizeParagraphs(text) {
     const splitParagraphs = text.split(/\n/g);
     const splitSummaries = []
     console.log("Split paragraphs: ", splitParagraphs);
-    if (splitParagraphs.length > 0) {
+    if (splitParagraphs.length > 0 && Array.isArray(splitParagraphs)) {
         for (let i=0; i<splitParagraphs.length; i++) {
             const docs = [];
             const sentCount = countSentences(splitParagraphs[i]);
+            let splitRes = '';
             docs.push(splitParagraphs[i]);
-            const splitRes = sumBasic(docs, parseInt(sentCount / 3), parseInt(sentCount / 5));
+            try {
+                splitRes = sumBasic(docs, parseInt(sentCount / 3), parseInt(sentCount / 5));
+            } catch (err) {
+            }
             splitSummaries.push(splitRes);
         }
     } 

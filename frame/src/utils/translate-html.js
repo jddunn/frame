@@ -30,5 +30,6 @@ export function HTMLToText(html) {
     stripped = stripped.replace(/[^\x00-\x7F]/g, "");
     stripped = stripped.replace(/&#x27;/g,"'");
     stripped = stripped.replace("&'", "'");
+    stripped = stripped.replace(/&quot;/g, '"');
     return stripped;
 }

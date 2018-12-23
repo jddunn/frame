@@ -482,6 +482,13 @@ export default class Analyzer extends Component {
         extractiveSummary = '';
       }
       let summaryByParagraphs = selectedEntry['summaryByParagraphs'];
+
+      if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
+      summaryByParagraphs === "undefined") 
+      { 
+        summaryByParagraphs = [];
+      }
+
       let summaryByParagraphsContainer = [];
       try {
         for (let i=0; i<summaryByParagraphs.length; i++) {
@@ -490,11 +497,7 @@ export default class Analyzer extends Component {
       } catch (err) {
         console.log("ERRRR: ", err);
       }
-      if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
-      summaryByParagraphs === "undefined") 
-      { 
-        summaryByParagraphs = '';
-      }
+
       console.log("SUMMARIES BY PARAGRAPHS CONTAINER: ", summaryByParagraphsContainer);
       let detectedLanguages = selectedEntry['detectedLanguages'];
       let detectedLanguage;
