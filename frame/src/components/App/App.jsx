@@ -309,7 +309,6 @@ export default class App extends Component {
                             />
                             <div className="analyzerWrapper">
                               <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
-
                             </div>
                           </div>
                       </div>
