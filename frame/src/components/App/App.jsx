@@ -23,7 +23,7 @@ import Brand from '../Brand/Brand';
 /** App global comp styles */
 import './App.scss';
 /** Persistent data storage (localForage right now) */
-// import localforage from 'localforage';
+import localforage from 'localforage';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
@@ -45,7 +45,7 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
-// localforage.clear(); // This resets the enitre db in the local Chrome app
+localforage.clear(); // This resets the enitre db in the local Chrome app
 sessionStorage.clear();
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -117,15 +117,19 @@ export default class App extends Component {
       try {
         entriesCount = Entries.length;
       } catch (err) {
+        saveToDB(Library, key, exampleEntries.entries);
+        this.forceUpdate();
       }
       if (entriesCount <= 0) {
         saveToDB(Library, key, exampleEntries.entries);
-        this.getInitialEntries(Library, key);
+        this.forceUpdate();
       } else {
         return Entries;
       }
     }).catch(function(err) {
       Entries = [];
+      saveToDB(Library, key, exampleEntries.entries);
+      this.forceUpdate();
       return Entries;
     });
     return Entries;
@@ -179,7 +183,7 @@ export default class App extends Component {
     const library = defaultFLib;
     const Library = openDB(library);
     let Entries = [];
-    await this.getEntries(Library, "entries").then((result) => {
+    await this.getEntriesInitial(Library, "entries").then((result) => {
       Entries = result;
         // console.log("GOT NEW ENTRY: ", Entries.length);
         const selectedEntry = Entries[0];

@@ -413,6 +413,8 @@ export default class MainMenu extends Component {
       // console.log("Could not find entries! ", err);
       foundEntries = false;
     }
+
+
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
     const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
     let entriesEditorButtonType;
