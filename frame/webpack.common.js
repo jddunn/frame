@@ -56,5 +56,8 @@ module.exports = {
             }
         ]
     },
-    plugins: [ new HtmlWebpackPlugin() ]
+    plugins: [ new HtmlWebpackPlugin() ],
+    stats: {
+        warnings: false
+    }
 };

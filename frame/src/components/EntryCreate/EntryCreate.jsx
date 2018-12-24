@@ -239,9 +239,17 @@ export class EntryCreate extends Component {
       }
       console.log("FORM VALUES: ", values);
       const library = getState("library");
-      const m_Library = openDB(library);
+      // if (library === null || libray === undefined) {
+        // library = "default";
+      // }
+      const m_Library = openDB("default");
+      console.log(library, m_Library);
       getFromDB(m_Library, "entries").then(function(result) {
         m_Entries = result;
+        if (m_Entries === null || m_Entries === undefined || m_Entries === '[]') {
+          m_Entries = [];
+        }
+        console.log("THIS IS M_ENTRIES: ", m_Entries);
         m_Entries.unshift(values); // Add entry to top of tree
         saveToDB(m_Library, "entries", m_Entries).then(function(result) {
           message.success("Created new library entry!");
@@ -250,7 +258,7 @@ export class EntryCreate extends Component {
           _this.props.updateEntriesMethod();
         })
       }).catch(function(err) {
-        message.fail("Failed to create new library entry! ", err);
+        message.error("Failed to create new library entry! " + err);
         form.resetFields();
         _this.setState({visible: false});
       });

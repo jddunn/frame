@@ -157,7 +157,7 @@ export default class MainMenu extends Component {
     const Library = openDB(library);
     saveToDB(Library, "entries", this.state.treeData);
     message.success('Saved library changes!');
-    this.props.updateEntriesMethod();
+    this.props.updateAppMethod();
   }
 
   // JSONEditor funcs
@@ -293,7 +293,7 @@ export default class MainMenu extends Component {
     try {
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
-      message.success('Opening "' + rowInfo.node.title + '"', 1);
+      message.success('Opening "' + rowInfo.node.id + '"', 1);
     } catch (err) {
       console.log(err);
       message.error('Failed to open - ' + err, 1);

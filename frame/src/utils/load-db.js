@@ -7,5 +7,6 @@
 // Load from LocalForage (default offline storage option)
 export default function getFromDB (store, key) {
   const res = store.getItem(key);
+  console.log("GET FROM DB: ", key, res);
   return res;
 }

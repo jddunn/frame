@@ -458,21 +458,23 @@ export default class Analyzer extends Component {
   }
 
   async componentWillUpdate() {
-    if (this.state._isMounted) {
-      const entryId = getState("entryId");
-      const library = getState("library");
-      const Library = openDB(library);
-      if (this.state.lastEntryId !== entryId) {
-        await this.getEntries(Library, "entries").then(async(result) => {
-          const Entries = result;
-          const entry = traverseEntriesById(entryId, Entries);
-          if (entry != null) {
-            this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
-          }
-        })
-      this.forceUpdate();
-      }
-    }
+    // if (this.state._isMounted) {
+    //   const entryId = getState("entryId");
+    //   if (entryId !== null && entryId !== undefined && entryId !== "undefined") {
+    //   const library = getState("library");
+    //     const Library = openDB(library);
+    //     if (this.state.lastEntryId !== entryId) {
+    //       await this.getEntries(Library, "entries").then(async(result) => {
+    //         const Entries = result;
+    //         const entry = traverseEntriesById(entryId, Entries);
+    //         if (entry != null) {
+    //           this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
+    //         }
+    //       })
+    //     // this.forceUpdate();
+    //     }
+    //   }
+    // }
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -486,9 +488,10 @@ export default class Analyzer extends Component {
         const entry = traverseEntriesById(entryId, Entries);
         if (entry != null) {
           this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
+        } else {
+          this.forceUpdate();
         }
       })
-    this.forceUpdate();
     }
   }
 
