@@ -288,7 +288,7 @@ export default class Notepad extends Component {
             }
             if (sentenceCount > 1) {
               try {
-                summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+                summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
                 summaryByParagraphs = summarizeParagraphs(docs.join(""));
               } catch (err) {
                 console.log(err);
@@ -398,7 +398,7 @@ export default class Notepad extends Component {
           let summaryByParagraphs;
           if (sentenceCount > 1) {
             try {
-              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+              summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
               summaryByParagraphs = summarizeParagraphs(docs.join(""));
             } catch (err) {
               console.log(err);
@@ -562,8 +562,7 @@ export default class Notepad extends Component {
         }
         if (sentenceCount > 1) {
           try {
-            summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-            summaryExtractive = summaryExtractive.replace('&#x27;', "'");
+            summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
             summaryByParagraphs = summarizeParagraphs(docs.join(""));
           } catch (err) {
             console.log(err);

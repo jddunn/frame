@@ -731,11 +731,16 @@ export default class MainMenu extends Component {
                onClick={() => { this.switchLink(5) }}
             >
               <Tooltip title="Ask questions about your library and get answers with context,
-                                text summarizations, and other stats
+                                text summarizations, and other stats (save or select an entry to
+                                run analysis)
               ">              
                 <Icon type="inbox" />
               </Tooltip>
-              <span>Ask / Analyze</span>
+              <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
+                      try saving or selecting the entry again.
+              ">              
+                <span>Ask / Analyze</span>
+              </Tooltip>
             </Menu.Item>
             <SubMenu key="sub3" title={<span>
               <Tooltip title="Visual, online, and privacy / security settings">              
