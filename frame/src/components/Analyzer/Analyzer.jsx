@@ -406,12 +406,10 @@ export default class Analyzer extends Component {
     } catch(err) {
     }
     try {
-      console.log("Summaries by paragraphs: ", filteredSummaryByParagraphs);
       if (filteredSummaryByParagraphs.length > 0) {
         showArrow = true;
         defaultOpenKeys.push('3');
         for (let i=0; i<filteredSummaryByParagraphs.length; i++) {
-          console.log(filteredSummaryByParagraphs[i]);
           paragraphs.push(<p className="summaryContent">{filteredSummaryByParagraphs[i]}</p>)
         }
       } else {
@@ -436,7 +434,6 @@ export default class Analyzer extends Component {
     }
     res.push(defaultOpenKeys);
     res.push(container);
-    console.log(res);
     return res;
   }
 
@@ -604,8 +601,6 @@ export default class Analyzer extends Component {
       } catch (err) {
         // console.log("ERRRR: ", err);
       }
-
-      console.log("SUMMARIES BY PARAGRAPHS CONTAINER: ", summaryByParagraphsContainer);
       let detectedLanguages = selectedEntry['detectedLanguages'];
       let detectedLanguage;
       try {
@@ -624,7 +619,6 @@ export default class Analyzer extends Component {
             onClose={_this.onClose}
             visible={analysisDrawerVisible}
           >
-
             {/* Tab components */}
             <Wrapper letterNavigation={true}>
               <TabList>
