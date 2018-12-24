@@ -219,7 +219,7 @@ export default class Notepad extends Component {
             const detectedLanguages = franc.all(combinedText).slice(0, 5);
             entry['detectedLanguages'] = detectedLanguages;
             entry['entities'] = {
-              terms: filterCommonWords(parseTextForTerms(strippedText)),
+              terms: parseTextForTerms(strippedText),
               topics: parseTextForTopics(strippedText),
               people: parseTextForPeople(strippedText),
               dates: parseTextForDates(strippedText),
@@ -332,7 +332,7 @@ export default class Notepad extends Component {
           const detectedLanguages = franc.all(combinedText).slice(0, 5);
           entry['detectedLanguages'] = detectedLanguages;
           entry['entities'] = {
-            terms: filterCommonWords(parseTextForTerms(strippedText)),
+            terms: parseTextForTerms(strippedText),
             topics: parseTextForTopics(strippedText),
             people: parseTextForPeople(strippedText),
             dates: parseTextForDates(strippedText),
@@ -478,7 +478,7 @@ export default class Notepad extends Component {
         const detectedLanguages = franc.all(combinedText).slice(0, 5);
         entry['detectedLanguages'] = detectedLanguages;
         entry['entities'] = {
-          terms: filterCommonWords(parseTextForTerms(strippedText)),
+          terms: parseTextForTerms(strippedText),
           topics: parseTextForTopics(strippedText),
           people: parseTextForPeople(strippedText),
           dates: parseTextForDates(strippedText),

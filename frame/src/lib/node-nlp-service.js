@@ -19,6 +19,47 @@ import nlp from 'compromise';
 
 const sumBasic = require('node-sumbasic');
 
+
+export function filterCommonWords(arr) {
+    const stopwords = [
+        'and', 'And', 'the', 'The', "of", "Of", "there", "a", "A", "an", "An",
+        "it's", "its", "Its", "It's", "It", "it", "to", "To", "for", "For",
+        "from", "From", "/", " / ", "", " ", "be", "Be", "Are", "are", "is", "Is",
+        "or", "Or"
+    ];
+    const res = arr.filter(function(el) {
+        return !stopwords.includes(el);
+    });
+    return res;
+}
+
+export function getWordFrequency(text) {
+    let words = text.replace(/[.]/g, '').split(/\s/);
+    words = filterCommonWords(words);
+    const freqMap = {};
+    const res = [];
+    words.forEach(function(w) {
+        if (!freqMap[w]) {
+            freqMap[w] = 0;
+        }
+        freqMap[w] += 1;
+    });
+    const sorted = [];
+    for (const key in freqMap) {
+        sorted.push([key, freqMap[key]]);
+    }
+    sorted.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+    const reversed = sorted.reverse().slice(0, 50);
+    // const res = objectify(reversed);
+    for (let i=0; i<reversed.length; i++) {
+        const val = {word: reversed[i][0], count: reversed[i][1]};
+        res.push(val);
+    }
+    return res;
+}
+
 export function summarizeParagraphs(text) {
     const splitParagraphs = text.split(/\n/g);
     const splitSummaries = []
@@ -169,7 +210,7 @@ export function parseTextForURLs(text) {
 }
 
 export function parseTextForTerms(text) {
-    return(nlp(text).terms().slice(0, 30).out('frequency'));
+    return(filterCommonWords(nlp(text).terms().slice(0, 30).out('frequency')));
 }
 
 export function parseTextForBigrams(text) {
@@ -182,46 +223,6 @@ export function parseTextForTrigrams(text) {
 
 export function normalizeText(text) {
     return (nlp(text).normalize());
-}
-
-export function filterCommonWords(arr) {
-    const stopwords = [
-        'and', 'And', 'the', 'The', "of", "Of", "there", "a", "A", "an", "An",
-        "it's", "its", "Its", "It's", "It", "it", "to", "To", "for", "For",
-        "from", "From", "/", " / ", "", " ", "be", "Be", "Are", "are", "is", "Is",
-        "or", "Or"
-    ];
-    const res = arr.filter(function(el) {
-        return !stopwords.includes(el);
-    });
-    return res;
-}
-
-export function getWordFrequency(text) {
-    let words = text.replace(/[.]/g, '').split(/\s/);
-    words = filterCommonWords(words);
-    const freqMap = {};
-    const res = [];
-    words.forEach(function(w) {
-        if (!freqMap[w]) {
-            freqMap[w] = 0;
-        }
-        freqMap[w] += 1;
-    });
-    const sorted = [];
-    for (const key in freqMap) {
-        sorted.push([key, freqMap[key]]);
-    }
-    sorted.sort(function(a, b) {
-        return a[1] - b[1];
-    });
-    const reversed = sorted.reverse().slice(0, 50);
-    // const res = objectify(reversed);
-    for (let i=0; i<reversed.length; i++) {
-        const val = {word: reversed[i][0], count: reversed[i][1]};
-        res.push(val);
-    }
-    return res;
 }
 
 // function objectify(array) {
