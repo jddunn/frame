@@ -252,7 +252,7 @@ export class EntryCreate extends Component {
         console.log("THIS IS M_ENTRIES: ", m_Entries);
         m_Entries.unshift(values); // Add entry to top of tree
         saveToDB(m_Library, "entries", m_Entries).then(function(result) {
-          message.success("Created new library entry!");
+          message.success("Creating new library entry..");
           form.resetFields();
           _this.setState({visible: false})
           _this.props.updateEntriesMethod();

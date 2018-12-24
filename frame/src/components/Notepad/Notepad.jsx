@@ -1,4 +1,6 @@
 'use strict';
+import config from '../../data/config.json';
+
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
@@ -26,6 +28,11 @@ import replaceEntry from '../../utils/replace-entry';
 */
 const sumBasic = require('node-sumbasic'); // Extractive summarizer
 const franc = require('franc'); // Language detection
+
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const defaultFLib = savedSettings.defaultLibrary;
+
 import {
   normalizeText,
   filterCommonWords,
@@ -152,10 +159,13 @@ export default class Notepad extends Component {
 
     // Save content in Notebook comp to db
     this.saveNotebookData = this.saveNotebookData.bind(this);
+
+    this.sleep = this.sleep.bind(this);
   }
 
   async getEntries(Library, key) {
     let Entries = [];
+    await this.sleep(1500);
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
     }).catch(function(err) {
@@ -192,7 +202,13 @@ export default class Notepad extends Component {
   }
 
   componentDidMount() {
-    this.setState({_isMounted: true});
+    const entry = this.props.entry;
+    try {
+      this.setState({_isMounted: true, editorState: getContentFromHTML(entry['html']), entryId: this.props.entryId});
+    } catch (err) {
+      console.log("Notebook mount err: ", err);
+      this.setState({_isMounted: true, editorState: EditorState.createEmpty(), entryId: this.props.entryId});
+    }
   }
 
   componentWillUnmount() {
@@ -200,19 +216,26 @@ export default class Notepad extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const entryId = nextProps.entryId;
-    const m_nextProps = nextProps;
-    const library = getState("library");
-    const Library = openDB(library);
-    let editorType = nextProps.editorType;
     if (this.state._isMounted) {
-    await this.getEntries(Library, "entries").then(async(result) => {
-      const Entries = result;
-      const entry = traverseEntriesById(entryId, Entries);
-      if (entry != null) {
+      const entryId = nextProps.entryId;      
+      const library = getState("library");
+      const Library = openDB(library);
+      let editorType;
+      await this.getEntries(Library, "entries").then(async(result) => {
+        const Entries = result;
+        const entry = traverseEntriesById(entryId, Entries);
+        if (entry !== null) {
+          try { 
+            editorType = entry.editorType;
+          } catch (err) {
+            editorType = "flow";
+            setState("editorType", "flow");
+          }
+        }
+        console.log("Notebook Comp received : ", entry, Entries, entryId);
         try {
-          if (entry['html'] == null || entry['html'] == undefined) {
-            entry['html'] = getHTMLFromContent(this.state.editorState);
+          if (entry['html'] !== null && entry['html'] !== undefined) {
+            console.log("Entry is not null! ", entry['html']);
             const strippedText = HTMLToText(entry['html']);
             entry['strippedText'] = strippedText;
             const combinedText = entry['title'] + ' ' + strippedText;
@@ -265,7 +288,7 @@ export default class Notepad extends Component {
             }
             if (sentenceCount > 1) {
               try {
-                summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+                summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
                 summaryByParagraphs = summarizeParagraphs(docs.join(""));
               } catch (err) {
                 console.log(err);
@@ -291,20 +314,18 @@ export default class Notepad extends Component {
             entry['wordFrequency'] = getWordFrequency(strippedText);
             const newEntries = replaceEntry(entry, Entries);
             const res = getContentFromHTML(entry['html']);
-            this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
+            this.setState({Entries: newEntries, editorState: res,
             editorType: editorType});
           } else {
-            const res = getContentFromHTML(entry['html']);
-            this.setState({editorType: editorType, Entries: Entries, editorState: getContentFromHTML(entry['html'])
-            });
+            this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
+              editorType: editorType, entryId: nextProps.entryId});
           }
         } catch (err) {
           console.log(err);
-          this.setState({editorType: editorType});
+          this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
         }
-      }
+      });
     }
-  )}
   }
   
 
@@ -323,7 +344,7 @@ export default class Notepad extends Component {
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
       const entry = traverseEntriesById(entryId, Entries);
-      if (entry != null) {
+      if (entry !== null) {
         try {
           entry['html'] = getHTMLFromContent(this.state.editorState);
           const strippedText = HTMLToText(entry['html']);
@@ -377,7 +398,7 @@ export default class Notepad extends Component {
           let summaryByParagraphs;
           if (sentenceCount > 1) {
             try {
-              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+              summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
               summaryByParagraphs = summarizeParagraphs(docs.join(""));
             } catch (err) {
               console.log(err);
@@ -461,18 +482,33 @@ export default class Notepad extends Component {
     </Menu>
   );
 
+
+  sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async saveNotebookData() {
-    const entryId = getState("entryId");
-    const library = getState("library");
+    console.log("SAVE NOTEBOOK");
+    let entryId = getState("entryId");
+    let library = getState("library");
     const editorType = getState("editorType");
     const Library = openDB(library);
     const m_this = this;
+    if (entryId === null || entryId === undefined) {
+      entryId = this.state.entryId;
+    }
+    if (library === null || library === undefined) {
+      library = "default";
+    }
+    console.log(entryId, library, "SAVE NOTEBOOK DATA");
+    console.log(Library);
+    console.log("THIS IS LIBRARY: ", library);
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
       console.log("FULL ENTRIES: ", Entries);
       const entry = traverseEntriesById(entryId, Entries);
       console.log("TRAVERSED ENTRY BY ID: ", entry);
-      if (entry != null) {
+      if (entry !== null && entry !== undefined) {
         entry['html'] = getHTMLFromContent(this.state.editorState);
         const strippedText = HTMLToText(entry['html']);
         entry['strippedText'] = strippedText;
@@ -526,8 +562,7 @@ export default class Notepad extends Component {
         }
         if (sentenceCount > 1) {
           try {
-            summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-            summaryExtractive = summaryExtractive.replace('&#x27;', "'");
+            summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
             summaryByParagraphs = summarizeParagraphs(docs.join(""));
           } catch (err) {
             console.log(err);
@@ -552,8 +587,9 @@ export default class Notepad extends Component {
         }
         entry['wordFrequency'] = getWordFrequency(strippedText);
         const newEntries = replaceEntry(entry, Entries);
+        message.success('Saving notebook changes..');
         saveToDB(Library, "entries", newEntries).then(async function(result) {
-          message.success('Saved notebook changes!');
+          await m_this.sleep(4500);
           m_this.props.updateAppMethod();
         }).catch(function(err) {
           message.error("Failed to save notebook! " + err);
@@ -562,7 +598,6 @@ export default class Notepad extends Component {
       }
     })
   }
-
 
   handleDroppedFiles(selection, files) {
     window.ga('send', 'event', 'draftjs', 'filesdropped', files.length + ' files');

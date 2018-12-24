@@ -101,6 +101,12 @@ export default class MainMenu extends Component {
     this.exportLibraryToJSONFile = this.exportLibraryToJSONFile.bind(this);
     // Upload library JSON
     this.handleUploadFile = this.handleUploadFile.bind(this);
+
+    this.sleep = this.sleep.bind(this);
+  }
+
+  sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async getEntries(Library, key) {
@@ -152,12 +158,14 @@ export default class MainMenu extends Component {
     }
   }
 
-  saveTreeData() {
+  async saveTreeData() {
     const library = getState("library");
     const Library = openDB(library);
     saveToDB(Library, "entries", this.state.treeData);
-    message.success('Saved library changes!');
-    this.props.updateAppMethod();
+    message.success('Saving library changes..');
+    await this.sleep(3500);
+    // this.props.updateAppMethod();
+    this.props.updateEntriesMethod();
   }
 
   // JSONEditor funcs
@@ -464,7 +472,7 @@ export default class MainMenu extends Component {
                 <Divider />
                   <div className="entriesEditorButtonsContainer">
                     <div className="mainEntriesButtonsWrapper">
-                      <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod}/>
+                      <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod} updateAppMethod={this.props.updateAppMethod}/>
                       <div className="primaryGhostButton"
                         style={{display: 'inline'}}>
                         <Tooltip title="Switch explorer view">
@@ -723,11 +731,16 @@ export default class MainMenu extends Component {
                onClick={() => { this.switchLink(5) }}
             >
               <Tooltip title="Ask questions about your library and get answers with context,
-                                text summarizations, and other stats
+                                text summarizations, and other stats (save or select an entry to
+                                run analysis)
               ">              
                 <Icon type="inbox" />
               </Tooltip>
-              <span>Ask / Analyze</span>
+              <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
+                      try saving or selecting the entry again.
+              ">              
+                <span>Ask / Analyze</span>
+              </Tooltip>
             </Menu.Item>
             <SubMenu key="sub3" title={<span>
               <Tooltip title="Visual, online, and privacy / security settings">              

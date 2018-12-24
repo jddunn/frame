@@ -80,6 +80,8 @@ export default class App extends Component {
     this.updateEntries = this.updateEntries.bind(this);
     // Update app method
     this.updateApp = this.updateApp.bind(this);
+
+    this.sleep = this.sleep.bind(this);
   }
 
   /**
@@ -115,13 +117,11 @@ export default class App extends Component {
   }
 
   async componentWillMount() {
-
   }
 
   async getEntriesInitial(Library, key) {
     let Entries = [];
     const _this = this;
-    if (this.state._isMounted) {
       await getFromDB(Library, key).then(function(result) {
         Entries = result;
         let entriesCount = 0;
@@ -130,24 +130,20 @@ export default class App extends Component {
           entriesCount = Entries.length;
           if (entriesCount <= 0 && Array.isArray(Entries)) {
             Entries = exampleEntries;
-            console.log("EXAMPLE ENTRIES FOUND: ");
             saveToDB(Library, key, Entries);
           } else {
-            saveToDB(Library, key, Entries);
+            return Entries;
           }
         } catch (err) {
-          console.log("EXAMPLE ENTRIES FOUND: ");
           Entries = exampleEntries;
           saveToDB(Library, key, Entries);
         }
       }).catch(function(err) {
-        console.log("EXAMPLE ENTRIES FOUND: ");
+        message.error(err);
         Entries = exampleEntries;
-        saveToDB(Library, key, Entries);
       });
       return Entries;
     }
-  }
 
   async componentDidMount() {
     let selectedEntryId = getState("entryId");
@@ -160,16 +156,17 @@ export default class App extends Component {
     console.log("COMP MOUNTED");
     await this.getEntriesInitial(Library, "entries").then((result) => {
       let Entries = result;
+      console.log("INITIAL ENTRIES GOTTEN: ", Entries);
       if (Entries === null || Entries === undefined) { 
           console.log(exampleEntries);
           Entries = exampleEntries;
-          console.log("THESE ARE THE INTIAL ENTRIES GOTTEN: ", Entries);
-          selectedEntryId = Entries[0];
+          selectedEntryId = Entries[0].id;
           selectedEntryEditorType = Entries[0]['editorType'];
         }
         setState("entryId", selectedEntryId);
         setState("editorType", selectedEntryEditorType);
         setState("activeLink", "look");
+
         this.setState({
           Entries: Entries,
           prevEntryId: selectedEntryId,
@@ -187,82 +184,107 @@ export default class App extends Component {
   }
 
   async shouldComponentUpdate () {
+    let selectedEntryId = getState("entryId");
+    let selectedEntryEditorType = getState("editorType");
     let library = getState("library");
-    if (library === null || library === undefined) {
+    let activeLink = getState("activeLink");
+    if (library === null || library === "null" || library === "undefined" || library === undefined) {
       library = defaultFLib;
     }
     const Library = openDB(library);
-    let Entries = [];
-    let selectedEntryId = getState("entryId");
-    let selectedEntryEditorType = getState("editorType");
-    let activeLink = getState("activeLink");
-
+    console.log("COMP UPDATED");
     await this.getEntriesInitial(Library, "entries").then((result) => {
-      Entries = result;
-      console.log("GOT DA ENTRIES IN UPDATE: ", Entries);
-      if (selectedEntry !== null && selectedEntry !== undefined) {
-      } else {
-        selectedEntryEditorType = "flow";
-        selectedEntryId = Entries[0].id;
-      }
-      setState("library", library);
-      setState("editorType", selectedEntryEditorType);
-      setState("entryId", selectedEntryId);
-      // Set Entries in actual React state since
-      // sessionStorage can only do JSON.
-      let states = {};
-      if (this.state.prevEntryId !== selectedEntryId) {
-        states['prevEntryId'] = selectedEntryId;
-      }
-      if (this.state.prevLibrary !== library) {
-        states['prevLibrary'] = library;
-      }
-      if (this.state.prevEntries !== Entries) {
-        states['prevEntries'] = Entries;
-      }
-      if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-        states['prevEntryEditorType'] = selectedEntryEditorType;
-      }
-      if (this.state.prevActiveLink !== activeLink) {
-        states['prevActiveLink'] = activeLink;
-      }
-      console.log("Should comp update with new states: ", states);
-      if (states.length > 0) {
-        this.setState({
-          states
-        });
-      }
+      let Entries = result;
+      console.log("INITIAL ENTRIES GOTTEN: ", Entries);
+      if (Entries === null || Entries === undefined) { 
+          Entries = exampleEntries;
+          selectedEntryId = Entries[0].id;
+          selectedEntryEditorType = Entries[0]['editorType'];
+        }
+        // Set Entries in actual React state since
+          // sessionStorage can only do JSON.
+          let states = {};
+          // if (this.state.prevEntryId !== selectedEntryId) {
+            states['prevEntryId'] = selectedEntryId;
+          // }
+          // if (this.state.prevLibrary !== library) {
+            states['prevLibrary'] = library;
+          // }
+          if (this.state.prevEntries !== Entries) {
+            states['prevEntries'] = Entries;
+          }
+          // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
+            states['prevEntryEditorType'] = selectedEntryEditorType;
+          // }
+          // if (this.state.prevActiveLink !== activeLink) {
+            states['prevActiveLink'] = activeLink;
+          // }
+          console.log("Should comp update with new states: ", states);
+          if (states.length > 0) {
+            this.setState({
+              states
+            });
+          }
     });
+
   }
+      // Set Entries in actual React state since
+  //     // sessionStorage can only do JSON.
+  //     let states = {};
+  //     // if (this.state.prevEntryId !== selectedEntryId) {
+  //       states['prevEntryId'] = selectedEntryId;
+  //     // }
+  //     // if (this.state.prevLibrary !== library) {
+  //       states['prevLibrary'] = library;
+  //     // }
+  //     // if (this.state.prevEntries !== Entries) {
+  //       states['prevEntries'] = Entries;
+  //     // }
+  //     // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
+  //       states['prevEntryEditorType'] = selectedEntryEditorType;
+  //     // }
+  //     // if (this.state.prevActiveLink !== activeLink) {
+  //       states['prevActiveLink'] = activeLink;
+  //     // }
+  //     console.log("Should comp update with new states: ", states);
+  //     if (states.length > 0) {
+  //       this.setState({
+  //         states
+  //       });
+  //     }
+  //   });
+  // }
 
   async componentWillMount() {
 
   }
 
+  sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async updateEntries() {
+    // console.log("Sleeping for 200 msecs to get data");
+    await this.sleep(3000);
+    // console.log("Adding an entry from new: ");
     if (this.state._isMounted) {
       let library = getState("library");
       if (library === null || library === undefined) {
         library = defaultFLib;
       }
       const Library = openDB(library);
-      let selectedEntryId = getState("entryId");
-      let selectedEntryEditorType = getState("editorType");
+      let selectedEntryId;
+      let selectedEntryEditorType;
       await this.getEntriesInitial(Library, "entries").then((result) => {
         const Entries = result;
-          if (selectedEntryId != null && selectedEntryId != undefined) {
-            if (selectedEntryEditorType != null && selectedEntryEditorType != undefined) {
-            } else {
-              selectedEntryEditorType = "flow";
-            }
-          } else {
-            selectedEntryId = Entries[0];
-            try {
-              selectedEntryEditorType = Entries[0]['editorType'];
-            } catch (err) {
-              selectedEntryEditorType = "flow"; 
-            }
-          }
+        console.log("THESE ARE RESULTS GOTTEN FROM UPDATED: ", Entries);
+        selectedEntryId = Entries[0].id;
+        try {
+          selectedEntryEditorType = Entries[0]['editorType'];
+        } catch (err) {
+          selectedEntryEditorType = "flow"; 
+        }
+        setState("entryId", selectedEntryId);
           setState("editorType", selectedEntryEditorType);
           this.setState({
             Entries: Entries,
@@ -314,7 +336,17 @@ export default class App extends Component {
           // sessionStorage can only do JSON.
           let states = {};
           if (this.state.prevEntryId !== selectedEntryId) {
-            states['prevEntryId'] = selectedEntryId;
+            if (selectedEntryId === null || selectedEntryId === undefined) {
+              states['prevEntryId'] = this.state.Entries[0].id;
+              setState("entryId", this.state.Entries[0].id);
+              try {
+                setState("editorType", this.state.Entries[0].editorType);
+              } catch (err) {
+                setState("editorType", "flow");
+              }
+            } else {
+              states['prevEntryId'] = selectedEntryId;
+            }
           }
           if (this.state.prevLibrary !== library) {
             states['prevLibrary'] = library;
@@ -329,7 +361,6 @@ export default class App extends Component {
           if (this.state.prevActiveLink !== activeLink) {
             states['prevActiveLink'] = activeLink;
           }
-          console.log("SENDING STATES NEW: ", states);
           if (states.length > 0) {
             this.setState({
               states
@@ -342,116 +373,126 @@ export default class App extends Component {
 
   render() {
     // By default editor mode for notes is Flow
+  if (this.state._isMounted) {
     const Entries = this.state.Entries;
-    let entryId;
-    try {
-      entryId = (getState("entryId") != null) ?
-      getState("entryId") : Entries[0].id;
-    } catch (err) {
-      entryId = exampleEntries[0].id;
-      setState("entryId", entryId);
-    }
-    let entry = traverseEntriesById(entryId, Entries);
-    console.log("FOUND ENTRY: ", entry, entryId, Entries);
-    let activeLink = getState("activeLink");
-    // As we get more sections, this will eventually need
-    // refactored, since a splitNotebookLayout would only
-    // be true on the explore / inquire page (currently)
-    let splitNotebookLayout = activeLink === "look" ?
-      false : true;
-    if (entry === null) {
-      // console.log("Could not find entry with ID: ", entryId);
-      // console.log("Setting default entry to top in tree");
-      entry = Entries[0];
+      let entryId;
+      let editorType;
       try {
-        setState("entryId", entry['id']);
+        entryId = (getState("entryId") != null) ?
+        getState("entryId") : Entries[0].id;
       } catch (err) {
-        setState("entryId", null);
+        entryId = exampleEntries[0].id;
+        setState("entryId", entryId);
       }
+      let entry = traverseEntriesById(entryId, Entries);
+      console.log("FOUND DA ENTRY: ", entry);
+
+      let activeLink = getState("activeLink");
+      // As we get more sections, this will eventually need
+      // refactored, since a splitNotebookLayout would only
+      // be true on the explore / inquire page (currently)
+      let splitNotebookLayout = activeLink === "look" ?
+        false : true;
+      if (entry === null) {
+        // console.log("Could not find entry with ID: ", entryId);
+        // console.log("Setting default entry to top in tree");
+        entry = Entries[0];
+        try {
+          setState("entryId", entry['id']);
+          entryId = entry['id'];
+          editorType = entry['editorType'];
+        } catch (err) {
+          console.log(err);
+          message.error(err);
+          setState("entryId", null);
+          editorType = "flow";
+        }
+        try {
+          setState("editorType", entry['editorType']);
+          editorType = entry['editorType'];
+        } catch (err) {
+          setState("editorType", "flow");
+          editorType = "flow";
+        }
+      }
+      let entryPageTitle;
       try {
-        setState("editorType", entry['editorType']);
+        entryPageTitle = (entry.title != null &&
+          entry.title != undefined) ?
+          entry.title : 'Notebook - ' + entry.title;
       } catch (err) {
-        setState("editorType", "flow");
+        entryPageTitle = 'Notebook - Select "Entries > Create" to start writing';
       }
-    }
-    let editorType = (getState("editorType") != null) ? 
-                      getState("editorType") : "flow";
-    let entryPageTitle;
-    try {
-      entryPageTitle = (entry.title != null &&
-        entry.title != undefined) ?
-        entry.title : 'Notebook - ' + entry.title;
-    } catch (err) {
-      entryPageTitle = 'Notebook';
-    }
-    return (
-        <React.Fragment>
-          <Layout >
-            <Sider
-              width={350}
-              trigger={null}
-              collapsible
-              collapsed={this.state.collapsed}
-              onCollapse={this.onCollapse}
-            >
-          <div className="leftSide">
-            <div
-              className="brandWrapper"
-              style={{ top: '0', 
-              left: '0',
-              zIndex: '100',
-              opacity: '1',
-              }}
-              onClick={this.toggleCollapsed}>
-              <Brand/>
+      console.log("Passing in: ", entryId, entry, Entries);
+      return (
+          <React.Fragment>
+            <Layout >
+              <Sider
+                width={350}
+                trigger={null}
+                collapsible
+                collapsed={this.state.collapsed}
+                onCollapse={this.onCollapse}
+              >
+            <div className="leftSide">
+              <div
+                className="brandWrapper"
+                style={{ top: '0', 
+                left: '0',
+                zIndex: '100',
+                opacity: '1',
+                }}
+                onClick={this.toggleCollapsed}>
+                <Brand/>
+                </div>
+                  <MainMenu Entries={Entries} updateEntriesMethod={this.updateEntries}
+                    updateAppMethod={this.updateApp}
+                  />
               </div>
-                <MainMenu Entries={Entries} updateEntriesMethod={this.updateEntries}
-                  updateAppMethod={this.updateApp}
-                />
-            </div>
-              </Sider>
-            <Layout>
-              <Content>
-                <div className="center mainPageContainer">
-                  <div className="titleWrapper">
-                    <h4 className="sectionTitleText">
-                      {entryPageTitle}
-                    </h4>
-                  </div>
-                    {/* 
-                        Within the notepad, we divide the vertical layout in half
-                        to show the explore / inquire content simultaneously with
-                        the editor text, and both will update together in real-time. 
-                    */}
-                    <div className="notepadContainer">
-                      <div>
-                        {splitNotebookLayout ? (
-                        <div className="editorWrapper">
-                          <div id="editor">
-                            <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
-                              splitNotebookLayout={splitNotebookLayout}
-                            />
-                            <div className="analyzerWrapper">
-                              <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
+                </Sider>
+              <Layout>
+                <Content>
+                  <div className="center mainPageContainer">
+                    <div className="titleWrapper">
+                      <h4 className="sectionTitleText">
+                        {entryPageTitle}
+                      </h4>
+                    </div>
+                      {/* 
+                          Within the notepad, we divide the vertical layout in half
+                          to show the explore / inquire content simultaneously with
+                          the editor text, and both will update together in real-time. 
+                      */}
+                      <div className="notepadContainer">
+                        <div>
+                          {splitNotebookLayout ? (
+                          <div className="editorWrapper">
+                            <div id="editor">
+                              <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
+                                splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
+                              <div className="analyzerWrapper">
+                                <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
+                              </div>
+                            </div>
+                        </div>
+                          ) : (
+                          <div className="editorWrapper">
+                            <div id="editor">
+                                <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
+                                          splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
                             </div>
                           </div>
-                      </div>
-                        ) : (
-                        <div className="editorWrapper">
-                          <div id="editor">
-                              <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
-                                        splitNotebookLayout={splitNotebookLayout}
-                              />
-                          </div>
+                          )}
                         </div>
-                        )}
                       </div>
                     </div>
-                  </div>
-                </Content>
+                  </Content>
+                </Layout>
               </Layout>
-            </Layout>
-          </React.Fragment>
-      );
+            </React.Fragment>
+        );
+      } else {
+        return null;
+      }
     }
 }
