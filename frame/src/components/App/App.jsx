@@ -45,7 +45,6 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
-localforage.clear(); // This resets the enitre db in the local Chrome app
 sessionStorage.clear();
 
 const { Header, Content, Footer, Sider } = Layout;
