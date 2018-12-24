@@ -270,6 +270,7 @@ export default class App extends Component {
               collapsed={this.state.collapsed}
               onCollapse={this.onCollapse}
             >
+          <div className="leftSide">
             <div
               className="brandWrapper"
               style={{ top: '0', 
@@ -283,6 +284,7 @@ export default class App extends Component {
                 <MainMenu Entries={Entries} updateEntriesMethod={this.updateEntries}
                   updateAppMethod={this.updateApp}
                 />
+            </div>
               </Sider>
             <Layout>
               <Content>
@@ -292,13 +294,11 @@ export default class App extends Component {
                       {entryPageTitle}
                     </h4>
                   </div>
-                    
                     {/* 
                         Within the notepad, we divide the vertical layout in half
                         to show the explore / inquire content simultaneously with
                         the editor text, and both will update together in real-time. 
                     */}
-                    
                     <div className="notepadContainer">
                       <div>
                         {splitNotebookLayout ? (
@@ -307,8 +307,6 @@ export default class App extends Component {
                             <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                               splitNotebookLayout={splitNotebookLayout}
                             />
-
-
                             <div className="analyzerWrapper">
                               defaultSize="auto">
             

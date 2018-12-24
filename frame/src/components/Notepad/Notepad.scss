@@ -1,14 +1,10 @@
-.app {
-    height: 100% !important;
-    width: 100% !important;
-}  
-
 .notebookEditorWrapper {
     padding: 0 !important;
     margin: 0 !important;
     max-width: 100% !important;  
     max-height: 100% !important;
     resize: none !important;
+    color: rgb(36, 36, 36);
 }
 
 .notebookEditorWrapperSplit {
@@ -17,6 +13,7 @@
     max-width: 100% !important;  
     max-height: 50% !important;
     resize: none !important;
+    color: rgb(36, 36, 36);
 }
 
 .rdw-editor-toolbar {
@@ -46,13 +43,14 @@
     // cursor: text;
     // border-radius: 2px;
     // margin-bottom: 2em;
-    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+    // box-shadow: inset 0px 1px 8px -3px #ABABAB;
     // background: #fefefe;
 }
 
 .editorWrapper {
     margin: 0 !important;
     padding: 0 !important;
+    padding-left: 10px !important;
     width: 100% !important;
     height: 100vh !important;
 }
@@ -113,9 +111,6 @@
     width:100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    -webkit-box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
-    -moz-box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
-    box-shadow: -1px 0px 1px 1px rgba(40,24,13,0.2) !important;
     background: rgba(250, 250, 250, 1.0) !important;
 }
 

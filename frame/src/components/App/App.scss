@@ -5,6 +5,7 @@ html, body {
     min-width: 100% !important;
 }
 
+
 body {
   min-height: 100vh !important;
   min-width: 100% !important;
@@ -40,7 +41,7 @@ body {
   text-shadow: none;
   letter-spacing: 0px;
   display: inline;
-  color: rgba(255, 255, 255, .9);
+  color: rgba(205, 205, 205, .8);
   font-size: .75em;
   font-weight: lighter;
 }
@@ -52,7 +53,6 @@ body {
   width: 100%;
   height: 60px !important;
   border: none !important;
-  background-color: white !important;
   background-color: rgb(248, 248, 248) !important;
   box-shadow: none !important;
   -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
@@ -71,9 +71,10 @@ body {
   margin-left: 1px;
   position: sticky !important;
   z-index: 500 !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  -webkit-box-shadow: -1px 0px 2px 1px rgba(88, 88, 88, 0.35) !important;
+  -moz-box-shadow: -1px 0px 2px 1px rgba(88, 88, 88, 0.35) !important;
+  box-shadow: -1px 0px 2px 1px rgba(88, 88, 88, 0.35) !important;
+  
 }
 
 .mainMenuContainer {
@@ -82,15 +83,11 @@ body {
   height: 100%;
   width: 100%;
   max-width: 350px !important;
-  color: white;
+  color: rgba(250, 248, 250, 1.0);
   // background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
   // background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
   // background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-x: none !important; 
-  box-shadow: none !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
   position: sticky !important;
   z-index: 450 !important;
 }
@@ -144,11 +141,9 @@ body {
   height: 100% !important;
   min-height: 100% !important;
   margin-top: -10px !important;
+  margin-left: 0px !important;
   overflow: hidden !important;
   // box-shadow: 0 0 1px rgba(239, 239, 239, .3) !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
 }
 
 .editorWrapper {
@@ -165,15 +160,15 @@ body {
 }
 
 .sectionTitleText  {
-  padding-top: 10px;
-  color: rgba(56, 56, 56, 0.88) !important;
+  padding-top: 12px;
+  color: rgba(56, 56, 56, 1.0) !important;
   font-weight: normal;
   letter-spacing: 1px;
   font-size: 1.58em;
   text-shadow: 1px 1px 1px rgba(50,50,50,0.08);
-  margin-left: 5px;
+  margin-left: 10px !important;
   margin-bottom: 6px;
-  padding-left: 5px;
+  padding-left: 10px;
   
 }
 
@@ -183,7 +178,7 @@ body {
 
 .innerButtonLabel p {
   padding: 5px;
-  color: rgba(56, 56, 56, 0.9) !important;
+  color: rgba(56, 56, 56, 0.95) !important;
   font-weight: normal;
   font-size: .95em;
   text-shadow: 1px 1px 1px rgba(50,50,50,0.05);
@@ -203,9 +198,9 @@ body {
 }
 
 #editor {
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  // -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  // -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
+  // box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
 }
 
 .saveButtonNotebook {
@@ -227,7 +222,7 @@ body {
 }
 
 .ant-btn-primary {
-  color: rgba(238, 238, 238, 0.9);
+  color: rgba(238, 238, 238, 1.0);
   text-shadow: none !important;
 }
 
