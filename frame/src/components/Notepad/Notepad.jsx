@@ -469,7 +469,9 @@ export default class Notepad extends Component {
     const m_this = this;
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
+      console.log("FULL ENTRIES: ", Entries);
       const entry = traverseEntriesById(entryId, Entries);
+      console.log("TRAVERSED ENTRY BY ID: ", entry);
       if (entry != null) {
         entry['html'] = getHTMLFromContent(this.state.editorState);
         const strippedText = HTMLToText(entry['html']);
