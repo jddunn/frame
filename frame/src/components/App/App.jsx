@@ -80,6 +80,8 @@ export default class App extends Component {
     this.updateEntries = this.updateEntries.bind(this);
     // Update app method
     this.updateApp = this.updateApp.bind(this);
+
+    this.sleep = this.sleep.bind(this);
   }
 
   /**
@@ -263,7 +265,7 @@ export default class App extends Component {
 
   async updateEntries() {
     // console.log("Sleeping for 200 msecs to get data");
-    await this.sleep(200);
+    await this.sleep(1200);
     // console.log("Adding an entry from new: ");
     if (this.state._isMounted) {
       let library = getState("library");

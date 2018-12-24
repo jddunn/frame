@@ -1,4 +1,6 @@
 'use strict';
+import config from '../../data/config.json';
+
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
@@ -26,6 +28,11 @@ import replaceEntry from '../../utils/replace-entry';
 */
 const sumBasic = require('node-sumbasic'); // Extractive summarizer
 const franc = require('franc'); // Language detection
+
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const defaultFLib = savedSettings.defaultLibrary;
+
 import {
   normalizeText,
   filterCommonWords,
@@ -152,10 +159,13 @@ export default class Notepad extends Component {
 
     // Save content in Notebook comp to db
     this.saveNotebookData = this.saveNotebookData.bind(this);
+
+    this.sleep = this.sleep.bind(this);
   }
 
   async getEntries(Library, key) {
     let Entries = [];
+    this.sleep(800);
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
     }).catch(function(err) {
@@ -207,109 +217,115 @@ export default class Notepad extends Component {
 
   async componentWillReceiveProps(nextProps) {
     if (this.state._isMounted) {
-      const _entry = getState("entryId");
-      
-      const entry = nextProps.entry;
-      const entryId = nextProps.entryId;
-      const Entries = nextProps.Entries;
+      const entryId = nextProps.entryId;      
       const library = getState("library");
       const Library = openDB(library);
-      const editorType = nextProps.entry.editorType;
-      console.log("STATE ENTRY: ", _entry);
-      console.log("Notebook Comp received props: ", entry, Entries, entryId);
-     
-      try {
-        if (entry['html'] !== null && entry['html'] !== undefined) {
-          console.log("Entry is not null! ", entry['html']);
-          const strippedText = HTMLToText(entry['html']);
-          entry['strippedText'] = strippedText;
-          const combinedText = entry['title'] + ' ' + strippedText;
-          const detectedLanguages = franc.all(combinedText).slice(0, 5);
-          entry['detectedLanguages'] = detectedLanguages;
-          entry['entities'] = {
-            terms: parseTextForTerms(strippedText),
-            topics: parseTextForTopics(strippedText),
-            people: parseTextForPeople(strippedText),
-            dates: parseTextForDates(strippedText),
-            organizations: parseTextForOrganizations(strippedText),
-            places: parseTextForPlaces(strippedText),
-            phoneNumbers: parseTextForPhoneNumbers(strippedText),
-            urls: parseTextForURLs(strippedText),
-            hashtags: parseTextForHashtags(strippedText),
-            quotes: parseTextForQuotes(strippedText),
-            statements: parseTextForStatements(strippedText),
-            questions: parseTextForQuestions(strippedText),
-            bigrams: parseTextForBigrams(strippedText),
-            trigrams: parseTextForTrigrams(strippedText)
-          };
-          entry['editorType'] = editorType;
-          // Get text stats
-          const charCount = countChars(strippedText);
-          const syllableCount = countTotalSyllables(strippedText);
-          const wordCount = countWords(strippedText);
-          const sentenceCount = countSentences(strippedText);
-          const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
-          const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
-          const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
-          const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
-          let summaryExtractive;
-          let summaryByParagraphs;
-          let sentencesSplit = [];
-          const docs = [];
-          if (sentenceCount > 0) {
-            sentencesSplit = splitSentences(strippedText);
-            sentencesSplit.forEach(function(el) {
-              const strLength = el.length;
-              try {
-                if (el[strLength-1].match(/^[.,:!?]/)) {
-                  docs.push(el);
-                } else {
-                  const newEl = el.concat('.\r\n');
-                  docs.push(newEl);
-                }
-              } catch (err) {
-              }
-            });
+      let editorType;
+      await this.getEntries(Library, "entries").then(async(result) => {
+        const Entries = result;
+        const entry = traverseEntriesById(entryId, Entries);
+        if (entry !== null) {
+          try { 
+            editorType = entry.editorType;
+          } catch (err) {
+            editorType = "flow";
+            setState("editorType", "flow");
           }
-          if (sentenceCount > 1) {
-            try {
-              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-              summaryByParagraphs = summarizeParagraphs(docs.join(""));
-            } catch (err) {
-              console.log(err);
+        }
+        console.log("Notebook Comp received : ", entry, Entries, entryId);
+        try {
+          if (entry['html'] !== null && entry['html'] !== undefined) {
+            console.log("Entry is not null! ", entry['html']);
+            const strippedText = HTMLToText(entry['html']);
+            entry['strippedText'] = strippedText;
+            const combinedText = entry['title'] + ' ' + strippedText;
+            const detectedLanguages = franc.all(combinedText).slice(0, 5);
+            entry['detectedLanguages'] = detectedLanguages;
+            entry['entities'] = {
+              terms: parseTextForTerms(strippedText),
+              topics: parseTextForTopics(strippedText),
+              people: parseTextForPeople(strippedText),
+              dates: parseTextForDates(strippedText),
+              organizations: parseTextForOrganizations(strippedText),
+              places: parseTextForPlaces(strippedText),
+              phoneNumbers: parseTextForPhoneNumbers(strippedText),
+              urls: parseTextForURLs(strippedText),
+              hashtags: parseTextForHashtags(strippedText),
+              quotes: parseTextForQuotes(strippedText),
+              statements: parseTextForStatements(strippedText),
+              questions: parseTextForQuestions(strippedText),
+              bigrams: parseTextForBigrams(strippedText),
+              trigrams: parseTextForTrigrams(strippedText)
+            };
+            entry['editorType'] = editorType;
+            // Get text stats
+            const charCount = countChars(strippedText);
+            const syllableCount = countTotalSyllables(strippedText);
+            const wordCount = countWords(strippedText);
+            const sentenceCount = countSentences(strippedText);
+            const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
+            const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
+            const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
+            const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+            let summaryExtractive;
+            let summaryByParagraphs;
+            let sentencesSplit = [];
+            const docs = [];
+            if (sentenceCount > 0) {
+              sentencesSplit = splitSentences(strippedText);
+              sentencesSplit.forEach(function(el) {
+                const strLength = el.length;
+                try {
+                  if (el[strLength-1].match(/^[.,:!?]/)) {
+                    docs.push(el);
+                  } else {
+                    const newEl = el.concat('.\r\n');
+                    docs.push(newEl);
+                  }
+                } catch (err) {
+                }
+              });
+            }
+            if (sentenceCount > 1) {
+              try {
+                summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+                summaryByParagraphs = summarizeParagraphs(docs.join(""));
+              } catch (err) {
+                console.log(err);
+                summaryExtractive = '';
+                summaryByParagraphs = [];
+              }
+            } else {
               summaryExtractive = '';
               summaryByParagraphs = [];
             }
+            entry['summaryExtractive'] = summaryExtractive;
+            entry['summaryByParagraphs'] = summaryByParagraphs;
+            entry['stats'] = {
+              charCount: charCount,
+              syllableCount: syllableCount,
+              wordCount: wordCount,
+              sentenceCount: sentenceCount,
+              avgWordsPerSentence: avgWordsPerSentence,
+              avgSyllablesPerSentence: avgSyllablesPerSentence,
+              avgSyllablesPerWord: avgSyllablesPerWord,
+              fleschReadability: fleschReadability
+            };
+            entry['wordFrequency'] = getWordFrequency(strippedText);
+            const newEntries = replaceEntry(entry, Entries);
+            const res = getContentFromHTML(entry['html']);
+            this.setState({Entries: newEntries, editorState: res,
+            editorType: editorType});
           } else {
-            summaryExtractive = '';
-            summaryByParagraphs = [];
+            this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
+              editorType: editorType, entryId: nextProps.entryId});
           }
-          entry['summaryExtractive'] = summaryExtractive;
-          entry['summaryByParagraphs'] = summaryByParagraphs;
-          entry['stats'] = {
-            charCount: charCount,
-            syllableCount: syllableCount,
-            wordCount: wordCount,
-            sentenceCount: sentenceCount,
-            avgWordsPerSentence: avgWordsPerSentence,
-            avgSyllablesPerSentence: avgSyllablesPerSentence,
-            avgSyllablesPerWord: avgSyllablesPerWord,
-            fleschReadability: fleschReadability
-          };
-          entry['wordFrequency'] = getWordFrequency(strippedText);
-          const newEntries = replaceEntry(entry, Entries);
-          const res = getContentFromHTML(entry['html']);
-          this.setState({Entries: newEntries, editorState: res,
-          editorType: editorType});
-        } else {
-          this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
-            editorType: editorType, entryId: nextProps.entryId});
+        } catch (err) {
+          console.log(err);
+          this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
         }
-      } catch (err) {
-        console.log(err);
-        this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
-      }
-    } 
+      });
+    }
   }
   
 
@@ -328,7 +344,7 @@ export default class Notepad extends Component {
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
       const entry = traverseEntriesById(entryId, Entries);
-      if (entry != null) {
+      if (entry !== null) {
         try {
           entry['html'] = getHTMLFromContent(this.state.editorState);
           const strippedText = HTMLToText(entry['html']);
@@ -466,7 +482,13 @@ export default class Notepad extends Component {
     </Menu>
   );
 
+
+  sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async saveNotebookData() {
+    console.log("SAVE NOTEBOOK");
     let entryId = getState("entryId");
     let library = getState("library");
     const editorType = getState("editorType");
@@ -480,6 +502,7 @@ export default class Notepad extends Component {
     }
     console.log(entryId, library, "SAVE NOTEBOOK DATA");
     console.log(Library);
+    console.log("THIS IS LIBRARY: ", library);
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
       console.log("FULL ENTRIES: ", Entries);
@@ -565,8 +588,8 @@ export default class Notepad extends Component {
         }
         entry['wordFrequency'] = getWordFrequency(strippedText);
         const newEntries = replaceEntry(entry, Entries);
+        message.success('Saving notebook changes..');
         saveToDB(Library, "entries", newEntries).then(async function(result) {
-          message.success('Saved notebook changes!');
           m_this.props.updateAppMethod();
         }).catch(function(err) {
           message.error("Failed to save notebook! " + err);
@@ -575,7 +598,6 @@ export default class Notepad extends Component {
       }
     })
   }
-
 
   handleDroppedFiles(selection, files) {
     window.ga('send', 'event', 'draftjs', 'filesdropped', files.length + ' files');
