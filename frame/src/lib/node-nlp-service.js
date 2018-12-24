@@ -17,7 +17,6 @@ const sumBasic = require('node-sumbasic');
 export function summarizeParagraphs(text) {
     const splitParagraphs = text.split(/\n/g);
     const splitSummaries = []
-    console.log("Split paragraphs: ", splitParagraphs);
     if (splitParagraphs.length > 0 && Array.isArray(splitParagraphs)) {
         for (let i=0; i<splitParagraphs.length; i++) {
             const docs = [];
@@ -31,7 +30,6 @@ export function summarizeParagraphs(text) {
             splitSummaries.push(splitRes);
         }
     } 
-    console.log("SPLIT SUMMARIES: ", splitSummaries);
     return splitSummaries;
 }
 
@@ -165,11 +163,11 @@ export function parseTextForTerms(text) {
 }
 
 export function parseTextForBigrams(text) {
-    return(nlp(text).ngrams().bigrams().slice(0, 20).out('frequency'));
+    return(nlp(text).ngrams().bigrams().slice(0, 30).out('frequency'));
 }
 
 export function parseTextForTrigrams(text) {
-    return(nlp(text).ngrams().trigrams().slice(0, 20).out('frequency'));
+    return(nlp(text).ngrams().trigrams().slice(0, 30).out('frequency'));
 }
 
 export function normalizeText(text) {

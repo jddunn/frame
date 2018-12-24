@@ -254,7 +254,7 @@ export default class Notepad extends Component {
                   if (el[strLength-1].match(/^[.,:!?]/)) {
                     docs.push(el);
                   } else {
-                    const newEl = el.concat('.');
+                    const newEl = el.concat('.\r\n');
                     docs.push(newEl);
                   }
                 } catch (err) {
@@ -262,11 +262,10 @@ export default class Notepad extends Component {
               });
             }
             console.log("THIS IS DOCS: ", docs);
-            // docs.push(strippedText);
             if (sentenceCount > 1) {
               try {
                 summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-                summaryByParagraphs = summarizeParagraphs(strippedText);
+                summaryByParagraphs = summarizeParagraphs(docs.join(""));
               } catch (err) {
                 console.log(err);
                 summaryExtractive = '';
@@ -365,20 +364,21 @@ export default class Notepad extends Component {
                 if (el[strLength-1].match(/^[.,:!?]/)) {
                   docs.push(el);
                 } else {
-                  const newEl = el.concat('.');
+                  const newEl = el.concat('.\r\n');
                   docs.push(newEl);
                 }
               } catch (err) {
               }
             });
           }
-          console.log("THIS IS DOCS: ", el);
           let summaryExtractive;
           let summaryByParagraphs;
+          console.log("THIS IS DOCS: ", docs);
+
           if (sentenceCount > 1) {
             try {
               summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-              summaryByParagraphs = summarizeParagraphs(strippedText);
+              summaryByParagraphs = summarizeParagraphs(docs.join(""));
             } catch (err) {
               console.log(err);
               summaryExtractive = '';
@@ -514,20 +514,20 @@ export default class Notepad extends Component {
               if (el[strLength-1].match(/^[.,:!?]/)) {
                 docs.push(el);
               } else {
-                const newEl = el.concat('.');
+                const newEl = el.concat('.\r\n');
                 docs.push(newEl);
               }
             } catch (err) {
             }
           });
         }
-
         console.log("THIS IS DOCS: ", docs);
+
         if (sentenceCount > 1) {
           try {
             summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
             summaryExtractive = summaryExtractive.replace('&#x27;', "'");
-            summaryByParagraphs = summarizeParagraphs(strippedText);
+            summaryByParagraphs = summarizeParagraphs(docs.join(""));
           } catch (err) {
             console.log(err);
             summaryExtractive = '';
