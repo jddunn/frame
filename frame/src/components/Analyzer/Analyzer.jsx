@@ -11,6 +11,8 @@ import {
 
 import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
 
+import Visualizer from '../Visualizer/Visualizer';
+
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
 import ReactJson from 'react-json-view';
@@ -623,13 +625,27 @@ export default class Analyzer extends Component {
             <Wrapper letterNavigation={true}>
               <TabList>
                 <ul className='FancyTabs-tablist'>
+
                   <li className='FancyTabs-tablistItem'>
                     <Tab id='t1' className='FancyTabs-tab'>
                       {analysisTabs.bind(null, (
                         <div>
                           {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
                           <span className='FancyTabs-tabText'>
-                            Analysis Overview
+                            Overview
+                          </span>
+                        </div>
+                      ))}
+                    </Tab>
+                  </li>
+
+                  <li className='FancyTabs-tablistItem'>
+                    <Tab id='t6' className='FancyTabs-tab'>
+                      {analysisTabs.bind(null, (
+                        <div>
+                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
+                          <span className='FancyTabs-tabText'>
+                            Visualizations
                           </span>
                         </div>
                       ))}
@@ -642,7 +658,7 @@ export default class Analyzer extends Component {
                         <div>
                           {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
                           <span className='FancyTabs-tabText'>
-                            Ask Question
+                            Ask
                           </span>
                         </div>
                       ))}
@@ -690,6 +706,10 @@ export default class Analyzer extends Component {
               <div className='FancyTabs-panel'>
                 <TabPanel tabId='t1'>
                   <div className='FancyTabs-panelInner'>
+
+                  <div className="visualizationsContainer">
+                  </div>
+
                   <div className="analysisStatsContainer">
                   <div className="tabInnerSection">
                     <h4 className="tabInnerLabel">
@@ -804,6 +824,11 @@ export default class Analyzer extends Component {
                   </div>
                 </div>
                 </TabPanel>
+
+                <TabPanel tabId='t6'>
+                  <Visualizer entry={selectedEntry}/>
+                </TabPanel>
+
                 <TabPanel tabId='t2'>
                   <div className='FancyTabs-panelInner'>
                     Ut <a href='#'>enim</a> ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

@@ -5,9 +5,9 @@
     min-height: 200px !important;
     margin: 20px !important;
     margin-bottom: 0px !important;
-    margin-left: 150px !important;
-    width: calc(80% - 50px) !important;
-    overflow-x: hidden !important;
+    // margin-left: 150px !important;
+    width: calc(100% - 50px) !important;
+    // overflow-x: hidden !important;
     height: calc(55% - 20px) !important;
     // background: none !important;
     background-color: rgba(239, 244, 248, 0.923) !important;
@@ -16,20 +16,20 @@
 .ant-drawer-content {
     height: 100% !important;
     background-color: rgba(239, 244, 248, 0.923) !important;
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-body {
     background-color: rgba(239, 244, 248, 0.923) !important;
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
     overflow-y: auto !important;
 
 }
 
 .ant-drawer-wrapper-body {
     background-color: rgba(239, 244, 248, 0.923) !important;
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
     overflow-y: auto !important;
 }
 
@@ -45,8 +45,9 @@
 }
 
 .FancyTabs-tabInner {
+    z-index: 500 !important;
     background-color: rgba(135, 211, 235, 0);
-    font-size: .9em !important;
+    font-size: 1.0em !important;
     letter-spacing: 1px !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -72,6 +73,7 @@
     box-shadow: 0 1px 1px 0 rgba(53, 53, 53, 0.1) !important;
     margin-top: -8px !important;
     background-color: rgba(239, 244, 248, 0.923) !important;
+    text-align: center !important;
 }
 
 .FancyTabs-tabInner.is-active {
@@ -85,10 +87,10 @@
 }
 
 .FancyTabs-panel {
-    margin-top: 5px !important;
     border: none !important;
     background: none !important;
     margin: 20px !important;
+    margin-top: 0px !important;
     margin-left: 40px !important;
 }
 
@@ -104,7 +106,7 @@ span.ant-radio + * {
     margin-top: 0px !important;
     font-size: 1.3em !important;
     letter-spacing: 1px !important;
-    color: rgb(36, 36, 36) !important;
+    color: rgb(31, 25, 25) !important;
     background-color: rgba(239, 244, 248, 0.923) !important;
 }
 

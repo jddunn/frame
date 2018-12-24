@@ -173,3 +173,13 @@ export function parseTextForTrigrams(text) {
 export function normalizeText(text) {
     return (nlp(text).normalize());
 }
+
+export function filterCommonWords(arr) {
+    const stopwords = [
+        'and', 'And', 'the', 'The', "of", "Of", "there", "a", "A", "an", "An"
+    ];
+    const res = arr.filter(function(el) {
+        return !stopwords.includes(el);
+    });
+    return res;
+}

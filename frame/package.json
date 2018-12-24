@@ -30,6 +30,8 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.0.0",
+        "@nivo/bar": "^0.52.0",
+        "@nivo/sankey": "^0.52.0",
         "@types/react": "^16.3.17",
         "@types/react-dom": "^16.0.6",
         "antd": "^3.11.0",
@@ -62,6 +64,7 @@
         "react-router-redux": "^4.0.8",
         "react-sortable-tree": "^2.3.0",
         "react-transition-group": "^2.5.1",
+        "recharts": "^1.4.2",
         "redux": "^4.0.0",
         "redux-actions": "^2.4.0",
         "redux-logger": "^3.0.6",

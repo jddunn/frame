@@ -28,6 +28,7 @@ const sumBasic = require('node-sumbasic'); // Extractive summarizer
 const franc = require('franc'); // Language detection
 import {
   normalizeText,
+  filterCommonWords,
   parseTextForPeople,
   parseTextForPlaces,
   parseTextForDates,
@@ -217,7 +218,7 @@ export default class Notepad extends Component {
             const detectedLanguages = franc.all(combinedText).slice(0, 5);
             entry['detectedLanguages'] = detectedLanguages;
             entry['entities'] = {
-              terms: parseTextForTerms(strippedText),
+              terms: filterCommonWords(parseTextForTerms(strippedText)),
               topics: parseTextForTopics(strippedText),
               people: parseTextForPeople(strippedText),
               dates: parseTextForDates(strippedText),
@@ -261,7 +262,6 @@ export default class Notepad extends Component {
                 }
               });
             }
-            console.log("THIS IS DOCS: ", docs);
             if (sentenceCount > 1) {
               try {
                 summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
@@ -330,7 +330,7 @@ export default class Notepad extends Component {
           const detectedLanguages = franc.all(combinedText).slice(0, 5);
           entry['detectedLanguages'] = detectedLanguages;
           entry['entities'] = {
-            terms: parseTextForTerms(strippedText),
+            terms: filterCommonWords(parseTextForTerms(strippedText)),
             topics: parseTextForTopics(strippedText),
             people: parseTextForPeople(strippedText),
             dates: parseTextForDates(strippedText),
@@ -373,8 +373,6 @@ export default class Notepad extends Component {
           }
           let summaryExtractive;
           let summaryByParagraphs;
-          console.log("THIS IS DOCS: ", docs);
-
           if (sentenceCount > 1) {
             try {
               summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
@@ -477,7 +475,7 @@ export default class Notepad extends Component {
         const detectedLanguages = franc.all(combinedText).slice(0, 5);
         entry['detectedLanguages'] = detectedLanguages;
         entry['entities'] = {
-          terms: parseTextForTerms(strippedText),
+          terms: filterCommonWords(parseTextForTerms(strippedText)),
           topics: parseTextForTopics(strippedText),
           people: parseTextForPeople(strippedText),
           dates: parseTextForDates(strippedText),
@@ -521,8 +519,6 @@ export default class Notepad extends Component {
             }
           });
         }
-        console.log("THIS IS DOCS: ", docs);
-
         if (sentenceCount > 1) {
           try {
             summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');

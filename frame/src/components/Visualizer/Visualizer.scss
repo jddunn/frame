@@ -1,0 +1,43 @@
+.FancyTabs-tabTextSmall {
+  margin: 0 !important;
+  padding: 0 !important;
+  letter-spacing: 1px !important;
+  font-size: 1.05em !important;
+}
+
+.FancyTabs-tablistItemSmall {
+    height: 32px !important;
+    box-shadow: 0 1px 1px 0 rgba(53, 53, 53, 0.1) !important;
+    margin-top: -8px !important;
+    background-color: rgba(239, 244, 248, 0.923) !important;
+}
+
+.leftViz {
+  top: 0 !important;
+  left: 0 !important;
+  float: left !important;
+  padding: 0 !important;
+  max-width: calc(40% - 20px) !important;
+  max-height: calc(80% - 20px) !important;
+  text-align: center !important;
+}
+
+.rightViz {
+  top: 0 !important;
+  right: 0 !important;
+  float: right !important;
+  padding: 0 !important;
+  max-width: calc(40% - 20px) !important;
+  max-height: calc(80% - 20px) !important;
+  text-align: center !important;
+}
+
+.leftViz tspan {
+  font-size: .8em !important;
+}
+
+.innerContentTextCenter {
+  text-align: center !important;
+  letter-spacing: 1px !important;
+  font-size: 1.0em !important;
+}
