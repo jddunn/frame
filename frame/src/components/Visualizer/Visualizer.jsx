@@ -102,11 +102,12 @@ export default class Visualizer extends Component {
                           ))}
                         </Tab>
                       </li>
+                      
+                      {/*  
                       <li className='FancyTabs-tablistItem'>
                         <Tab id='t4' className='FancyTabs-tab'>
                         {visualizationTabs.bind(null, (
                             <div>
-                              {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--trophy' /> */}
                               <span className='FancyTabs-tabTextSmall'>
                                 Information Extraction
                               </span>
@@ -119,7 +120,6 @@ export default class Visualizer extends Component {
                         <Tab id='t5' className='FancyTabs-tab'>
                         {visualizationTabs.bind(null, (
                             <div>
-                              {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--trophy' /> */}
                               <span className='FancyTabs-tabTextSmall'>
                                 Metadata
                               </span>
@@ -127,6 +127,7 @@ export default class Visualizer extends Component {
                           ))}
                         </Tab>
                       </li>
+                      */}
                     </ul>
                   </TabList>
                   <div className='FancyTabs-panel'>
@@ -204,7 +205,7 @@ export default class Visualizer extends Component {
                           </div>
                         </div>
                     </TabPanel>
-                    <TabPanel tabId='t3'>
+                    {/* <TabPanel tabId='t3'>
                       <div className='FancyTabs-panelInner'>
                       </div>
                     </TabPanel>
@@ -213,7 +214,7 @@ export default class Visualizer extends Component {
                       </div>
                     </TabPanel>
                     <TabPanel tabId='t5'>
-                    </TabPanel>
+                    </TabPanel> */}
                   </div>
             </Wrapper>
         </React.Fragment>
