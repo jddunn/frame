@@ -14,7 +14,7 @@ This is a fully functional build, without the Python backend running for the Ask
 
 <img src="screenshots/frame-screenshot-12-23-2018-1.png" height="250" alt="Frame - Screenshot 1"/>
 
-<img src="screenshots/frame-screenshot-12-23-2018-3.png" height="250" alt="Frame - Screenshot 3"/>
+<img src="screenshots/frame-screenshot-12-23-2018-2.png" height="250" alt="Frame - Screenshot 3"/>
 
 <img src="screenshots/frame-screenshot-12-23-2018-4.png" height="250" alt="Frame - Screenshot 4"/>
 
