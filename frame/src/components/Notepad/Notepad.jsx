@@ -311,7 +311,7 @@ export default class Notepad extends Component {
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
           const combinedText = entry['title'] + ' ' + strippedText;
-          const detectedLanguages = franc.all(combinedText).slice(0, 10);
+          const detectedLanguages = franc.all(combinedText).slice(0, 5);
           entry['detectedLanguages'] = detectedLanguages;
           entry['entities'] = {
             terms: parseTextForTerms(strippedText),
@@ -443,7 +443,7 @@ export default class Notepad extends Component {
 
         entry['strippedText'] = strippedText;
         const combinedText = entry['title'] + ' ' + strippedText;
-        const detectedLanguages = franc.all(combinedText).slice(0, 10);
+        const detectedLanguages = franc.all(combinedText).slice(0, 5);
         entry['detectedLanguages'] = detectedLanguages;
 
         entry['entities'] = {
