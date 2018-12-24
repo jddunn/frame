@@ -13,7 +13,7 @@ export default function saveToDB(store, key, value) {
     //     return null;
     // });
     const res = store.setItem(key, value);
-    console.log("Saved lib to: ", store, value, res);
+    console.log("Saved lib to: ", key, value, res);
     return res;
 }
   

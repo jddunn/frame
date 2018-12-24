@@ -192,7 +192,13 @@ export default class Notepad extends Component {
   }
 
   componentDidMount() {
-    this.setState({_isMounted: true});
+    const entry = this.props.entry;
+    try {
+      this.setState({_isMounted: true, editorState: getContentFromHTML(entry['html']), entryId: this.props.entryId});
+    } catch (err) {
+      console.log("Notebook mount err: ", err);
+      this.setState({_isMounted: true, editorState: EditorState.createEmpty(), entryId: this.props.entryId});
+    }
   }
 
   componentWillUnmount() {
@@ -200,31 +206,21 @@ export default class Notepad extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    // const entryId = nextProps.entryId;
-    const Entries = nextProps.Entries;
-    const library = getState("library");
-    const Library = openDB(library);
-    let entryId = getState("entryId");
-    if (entryId === null || entryId === undefined) {
-      entryId = Entries[0].id;
-    }
-    let editorType;
-    try {
-      editorType = Entries[0].editorType;
-    } catch (err) {
-      editorType = "flow";
-    }
     if (this.state._isMounted) {
-    // await this.getEntries(Library, "entries").then(async(result) => {
-      // const Entries = result;
-      let entry = traverseEntriesById(entryId, Entries);
-      if (entry !== null) {
-      } else {
-        entry = Entries[0];
-      }
+      const _entry = getState("entryId");
+      
+      const entry = nextProps.entry;
+      const entryId = nextProps.entryId;
+      const Entries = nextProps.Entries;
+      const library = getState("library");
+      const Library = openDB(library);
+      const editorType = nextProps.entry.editorType;
+      console.log("STATE ENTRY: ", _entry);
+      console.log("Notebook Comp received props: ", entry, Entries, entryId);
+     
       try {
-        if (entry['html'] == null || entry['html'] == undefined) {
-          entry['html'] = getHTMLFromContent(this.state.editorState);
+        if (entry['html'] !== null && entry['html'] !== undefined) {
+          console.log("Entry is not null! ", entry['html']);
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
           const combinedText = entry['title'] + ' ' + strippedText;
@@ -303,18 +299,17 @@ export default class Notepad extends Component {
           entry['wordFrequency'] = getWordFrequency(strippedText);
           const newEntries = replaceEntry(entry, Entries);
           const res = getContentFromHTML(entry['html']);
-          this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
+          this.setState({Entries: newEntries, editorState: res,
           editorType: editorType});
         } else {
-          const res = getContentFromHTML(entry['html']);
-          this.setState({editorType: editorType, Entries: Entries, editorState: getContentFromHTML(entry['html'])
-          });
+          this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
+            editorType: editorType, entryId: nextProps.entryId});
         }
       } catch (err) {
         console.log(err);
-        this.setState({editorType: editorType});
+        this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
       }
-    }
+    } 
   }
   
 
@@ -472,17 +467,25 @@ export default class Notepad extends Component {
   );
 
   async saveNotebookData() {
-    const entryId = getState("entryId");
-    const library = getState("library");
+    let entryId = getState("entryId");
+    let library = getState("library");
     const editorType = getState("editorType");
     const Library = openDB(library);
     const m_this = this;
+    if (entryId === null || entryId === undefined) {
+      entryId = this.state.entryId;
+    }
+    if (library === null || library === undefined) {
+      library = "default";
+    }
+    console.log(entryId, library, "SAVE NOTEBOOK DATA");
+    console.log(Library);
     await this.getEntries(Library, "entries").then(async(result) => {
       const Entries = result;
       console.log("FULL ENTRIES: ", Entries);
       const entry = traverseEntriesById(entryId, Entries);
       console.log("TRAVERSED ENTRY BY ID: ", entry);
-      if (entry != null) {
+      if (entry !== null && entry !== undefined) {
         entry['html'] = getHTMLFromContent(this.state.editorState);
         const strippedText = HTMLToText(entry['html']);
         entry['strippedText'] = strippedText;

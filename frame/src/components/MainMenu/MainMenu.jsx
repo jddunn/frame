@@ -157,7 +157,8 @@ export default class MainMenu extends Component {
     const Library = openDB(library);
     saveToDB(Library, "entries", this.state.treeData);
     message.success('Saved library changes!');
-    this.props.updateAppMethod();
+    // this.props.updateAppMethod();
+    this.props.updateEntriesMethod();
   }
 
   // JSONEditor funcs
@@ -464,7 +465,7 @@ export default class MainMenu extends Component {
                 <Divider />
                   <div className="entriesEditorButtonsContainer">
                     <div className="mainEntriesButtonsWrapper">
-                      <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod}/>
+                      <EntryCreate updateEntriesMethod={this.props.updateEntriesMethod} updateAppMethod={this.props.updateAppMethod}/>
                       <div className="primaryGhostButton"
                         style={{display: 'inline'}}>
                         <Tooltip title="Switch explorer view">
