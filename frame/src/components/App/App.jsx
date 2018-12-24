@@ -115,7 +115,6 @@ export default class App extends Component {
   }
 
   async componentWillMount() {
-
   }
 
   async getEntriesInitial(Library, key) {
@@ -130,18 +129,15 @@ export default class App extends Component {
           entriesCount = Entries.length;
           if (entriesCount <= 0 && Array.isArray(Entries)) {
             Entries = exampleEntries;
-            console.log("EXAMPLE ENTRIES FOUND: ");
             saveToDB(Library, key, Entries);
           } else {
             saveToDB(Library, key, Entries);
           }
         } catch (err) {
-          console.log("EXAMPLE ENTRIES FOUND: ");
           Entries = exampleEntries;
           saveToDB(Library, key, Entries);
         }
       }).catch(function(err) {
-        console.log("EXAMPLE ENTRIES FOUND: ");
         Entries = exampleEntries;
         saveToDB(Library, key, Entries);
       });
@@ -163,8 +159,7 @@ export default class App extends Component {
       if (Entries === null || Entries === undefined) { 
           console.log(exampleEntries);
           Entries = exampleEntries;
-          console.log("THESE ARE THE INTIAL ENTRIES GOTTEN: ", Entries);
-          selectedEntryId = Entries[0];
+          selectedEntryId = Entries[0].id;
           selectedEntryEditorType = Entries[0]['editorType'];
         }
         setState("entryId", selectedEntryId);
@@ -199,8 +194,7 @@ export default class App extends Component {
 
     await this.getEntriesInitial(Library, "entries").then((result) => {
       Entries = result;
-      console.log("GOT DA ENTRIES IN UPDATE: ", Entries);
-      if (selectedEntry !== null && selectedEntry !== undefined) {
+      if (selectedEntryId !== null && selectedEntryId !== undefined) {
       } else {
         selectedEntryEditorType = "flow";
         selectedEntryId = Entries[0].id;
@@ -256,7 +250,7 @@ export default class App extends Component {
               selectedEntryEditorType = "flow";
             }
           } else {
-            selectedEntryId = Entries[0];
+            selectedEntryId = Entries[0].id;
             try {
               selectedEntryEditorType = Entries[0]['editorType'];
             } catch (err) {
@@ -314,7 +308,17 @@ export default class App extends Component {
           // sessionStorage can only do JSON.
           let states = {};
           if (this.state.prevEntryId !== selectedEntryId) {
-            states['prevEntryId'] = selectedEntryId;
+            if (selectedEntryId === null || selectedEntryId === undefined) {
+              states['prevEntryId'] = this.state.Entries[0].id;
+              setState("entryId", this.state.Entries[0].id);
+              try {
+                setState("editorType", this.state.Entries[0].editorType);
+              } catch (err) {
+                setState("editorType", "flow");
+              }
+            } else {
+              states['prevEntryId'] = selectedEntryId;
+            }
           }
           if (this.state.prevLibrary !== library) {
             states['prevLibrary'] = library;
@@ -344,6 +348,7 @@ export default class App extends Component {
     // By default editor mode for notes is Flow
     const Entries = this.state.Entries;
     let entryId;
+    let editorType;
     try {
       entryId = (getState("entryId") != null) ?
       getState("entryId") : Entries[0].id;
@@ -352,7 +357,8 @@ export default class App extends Component {
       setState("entryId", entryId);
     }
     let entry = traverseEntriesById(entryId, Entries);
-    console.log("FOUND ENTRY: ", entry, entryId, Entries);
+    console.log("FOUND DA ENTRY: ", entry);
+
     let activeLink = getState("activeLink");
     // As we get more sections, this will eventually need
     // refactored, since a splitNotebookLayout would only
@@ -365,24 +371,29 @@ export default class App extends Component {
       entry = Entries[0];
       try {
         setState("entryId", entry['id']);
+        entryId = entry['id'];
+        editorType = entry['editorType'];
       } catch (err) {
+        console.log(err);
+        message.error(err);
         setState("entryId", null);
+        editorType = "flow";
       }
       try {
         setState("editorType", entry['editorType']);
+        editorType = entry['editorType'];
       } catch (err) {
         setState("editorType", "flow");
+        editorType = "flow";
       }
     }
-    let editorType = (getState("editorType") != null) ? 
-                      getState("editorType") : "flow";
     let entryPageTitle;
     try {
       entryPageTitle = (entry.title != null &&
         entry.title != undefined) ?
         entry.title : 'Notebook - ' + entry.title;
     } catch (err) {
-      entryPageTitle = 'Notebook';
+      entryPageTitle = 'Notebook - Select "Entries > Create" to start writing';
     }
     return (
         <React.Fragment>
@@ -429,7 +440,7 @@ export default class App extends Component {
                         <div className="editorWrapper">
                           <div id="editor">
                             <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
-                              splitNotebookLayout={splitNotebookLayout}
+                              splitNotebookLayout={splitNotebookLayout} Entries={Entries}
                             />
                             <div className="analyzerWrapper">
                               <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
@@ -440,7 +451,7 @@ export default class App extends Component {
                         <div className="editorWrapper">
                           <div id="editor">
                               <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
-                                        splitNotebookLayout={splitNotebookLayout}
+                                        splitNotebookLayout={splitNotebookLayout} Entries={Entries}
                               />
                           </div>
                         </div>

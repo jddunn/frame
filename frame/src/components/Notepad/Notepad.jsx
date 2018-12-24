@@ -200,111 +200,121 @@ export default class Notepad extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const entryId = nextProps.entryId;
-    const m_nextProps = nextProps;
+    // const entryId = nextProps.entryId;
+    const Entries = nextProps.Entries;
     const library = getState("library");
     const Library = openDB(library);
-    let editorType = nextProps.editorType;
+    let entryId = getState("entryId");
+    if (entryId === null || entryId === undefined) {
+      entryId = Entries[0].id;
+    }
+    let editorType;
+    try {
+      editorType = Entries[0].editorType;
+    } catch (err) {
+      editorType = "flow";
+    }
     if (this.state._isMounted) {
-    await this.getEntries(Library, "entries").then(async(result) => {
-      const Entries = result;
-      const entry = traverseEntriesById(entryId, Entries);
-      if (entry != null) {
-        try {
-          if (entry['html'] == null || entry['html'] == undefined) {
-            entry['html'] = getHTMLFromContent(this.state.editorState);
-            const strippedText = HTMLToText(entry['html']);
-            entry['strippedText'] = strippedText;
-            const combinedText = entry['title'] + ' ' + strippedText;
-            const detectedLanguages = franc.all(combinedText).slice(0, 5);
-            entry['detectedLanguages'] = detectedLanguages;
-            entry['entities'] = {
-              terms: parseTextForTerms(strippedText),
-              topics: parseTextForTopics(strippedText),
-              people: parseTextForPeople(strippedText),
-              dates: parseTextForDates(strippedText),
-              organizations: parseTextForOrganizations(strippedText),
-              places: parseTextForPlaces(strippedText),
-              phoneNumbers: parseTextForPhoneNumbers(strippedText),
-              urls: parseTextForURLs(strippedText),
-              hashtags: parseTextForHashtags(strippedText),
-              quotes: parseTextForQuotes(strippedText),
-              statements: parseTextForStatements(strippedText),
-              questions: parseTextForQuestions(strippedText),
-              bigrams: parseTextForBigrams(strippedText),
-              trigrams: parseTextForTrigrams(strippedText)
-            };
-            entry['editorType'] = editorType;
-            // Get text stats
-            const charCount = countChars(strippedText);
-            const syllableCount = countTotalSyllables(strippedText);
-            const wordCount = countWords(strippedText);
-            const sentenceCount = countSentences(strippedText);
-            const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
-            const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
-            const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
-            const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
-            let summaryExtractive;
-            let summaryByParagraphs;
-            let sentencesSplit = [];
-            const docs = [];
-            if (sentenceCount > 0) {
-              sentencesSplit = splitSentences(strippedText);
-              sentencesSplit.forEach(function(el) {
-                const strLength = el.length;
-                try {
-                  if (el[strLength-1].match(/^[.,:!?]/)) {
-                    docs.push(el);
-                  } else {
-                    const newEl = el.concat('.\r\n');
-                    docs.push(newEl);
-                  }
-                } catch (err) {
-                }
-              });
-            }
-            if (sentenceCount > 1) {
+    // await this.getEntries(Library, "entries").then(async(result) => {
+      // const Entries = result;
+      let entry = traverseEntriesById(entryId, Entries);
+      if (entry !== null) {
+      } else {
+        entry = Entries[0];
+      }
+      try {
+        if (entry['html'] == null || entry['html'] == undefined) {
+          entry['html'] = getHTMLFromContent(this.state.editorState);
+          const strippedText = HTMLToText(entry['html']);
+          entry['strippedText'] = strippedText;
+          const combinedText = entry['title'] + ' ' + strippedText;
+          const detectedLanguages = franc.all(combinedText).slice(0, 5);
+          entry['detectedLanguages'] = detectedLanguages;
+          entry['entities'] = {
+            terms: parseTextForTerms(strippedText),
+            topics: parseTextForTopics(strippedText),
+            people: parseTextForPeople(strippedText),
+            dates: parseTextForDates(strippedText),
+            organizations: parseTextForOrganizations(strippedText),
+            places: parseTextForPlaces(strippedText),
+            phoneNumbers: parseTextForPhoneNumbers(strippedText),
+            urls: parseTextForURLs(strippedText),
+            hashtags: parseTextForHashtags(strippedText),
+            quotes: parseTextForQuotes(strippedText),
+            statements: parseTextForStatements(strippedText),
+            questions: parseTextForQuestions(strippedText),
+            bigrams: parseTextForBigrams(strippedText),
+            trigrams: parseTextForTrigrams(strippedText)
+          };
+          entry['editorType'] = editorType;
+          // Get text stats
+          const charCount = countChars(strippedText);
+          const syllableCount = countTotalSyllables(strippedText);
+          const wordCount = countWords(strippedText);
+          const sentenceCount = countSentences(strippedText);
+          const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
+          const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
+          const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
+          const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+          let summaryExtractive;
+          let summaryByParagraphs;
+          let sentencesSplit = [];
+          const docs = [];
+          if (sentenceCount > 0) {
+            sentencesSplit = splitSentences(strippedText);
+            sentencesSplit.forEach(function(el) {
+              const strLength = el.length;
               try {
-                summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-                summaryByParagraphs = summarizeParagraphs(docs.join(""));
+                if (el[strLength-1].match(/^[.,:!?]/)) {
+                  docs.push(el);
+                } else {
+                  const newEl = el.concat('.\r\n');
+                  docs.push(newEl);
+                }
               } catch (err) {
-                console.log(err);
-                summaryExtractive = '';
-                summaryByParagraphs = [];
               }
-            } else {
+            });
+          }
+          if (sentenceCount > 1) {
+            try {
+              summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+              summaryByParagraphs = summarizeParagraphs(docs.join(""));
+            } catch (err) {
+              console.log(err);
               summaryExtractive = '';
               summaryByParagraphs = [];
             }
-            entry['summaryExtractive'] = summaryExtractive;
-            entry['summaryByParagraphs'] = summaryByParagraphs;
-            entry['stats'] = {
-              charCount: charCount,
-              syllableCount: syllableCount,
-              wordCount: wordCount,
-              sentenceCount: sentenceCount,
-              avgWordsPerSentence: avgWordsPerSentence,
-              avgSyllablesPerSentence: avgSyllablesPerSentence,
-              avgSyllablesPerWord: avgSyllablesPerWord,
-              fleschReadability: fleschReadability
-            };
-            entry['wordFrequency'] = getWordFrequency(strippedText);
-            const newEntries = replaceEntry(entry, Entries);
-            const res = getContentFromHTML(entry['html']);
-            this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
-            editorType: editorType});
           } else {
-            const res = getContentFromHTML(entry['html']);
-            this.setState({editorType: editorType, Entries: Entries, editorState: getContentFromHTML(entry['html'])
-            });
+            summaryExtractive = '';
+            summaryByParagraphs = [];
           }
-        } catch (err) {
-          console.log(err);
-          this.setState({editorType: editorType});
+          entry['summaryExtractive'] = summaryExtractive;
+          entry['summaryByParagraphs'] = summaryByParagraphs;
+          entry['stats'] = {
+            charCount: charCount,
+            syllableCount: syllableCount,
+            wordCount: wordCount,
+            sentenceCount: sentenceCount,
+            avgWordsPerSentence: avgWordsPerSentence,
+            avgSyllablesPerSentence: avgSyllablesPerSentence,
+            avgSyllablesPerWord: avgSyllablesPerWord,
+            fleschReadability: fleschReadability
+          };
+          entry['wordFrequency'] = getWordFrequency(strippedText);
+          const newEntries = replaceEntry(entry, Entries);
+          const res = getContentFromHTML(entry['html']);
+          this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
+          editorType: editorType});
+        } else {
+          const res = getContentFromHTML(entry['html']);
+          this.setState({editorType: editorType, Entries: Entries, editorState: getContentFromHTML(entry['html'])
+          });
         }
+      } catch (err) {
+        console.log(err);
+        this.setState({editorType: editorType});
       }
     }
-  )}
   }
   
 
