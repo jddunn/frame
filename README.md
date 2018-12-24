@@ -8,15 +8,19 @@ Because a Python environment running TensorFlow is required to use the full app 
 
  Eventually, a donation-supported / subscription-based edition could be serviced for online users through a server on the cloud, with extended features and protected data storage, if there's a demand for it.
 
-## Current Screenshots (12-17-2018)
+## Current Screenshots (12-23-2018)
 
-UNFINISHED NON-FUNCTIONAL BUILD; WORK-IN-PROGRESS
+This is a fully functional build, without the Python backend running for the Ask freature.
 
-Frame - Inline (Medium-Style) Editor
-<img src="screenshots/frame-screenshot-1.png" height="350" alt="Frame - Inline (Medium-Style) Editor screenshot"/>
+<img src="screenshots/frame-screenshot-12-23-2018-1.png" height="250" alt="Frame - Screenshot 1"/>
 
-Frame - Full Editor, With New Entry Dialog 
-<img src="screenshots/frame-screenshot-2.png" height="350" alt="Frame - Full Editor, Menu Collapsed screenshot"/>
+<img src="screenshots/frame-screenshot-12-23-2018-3.png" height="250" alt="Frame - Screenshot 3"/>
+
+<img src="screenshots/frame-screenshot-12-23-2018-4.png" height="250" alt="Frame - Screenshot 4"/>
+
+<img src="screenshots/frame-screenshot-12-23-2018-5.png" height="250" alt="Frame - Screenshot 5"/>
+
+<img src="screenshots/frame-screenshot-12-23-2018-6.png" height="250" alt="Frame - Screenshot 6"/>
 
 ## Key Features
 
@@ -50,4 +54,5 @@ Additional libraries and references used:
 - react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
 - react-json-view [https://github.com/mac-s-g/react-json-view](https://github.com/mac-s-g/react-json-view)
 - react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
+- Recharts [https://github.com/recharts/recharts](https://github.com/recharts/recharts)
 - uwsgi-nginx-flask-docker [uwsgi-nginx-flask-docker](uwsgi-nginx-flask-docker)
