@@ -80,9 +80,13 @@ export function countTotalSyllables(text) {
 }
 
 export function countSentences(text) {
-    const sentencesByPunct = text.split(/((?:\S[^\.\?\!]*)[\.\?\!]*)/g);
-    const sentencesSplitByLines = text.split(/\r?\n/);
-    return sentencesByPunct.length + sentencesSplitByLines.length;
+    const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
+    return sentencesSplit.length;
+}
+
+export function splitSentences(text) {
+    const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
+    return sentencesSplit;
 }
 
 export function getFleschReadability(totalSyllables, totalWords, totalSentences) {

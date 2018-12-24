@@ -49,6 +49,7 @@ import {
   countTotalSyllables,
   fleschReadability,
   getFleschReadability,
+  splitSentences,
   summarizeParagraphs
   }
   from '../../lib/node-nlp-service';
@@ -208,7 +209,6 @@ export default class Notepad extends Component {
       const entry = traverseEntriesById(entryId, Entries);
       if (entry != null) {
         try {
-          // entry['content'] = this.state.editorState;
           if (entry['html'] == null || entry['html'] == undefined) {
             entry['html'] = getHTMLFromContent(this.state.editorState);
             const strippedText = HTMLToText(entry['html']);
@@ -244,8 +244,15 @@ export default class Notepad extends Component {
             const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
             let summaryExtractive;
             let summaryByParagraphs;
+            let sentencesSplit = [];
             const docs = [];
-            docs.push(strippedText);
+            if (sentenceCount > 0) {
+              sentencesSplit = splitSentences(strippedText);
+              sentencesSplit.forEach(function(el) {
+                docs.push(el);
+              });
+            }
+            // docs.push(strippedText);
             if (sentenceCount > 1) {
               try {
                 summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
@@ -338,8 +345,14 @@ export default class Notepad extends Component {
           const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
           const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
           const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+          let sentencesSplit = [];
           const docs = [];
-          docs.push(strippedText);
+          if (sentenceCount > 0) {
+            sentencesSplit = splitSentences(strippedText);
+            sentencesSplit.forEach(function(el) {
+              docs.push(el);
+            });
+          }
           let summaryExtractive;
           let summaryByParagraphs;
           if (sentenceCount > 1) {
@@ -437,15 +450,12 @@ export default class Notepad extends Component {
       const Entries = result;
       const entry = traverseEntriesById(entryId, Entries);
       if (entry != null) {
-        // entry['content'] = this.state.editorState;
         entry['html'] = getHTMLFromContent(this.state.editorState);
         const strippedText = HTMLToText(entry['html']);
-
         entry['strippedText'] = strippedText;
         const combinedText = entry['title'] + ' ' + strippedText;
         const detectedLanguages = franc.all(combinedText).slice(0, 5);
         entry['detectedLanguages'] = detectedLanguages;
-
         entry['entities'] = {
           terms: parseTextForTerms(strippedText),
           topics: parseTextForTopics(strippedText),
@@ -474,8 +484,14 @@ export default class Notepad extends Component {
         const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
         let summaryExtractive;
         let summaryByParagraphs;
+        let sentencesSplit = [];
         const docs = [];
-        docs.push(strippedText);
+        if (sentenceCount > 0) {
+          sentencesSplit = splitSentences(strippedText);
+          sentencesSplit.forEach(function(el) {
+            docs.push(el);
+          });
+        }
         if (sentenceCount > 1) {
           try {
             summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
