@@ -39,6 +39,7 @@ export default class Analyzer extends Component {
                   };
     this.getEntries = this.getEntries.bind(this);
     this.buildInformationExtraction = this.buildInformationExtraction.bind(this);
+    this.buildSummaries = this.buildSummaries.bind(this);
   }
   
   onClose = () => {
@@ -53,12 +54,12 @@ export default class Analyzer extends Component {
   }
 
   callback = (key) => {
-    console.log(key);
+    // console.log(key);
   }
 
   
   callback2 = (key) => {
-    console.log(key);
+    // console.log(key);
   }
 
   buildInformationExtraction(entry) {
@@ -71,7 +72,6 @@ export default class Analyzer extends Component {
     /** Also return this so we can expand items with values by default */
     let defaultOpenKeysLeft = [];
     let defaultOpenKeysRight = [];
-
 
     let detectedLanguagesContainer;
 
@@ -92,7 +92,7 @@ export default class Analyzer extends Component {
         );
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
 
     try {
@@ -325,7 +325,7 @@ export default class Analyzer extends Component {
         }
       }
     } catch (err) {
-      console.log("INFO ERR: ", err);
+      // console.log("INFO ERR: ", err);
     }
     divContainers.push(divContainerLeft);
     divContainerRight.splice(1, 0, detectedLanguagesContainer)
@@ -335,6 +335,109 @@ export default class Analyzer extends Component {
     return (
       divContainers
     );
+  }
+
+  buildSummaries(entry) {
+    const abstractiveSummary = entry['summaryAbstractive'];
+    const extractiveSummary = entry['summaryExtractive'];
+    const summaryByParagraphs = entry['summaryByParagraphs'];
+    const defaultOpenKeys = [];
+    let showArrow;
+    const container = [];
+    const res = [];
+    let div;
+    // console.log(abstractiveSummary, extractiveSummary, summaryByParagraphs);
+    try {
+      if (abstractiveSummary.length > 0 && Array.isArray(abstractiveSummary)) {
+        showArrow = true;
+        defaultOpenKeys.push('1');
+      } else {
+        showArrow = false;
+      }
+      div = (
+        <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="1" showArrow={showArrow}>
+          <div className="abstractiveSummaryContainer">
+            <p className="summaryContent">{abstractiveSummary}</p>
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    } catch (err) {
+      div = (
+        <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="1" showArrow={false}>
+          <div className="abstractiveSummaryContainer">
+            <p className="summaryContent">{abstractiveSummary}</p>
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    }
+    try {
+      if (extractiveSummary.length > 0) {
+        showArrow = true;
+        defaultOpenKeys.push('2');
+      } else {
+        showArrow = false;
+      }
+      div = (
+        <Panel className="panelHeaderBorderless" header="Extractive Summary" key="2" showArrow={showArrow}>
+          <div className="extractiveSummaryContainer">
+            <p className="summaryContent">{extractiveSummary}</p>
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    } catch (err) {
+      div = (
+        <Panel className="panelHeaderBorderless" header="Extractive Summary" key="2" showArrow={false}>
+          <div className="extractiveSummaryContainer">
+            <p className="summaryContent">{extractiveSummary}</p>
+          </div>
+        </Panel>
+        );
+        container.push(div);
+    }
+    let paragraphs = [];
+    let filteredSummaryByParagraphs = [];
+    try {
+        filteredSummaryByParagraphs = summaryByParagraphs.filter(function (el) {
+          return el != null && el != '';
+      });
+    } catch(err) {
+    }
+    try {
+      console.log("Summaries by paragraphs: ", filteredSummaryByParagraphs);
+      if (filteredSummaryByParagraphs.length > 0) {
+        showArrow = true;
+        defaultOpenKeys.push('3');
+        for (let i=0; i<filteredSummaryByParagraphs.length; i++) {
+          console.log(filteredSummaryByParagraphs[i]);
+          paragraphs.push(<p className="summaryContent">{filteredSummaryByParagraphs[i]}</p>)
+        }
+      } else {
+        showArrow = false;
+      }
+      div = (
+        <Panel className="panelHeaderBorderless" header="Summary by Paragraph" key="3" showArrow={showArrow}>
+          <div className="summaryByParagraphsContainer">
+          {paragraphs}
+          </div>
+        </Panel>
+        );
+        container.push(div);
+    } catch (err) {
+      div = (
+        <Panel className="panelHeaderBorderless" header="Summary by Paragraph" key="3" showArrow={false}>
+          <div className="summaryByParagraphsContainer">
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    }
+    res.push(defaultOpenKeys);
+    res.push(container);
+    console.log(res);
+    return res;
   }
 
   async getEntries(Library, key) {
@@ -437,7 +540,7 @@ export default class Analyzer extends Component {
         avgWordsPerSentence = selectedEntry['stats']['avgWordsPerSentence'];
         fleschReadability = selectedEntry['stats']['fleschReadability'];
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
       if (fleschReadability != null && fleschReadability != undefined &&
         fleschReadability != "undefined") {
@@ -470,6 +573,10 @@ export default class Analyzer extends Component {
       }
 
       const informationExtractionResults = this.buildInformationExtraction(selectedEntry);
+      const summariesResults = this.buildSummaries(selectedEntry);
+      const defaultOpenSummaries = summariesResults[0];
+      const summariesResultsContent = summariesResults[1];
+
       const entitiesContainerLeft = informationExtractionResults[0];
       const entitiesContainerRight = informationExtractionResults[1];
       const entitiesDefaultOpenKeysLeft = informationExtractionResults[2];
@@ -495,7 +602,7 @@ export default class Analyzer extends Component {
           summaryByParagraphsContainer.push(<p>{summaryByParagraphs[i]}</p>)
         }
       } catch (err) {
-        console.log("ERRRR: ", err);
+        // console.log("ERRRR: ", err);
       }
 
       console.log("SUMMARIES BY PARAGRAPHS CONTAINER: ", summaryByParagraphsContainer);
@@ -710,25 +817,9 @@ export default class Analyzer extends Component {
                 </TabPanel>
                 <TabPanel tabId='t3'>
                   <div className='FancyTabs-panelInner'>
-
-                  <Collapse bordered={false} defaultActiveKey={['1', '2', '3']}>
-                    <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="1">
-                      <div className="abstractiveSummaryContainer">
-                        <p className="summaryContent"></p>
-                      </div>
-                    </Panel>
-                    <Panel className="panelHeaderBorderless"  header="Extractive Summary" key="2">
-                      <div className="extractiveSumamryContainer">
-                        <p className="summaryContent">{extractiveSummary}</p>
-                      </div>                   
-                     </Panel>
-                    <Panel className="panelHeaderBorderless" header="Summary by Paragraphs" key="3">
-                      <div className="pargraphsSummaryContainer">
-                        <p className="summaryContent">{summaryByParagraphsContainer}</p>
-                      </div>
-                    </Panel>
-                  </Collapse>
-            
+                    <Collapse bordered={false} defaultActiveKey={defaultOpenSummaries}>
+                      {summariesResultsContent}
+                    </Collapse>
                   </div>
                 </TabPanel>
                 <TabPanel tabId='t4'>
