@@ -265,7 +265,7 @@ export default class App extends Component {
 
   async updateEntries() {
     // console.log("Sleeping for 200 msecs to get data");
-    await this.sleep(1200);
+    await this.sleep(3000);
     // console.log("Adding an entry from new: ");
     if (this.state._isMounted) {
       let library = getState("library");

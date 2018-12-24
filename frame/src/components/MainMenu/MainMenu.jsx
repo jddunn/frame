@@ -101,6 +101,12 @@ export default class MainMenu extends Component {
     this.exportLibraryToJSONFile = this.exportLibraryToJSONFile.bind(this);
     // Upload library JSON
     this.handleUploadFile = this.handleUploadFile.bind(this);
+
+    this.sleep = this.sleep.bind(this);
+  }
+
+  sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async getEntries(Library, key) {
@@ -152,11 +158,12 @@ export default class MainMenu extends Component {
     }
   }
 
-  saveTreeData() {
+  async saveTreeData() {
     const library = getState("library");
     const Library = openDB(library);
     saveToDB(Library, "entries", this.state.treeData);
-    message.success('Saved library changes!');
+    message.success('Saving library changes..');
+    await this.sleep(3500);
     // this.props.updateAppMethod();
     this.props.updateEntriesMethod();
   }

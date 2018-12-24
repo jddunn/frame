@@ -165,7 +165,7 @@ export default class Notepad extends Component {
 
   async getEntries(Library, key) {
     let Entries = [];
-    this.sleep(800);
+    await this.sleep(1500);
     await getFromDB(Library, key).then(function(result) {
       Entries = result;
     }).catch(function(err) {
@@ -590,6 +590,7 @@ export default class Notepad extends Component {
         const newEntries = replaceEntry(entry, Entries);
         message.success('Saving notebook changes..');
         saveToDB(Library, "entries", newEntries).then(async function(result) {
+          await m_this.sleep(4500);
           m_this.props.updateAppMethod();
         }).catch(function(err) {
           message.error("Failed to save notebook! " + err);
