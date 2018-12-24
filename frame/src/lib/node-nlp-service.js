@@ -188,7 +188,8 @@ export function filterCommonWords(arr) {
     const stopwords = [
         'and', 'And', 'the', 'The', "of", "Of", "there", "a", "A", "an", "An",
         "it's", "its", "Its", "It's", "It", "it", "to", "To", "for", "For",
-        "from", "From", "/", " / ", "", " "
+        "from", "From", "/", " / ", "", " ", "be", "Be", "Are", "are", "is", "Is",
+        "or", "Or"
     ];
     const res = arr.filter(function(el) {
         return !stopwords.includes(el);
