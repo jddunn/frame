@@ -17,6 +17,7 @@
     },
     "scripts": {
         "start": "webpack-dev-server --open --config webpack.dev.js --progress --color --display-error-details",
+        "start-prod": "webpack --mode production --config webpack.prod.js --color", 
         "build": "webpack --config webpack.prod.js",
         "build-dev": "webpack --config webpack.dev.js --progress --color",
         "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js --display-error-details",
