@@ -249,9 +249,19 @@ export default class Notepad extends Component {
             if (sentenceCount > 0) {
               sentencesSplit = splitSentences(strippedText);
               sentencesSplit.forEach(function(el) {
-                docs.push(el);
+                const strLength = el.length;
+                try {
+                  if (el[strLength-1].match(/^[.,:!?]/)) {
+                    docs.push(el);
+                  } else {
+                    const newEl = el.concat('.');
+                    docs.push(newEl);
+                  }
+                } catch (err) {
+                }
               });
             }
+            console.log("THIS IS DOCS: ", docs);
             // docs.push(strippedText);
             if (sentenceCount > 1) {
               try {
@@ -350,9 +360,19 @@ export default class Notepad extends Component {
           if (sentenceCount > 0) {
             sentencesSplit = splitSentences(strippedText);
             sentencesSplit.forEach(function(el) {
-              docs.push(el);
+              const strLength = el.length;
+              try {
+                if (el[strLength-1].match(/^[.,:!?]/)) {
+                  docs.push(el);
+                } else {
+                  const newEl = el.concat('.');
+                  docs.push(newEl);
+                }
+              } catch (err) {
+              }
             });
           }
+          console.log("THIS IS DOCS: ", el);
           let summaryExtractive;
           let summaryByParagraphs;
           if (sentenceCount > 1) {
@@ -489,9 +509,20 @@ export default class Notepad extends Component {
         if (sentenceCount > 0) {
           sentencesSplit = splitSentences(strippedText);
           sentencesSplit.forEach(function(el) {
-            docs.push(el);
+            const strLength = el.length;
+            try {
+              if (el[strLength-1].match(/^[.,:!?]/)) {
+                docs.push(el);
+              } else {
+                const newEl = el.concat('.');
+                docs.push(newEl);
+              }
+            } catch (err) {
+            }
           });
         }
+
+        console.log("THIS IS DOCS: ", docs);
         if (sentenceCount > 1) {
           try {
             summaryExtractive = sumBasic(docs, parseInt(sentenceCount / 2), parseInt(sentenceCount / 3)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
