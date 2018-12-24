@@ -29,6 +29,7 @@ const franc = require('franc'); // Language detection
 import {
   normalizeText,
   filterCommonWords,
+  getWordFrequency,
   parseTextForPeople,
   parseTextForPlaces,
   parseTextForDates,
@@ -286,7 +287,8 @@ export default class Notepad extends Component {
               avgSyllablesPerSentence: avgSyllablesPerSentence,
               avgSyllablesPerWord: avgSyllablesPerWord,
               fleschReadability: fleschReadability
-            }
+            };
+            entry['wordFrequency'] = getWordFrequency(strippedText);
             const newEntries = replaceEntry(entry, Entries);
             const res = getContentFromHTML(entry['html']);
             this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
@@ -398,6 +400,7 @@ export default class Notepad extends Component {
             avgSyllablesPerWord: avgSyllablesPerWord,
             fleschReadability: fleschReadability
           }
+          entry['wordFrequency'] = getWordFrequency(strippedText);
           const newEntries = replaceEntry(entry, Entries);
           const res = getContentFromHTML(entry['html']);
           this.setState({Entries: newEntries, editorState: EditorState.createWithContent(getContentFromHTML(entry['html'])),
@@ -545,6 +548,7 @@ export default class Notepad extends Component {
           avgSyllablesPerWord: avgSyllablesPerWord,
           fleschReadability: fleschReadability
         }
+        entry['wordFrequency'] = getWordFrequency(strippedText);
         const newEntries = replaceEntry(entry, Entries);
         saveToDB(Library, "entries", newEntries).then(async function(result) {
           message.success('Saved notebook changes!');

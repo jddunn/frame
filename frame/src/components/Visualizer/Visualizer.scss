@@ -16,6 +16,7 @@
   top: 0 !important;
   left: 0 !important;
   float: left !important;
+  margin: 0 !important;
   padding: 0 !important;
   max-width: calc(40% - 20px) !important;
   max-height: calc(80% - 20px) !important;
@@ -25,15 +26,35 @@
 .rightViz {
   top: 0 !important;
   right: 0 !important;
+  margin: 0 !important;
   float: right !important;
   padding: 0 !important;
+  margin-right: 120px !important;
   max-width: calc(40% - 20px) !important;
   max-height: calc(80% - 20px) !important;
   text-align: center !important;
 }
 
+.centerViz {
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: calc(70% - 20px) !important;
+  max-height: calc(80% - 20px) !important;
+}
+
 .leftViz tspan {
-  font-size: .8em !important;
+  font-size: .9em !important;
+}
+
+.rightViz tspan {
+  font-size: .9em !important;
+}
+
+.centerViz tspan {
+  font-size: .9em !important;
 }
 
 .innerContentTextCenter {

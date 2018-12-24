@@ -94,7 +94,6 @@ export default class Analyzer extends Component {
         );
       }
     } catch (err) {
-      // console.log(err);
     }
 
     try {

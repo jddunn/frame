@@ -9,6 +9,11 @@
 /* eslint no-useless-escape: 0 */
 /* eslint radix: 0 */
 /* eslint no-use-before-define: 0 */
+/* eslint no-nested-ternary: 0 */
+/* eslint guard-for-in: 0 */
+/* eslint no-restricted-syntax: 0 */
+/* eslint no-param-reassign: 0 */
+/* eslint prefer-destructuring: 0 */
 
 import nlp from 'compromise';
 
@@ -85,6 +90,11 @@ export function countSentences(text) {
 export function splitSentences(text) {
     const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
     return sentencesSplit;
+}
+
+export function splitWords(text) {
+    const words = text.replace(/[.]/g, '').split(/\s/);
+    return words;
 }
 
 export function getFleschReadability(totalSyllables, totalWords, totalSentences) {
@@ -183,3 +193,37 @@ export function filterCommonWords(arr) {
     });
     return res;
 }
+
+export function getWordFrequency(text) {
+    let words = text.replace(/[.]/g, '').split(/\s/);
+    words = filterCommonWords(words);
+    const freqMap = {};
+    const res = [];
+    words.forEach(function(w) {
+        if (!freqMap[w]) {
+            freqMap[w] = 0;
+        }
+        freqMap[w] += 1;
+    });
+    const sorted = [];
+    for (const key in freqMap) {
+        sorted.push([key, freqMap[key]]);
+    }
+    sorted.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+    const reversed = sorted.reverse().slice(0, 50);
+    // const res = objectify(reversed);
+    for (let i=0; i<reversed.length; i++) {
+        const val = {word: reversed[i][0], count: reversed[i][1]};
+        res.push(val);
+    }
+    return res;
+}
+
+// function objectify(array) {
+//     return array.reduce(function(p, c) {
+//          p[c[0]] = c[1];
+//          return p;
+//     }, {});
+// }

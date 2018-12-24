@@ -6,12 +6,12 @@ import {
   Row, Col, Layout, Menu, Breadcrumb,
   Icon, Button, Switch, Dropdown, message,
   Tooltip, Select, Drawer, Radio, Collapse, List,
-  Divider, Treemap
+  Divider, Treemap, Legend
   } from 'antd';
 
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
-import { LineChart, Line, XAxis, CartesianGrid,
+import { LineChart, Line, XAxis, YAxis, CartesianGrid,
          PolarGrid, PolarAngleAxis, PolarRadiusAxis,
          Radar, RadarChart
 } from 'recharts';
@@ -96,7 +96,7 @@ export default class Visualizer extends Component {
                             <div>
                               {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--megaphone' /> */}
                               <span className='FancyTabs-tabTextSmall'>
-                                Summarize
+                                Frequency
                               </span>
                             </div>
                           ))}
@@ -137,7 +137,7 @@ export default class Visualizer extends Component {
                           <h4 className="innerContentTextCenter">
                           Terms ({this.state.entry.entities.terms.length})
                           </h4>
-                          <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={500} data={this.state.entry.entities.terms}>
+                          <RadarChart cx={200} cy={200} outerRadius={150} width={400} height={400} data={this.state.entry.entities.terms}>
                             <PolarGrid />
                               <PolarAngleAxis dataKey="normal" />
                               <PolarRadiusAxis/>
@@ -148,7 +148,7 @@ export default class Visualizer extends Component {
                         <h4 className="innerContentTextCenter">
                           Topics ({this.state.entry.entities.topics.length})
                         </h4>            
-                        <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={500} data={this.state.entry.entities.topics}>
+                        <RadarChart cx={200} cy={200} outerRadius={150} width={400} height={400} data={this.state.entry.entities.topics}>
                             <PolarGrid />
                               <PolarAngleAxis dataKey="normal" />
                               <PolarRadiusAxis/>
@@ -163,7 +163,7 @@ export default class Visualizer extends Component {
                           <h4 className="innerContentTextCenter">
                               People ({this.state.entry.entities.people.length})
                           </h4>            
-                          <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={500} data={this.state.entry.entities.people}>
+                          <RadarChart cx={200} cy={200} outerRadius={150} width={400} height={400} data={this.state.entry.entities.people}>
                                 <PolarGrid />
                                   <PolarAngleAxis dataKey="normal" />
                                   <PolarRadiusAxis/>
@@ -174,7 +174,7 @@ export default class Visualizer extends Component {
                           <h4 className="innerContentTextCenter">
                               Places ({this.state.entry.entities.places.length})
                           </h4>            
-                          <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={500} data={this.state.entry.entities.places}>
+                          <RadarChart cx={200} cy={200} outerRadius={150} width={400} height={400} data={this.state.entry.entities.places}>
                                 <PolarGrid />
                                   <PolarAngleAxis dataKey="normal" />
                                   <PolarRadiusAxis/>
@@ -185,7 +185,7 @@ export default class Visualizer extends Component {
                           <h4 className="innerContentTextCenter">
                               Organizations ({this.state.entry.entities.organizations.length})
                           </h4>            
-                          <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={500} data={this.state.entry.entities.organizations}>
+                          <RadarChart cx={200} cy={200} outerRadius={150} width={400} height={400} data={this.state.entry.entities.organizations}>
                                 <PolarGrid />
                                   <PolarAngleAxis dataKey="normal" />
                                   <PolarRadiusAxis/>
@@ -196,7 +196,7 @@ export default class Visualizer extends Component {
                           <h4 className="innerContentTextCenter">
                               Dates ({this.state.entry.entities.dates.length})
                           </h4>            
-                          <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={500} data={this.state.entry.dates}>
+                          <RadarChart cx={200} cy={200} outerRadius={150} width={500} height={400} data={this.state.entry.dates}>
                                 <PolarGrid />
                                   <PolarAngleAxis dataKey="normal" />
                                   <PolarRadiusAxis/>
@@ -205,10 +205,24 @@ export default class Visualizer extends Component {
                           </div>
                         </div>
                     </TabPanel>
-                    {/* <TabPanel tabId='t3'>
+                    <TabPanel tabId='t3'>
                       <div className='FancyTabs-panelInner'>
+                          <div className="centerViz">
+                          <h4 className="innerContentTextCenter">
+                              Most Frequent Words
+                          </h4>            
+                          <LineChart width={700} height={220} data={this.state.entry.wordFrequency}
+                                margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                            <XAxis dataKey="word"/>
+                            <YAxis/>
+                            <CartesianGrid strokeDasharray="3 3"/>
+                            <Legend />
+                            <Line type="monotone" dataKey="count" stroke="#29b3e0" />
+                          </LineChart>
+                        </div>
                       </div>
                     </TabPanel>
+                    {/* 
                     <TabPanel tabId='t4'>
                     <div className='FancyTabs-panelInner'>
                       </div>
