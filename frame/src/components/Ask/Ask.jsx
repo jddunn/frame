@@ -29,7 +29,27 @@ import './Ask.scss';
 
 
 export default class AskForm extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      passageAnswer: "The answer will be here",
+      _isMounted: false,
+    };
+  }
+  
+  componentDidMount() {
+    this.setState({_isMounted: true});
+  }
+
+  componentWillUnount() {
+    this.setState({_isMounted: false});
+  }
+
+
   handleSubmit = (e) => {
+    const _this = this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -47,6 +67,8 @@ export default class AskForm extends React.Component {
           return response.json()
         })
         .then(function(myJson) {
+         message.success("The answer is: " + myJson);
+         _this.setState({passageAnswer: myJson});
          console.log(myJson);
         })
         .catch(err => {
@@ -55,57 +77,67 @@ export default class AskForm extends React.Component {
         });
       }
     });
+    this.forceUpdate();
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
+    const answer = this.state.passageAnswer;
+
     return (
       <div className="askWrapper">
+
+
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {getFieldDecorator('question', {
               rules: [{ required: true, message: 'Input a Question' }],
             })(
-              <React.Fragment>
-              <Input 
-              className="passagaeQuestionTextInput"
-              prefix={<Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Ask your question" />
-
-              <Button type="ghost" htmlType="submit" className="floatingAskButton" icon="radar-chart">
-              Ask Frame
-            </Button>
-            </React.Fragment>
+              <Input className="questionTextInput"
+              prefix={<Icon type="question-circle" 
+              style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Write your question (must be about the text on this page)" />
             )}
-            <Form.Item>
+          </Form.Item>
 
-          </Form.Item>
-          </Form.Item>
+          {/* The input elements below are necessary for submission and are automatically filled,
+              so we hide them in the UI. The result is rendered in one input form below,
+              but it looks better to show that answer as a message.
+          */}
+
           <Form.Item>
             {getFieldDecorator('passage', {
               initialValue: this.props.entryText,
-              rules: [{ required: true, message: 'No text passage found, select an entry and click "Run" or save' }],
+              rules: [{ required: true, message: 'Passage of text' }],
             })(
-              <Input 
-              className="passageTextInputDisabled"
-              prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true}/>
+              <Input className="passageTextDisabled" 
+              prefix={<Icon type="diff" style={{ color: 'rgba(0,0,0,.25)' }} />} disabled={true}/>
             )}
           </Form.Item>
-        </Form>
 
-        <div className="result">
-          <Form onSubmit={this.handleSubmit}>
             <Form.Item>
-              {getFieldDecorator('passage', {
-                initialValue: this.props.entryText,
-                rules: [{ required: true, message: 'No text passage found, select an entry and click "Run" or save' }],
+              {getFieldDecorator('passageResult', {
+                initialValue: this.state.passageAnswer,
+                rules: [{ required: true, message: 'The answer will be here' }],
               })(
                 <Input 
-                className="passageTextResult"
+                className="passageTextDisabled"
                 prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true} placeholder="Answer will be here"/>
               )}
             </Form.Item>
-          </Form>
-        </div>
+
+
+          <Form.Item>
+            <Button type="ghost" icon="radar-chart" className="floatingAskButton" htmlType="submit" >
+              Ask Frame
+            </Button>
+          </Form.Item>
+        </Form>
+
+          <p className="smallDetailText">
+            If you're having trouble, remember to hit "Run" or save before asking
+          </p>
+
 
       </div>
     );

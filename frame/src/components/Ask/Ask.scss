@@ -7,28 +7,20 @@
     margin-left: 280px !important;
 }
 
-.passagaeQuestionTextInput {
+.questionTextInput {
     z-index: 1000 !important;
-    width: calc(60% - 20px) !important;
-    height: 80px !important;
-    margin-top: 5px !important;
+    width: calc(50% - 20px) !important;
+    height: 100px !important;
+    margin-top: 18px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    margin-left: 90px !important;
 }
 
-.passageTextInputDisabled {
+.passageTextDisabled {
     width: calc(55% - 20px) !important;
     height: 80px !important;
     display: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-
-.passageTextResult {
-    z-index: 1000 !important;
-    width: calc(60% - 20px) !important;
-    height: 80px !important;
-    margin-top: 5px !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
@@ -37,8 +29,17 @@
     z-index: 1000 !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    position: sticky !important;
-    margin-left: -118px !important;
     text-align: center !important;
-    top: 58px !important;
+    position: sticky !important;
+    margin-left: 240px !important;
+    // text-align: center !important;
+}
+
+.smallDetailText {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-left: 70px !important;
+    font-size: .9em !important;
+    margin-top: 8px !important;
+    letter-spacing: 1px !important;
 }
