@@ -323,12 +323,56 @@ export default class Notepad extends Component {
               summaryExtractive = '';
               summaryByParagraphs = [];
             }
+            fetch("http://localhost:80/api/abstractive_summarize", {
+              method: "POST",
+              mode: 'cors',
+              body: JSON.stringify(strippedText),
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+              },
+              credentials: "same-origin"
+              }).then(function(response) {
+                return response.json()
+              })
+              .then(function(jsonRes) {
+                summaryAbstractive = jsonRes;
+                // console.log(jsonRes);
+              })
+            .catch(err => {
+                // console.log(err);
+                // message.error(err);
+            });
+            fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+              method: "POST",
+              mode: 'cors',
+              body: JSON.stringify(strippedText.split(/\n/g)),
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+              },
+              credentials: "same-origin"
+              }).then(function(response) {
+                return response.json()
+              })
+              .then(function(jsonRes) {
+                summaryAbstractiveByParagraphs = jsonRes;
+                // console.log(jsonRes);
+              })
+            .catch(err => {
+                // console.log(err);
+                // message.error(err);
+            });
           } else {
             summaryExtractive = '';
+            summaryAbstractive = '';
             summaryByParagraphs = [];
+            summaryAbstractiveByParagraphs = [];
           }
           entry['summaryExtractive'] = summaryExtractive;
           entry['summaryByParagraphs'] = summaryByParagraphs;
+          entry['summaryAbstractive'] = summaryAbstractive;
+          entry['summaryAbstractiveByParagraphs'] = summaryAbstractiveByParagraphs;
           entry['stats'] = {
             charCount: charCount,
             syllableCount: syllableCount,
@@ -440,12 +484,76 @@ export default class Notepad extends Component {
             summaryExtractive = '';
             summaryByParagraphs = [];
           }
+          fetch("http://localhost:80/api/abstractive_summarize", {
+            method: "POST",
+            mode: 'cors',
+            body: JSON.stringify(strippedText),
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json',
+            },
+            credentials: "same-origin"
+            }).then(function(response) {
+              return response.json()
+            })
+            .then(function(jsonRes) {
+              summaryAbstractive = jsonRes;
+              // console.log(jsonRes);
+            })
+          .catch(err => {
+              // console.log(err);
+              // message.error(err);
+          });
+          fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+            method: "POST",
+            mode: 'cors',
+            body: JSON.stringify(strippedText.split(/\n/g)),
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json',
+            },
+            credentials: "same-origin"
+            }).then(function(response) {
+              return response.json()
+            })
+            .then(function(jsonRes) {
+              summaryAbstractiveByParagraphs = jsonRes;
+              // console.log(jsonRes);
+            })
+          .catch(err => {
+              // console.log(err);
+              // message.error(err);
+          });
+          fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+            method: "POST",
+            mode: 'cors',
+            body: JSON.stringify(strippedText.split(/\n/g)),
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json',
+            },
+            credentials: "same-origin"
+            }).then(function(response) {
+              return response.json()
+            })
+            .then(function(jsonRes) {
+              summaryAbstractiveByParagraphs = jsonRes;
+              // console.log(jsonRes);
+            })
+          .catch(err => {
+              // console.log(err);
+              // message.error(err);
+          });
         } else {
           summaryExtractive = '';
-          summaryByParagraphs = '';
+          summaryAbstractive = '';
+          summaryByParagraphs = [];
+          summaryAbstractiveByParagraphs = [];
         }
         entry['summaryExtractive'] = summaryExtractive;
         entry['summaryByParagraphs'] = summaryByParagraphs;
+        entry['summaryAbstractive'] = summaryAbstractive;
+        entry['summaryAbstractiveByParagraphs'] = summaryAbstractiveByParagraphs;
         entry['stats'] = {
           charCount: charCount,
           syllableCount: syllableCount,
@@ -602,14 +710,58 @@ export default class Notepad extends Component {
         } catch (err) {
           console.log(err);
           summaryExtractive = '';
-          summaryByParagraphs = '';
+          summaryByParagraphs = [];
         }
+        fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+          method: "POST",
+          mode: 'cors',
+          body: JSON.stringify(strippedText.split(/\n/g)),
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+          },
+          credentials: "same-origin"
+          }).then(function(response) {
+            return response.json()
+          })
+          .then(function(jsonRes) {
+            summaryAbstractiveByParagraphs = jsonRes;
+            // console.log(jsonRes);
+          })
+        .catch(err => {
+            // console.log(err);
+            // message.error(err);
+        });
+        fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+          method: "POST",
+          mode: 'cors',
+          body: JSON.stringify({"text_input_paragraphs_for_summary": strippedText.split(/\n/g)}),
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+          },
+          credentials: "same-origin"
+          }).then(function(response) {
+            return response.json()
+          })
+          .then(function(jsonRes) {
+            summaryAbstractiveByParagraphs = jsonRes;
+            console.log(jsonRes);
+          })
+        .catch(err => {
+            console.log(err);
+            // message.error(err);
+        });
       } else {
         summaryExtractive = '';
-        summaryByParagraphs = '';
+        summaryAbstractive = '';
+        summaryByParagraphs = [];
+        summaryAbstractiveByParagraphs = [];
       }
       entry['summaryExtractive'] = summaryExtractive;
       entry['summaryByParagraphs'] = summaryByParagraphs;
+      entry['summaryAbstractive'] = summaryAbstractive;
+      entry['summaryAbstractiveByParagraphs'] = summaryAbstractiveByParagraphs;
       entry['stats'] = {
         charCount: charCount,
         syllableCount: syllableCount,
