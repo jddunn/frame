@@ -6,17 +6,22 @@ import {
   Row, Col, Layout, Menu, Breadcrumb,
   Icon, Button, Switch, Dropdown, message,
   Tooltip, Select, Drawer, Radio, Collapse, List,
-  Divider
+  Divider, Form, Input
   } from 'antd';
 
 import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
 
 import Visualizer from '../Visualizer/Visualizer';
+import AskForm from '../Ask/Ask'; 
+
+/**
+ * TODO: Eventually separate out the summarizer too and other analysis components,
+ * since this class is getting massive.
+ */
 
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
 import ReactJson from 'react-json-view';
-// import DOMify from 'react-domify';
 
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
@@ -76,12 +81,12 @@ export default class Analyzer extends Component {
     let defaultOpenKeysRight = [];
 
     let detectedLanguagesContainer;
-
+    let detectedLanguagesLength;
     try {
       if (entry !== null && entry !== undefined) {
         let detectedLanguages = entry['detectedLanguages'];
         if (detectedLanguages === undefined || detectedLanguages === null) detectedLanguages = [];
-        let detectedLanguagesLength = detectedLanguages.length;
+        detectedLanguagesLength = detectedLanguages.length;
         let showArrow = false;
         if (detectedLanguagesLength > 0) { defaultOpenKeysRight.push('11'); showArrow = true; }
         let entityTitle = "Languages Detected (ISO 639-3)\xa0\xa0  \xa0\xa0 (" + detectedLanguagesLength + ") \xa0\xa0";
@@ -112,6 +117,9 @@ export default class Analyzer extends Component {
            * Currently, the order of which the items are saved / rendered
            * in the Analyzer component is determined by how the entry data
            * is saved in Notepad.
+           * 
+           * TODO: Refactor this out later after thinking about the organization
+           * / structure of the list items.
            */
           if (propKey === 'topics') {
             topics = entities[i][1];
@@ -329,7 +337,7 @@ export default class Analyzer extends Component {
       // console.log("INFO ERR: ", err);
     }
     divContainers.push(divContainerLeft);
-    divContainerRight.splice(1, 0, detectedLanguagesContainer)
+    if (detectedLanguagesLength >0) divContainerRight.splice(1, 0, detectedLanguagesContainer);
     divContainers.push(divContainerRight);
     divContainers.push(defaultOpenKeysLeft);
     divContainers.push(defaultOpenKeysRight);
@@ -448,33 +456,12 @@ export default class Analyzer extends Component {
     return Entries;
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     this.setState({_isMounted: true});
-
   }
 
   componentWillUnmount() {
     this.setState({_isMounted: false});
-  }
-
-  async componentWillUpdate() {
-    // if (this.state._isMounted) {
-    //   const entryId = getState("entryId");
-    //   if (entryId !== null && entryId !== undefined && entryId !== "undefined") {
-    //   const library = getState("library");
-    //     const Library = openDB(library);
-    //     if (this.state.lastEntryId !== entryId) {
-    //       await this.getEntries(Library, "entries").then(async(result) => {
-    //         const Entries = result;
-    //         const entry = traverseEntriesById(entryId, Entries);
-    //         if (entry != null) {
-    //           this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
-    //         }
-    //       })
-    //     // this.forceUpdate();
-    //     }
-    //   }
-    // }
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -486,10 +473,10 @@ export default class Analyzer extends Component {
       await this.getEntries(Library, "entries").then(async(result) => {
         const Entries = result;
         const entry = traverseEntriesById(entryId, Entries);
-        if (entry != null) {
+        if (entry !== null) {
           this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
         } else {
-          this.forceUpdate();
+          this.setState({Entries: Entries, selectedEntry: Entries[0], lastEntryId: Entries[0].id});
         }
       })
     }
@@ -509,112 +496,115 @@ export default class Analyzer extends Component {
     ) {
         analysisDrawerVisible = false;
     }
-    if (this.state._isMounted) {
-      let selectedEntry = this.state.selectedEntry;
+    // if (this.state._isMounted) {
+    let selectedEntry = this.state.selectedEntry;
 
-      if (selectedEntry == null || selectedEntry == undefined ||
-          selectedEntry == "undefined"
-        ) {
-          selectedEntry = Entries[0];
-      }
-      const Entries = this.state.Entries;
-      drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
-      const dateCreated = selectedEntry.dateCreated;
-      let entryTags = selectedEntry.tags;
-      
-      let charCount; 
-      let wordCount; 
-      let sentenceCount; 
-      let syllableCount; 
-      let avgSyllablesPerWord; 
-      let avgSyllablesPerSentence; 
-      let avgWordsPerSentence;
-      let fleschReadability; 
-      let fleschReadabilityDescription;
-      try {
-        charCount = selectedEntry['stats']['charCount'];
-        wordCount = selectedEntry['stats']['wordCount'];
-        sentenceCount = selectedEntry['stats']['sentenceCount'];
-        syllableCount = selectedEntry['stats']['syllableCount'];
-        avgSyllablesPerWord = selectedEntry['stats']['avgSyllablesPerWord'];
-        avgSyllablesPerSentence = selectedEntry['stats']['avgSyllablesPerSentence'];
-        avgWordsPerSentence = selectedEntry['stats']['avgWordsPerSentence'];
-        fleschReadability = selectedEntry['stats']['fleschReadability'];
-      } catch (err) {
-        // console.log(err);
-      }
-      if (fleschReadability != null && fleschReadability != undefined &&
-        fleschReadability != "undefined") {
-          if (fleschReadability >= 90) {
-            fleschReadabilityDescription = fleschReadability.toString() +
-            '  -  Very easy to read (5th - 6th grade reading level)';
-          } else if (fleschReadability >= 65) {
-            fleschReadabilityDescription = fleschReadability.toString() +
-            '  -  Fairly easy to read (6th - 7th grade reading level)';
-          } else if (fleschReadability >= 50) {
-            fleschReadabilityDescription = fleschReadability.toString() + 
-            ' - Fairly difficult to read (10th - 12th grade reading level)';
-          } else if (fleschReadability >= 35) {
-            fleschReadabilityDescription = fleschReadability.toString() + 
-            ' - Difficult to read (College reading level)';
-          } else if (fleschReadability < 35) {
-            fleschReadabilityDescription = fleschReadability.toString() + 
-            ' - Difficult to read (College graduate reading level)';
-          } else {
-            fleschReadabilityDescription = fleschReadability;
-          }
-      }
-      try {
-        entryTags = entryTags.split(' ').join(' ');
-      } catch (err) {
-        entryTags = 'none';
-      }
-      if (entryTags.length <= 0) {
-        entryTags = 'none';
-      }
-
-      const informationExtractionResults = this.buildInformationExtraction(selectedEntry);
-      const summariesResults = this.buildSummaries(selectedEntry);
-      const defaultOpenSummaries = summariesResults[0];
-      const summariesResultsContent = summariesResults[1];
-
-      const entitiesContainerLeft = informationExtractionResults[0];
-      const entitiesContainerRight = informationExtractionResults[1];
-      const entitiesDefaultOpenKeysLeft = informationExtractionResults[2];
-      const entitiesDefaultOpenKeysRight = informationExtractionResults[3];
-
-      let extractiveSummary = selectedEntry['summaryExtractive'];
-      if (extractiveSummary === null || extractiveSummary === "undefined" ||
-        extractiveSummary === "undefined") 
-      { 
-        extractiveSummary = '';
-      }
-      let summaryByParagraphs = selectedEntry['summaryByParagraphs'];
-
-      if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
-      summaryByParagraphs === "undefined") 
-      { 
-        summaryByParagraphs = [];
-      }
-
-      let summaryByParagraphsContainer = [];
-      try {
-        for (let i=0; i<summaryByParagraphs.length; i++) {
-          summaryByParagraphsContainer.push(<p>{summaryByParagraphs[i]}</p>)
+    if (selectedEntry == null || selectedEntry == undefined ||
+        selectedEntry == "undefined"
+      ) {
+        selectedEntry = Entries[0];
+    }
+    const Entries = this.state.Entries;
+    drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
+    const dateCreated = selectedEntry.dateCreated;
+    let entryTags = selectedEntry.tags;
+    
+    let charCount; 
+    let wordCount; 
+    let sentenceCount; 
+    let syllableCount; 
+    let avgSyllablesPerWord; 
+    let avgSyllablesPerSentence; 
+    let avgWordsPerSentence;
+    let fleschReadability; 
+    let fleschReadabilityDescription;
+    try {
+      charCount = selectedEntry['stats']['charCount'];
+      wordCount = selectedEntry['stats']['wordCount'];
+      sentenceCount = selectedEntry['stats']['sentenceCount'];
+      syllableCount = selectedEntry['stats']['syllableCount'];
+      avgSyllablesPerWord = selectedEntry['stats']['avgSyllablesPerWord'];
+      avgSyllablesPerSentence = selectedEntry['stats']['avgSyllablesPerSentence'];
+      avgWordsPerSentence = selectedEntry['stats']['avgWordsPerSentence'];
+      fleschReadability = selectedEntry['stats']['fleschReadability'];
+    } catch (err) {
+      // console.log(err);
+    }
+    if (fleschReadability != null && fleschReadability != undefined &&
+      fleschReadability != "undefined") {
+        if (fleschReadability >= 90) {
+          fleschReadabilityDescription = fleschReadability.toString() +
+          '  -  Very easy to read (5th - 6th grade reading level)';
+        } else if (fleschReadability >= 65) {
+          fleschReadabilityDescription = fleschReadability.toString() +
+          '  -  Fairly easy to read (6th - 7th grade reading level)';
+        } else if (fleschReadability >= 50) {
+          fleschReadabilityDescription = fleschReadability.toString() + 
+          ' - Fairly difficult to read (10th - 12th grade reading level)';
+        } else if (fleschReadability >= 35) {
+          fleschReadabilityDescription = fleschReadability.toString() + 
+          ' - Difficult to read (College reading level)';
+        } else if (fleschReadability < 35) {
+          fleschReadabilityDescription = fleschReadability.toString() + 
+          ' - Difficult to read (College graduate reading level)';
+        } else {
+          fleschReadabilityDescription = fleschReadability;
         }
-      } catch (err) {
-        // console.log("ERRRR: ", err);
+    }
+    try {
+      entryTags = entryTags.split(' ').join(' ');
+    } catch (err) {
+      entryTags = 'none';
+    }
+    if (entryTags.length <= 0) {
+      entryTags = 'none';
+    }
+
+    const informationExtractionResults = this.buildInformationExtraction(selectedEntry);
+    const summariesResults = this.buildSummaries(selectedEntry);
+    const defaultOpenSummaries = summariesResults[0];
+    const summariesResultsContent = summariesResults[1];
+
+    const entitiesContainerLeft = informationExtractionResults[0];
+    const entitiesContainerRight = informationExtractionResults[1];
+    const entitiesDefaultOpenKeysLeft = informationExtractionResults[2];
+    const entitiesDefaultOpenKeysRight = informationExtractionResults[3];
+
+    let extractiveSummary = selectedEntry['summaryExtractive'];
+    if (extractiveSummary === null || extractiveSummary === "undefined" ||
+      extractiveSummary === "undefined") 
+    { 
+      extractiveSummary = '';
+    }
+    let summaryByParagraphs = selectedEntry['summaryByParagraphs'];
+
+    if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
+    summaryByParagraphs === "undefined") 
+    { 
+      summaryByParagraphs = [];
+    }
+
+    let summaryByParagraphsContainer = [];
+    try {
+      for (let i=0; i<summaryByParagraphs.length; i++) {
+        summaryByParagraphsContainer.push(<p>{summaryByParagraphs[i]}</p>)
       }
-      let detectedLanguages = selectedEntry['detectedLanguages'];
-      let detectedLanguage;
-      try {
-        detectedLanguage = selectedEntry['detectedLanguages'][0]
-      } catch (err) {
-        detectedLanguage = "none";
-      }
+    } catch (err) {
+      // console.log("ERRRR: ", err);
+    }
+    let detectedLanguages = selectedEntry['detectedLanguages'];
+    let detectedLanguage;
+    try {
+      detectedLanguage = selectedEntry['detectedLanguages'][0]
+    } catch (err) {
+      detectedLanguage = "none";
+    }
+      const entryTextToSummarize = selectedEntry['strippedText'];
+
+      const WrappedAskForm = Form.create()(AskForm);
+
       return(
         <div className="analysisContainer">
-
           <Drawer
             title={drawerTitle}
             mask={false}
@@ -627,7 +617,17 @@ export default class Analyzer extends Component {
             <Wrapper letterNavigation={true}>
               <TabList>
                 <ul className='FancyTabs-tablist'>
-
+                    <Tooltip title="You must save your changes before running a new analysis">
+                      <Button 
+                        type="primary"
+                        ghost={true} 
+                        icon="deployment-unit"
+                        className="runButton"
+                        onClick={()=> { message.success("Analyzing current entry.."), this.props.updateAppMethod}}
+                        >
+                        Run
+                    </Button>
+                  </Tooltip>
                   <li className='FancyTabs-tablistItem'>
                     <Tab id='t1' className='FancyTabs-tab'>
                       {analysisTabs.bind(null, (
@@ -828,12 +828,17 @@ export default class Analyzer extends Component {
                 </TabPanel>
 
                 <TabPanel tabId='t6'>
-                  <Visualizer entry={selectedEntry}/>
+                  <Visualizer entry={selectedEntry} Entries={Entries}/>
                 </TabPanel>
 
                 <TabPanel tabId='t2'>
                   <div className='FancyTabs-panelInner'>
-                    Ut <a href='#'>enim</a> ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  <div className="tabInnerSection">
+                      <h4 className="sectionTitleText">
+                        Ask Questions
+                      </h4>
+                      <WrappedAskForm entryText={entryTextToSummarize}/>
+                  </div>
                   </div>
                 </TabPanel>
                 <TabPanel tabId='t3'>
@@ -866,10 +871,10 @@ export default class Analyzer extends Component {
           </Drawer>
         </div>
       );
-    } else {
-      return null;
-    }
   }
+    // } else {
+      // return null;
+    // }
 }
 
 // Tab switch handler
@@ -881,4 +886,45 @@ function analysisTabs(content, tabState) {
       {content}
     </div>
   );
+}
+
+
+class SummarizerForm extends React.Component {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+    
+      }
+    });
+  }
+  
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Item>
+          {getFieldDecorator('question', {
+            rules: [{ required: true, message: 'Input a Question' }],
+          })(
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Ask your question" />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('passage', {
+            initialValue: entryTextToSummarize,
+            rules: [{ required: true, message: 'Passage of text' }],
+          })(
+            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} disabled={true}/>
+          )}
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" >
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  }
 }

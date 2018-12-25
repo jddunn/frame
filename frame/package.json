@@ -22,6 +22,7 @@
         "build-dev": "webpack --config webpack.dev.js --progress --color",
         "electron-dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.electron.js --display-error-details",
         "electron-build": "./node_modules/.bin/electron-builder build",
+        "electron-build-mac": "./node_modules/.bin/electron-builder build --mac",
         "lint": "eslint -c .eslintrc.json src/** src/**/**; exit 0",
         "flow": "flow",
         "flow start": "flow start",

@@ -84,6 +84,10 @@ export default class App extends Component {
     this.sleep = this.sleep.bind(this);
   }
 
+  sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   /**
    * Collapse the app menu (Sider button)
    *
@@ -153,10 +157,8 @@ export default class App extends Component {
       library = defaultFLib;
     }
     const Library = openDB(library);
-    console.log("COMP MOUNTED");
     await this.getEntriesInitial(Library, "entries").then((result) => {
       let Entries = result;
-      console.log("INITIAL ENTRIES GOTTEN: ", Entries);
       if (Entries === null || Entries === undefined) { 
           console.log(exampleEntries);
           Entries = exampleEntries;
@@ -226,41 +228,6 @@ export default class App extends Component {
             });
           }
     });
-
-  }
-      // Set Entries in actual React state since
-  //     // sessionStorage can only do JSON.
-  //     let states = {};
-  //     // if (this.state.prevEntryId !== selectedEntryId) {
-  //       states['prevEntryId'] = selectedEntryId;
-  //     // }
-  //     // if (this.state.prevLibrary !== library) {
-  //       states['prevLibrary'] = library;
-  //     // }
-  //     // if (this.state.prevEntries !== Entries) {
-  //       states['prevEntries'] = Entries;
-  //     // }
-  //     // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-  //       states['prevEntryEditorType'] = selectedEntryEditorType;
-  //     // }
-  //     // if (this.state.prevActiveLink !== activeLink) {
-  //       states['prevActiveLink'] = activeLink;
-  //     // }
-  //     console.log("Should comp update with new states: ", states);
-  //     if (states.length > 0) {
-  //       this.setState({
-  //         states
-  //       });
-  //     }
-  //   });
-  // }
-
-  async componentWillMount() {
-
-  }
-
-  sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async updateEntries() {
