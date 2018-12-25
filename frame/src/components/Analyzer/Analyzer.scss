@@ -271,6 +271,7 @@ span.ant-radio + * {
 }
 
 .runButton {
+    z-index: 100000;
     font-size: .8em;
     border: none !important;
     color: white !important;

@@ -29,7 +29,27 @@ import './Ask.scss';
 
 
 export default class AskForm extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      passageAnswer: "The answer will be here",
+      _isMounted: false,
+    };
+  }
+  
+  componentDidMount() {
+    this.setState({_isMounted: true});
+  }
+
+  componentWillUnount() {
+    this.setState({_isMounted: false});
+  }
+
+
   handleSubmit = (e) => {
+    const _this = this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -47,6 +67,8 @@ export default class AskForm extends React.Component {
           return response.json()
         })
         .then(function(myJson) {
+         message.success("The answer is: " + myJson);
+         _this.setState({passageAnswer: myJson});
          console.log(myJson);
         })
         .catch(err => {
@@ -55,33 +77,69 @@ export default class AskForm extends React.Component {
         });
       }
     });
+    this.forceUpdate();
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
+    const answer = this.state.passageAnswer;
+
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Item>
-          {getFieldDecorator('question', {
-            rules: [{ required: true, message: 'Input a Question' }],
-          })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Ask your question" />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('passage', {
-            initialValue: this.props.entryText,
-            rules: [{ required: true, message: 'Passage of text' }],
-          })(
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} disabled={true}/>
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" >
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      <div className="askWrapper">
+
+
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator('question', {
+              rules: [{ required: true, message: 'Input a Question' }],
+            })(
+              <Input className="questionTextInput"
+              prefix={<Icon type="question-circle" 
+              style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Write your question (must be about the text on this page)" />
+            )}
+          </Form.Item>
+
+          {/* The input elements below are necessary for submission and are automatically filled,
+              so we hide them in the UI. The result is rendered in one input form below,
+              but it looks better to show that answer as a message.
+          */}
+
+          <Form.Item>
+            {getFieldDecorator('passage', {
+              initialValue: this.props.entryText,
+              rules: [{ required: true, message: 'Passage of text' }],
+            })(
+              <Input className="passageTextDisabled" 
+              prefix={<Icon type="diff" style={{ color: 'rgba(0,0,0,.25)' }} />} disabled={true}/>
+            )}
+          </Form.Item>
+
+            <Form.Item>
+              {getFieldDecorator('passageResult', {
+                initialValue: this.state.passageAnswer,
+                rules: [{ required: true, message: 'The answer will be here' }],
+              })(
+                <Input 
+                className="passageTextDisabled"
+                prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true} placeholder="Answer will be here"/>
+              )}
+            </Form.Item>
+
+
+          <Form.Item>
+            <Button type="ghost" icon="radar-chart" className="floatingAskButton" htmlType="submit" >
+              Ask Frame
+            </Button>
+          </Form.Item>
+        </Form>
+
+          <p className="smallDetailText">
+            If you're having trouble, remember to hit "Run" or save before asking
+          </p>
+
+
+      </div>
     );
   }
 }

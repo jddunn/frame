@@ -1,0 +1,45 @@
+.askWrapper {
+    margin: 0px !important;
+    padding: 0px !important;
+    height: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-left: 280px !important;
+}
+
+.questionTextInput {
+    z-index: 1000 !important;
+    width: calc(50% - 20px) !important;
+    height: 100px !important;
+    margin-top: 18px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-left: 90px !important;
+}
+
+.passageTextDisabled {
+    width: calc(55% - 20px) !important;
+    height: 80px !important;
+    display: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.floatingAskButton {
+    z-index: 1000 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+    position: sticky !important;
+    margin-left: 240px !important;
+    // text-align: center !important;
+}
+
+.smallDetailText {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-left: 70px !important;
+    font-size: .9em !important;
+    margin-top: 8px !important;
+    letter-spacing: 1px !important;
+}

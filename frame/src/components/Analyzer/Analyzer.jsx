@@ -849,9 +849,6 @@ export default class Analyzer extends Component {
                   <TabPanel tabId='t2'>
                     <div className='FancyTabs-panelInner'>
                     <div className="tabInnerSection">
-                        <h4 className="sectionTitleText">
-                          Ask Questions
-                        </h4>
                         <WrappedAskForm entryText={entryTextToSummarize}/>
                     </div>
                     </div>
