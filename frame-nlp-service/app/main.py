@@ -10,27 +10,41 @@ from question_answer_model import question_answer_model
 QAModel = question_answer_model.QuestionAnswerModel()
 ABSummarizer = abstractive_summarizer.AbstractiveSummarizer()
 
+HOST = '0.0.0.0'
+PORT = '80'
+
 @app.route("/")
 def hello():
-    return "Frame NLP Python backend"
+    return("Frame NLP Python backend running at " + HOST + ':' + PORT)
 
 @app.route("/api/abstractive_summarize", methods=['GET', 'POST'])
 def abstract():
-    passage = request.form['text_input_passage_for_summary']
+    # Gets and returs jsonified string
+    # Builds an abstractive summary of a text
+    passage = request.get_json()
     res = ABSummarizer.summarize(passage)
-    return res
+    return jsonify(res)
+
+@app.route("/api/abstractive_summarize_paragraphs", methods=['GET', 'POST'])
+def abstract_paragraphs():
+    # Builds abstractive summaries of texts by paragraphs
+    # Gets and returns jsonified array
+    paragraphs = request.get_json()
+    results = []
+    for passage in paragraphs:
+        res = ABSummarizer.summarize(passage)
+        results.append(res)
+    return jsonify(results)
 
 @app.route("/api/make_predict", methods=['GET', 'POST'])
 def ask():
-    print("\n\nREQUEST: ", request.get_json())
-#     passage = request.form['passage']
+    # Gets answer to question in context of a passage of text
+    # Gets and returns jsonified strings
     passage = request.get_json()['passage']
     question = request.get_json()['question']
-#     question = request.form['question']
     res = QAModel.make_predict(passage, question)
-    print("\n\n\n\t\tRESULT: ", res)
     return jsonify(res)
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=80)
+    app.run(host=HOST, debug=True, port=PORT)

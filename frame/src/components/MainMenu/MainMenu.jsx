@@ -307,7 +307,7 @@ export default class MainMenu extends Component {
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       message.error('Failed to open - ' + err, 1);
     }
     this.props.updateAppMethod();
@@ -345,12 +345,12 @@ export default class MainMenu extends Component {
       downloadLink.click();
       message.success("Downloaded current library data!");
    } catch (err) {
-     console.log(err);
+    //  console.log(err);
     }
   }
 
   handleUploadFile = (e) => {
-    console.log("ETARGET: ", e);
+    // console.log("ETARGET: ", e);
     const file = e;
     const reader = new FileReader();
     // Closure to capture the file information.
@@ -359,14 +359,14 @@ export default class MainMenu extends Component {
       return function (e) {
         try {
           const json = JSON.parse(e.target.result);
-          console.log("JSON: ", json);
+          // console.log("JSON: ", json);
           message.success("Successfully uploaded library " + e.target);
           message.success("You will not be able to view the new library in your notebook without saving first. \
           If you want to preview contents before saving, look in the editor mode in the main menu!");
           _this.setState({treeData: json});
         } catch (err) {
           message.fail("Unable to upload new library from JSON! ", err);
-          console.log(err);
+          // console.log(err);
         }
       }
     })(file);

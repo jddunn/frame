@@ -1,7 +1,7 @@
 {
     "savedSettings": {
         "online": false,
-        "nlpServer": "localhost",
+        "NLPServer": "http://localhost:80/",
         "activeTheme": "ocean",
         "loadedThemes": [
                         "light",

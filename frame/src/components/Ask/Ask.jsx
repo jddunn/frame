@@ -1,5 +1,6 @@
 
 'use strict';
+import config from '../../data/config.json';
 import React, { Component } from "react";
 import PropTypes, { shape } from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
@@ -27,12 +28,17 @@ import replaceEntry from '../../utils/replace-entry';
 
 import './Ask.scss';
 
+const { TextArea } = Input;
+
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const pythonNLPServer = config.savedSettings.NLPServer;
+const defaultFLib = savedSettings.defaultLibrary;
 
 export default class AskForm extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       passageAnswer: "The answer will be here",
       _isMounted: false,
@@ -66,10 +72,10 @@ export default class AskForm extends React.Component {
         }).then(function(response) {
           return response.json()
         })
-        .then(function(myJson) {
-         message.success("The answer is: " + myJson);
-         _this.setState({passageAnswer: myJson});
-         console.log(myJson);
+        .then(function(jsonRes) {
+         message.success("The answer is: " + jsonRes);
+         _this.setState({passageAnswer: jsonRes});
+         console.log(jsonRes);
         })
         .catch(err => {
             console.log(err);
@@ -82,21 +88,20 @@ export default class AskForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
     const answer = this.state.passageAnswer;
 
     return (
       <div className="askWrapper">
-
-
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {getFieldDecorator('question', {
               rules: [{ required: true, message: 'Input a Question' }],
             })(
               <Input className="questionTextInput"
+              size="large"
               prefix={<Icon type="question-circle" 
-              style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Write your question (must be about the text on this page)" />
+              style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Write your question (must be about the text on this page)" />
             )}
           </Form.Item>
 
@@ -115,17 +120,16 @@ export default class AskForm extends React.Component {
             )}
           </Form.Item>
 
-            <Form.Item>
-              {getFieldDecorator('passageResult', {
-                initialValue: this.state.passageAnswer,
-                rules: [{ required: true, message: 'The answer will be here' }],
-              })(
-                <Input 
-                className="passageTextDisabled"
-                prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true} placeholder="Answer will be here"/>
-              )}
-            </Form.Item>
-
+          <Form.Item>
+            {getFieldDecorator('passageResult', {
+              initialValue: this.state.passageAnswer,
+              rules: [{ required: true, message: 'The answer will be here' }],
+            })(
+              <Input 
+              className="passageTextDisabled"
+              prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true} placeholder="Answer will be here"/>
+            )}
+          </Form.Item>
 
           <Form.Item>
             <Button type="ghost" icon="radar-chart" className="floatingAskButton" htmlType="submit" >
@@ -134,10 +138,9 @@ export default class AskForm extends React.Component {
           </Form.Item>
         </Form>
 
-          <p className="smallDetailText">
-            If you're having trouble, remember to hit "Run" or save before asking
-          </p>
-
+        <p className="smallDetailText">
+          If you're having trouble, remember to hit "Run" or save before asking
+        </p>
 
       </div>
     );

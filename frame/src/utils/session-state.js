@@ -19,11 +19,9 @@ Storage.prototype.getObject = function(key) {
 const sessionStore = sessionStorage;
 
 export function setState(key, val) {
-    console.log("SET S: ", key, val);
     return(sessionStore.setObject(key, val));
 }
 
 export function getState(key) {
-    console.log("GET S: ", key);
     return(sessionStore.getObject(key));
 }

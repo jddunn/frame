@@ -233,7 +233,7 @@ export default class Visualizer extends Component {
             </React.Fragment>
           );
         } catch (err) {
-          console.log(err);
+          // console.log(err);
           return null;
         }
       } else {

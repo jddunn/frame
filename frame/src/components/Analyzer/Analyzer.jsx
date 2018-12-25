@@ -355,37 +355,14 @@ export default class Analyzer extends Component {
     const abstractiveSummary = entry['summaryAbstractive'];
     const extractiveSummary = entry['summaryExtractive'];
     const summaryByParagraphs = entry['summaryByParagraphs'];
+    const summaryByAParagraphs = entry['summaryAbstractiveByParagraphs'];
+
     const defaultOpenKeys = [];
     let showArrow;
     const container = [];
     const res = [];
     let div;
-    // console.log(abstractiveSummary, extractiveSummary, summaryByParagraphs);
-    try {
-      if (abstractiveSummary.length > 0 && Array.isArray(abstractiveSummary)) {
-        showArrow = true;
-        defaultOpenKeys.push('1');
-      } else {
-        showArrow = false;
-      }
-      div = (
-        <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="1" showArrow={showArrow}>
-          <div className="abstractiveSummaryContainer">
-            <p className="summaryContent">{abstractiveSummary}</p>
-          </div>
-        </Panel>
-        );
-      container.push(div);
-    } catch (err) {
-      div = (
-        <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="1" showArrow={false}>
-          <div className="abstractiveSummaryContainer">
-            <p className="summaryContent">{abstractiveSummary}</p>
-          </div>
-        </Panel>
-        );
-      container.push(div);
-    }
+
     try {
       if (extractiveSummary.length > 0) {
         showArrow = true;
@@ -394,7 +371,7 @@ export default class Analyzer extends Component {
         showArrow = false;
       }
       div = (
-        <Panel className="panelHeaderBorderless" header="Extractive Summary" key="2" showArrow={showArrow}>
+        <Panel className="panelHeaderBorderless" header="Extractive Summary" key="1" showArrow={showArrow}>
           <div className="extractiveSummaryContainer">
             <p className="summaryContent">{extractiveSummary}</p>
           </div>
@@ -403,7 +380,7 @@ export default class Analyzer extends Component {
       container.push(div);
     } catch (err) {
       div = (
-        <Panel className="panelHeaderBorderless" header="Extractive Summary" key="2" showArrow={false}>
+        <Panel className="panelHeaderBorderless" header="Extractive Summary" key="1" showArrow={false}>
           <div className="extractiveSummaryContainer">
             <p className="summaryContent">{extractiveSummary}</p>
           </div>
@@ -411,6 +388,33 @@ export default class Analyzer extends Component {
         );
         container.push(div);
     }
+
+    try {
+      if (abstractiveSummary.length > 0) {
+        showArrow = true;
+        defaultOpenKeys.push('1');
+      } else {
+        showArrow = false;
+      }
+      div = (
+        <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="2" showArrow={showArrow}>
+          <div className="abstractiveSummaryContainer">
+            <p className="summaryContent">{abstractiveSummary}</p>
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    } catch (err) {
+      div = (
+        <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="2" showArrow={false}>
+          <div className="abstractiveSummaryContainer">
+            <p className="summaryContent">{abstractiveSummary}</p>
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    }
+
     let paragraphs = [];
     let filteredSummaryByParagraphs = [];
     try {
@@ -419,6 +423,7 @@ export default class Analyzer extends Component {
       });
     } catch(err) {
     }
+
     try {
       if (filteredSummaryByParagraphs.length > 0) {
         showArrow = true;
@@ -430,7 +435,7 @@ export default class Analyzer extends Component {
         showArrow = false;
       }
       div = (
-        <Panel className="panelHeaderBorderless" header="Summary by Paragraph" key="3" showArrow={showArrow}>
+        <Panel className="panelHeaderBorderless" header="Extractive Summary by Paragraph" key="3" showArrow={showArrow}>
           <div className="summaryByParagraphsContainer">
           {paragraphs}
           </div>
@@ -439,13 +444,52 @@ export default class Analyzer extends Component {
         container.push(div);
     } catch (err) {
       div = (
-        <Panel className="panelHeaderBorderless" header="Summary by Paragraph" key="3" showArrow={false}>
+        <Panel className="panelHeaderBorderless" header="Extractive Summary by Paragraph" key="3" showArrow={false}>
           <div className="summaryByParagraphsContainer">
           </div>
         </Panel>
         );
       container.push(div);
     }
+
+    
+    let aparagraphs = [];
+    let filteredSummaryByAParagraphs = [];
+    try {
+      filteredSummaryByAParagraphs = summaryByAParagraphs.filter(function (el) {
+        return el != null && el != '';
+      });
+    } catch(err) {
+    }
+
+    try {
+      if (filteredSummaryByAParagraphs.length > 0) {
+        showArrow = true;
+        defaultOpenKeys.push('4');
+        for (let i=0; i<filteredSummaryByAParagraphs.length; i++) {
+          paragraphs.push(<p className="summaryContent">{filteredSummaryByAParagraphs[i]}</p>)
+        }
+      } else {
+        showArrow = false;
+      }
+      div = (
+        <Panel className="panelHeaderBorderless" header="Abstractive Summary by Paragraph" key="4" showArrow={showArrow}>
+          <div className="summaryByParagraphsContainer">
+          {paragraphs}
+          </div>
+        </Panel>
+        );
+        container.push(div);
+    } catch (err) {
+      div = (
+        <Panel className="panelHeaderBorderless" header="Abstractive Summary by Paragraph" key="4" showArrow={false}>
+          <div className="summaryByParagraphsContainer">
+          </div>
+        </Panel>
+        );
+      container.push(div);
+    }
+
     res.push(defaultOpenKeys);
     res.push(container);
     return res;
@@ -453,16 +497,6 @@ export default class Analyzer extends Component {
 
   async getEntries(Library, key) {
     let Entries = [];
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
     Entries = getFromDB("entries");
     return Entries;
   }
@@ -499,9 +533,7 @@ export default class Analyzer extends Component {
       const Library = openDB(library);
       const _this = this;
       const entry = this.state.entry;
-
       const entryId = this.state.entryId;
-
       const Entries = this.state.Entries;
   
       let drawerTitle = "";

@@ -55,7 +55,7 @@ const EntryCreateForm = Form.create()(
     }
     
     handleEditorChange(value) {
-      console.log(`selected ${value}`);
+      // console.log(`selected ${value}`);
     }
 
     handleReset() {
@@ -83,7 +83,7 @@ const EntryCreateForm = Form.create()(
           tags.push(vals[i]);
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         tags.push(val);
       }
       let uniqueTags = [...new Set(tags)];
@@ -244,7 +244,7 @@ export class EntryCreate extends Component {
         message.error(err);
         return;
       }
-      console.log("FORM VALUES: ", values);
+      // console.log("FORM VALUES: ", values);
       const library = defaultFLib;
       // if (library === null || libray === undefined) {
         // library = "default";
@@ -255,7 +255,7 @@ export class EntryCreate extends Component {
       try {
         m_Entries.unshift(values);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         m_Entries = [];
         m_Entries.unshift(values); // Add entry to top of tree
       }
@@ -267,7 +267,7 @@ export class EntryCreate extends Component {
         _this.props.updateEntriesMethod();        
         _this.setState({visible: false})
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         message.error("Failed to create new library entry! " + err);
         form.resetFields();
         _this.setState({visible: false});
