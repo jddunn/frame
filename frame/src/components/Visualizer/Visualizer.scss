@@ -30,7 +30,6 @@
   margin: 0 !important;
   float: right !important;
   padding: 0 !important;
-  margin-right: 120px !important;
   max-width: calc(40% - 20px) !important;
   max-height: calc(80% - 20px) !important;
   text-align: center !important;
@@ -62,4 +61,17 @@
   text-align: center !important;
   letter-spacing: 1px !important;
   font-size: 1.0em !important;
+}
+
+
+
+.FancyTabs-tablistHigher { 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-top: -20px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+  width: 100% !important;
 }

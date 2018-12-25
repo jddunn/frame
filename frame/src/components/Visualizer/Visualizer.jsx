@@ -97,7 +97,7 @@ export default class Visualizer extends Component {
               {/* Tab components */}
               <Wrapper letterNavigation={true}>
                       <TabList>
-                        <ul className='FancyTabs-tablist'>
+                        <ul className='FancyTabs-tablistHigher'>
                           <li className='FancyTabs-tablistItem'>
                             <Tab id='t1' className='FancyTabs-tab'>
                               {visualizationTabs.bind(null, (

@@ -92,6 +92,37 @@
     margin: 20px !important;
     margin-top: 0px !important;
     margin-left: 40px !important;
+    margin-right: 140px !important;
+}
+
+.FancyTabs-panelInnerCenter {
+    border: none !important;
+    background: none !important;
+    margin: 20px !important;
+    margin-top: 8px !important;
+    margin-left: 80px !important;
+}
+
+
+.FancyTabs-panelInner {
+    margin-top: 0px !important;
+}
+
+.FancyTabs-panelInnerCenter {
+    transition: transform 0.3s ease;
+}
+  
+.FancyTabs-panelInner.is-enterCenter {
+    transform: translateY(-120%);
+}
+
+.FancyTabs-panelInnerC.FancyTabs-panelInnerC.is-enter-active,
+.FancyTabs-panelInnerCenter.is-leave {
+    transform: translateY(0);
+}
+
+.FancyTabs-panelInnerCenter.is-leave-active {
+    transform: translateY(120%);
 }
 
 span.ant-radio + * {
