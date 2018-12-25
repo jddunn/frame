@@ -5,36 +5,37 @@
     min-height: 200px !important;
     margin: 20px !important;
     margin-bottom: 0px !important;
-    // margin-left: 150px !important;
-    width: calc(100% - 50px) !important;
+    margin-left: 50px !important;
+    width: calc(100% - 100px) !important;
     // overflow-x: hidden !important;
     height: calc(55% - 20px) !important;
     // background: none !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer-content {
+    // padding-left: 120px !important;
     height: 100% !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
     overflow-x: auto !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-body {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
     overflow-x: auto !important;
     overflow-y: auto !important;
 
 }
 
 .ant-drawer-wrapper-body {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
     overflow-x: auto !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-wrapper {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer-header {
@@ -91,7 +92,40 @@
     background: none !important;
     margin: 20px !important;
     margin-top: 0px !important;
-    margin-left: 40px !important;
+    // margin-left: 40px !important;
+    // margin-right: 140px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.FancyTabs-panelInnerCenter {
+    border: none !important;
+    background: none !important;
+    margin: 20px !important;
+    margin-top: 8px !important;
+    margin-left: 80px !important;
+}
+
+
+.FancyTabs-panelInner {
+    margin-top: 0px !important;
+}
+
+.FancyTabs-panelInnerCenter {
+    transition: transform 0.3s ease;
+}
+  
+.FancyTabs-panelInner.is-enterCenter {
+    transform: translateY(-120%);
+}
+
+.FancyTabs-panelInnerC.FancyTabs-panelInnerC.is-enter-active,
+.FancyTabs-panelInnerCenter.is-leave {
+    transform: translateY(0);
+}
+
+.FancyTabs-panelInnerCenter.is-leave-active {
+    transform: translateY(120%);
 }
 
 span.ant-radio + * {
@@ -107,11 +141,11 @@ span.ant-radio + * {
     font-size: 1.3em !important;
     letter-spacing: 1px !important;
     color: rgb(31, 25, 25) !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer.ant-drawer-bottom ant-drawer-open.no-mask {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer-body {
@@ -182,15 +216,15 @@ span.ant-radio + * {
     padding-top: 5px !important;
     font-size: 1.05em !important;
     letter-spacing: 1px !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 } 
 
 .ant-collapse {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-collapse-content-box {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .sectionHeadlineText {
@@ -245,7 +279,7 @@ span.ant-radio + * {
     padding: 0 !important;
     top: 0 !important;
     left: 0 !important;
-    margin-left: 20px !important;
+    margin-left: 15px !important;
     margin-top: 15px !important;
     height: 27px !important;
     position: absolute !important;

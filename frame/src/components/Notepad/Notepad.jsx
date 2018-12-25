@@ -621,8 +621,8 @@ export default class Notepad extends Component {
       const newEntries = replaceEntry(entry, Entries);
       try {
         // saveToDB("entries", newEntries);
-        const res = await localforage.setItem("entries", newEntries);
         message.success('Saving notebook changes..' + res);
+        const res = await localforage.settItem("entries", newEntries);
         m_this.props.updateAppMethod();
       } catch (err) {
         message.error("Failed to save notebook! " + err);

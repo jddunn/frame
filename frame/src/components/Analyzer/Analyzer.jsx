@@ -632,7 +632,7 @@ export default class Analyzer extends Component {
               <Wrapper letterNavigation={true}>
                 <TabList>
                   <ul className='FancyTabs-tablist'>
-                      <Tooltip title="You must save your changes before running a new analysis">
+                      <Tooltip title="Process current text for analysis / visualization">
                         <Button 
                           type="primary"
                           ghost={true} 
@@ -720,9 +720,9 @@ export default class Analyzer extends Component {
                     </li>
                   </ul>
                 </TabList>
-                <div className='FancyTabs-panel'>
+                <div className='FancyTabs-panel'> 
                   <TabPanel tabId='t1'>
-                    <div className='FancyTabs-panelInner'>
+                    <div className='FancyTabs-panelInnerCenter'>
   
                     <div className="visualizationsContainer">
                     </div>
