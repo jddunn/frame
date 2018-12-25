@@ -166,8 +166,8 @@ export default class MainMenu extends Component {
     const library = getState("library");
     const Library = openDB(library);
     // saveToDB("entries", this.state.treeData);
-    const res = await localforage.setItem("entries", this.state.treeData);
     message.success('Saving library changes.. - ' + res);
+    const res = await localforage.setItem("entries", this.state.treeData);
     // this.props.updateAppMethod();
     this.props.updateEntriesMethod();
   }
@@ -303,9 +303,9 @@ export default class MainMenu extends Component {
       return;
     }
     try {
+      message.success('Opening "' + rowInfo.node.id + '"', 1);
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
-      message.success('Opening "' + rowInfo.node.id + '"', 1);
     } catch (err) {
       console.log(err);
       message.error('Failed to open - ' + err, 1);
