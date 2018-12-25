@@ -19,8 +19,11 @@
   float: left !important;
   margin: 0 !important;
   padding: 0 !important;
-  max-width: calc(40% - 20px) !important;
-  max-height: calc(80% - 20px) !important;
+  margin-left: 50px !important;
+  margin-right: 50px !important;
+  padding: 0 !important;
+  max-width: calc(55% - 20px) !important;
+  max-height: calc(75% - 20px) !important;
   text-align: center !important;
 }
 
@@ -29,9 +32,10 @@
   right: 0 !important;
   margin: 0 !important;
   float: right !important;
+  margin-right: 70px !important;
   padding: 0 !important;
-  max-width: calc(40% - 20px) !important;
-  max-height: calc(80% - 20px) !important;
+  max-width: calc(55% - 20px) !important;
+  max-height: calc(75% - 20px) !important;
   text-align: center !important;
 }
 
@@ -41,7 +45,7 @@
   text-align: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  max-width: calc(70% - 20px) !important;
+  max-width: calc(75% - 20px) !important;
   max-height: calc(80% - 20px) !important;
 }
 
