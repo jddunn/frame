@@ -20,7 +20,7 @@ export default function saveToDB(key, value) {
         if (err) {
             console.log(err);
         } else {
-            console.log("Saved data to db: ", key, value, result);
+            // console.log("Saved data to db: ", key, value, result);
             return result;
         }
     });

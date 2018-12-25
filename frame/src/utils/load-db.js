@@ -16,7 +16,7 @@ export default function getFromDB (key) {
       alert(err);
       return null;
     }
-    console.log("Getting item from ", key, value);
+    // console.log("Getting item from ", key, value);
     return value;
   });
 }

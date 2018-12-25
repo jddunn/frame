@@ -230,6 +230,7 @@ export default class Notepad extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+    const _this = this;
     if (this.state._isMounted) {
       const nextEntryId = nextProps.entryId;      
       const nextEntry = nextProps.entry;
@@ -314,12 +315,23 @@ export default class Notepad extends Component {
               }
             });
           }
+          entry['stats'] = {
+            charCount: charCount,
+            syllableCount: syllableCount,
+            wordCount: wordCount,
+            sentenceCount: sentenceCount,
+            avgWordsPerSentence: avgWordsPerSentence,
+            avgSyllablesPerSentence: avgSyllablesPerSentence,
+            avgSyllablesPerWord: avgSyllablesPerWord,
+            fleschReadability: fleschReadability
+          };
+          entry['wordFrequency'] = getWordFrequency(strippedText);
           if (sentenceCount > 1) {
             try {
               summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
               summaryByParagraphs = summarizeParagraphs(docs.join(""));
             } catch (err) {
-              console.log(err);
+              // console.log(err);
               summaryExtractive = '';
               summaryByParagraphs = [];
             }
@@ -336,64 +348,71 @@ export default class Notepad extends Component {
                 return response.json()
               })
               .then(function(jsonRes) {
-                summaryAbstractive = jsonRes;
-                // console.log(jsonRes);
+                summaryAbstractive = jsonRes['summarize_result'].join(" ");
+                fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+                  method: "POST",
+                  mode: 'cors',
+                  body: JSON.stringify(strippedText.split(/\n/g)),
+                  headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                  },
+                  credentials: "same-origin"
+                  }).then(function(response) {
+                    return response.json()
+                  })
+                  .then(function(jsonRes) {
+                    let summaries = [];
+                    for (let i=0; i<jsonRes.length; i++) {
+                      let ps = (jsonRes[i]['summarize_result'].join(" "));
+                      if (ps !== "" && ps.length !== 0) {
+                        summaries.push(ps);
+                      }
+                    }
+                    entry['summaryExtractive'] = summaryExtractive;
+                    entry['summaryByParagraphs'] = summaryByParagraphs;
+                    entry['summaryAbstractive'] = summaryAbstractive;
+                    entry['summaryAbstractiveByParagraphs'] = summaries;
+                 
+                    const newEntries = replaceEntry(entry, Entries);
+                    const res = getContentFromHTML(entry['html']);
+                    _this.setState({Entries: newEntries, editorState: res,
+                    editorType: editorType});
+                  })
+                .catch(err => {
+                  summaryAbstractive = '';
+                  summaryAbstractiveByParagraphs = [];
+                  const newEntries = replaceEntry(entry, Entries);
+                  _this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
+                  editorType: editorType});
+                    // console.log(err);
+                    // message.error(err);
+                });
               })
             .catch(err => {
-                // console.log(err);
-                // message.error(err);
-            });
-            fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
-              method: "POST",
-              mode: 'cors',
-              body: JSON.stringify(strippedText.split(/\n/g)),
-              headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-              },
-              credentials: "same-origin"
-              }).then(function(response) {
-                return response.json()
-              })
-              .then(function(jsonRes) {
-                summaryAbstractiveByParagraphs = jsonRes;
-                // console.log(jsonRes);
-              })
-            .catch(err => {
-                // console.log(err);
-                // message.error(err);
+              summaryAbstractive = '';
+              summaryAbstractiveByParagraphs = [];
+              summaryAbstractive = '';
+              summaryAbstractiveByParagraphs = [];
+              const newEntries = replaceEntry(entry, Entries);
+              _this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
+              editorType: editorType});
             });
           } else {
-            summaryExtractive = '';
             summaryAbstractive = '';
-            summaryByParagraphs = [];
             summaryAbstractiveByParagraphs = [];
+            summaryAbstractive = '';
+            summaryAbstractiveByParagraphs = [];
+            const newEntries = replaceEntry(entry, Entries);
+            _this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
+            editorType: editorType});
           }
-          entry['summaryExtractive'] = summaryExtractive;
-          entry['summaryByParagraphs'] = summaryByParagraphs;
-          entry['summaryAbstractive'] = summaryAbstractive;
-          entry['summaryAbstractiveByParagraphs'] = summaryAbstractiveByParagraphs;
-          entry['stats'] = {
-            charCount: charCount,
-            syllableCount: syllableCount,
-            wordCount: wordCount,
-            sentenceCount: sentenceCount,
-            avgWordsPerSentence: avgWordsPerSentence,
-            avgSyllablesPerSentence: avgSyllablesPerSentence,
-            avgSyllablesPerWord: avgSyllablesPerWord,
-            fleschReadability: fleschReadability
-          };
-          entry['wordFrequency'] = getWordFrequency(strippedText);
-          const newEntries = replaceEntry(entry, Entries);
-          const res = getContentFromHTML(entry['html']);
-          this.setState({Entries: newEntries, editorState: res,
-          editorType: editorType});
         } else {
           this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
             editorType: editorType, entryId: nextProps.entryId});
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
       }
     }
@@ -480,7 +499,7 @@ export default class Notepad extends Component {
             summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
             summaryByParagraphs = summarizeParagraphs(docs.join(""));
           } catch (err) {
-            console.log(err);
+            // console.log(err);
             summaryExtractive = '';
             summaryByParagraphs = [];
           }
@@ -497,63 +516,68 @@ export default class Notepad extends Component {
               return response.json()
             })
             .then(function(jsonRes) {
-              summaryAbstractive = jsonRes;
-              // console.log(jsonRes);
+              summaryAbstractive = jsonRes['summarize_result'].join(" ");
+              fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+                method: "POST",
+                mode: 'cors',
+                body: JSON.stringify(strippedText.split(/\n/g)),
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json',
+                },
+                credentials: "same-origin"
+                }).then(function(response) {
+                  return response.json()
+                })
+                .then(function(jsonRes) {
+                  let summaries = [];
+                  for (let i=0; i<jsonRes.length; i++) {
+                    let ps = (jsonRes[i]['summarize_result'].join(" "));
+                    if (ps !== "" && ps.length !== 0) {
+                      summaries.push(ps);
+                    }
+                  }
+                  entry['summaryExtractive'] = summaryExtractive;
+                  entry['summaryByParagraphs'] = summaryByParagraphs;
+                  entry['summaryAbstractive'] = summaryAbstractive;
+                  entry['summaryAbstractiveByParagraphs'] = summaries;
+                  entry['stats'] = {
+                    charCount: charCount,
+                    syllableCount: syllableCount,
+                    wordCount: wordCount,
+                    sentenceCount: sentenceCount,
+                    avgWordsPerSentence: avgWordsPerSentence,
+                    avgSyllablesPerSentence: avgSyllablesPerSentence,
+                    avgSyllablesPerWord: avgSyllablesPerWord,
+                    fleschReadability: fleschReadability
+                  };
+                  entry['wordFrequency'] = getWordFrequency(strippedText);
+                  const newEntries = replaceEntry(entry, Entries);
+                  const res = getContentFromHTML(entry['html']);
+                  this.setState({Entries: newEntries, editorState: res,
+                  editorType: editorType});
+                })
+              .catch(err => {
+                summaryAbstractive = '';
+                summaryAbstractiveByParagraphs = [];
+                  // console.log(err);
+                  // message.error(err);
+              });
             })
           .catch(err => {
-              // console.log(err);
-              // message.error(err);
-          });
-          fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
-            method: "POST",
-            mode: 'cors',
-            body: JSON.stringify(strippedText.split(/\n/g)),
-            headers: {
-              'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json',
-            },
-            credentials: "same-origin"
-            }).then(function(response) {
-              return response.json()
-            })
-            .then(function(jsonRes) {
-              summaryAbstractiveByParagraphs = jsonRes;
-              // console.log(jsonRes);
-            })
-          .catch(err => {
-              // console.log(err);
-              // message.error(err);
-          });
-          fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
-            method: "POST",
-            mode: 'cors',
-            body: JSON.stringify(strippedText.split(/\n/g)),
-            headers: {
-              'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json',
-            },
-            credentials: "same-origin"
-            }).then(function(response) {
-              return response.json()
-            })
-            .then(function(jsonRes) {
-              summaryAbstractiveByParagraphs = jsonRes;
-              // console.log(jsonRes);
-            })
-          .catch(err => {
+            summaryAbstractive = '';
+            summaryAbstractiveByParagraphs = [];
               // console.log(err);
               // message.error(err);
           });
         } else {
           summaryExtractive = '';
           summaryAbstractive = '';
-          summaryByParagraphs = [];
+          summaryAbstractive = '';
           summaryAbstractiveByParagraphs = [];
         }
         entry['summaryExtractive'] = summaryExtractive;
         entry['summaryByParagraphs'] = summaryByParagraphs;
-        entry['summaryAbstractive'] = summaryAbstractive;
-        entry['summaryAbstractiveByParagraphs'] = summaryAbstractiveByParagraphs;
         entry['stats'] = {
           charCount: charCount,
           syllableCount: syllableCount,
@@ -630,9 +654,8 @@ export default class Notepad extends Component {
   }
 
   async saveNotebookData() {
-    console.log("SAVE NOTEBOOK");
     // let entryId = getState("entryId");
-    const entry = this.state.entry;
+    let entry = this.state.entry;
     const entryId = this.state.entryId;
     const Entries = this.state.Entries;
     let editorType = entry['editorType'];
@@ -648,9 +671,7 @@ export default class Notepad extends Component {
     //   library = "default";
     // }
     // Entries = getFromDB(Library,"entries")
-    // console.log("FULL ENTRIES: ", Entries);
     // const entry = traverseEntriesById(entryId, Entries);
-    // console.log("TRAVERSED ENTRY BY ID: ", entry);
     if (entry !== null && entry !== undefined) {
       entry['html'] = getHTMLFromContent(this.state.editorState);
       const strippedText = HTMLToText(entry['html']);
@@ -686,6 +707,8 @@ export default class Notepad extends Component {
       const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
       let summaryExtractive;
       let summaryByParagraphs;
+      let summaryAbstractive;
+      let summaryAbstractiveByParagraphs;
       let sentencesSplit = [];
       const docs = [];
       if (sentenceCount > 0) {
@@ -708,14 +731,14 @@ export default class Notepad extends Component {
           summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
           summaryByParagraphs = summarizeParagraphs(docs.join(""));
         } catch (err) {
-          console.log(err);
+          // console.log(err);
           summaryExtractive = '';
           summaryByParagraphs = [];
         }
-        fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+        fetch("http://localhost:80/api/abstractive_summarize", {
           method: "POST",
           mode: 'cors',
-          body: JSON.stringify(strippedText.split(/\n/g)),
+          body: JSON.stringify(strippedText),
           headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -725,43 +748,68 @@ export default class Notepad extends Component {
             return response.json()
           })
           .then(function(jsonRes) {
-            summaryAbstractiveByParagraphs = jsonRes;
-            // console.log(jsonRes);
+            summaryAbstractive = jsonRes['summarize_result'].join(" ");
+            fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
+              method: "POST",
+              mode: 'cors',
+              body: JSON.stringify(strippedText.split(/\n/g)),
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+              },
+              credentials: "same-origin"
+              }).then(function(response) {
+                return response.json()
+              })
+              .then(function(jsonRes) {
+                let summaries = [];
+                for (let i=0; i<jsonRes.length; i++) {
+                  let ps = (jsonRes[i]['summarize_result'].join(" "));
+                  if (ps !== "" && ps.length !== 0) {
+                    summaries.push(ps);
+                  }
+                }
+                entry['summaryExtractive'] = summaryExtractive;
+                entry['summaryByParagraphs'] = summaryByParagraphs;
+                entry['summaryAbstractive'] = summaryAbstractive;
+                entry['summaryAbstractiveByParagraphs'] = summaries;
+                entry['stats'] = {
+                  charCount: charCount,
+                  syllableCount: syllableCount,
+                  wordCount: wordCount,
+                  sentenceCount: sentenceCount,
+                  avgWordsPerSentence: avgWordsPerSentence,
+                  avgSyllablesPerSentence: avgSyllablesPerSentence,
+                  avgSyllablesPerWord: avgSyllablesPerWord,
+                  fleschReadability: fleschReadability
+                };
+                entry['wordFrequency'] = getWordFrequency(strippedText);
+                const newEntries = replaceEntry(entry, Entries);
+                const res = getContentFromHTML(entry['html']);
+                this.setState({Entries: newEntries, editorState: res,
+                editorType: editorType});
+              })
+            .catch(err => {
+              summaryAbstractive = '';
+              summaryAbstractiveByParagraphs = [];
+                // console.log(err);
+                // message.error(err);
+            });
           })
         .catch(err => {
+          summaryAbstractive = '';
+          summaryAbstractiveByParagraphs = [];
             // console.log(err);
-            // message.error(err);
-        });
-        fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
-          method: "POST",
-          mode: 'cors',
-          body: JSON.stringify({"text_input_paragraphs_for_summary": strippedText.split(/\n/g)}),
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
-          },
-          credentials: "same-origin"
-          }).then(function(response) {
-            return response.json()
-          })
-          .then(function(jsonRes) {
-            summaryAbstractiveByParagraphs = jsonRes;
-            console.log(jsonRes);
-          })
-        .catch(err => {
-            console.log(err);
             // message.error(err);
         });
       } else {
         summaryExtractive = '';
         summaryAbstractive = '';
-        summaryByParagraphs = [];
+        summaryAbstractive = '';
         summaryAbstractiveByParagraphs = [];
       }
       entry['summaryExtractive'] = summaryExtractive;
       entry['summaryByParagraphs'] = summaryByParagraphs;
-      entry['summaryAbstractive'] = summaryAbstractive;
-      entry['summaryAbstractiveByParagraphs'] = summaryAbstractiveByParagraphs;
       entry['stats'] = {
         charCount: charCount,
         syllableCount: syllableCount,
@@ -776,8 +824,8 @@ export default class Notepad extends Component {
       const newEntries = replaceEntry(entry, Entries);
       try {
         // saveToDB("entries", newEntries);
-        message.success('Saving notebook changes..' + res);
-        const res = await localforage.settItem("entries", newEntries);
+        message.success("Saving notebook changes and analysis results..");
+        const res = await localforage.setItem("entries", newEntries);
         m_this.props.updateAppMethod();
       } catch (err) {
         message.error("Failed to save notebook! " + err);

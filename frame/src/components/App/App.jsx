@@ -127,7 +127,6 @@ export default class App extends Component {
     let Entries = [];
     let _key = key;
     Entries = await localforage.getItem(key);
-    console.log("ENTRIES VAL FROM FORGE: ", Entries);
     if (Entries === null || Entries === undefined || Entries.length === 0 
       || Entries === "null") {
       Entries = await localforage.setItem(_key, exampleEntries);
@@ -253,7 +252,6 @@ export default class App extends Component {
       //   Entries = [];
       // });
       Entries = await this.getEntriesInitial("entries");
-      console.log("THESE ARE RESULTS GOTTEN FROM UPDATED: ", Entries);
       selectedEntryId = Entries[0].id;
       try {
         selectedEntryEditorType = Entries[0]['editorType'];
@@ -446,7 +444,6 @@ export default class App extends Component {
         return null;
       }
       let entry = traverseEntriesById(entryId, Entries);
-      console.log("FOUND DA ENTRY: ", entry);
 
       let activeLink = getState("activeLink");
       // As we get more sections, this will eventually need
@@ -463,7 +460,7 @@ export default class App extends Component {
           entryId = entry['id'];
           editorType = entry['editorType'];
         } catch (err) {
-          console.log(err);
+          // console.log(err);
           message.error(err);
           setState("entryId", null);
           editorType = "flow";
@@ -484,7 +481,7 @@ export default class App extends Component {
       } catch (err) {
         entryPageTitle = 'Notebook - Select "Entries > Create" to start writing';
       }
-      console.log("Passing in: ", entryId, entry, Entries);
+      // console.log("Passing in: ", entryId, entry, Entries);
       return (
           <React.Fragment>
             <Layout >

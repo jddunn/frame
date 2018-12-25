@@ -19,12 +19,16 @@ def hello():
 
 @app.route("/api/abstractive_summarize", methods=['GET', 'POST'])
 def abstract():
+    # Gets and returs jsonified string
+    # Builds an abstractive summary of a text
     passage = request.get_json()
     res = ABSummarizer.summarize(passage)
     return jsonify(res)
 
 @app.route("/api/abstractive_summarize_paragraphs", methods=['GET', 'POST'])
 def abstract_paragraphs():
+    # Builds abstractive summaries of texts by paragraphs
+    # Gets and returns jsonified array
     paragraphs = request.get_json()
     results = []
     for passage in paragraphs:
@@ -34,6 +38,8 @@ def abstract_paragraphs():
 
 @app.route("/api/make_predict", methods=['GET', 'POST'])
 def ask():
+    # Gets answer to question in context of a passage of text
+    # Gets and returns jsonified strings
     passage = request.get_json()['passage']
     question = request.get_json()['question']
     res = QAModel.make_predict(passage, question)

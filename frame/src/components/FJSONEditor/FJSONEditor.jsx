@@ -22,7 +22,7 @@ export default class FJSONEditor extends Component {
   }
 
   render() {
-    console.log(this.props.json);
+    // console.log(this.props.json);
     return <div id="jsonEditor" className={styles.editor}></div>;
   }
 }
