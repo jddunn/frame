@@ -32,6 +32,7 @@ const franc = require('franc'); // Language detection
 
 /** Data library / source vars */
 const savedSettings = config.savedSettings;
+const pythonNLPServer = config.savedSettings.NLPServer;
 const defaultFLib = savedSettings.defaultLibrary;
 
 import {
@@ -294,6 +295,8 @@ export default class Notepad extends Component {
           const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
           let summaryExtractive;
           let summaryByParagraphs;
+          let summaryAbstractive;
+          let summaryAbstractiveByParagraphs;
           let sentencesSplit = [];
           const docs = [];
           if (sentenceCount > 0) {
