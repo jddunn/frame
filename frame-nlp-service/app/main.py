@@ -19,32 +19,24 @@ def hello():
 
 @app.route("/api/abstractive_summarize", methods=['GET', 'POST'])
 def abstract():
-    print("THIS IS REQUEST: ", request.get_json())
     passage = request.get_json()
     res = ABSummarizer.summarize(passage)
-    print("\n\t", jsonify(res))
     return jsonify(res)
 
 @app.route("/api/abstractive_summarize_paragraphs", methods=['GET', 'POST'])
 def abstract_paragraphs():
-    print("THIS IS REQUEST: ", request.get_json())
     paragraphs = request.get_json()
     results = []
     for passage in paragraphs:
         res = ABSummarizer.summarize(passage)
         results.append(res)
-    print("\n\t", jsonify(results))
     return jsonify(results)
 
 @app.route("/api/make_predict", methods=['GET', 'POST'])
 def ask():
-    print("\n\nREQUEST: ", request.get_json())
-#     passage = request.form['passage']
     passage = request.get_json()['passage']
     question = request.get_json()['question']
-#     question = request.form['question']
     res = QAModel.make_predict(passage, question)
-    print("\n\t", jsonify(res))
     return jsonify(res)
 
 if __name__ == "__main__":
