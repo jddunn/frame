@@ -27,6 +27,7 @@ import replaceEntry from '../../utils/replace-entry';
 
 import './Ask.scss';
 
+const { TextArea } = Input;
 
 export default class AskForm extends React.Component {
 
@@ -95,9 +96,14 @@ export default class AskForm extends React.Component {
               rules: [{ required: true, message: 'Input a Question' }],
             })(
               <Input className="questionTextInput"
+              size="large"
               prefix={<Icon type="question-circle" 
-              style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Write your question (must be about the text on this page)" />
+              style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Write your question (must be about the text on this page)" />
             )}
+
+
+
           </Form.Item>
 
           {/* The input elements below are necessary for submission and are automatically filled,
