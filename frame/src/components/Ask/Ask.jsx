@@ -71,7 +71,7 @@ export default class AskForm extends React.Component {
               className="passagaeQuestionTextInput"
               prefix={<Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Ask your question" />
 
-              <Button type="primary" htmlType="submit" className="floatingAskButton" icon="radar-chart">
+              <Button type="ghost" htmlType="submit" className="floatingAskButton" icon="radar-chart">
               Ask Frame
             </Button>
             </React.Fragment>
