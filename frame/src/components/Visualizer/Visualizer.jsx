@@ -1,4 +1,5 @@
 'use strict';
+import config from '../../data/config.json';
 import React, { Component } from "react";
 import PropTypes, { shape } from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
@@ -24,6 +25,9 @@ import replaceEntry from '../../utils/replace-entry';
 
 import styles from './Visualizer.scss';
 
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const defaultFLib = savedSettings.defaultLibrary;
 
 export default class Visualizer extends Component {
 
@@ -51,13 +55,14 @@ export default class Visualizer extends Component {
     this.setState({entry: nextProps.entry, Entries: nextProps.Entries});
   }
 
-  async getEntries(Library, key) {
+  getEntries(Library, key) {
     let Entries = [];
-    await getFromDB(Library, key).then(function(result) {
-      Entries = result;
-    }).catch(function(err) {
-      Entries = [];
-    });
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    Entries = getFromDB(Library, key)
     return Entries;
   }
 
@@ -77,7 +82,8 @@ export default class Visualizer extends Component {
     if (this.state._isMounted) {
       let selectedEntry;
       const stateFound = getState("entryId");
-      let library = getState("library");
+      // let library = getState("library");
+      let library = defaultFLib;
       if (this.state.entry !== null && this.state.entry !== undefined &&
           this.state.entry !== "undefined" && this.state.entry.length > 0  
         ) {

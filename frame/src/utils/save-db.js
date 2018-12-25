@@ -2,8 +2,11 @@
 /* eslint func-names: 0 */
 /* eslint no-unused-vars: 0 */
 /* eslint no-console: 0 */
+/* eslint consistent-return: 0 */
 
-export default function saveToDB(store, key, value) {
+import localforage from "localforage";
+
+export default function saveToDB(key, value) {
     // store.setItem(key, value).then(function (result) {
     //     // console.log("Saved to store ", key, ':', store);
     //     // console.log(result);
@@ -12,8 +15,14 @@ export default function saveToDB(store, key, value) {
     //     // console.log(err);
     //     return null;
     // });
-    const res = store.setItem(key, value);
-    console.log("Saved lib to: ", key, value, res);
-    return res;
+
+    localforage.setItem(key, value, function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Saved data to db: ", key, value, result);
+            return result;
+        }
+    });
 }
   

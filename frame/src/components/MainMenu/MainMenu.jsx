@@ -1,4 +1,5 @@
 'use strict';
+import config from '../../data/config.json';
 import React, { Component } from 'react';
 /** Sortable tree component */
 import SortableTree,
@@ -41,6 +42,13 @@ import generateUUID from '../../utils/generate-uuid';
 
 const SubMenu = Menu.SubMenu;
 const Search = Input.Search;
+
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const flibsPath = savedSettings.librariesPath;
+const defaultFLib = savedSettings.defaultLibrary;
+const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
+
 
 /** Main / sidebar menu for Frame. Can be hidden / collapsed
  *  with hamburger and slider icon.
@@ -111,11 +119,7 @@ export default class MainMenu extends Component {
 
   async getEntries(Library, key) {
     let Entries = [];
-    await getFromDB(Library, key).then(function(result) {
-      Entries = result;
-    }).catch(function(err) {
-      Entries = [];
-    });
+    Entries = await getFromDB(Library, key)
     return Entries;
   }
 
@@ -161,8 +165,9 @@ export default class MainMenu extends Component {
   async saveTreeData() {
     const library = getState("library");
     const Library = openDB(library);
-    saveToDB(Library, "entries", this.state.treeData);
-    message.success('Saving library changes..');
+    // saveToDB("entries", this.state.treeData);
+    const res = await localforage.setItem("entries", this.state.treeData);
+    message.success('Saving library changes.. - ' + res);
     await this.sleep(3500);
     // this.props.updateAppMethod();
     this.props.updateEntriesMethod();
@@ -398,7 +403,8 @@ export default class MainMenu extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const { onChangeTreeData } = this.props;
     const treeHeight = (foundEntries == true) ? '260px' : '50px';
-    const library = getState("library");
+    // const library = getState("library");
+    const library = defaultFLib;
     let treeLength;
     // TODO: Eventually we must convert the nested tree to a flat 
     // tree to get the full number of entries in a library.

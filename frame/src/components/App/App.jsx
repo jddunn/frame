@@ -2,7 +2,7 @@
 /* eslint no-named-as-default-member: 0 */
 /** Global config file for app settings; TODO: Needs integrating */
 import config from '../../data/config.json';
-import exampleEntries from '../../data/libraries_collections/example/example.json'; // Example Frame library
+import exampleEntries from '../../data/libraries_collections/default.json'; // Example Frame library
 import React, { Component } from 'react';
 import {
          Row, Col, Layout, Menu, Breadcrumb,
@@ -45,7 +45,7 @@ const defaultFLib = savedSettings.defaultLibrary;
 const initialFLibPath = flibsPath + '/' + defaultFLib + '/' + defaultFLib + '.json';
 
 /** LocalForage */
-localforage.clear(); // This resets the enitre db in the local Chrome app
+// localforage.clear(); // This resets the enitre db in the local Chrome app
 sessionStorage.clear();
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -110,75 +110,63 @@ export default class App extends Component {
     });
   }
 
-  async getEntries(Library, key) {
+  async getEntries(key) {
     let Entries = [];
-    await getFromDB(Library, key).then(function(result) {
-      Entries = result;
-    }).catch(function(err) {
-      Entries = [];
-    });
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    // Entries = getFromDB(key);
+    // localforage.getItem(key).then(function(value) {
+    Entries = await localforage.getItem(key);
     return Entries;
   }
 
-  async componentWillMount() {
-  }
-
-  async getEntriesInitial(Library, key) {
+  async getEntriesInitial(key) {
     let Entries = [];
-    const _this = this;
-      await getFromDB(Library, key).then(function(result) {
-        Entries = result;
-        let entriesCount = 0;
-        console.log("GOT ENTRIES INITIAL: ", Entries)
-        try {
-          entriesCount = Entries.length;
-          if (entriesCount <= 0 && Array.isArray(Entries)) {
-            Entries = exampleEntries;
-            saveToDB(Library, key, Entries);
-          } else {
-            return Entries;
-          }
-        } catch (err) {
-          Entries = exampleEntries;
-          saveToDB(Library, key, Entries);
-        }
-      }).catch(function(err) {
-        message.error(err);
-        Entries = exampleEntries;
-      });
+    let _key = key;
+    Entries = await localforage.getItem(key);
+    console.log("ENTRIES VAL FROM FORGE: ", Entries);
+    if (Entries === null || Entries === undefined || Entries.length === 0 
+      || Entries === "null") {
+      Entries = await localforage.setItem(_key, exampleEntries);
+      return Entries;
+    } else {
       return Entries;
     }
+}
 
   async componentDidMount() {
     let selectedEntryId = getState("entryId");
     let selectedEntryEditorType = getState("editorType");
-    let library = getState("library");
-    if (library === null || library === "null" || library === "undefined" || library === undefined) {
-      library = defaultFLib;
-    }
+    // let library = getState("library");
+    let library = defaultFLib;
+    // if (library === null || library === "null" || library === "undefined" || library === undefined) {
+      // library = defaultFLib;
+    // }
     const Library = openDB(library);
-    await this.getEntriesInitial(Library, "entries").then((result) => {
-      let Entries = result;
-      if (Entries === null || Entries === undefined) { 
-          console.log(exampleEntries);
-          Entries = exampleEntries;
-          selectedEntryId = Entries[0].id;
-          selectedEntryEditorType = Entries[0]['editorType'];
-        }
-        setState("entryId", selectedEntryId);
-        setState("editorType", selectedEntryEditorType);
-        setState("activeLink", "look");
-
-        this.setState({
-          Entries: Entries,
-          prevEntryId: selectedEntryId,
-          prevEntryEditorType: selectedEntryEditorType,
-          prevActiveLink: "look",
-          prevLibrary: library,
-          _isMounted: true
-          }
-        )
-    });
+    let Entries = [];
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    Entries = await this.getEntriesInitial("entries");
+    selectedEntryId = Entries[0].id;
+    selectedEntryEditorType = Entries[0]['editorType'];
+    setState("entryId", selectedEntryId);
+    setState("editorType", selectedEntryEditorType);
+    setState("activeLink", "look");
+    this.setState({
+      Entries: Entries,
+      prevEntryId: selectedEntryId,
+      prevEntryEditorType: selectedEntryEditorType,
+      prevActiveLink: "look",
+      prevLibrary: library,
+      _isMounted: true
+      });
+    return Entries;
   }
 
   componentWillUnmount () {
@@ -186,170 +174,276 @@ export default class App extends Component {
   }
 
   async shouldComponentUpdate () {
-    let selectedEntryId = getState("entryId");
-    let selectedEntryEditorType = getState("editorType");
-    let library = getState("library");
-    let activeLink = getState("activeLink");
-    if (library === null || library === "null" || library === "undefined" || library === undefined) {
-      library = defaultFLib;
-    }
-    const Library = openDB(library);
-    console.log("COMP UPDATED");
-    await this.getEntriesInitial(Library, "entries").then((result) => {
-      let Entries = result;
-      console.log("INITIAL ENTRIES GOTTEN: ", Entries);
-      if (Entries === null || Entries === undefined) { 
-          Entries = exampleEntries;
-          selectedEntryId = Entries[0].id;
-          selectedEntryEditorType = Entries[0]['editorType'];
-        }
-        // Set Entries in actual React state since
-          // sessionStorage can only do JSON.
-          let states = {};
-          // if (this.state.prevEntryId !== selectedEntryId) {
-            states['prevEntryId'] = selectedEntryId;
-          // }
-          // if (this.state.prevLibrary !== library) {
-            states['prevLibrary'] = library;
-          // }
-          if (this.state.prevEntries !== Entries) {
-            states['prevEntries'] = Entries;
-          }
-          // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-            states['prevEntryEditorType'] = selectedEntryEditorType;
-          // }
-          // if (this.state.prevActiveLink !== activeLink) {
-            states['prevActiveLink'] = activeLink;
-          // }
-          console.log("Should comp update with new states: ", states);
-          if (states.length > 0) {
-            this.setState({
-              states
-            });
-          }
-    });
+    // let selectedEntryId = getState("entryId");
+    // let selectedEntryEditorType = getState("editorType");
+    // let library = getState("library");
+    // let activeLink = getState("activeLink");
+    // // if (library === null || library === "null" || library === "undefined" || library === undefined) {
+    //   library = defaultFLib;
+    // // }
+    // if (this.state._isMounted) {
+    //   let selectedEntryId;
+    //   let selectedEntry;
+    //   let selectedEntryEditorType;
+      
+    //   const library = defaultFLib;
+    //   // await this.sleep(2000);
+    //   const Library = openDB(library);
+    //   let Entries = [];
+    //   // await getFromDB(Library, key).then(function(result) {
+    //   //   Entries = result;
+    //   // }).catch(function(err) {
+    //   //   Entries = [];
+    //   // });
+    //   Entries = getFromDB(Library, "entries")
+
+    //   console.log("UPDATE APP WITH ENTRIES: ", Entries);
+
+    //   this.setState({Entries: Entries});
+      // console.log("INITIAL ENTRIES GOTTEN: ", Entries);
+      // if (Entries === null || Entries === undefined) { 
+      //     Entries = exampleEntries;
+      //     message.error("Unable to load entries, setting library to example data.");
+      //     selectedEntryId = Entries[0].id;
+      //     selectedEntryEditorType = Entries[0]['editorType'];
+      //   }
+      //   // Set Entries in actual React state since
+      //   // sessionStorage can only do JSON.
+      //   let states = {};
+      //   // if (this.state.prevEntryId !== selectedEntryId) {
+      //     states['prevEntryId'] = selectedEntryId;
+      //   // }
+      //   // if (this.state.prevLibrary !== library) {
+      //     states['prevLibrary'] = library;
+      //   // }
+      //   if (this.state.prevEntries !== Entries) {
+      //     states['prevEntries'] = Entries;
+      //   }
+      //   // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
+      //     states['prevEntryEditorType'] = selectedEntryEditorType;
+      //   // }
+      //   // if (this.state.prevActiveLink !== activeLink) {
+      //     states['prevActiveLink'] = activeLink;
+      //   // }
+      //   console.log("Should comp update with new states: ", states);
+      //   if (states.length > 0) {
+      //     this.setState({
+      //       states
+      //     });
+        // }
+      // }
   }
 
   async updateEntries() {
     // console.log("Sleeping for 200 msecs to get data");
-    await this.sleep(3000);
     // console.log("Adding an entry from new: ");
     if (this.state._isMounted) {
-      let library = getState("library");
-      if (library === null || library === undefined) {
-        library = defaultFLib;
-      }
-      const Library = openDB(library);
+      // let library = getState("library");
+      // if (library === null || library === undefined) {
+      //   library = defaultFLib;
+      // }
       let selectedEntryId;
       let selectedEntryEditorType;
-      await this.getEntriesInitial(Library, "entries").then((result) => {
-        const Entries = result;
-        console.log("THESE ARE RESULTS GOTTEN FROM UPDATED: ", Entries);
+      const library = defaultFLib;
+      const Library = openDB(library);
+      let Entries = [];
+      // await getFromDB(Library, key).then(function(result) {
+      //   Entries = result;
+      // }).catch(function(err) {
+      //   Entries = [];
+      // });
+      Entries = await this.getEntriesInitial("entries");
+      console.log("THESE ARE RESULTS GOTTEN FROM UPDATED: ", Entries);
+      selectedEntryId = Entries[0].id;
+      try {
+        selectedEntryEditorType = Entries[0]['editorType'];
+      } catch (err) {
+        selectedEntryEditorType = "flow"; 
+      }
+      setState("entryId", selectedEntryId);
+        setState("editorType", selectedEntryEditorType);
+        this.setState({
+          Entries: Entries,
+          prevLibrary: library,
+          prevEntryId: selectedEntryId,
+          prevEntryEditorType: selectedEntryEditorType,
+          prevEntries: Entries
+          }
+        )
+    }
+  }
+
+
+
+  // Force app to re-render; this func is passed down in props to children
+  async updateApp() {
+    // const needUpdate = getState("needUpdate");
+    // if (needUpdate) 
+      // setState("needUpdate", false);
+    if (this.state._isMounted) {
+      // let library = getState("library");
+      let library = defaultFLib;
+      // if (library === null || library === undefined) {
+        // library = defaultFLib;
+      // }
+      const Library = openDB(library);
+      let Entries = [];
+      let selectedEntryId = getState("entryId");
+      let selectedEntryEditorType = getState("entryEditorType");
+      let activeLink = getState("activeLink");
+      Entries = await this.getEntriesInitial("entries");
+      if (selectedEntryId != null && selectedEntryId != undefined) {
+        if (selectedEntryEditorType != null && selectedEntryEditorType != undefined) {
+        } else {
+          selectedEntryEditorType = "flow";
+        }
+      } else {
         selectedEntryId = Entries[0].id;
         try {
           selectedEntryEditorType = Entries[0]['editorType'];
         } catch (err) {
           selectedEntryEditorType = "flow"; 
         }
-        setState("entryId", selectedEntryId);
-          setState("editorType", selectedEntryEditorType);
-          this.setState({
-            Entries: Entries,
-            prevLibrary: library,
-            prevEntryId: selectedEntryId,
-            prevEntryEditorType: selectedEntryEditorType,
-            prevEntries: Entries
-            }
-          )
-      });
-    }
-  }
-
-  // Force app to re-render; this func is passed down in props to children
-  async updateApp() {
-      // const needUpdate = getState("needUpdate");
-      // if (needUpdate) 
-        // setState("needUpdate", false);
-      if (this.state._isMounted) {
-        let library = getState("library");
-        if (library === null || library === undefined) {
-          library = defaultFLib;
+      }
+      
+      setState("library", library);
+      setState("editorType", selectedEntryEditorType);
+      setState("entryId", selectedEntryId);
+      // Set Entries in actual React state since
+      // sessionStorage can only do JSON.
+      let states = {};
+      if (this.state.prevEntryId !== selectedEntryId) {
+        if (selectedEntryId === null || selectedEntryId === undefined) {
+          states['prevEntryId'] = this.state.Entries[0].id;
+          setState("entryId", this.state.Entries[0].id);
+          try {
+            setState("editorType", this.state.Entries[0].editorType);
+          } catch (err) {
+            setState("editorType", "flow");
+          }
+        } else {
+          states['prevEntryId'] = selectedEntryId;
         }
-        const Library = openDB(library);
-        let Entries = [];
-        let selectedEntryId = getState("entryId");
-        let selectedEntryEditorType = getState("entryEditorType");
-        let activeLink = getState("activeLink");
-        await this.getEntriesInitial(Library, "entries").then((result) => {
-          const Entries = result;
-            if (selectedEntryId != null && selectedEntryId != undefined) {
-              if (selectedEntryEditorType != null && selectedEntryEditorType != undefined) {
-              } else {
-                selectedEntryEditorType = "flow";
-              }
-            } else {
-              selectedEntryId = Entries[0].id;
-              try {
-                selectedEntryEditorType = Entries[0]['editorType'];
-              } catch (err) {
-                selectedEntryEditorType = "flow"; 
-              }
-            }
-            
-          setState("library", library);
-          setState("editorType", selectedEntryEditorType);
-          setState("entryId", selectedEntryId);
-          // Set Entries in actual React state since
-          // sessionStorage can only do JSON.
-          let states = {};
-          if (this.state.prevEntryId !== selectedEntryId) {
-            if (selectedEntryId === null || selectedEntryId === undefined) {
-              states['prevEntryId'] = this.state.Entries[0].id;
-              setState("entryId", this.state.Entries[0].id);
-              try {
-                setState("editorType", this.state.Entries[0].editorType);
-              } catch (err) {
-                setState("editorType", "flow");
-              }
-            } else {
-              states['prevEntryId'] = selectedEntryId;
-            }
-          }
-          if (this.state.prevLibrary !== library) {
-            states['prevLibrary'] = library;
-          }
-          if (this.state.prevEntries !== Entries) {
-            states['prevEntries'] = Entries;
-            states['Entries'] = Entries;
-          }
-          if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-            states['prevEntryEditorType'] = selectedEntryEditorType;
-          }
-          if (this.state.prevActiveLink !== activeLink) {
-            states['prevActiveLink'] = activeLink;
-          }
-          if (states.length > 0) {
-            this.setState({
-              states
-            });
-          }
-      });
+      }
+      if (this.state.prevLibrary !== library) {
+        states['prevLibrary'] = library;
+      }
+      if (this.state.prevEntries !== Entries) {
+        states['prevEntries'] = Entries;
+        states['Entries'] = Entries;
+      }
+      if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
+        states['prevEntryEditorType'] = selectedEntryEditorType;
+      }
+      if (this.state.prevActiveLink !== activeLink) {
+        states['prevActiveLink'] = activeLink;
+      }
+      if (states.length > 0) {
+        this.setState({
+          states
+        });
+      }
     }
     this.forceUpdate();
   }
 
+
+  // // Force app to re-render; this func is passed down in props to children
+  // async updateApp() {
+  //     // const needUpdate = getState("needUpdate");
+  //     // if (needUpdate) 
+  //       // setState("needUpdate", false);
+  //     if (this.state._isMounted) {
+  //       await this.sleep(500);
+  //       // let library = getState("library");
+  //       // if (library === null || library === undefined || library === "null") {
+  //       let library = defaultFLib;
+  //       // }
+  //       const Library = openDB(library);
+  //     //   let selectedEntryId = getState("entryId");
+  //     //   let selectedEntryEditorType = getState("entryEditorType");
+  //     //   let activeLink = getState("activeLink");
+
+  //       let Entries = [];
+  //     //   // await getFromDB(Library, key).then(function(result) {
+  //     //   //   Entries = result;
+  //     //   // }).catch(function(err) {
+  //     //   //   Entries = [];
+  //     //   // });
+  //       Entries = getFromDB(Library,"entries");
+
+  //       console.log("THIS IS DEFAULT FLIB FROM ENTRIES: ", library, Library);
+
+  //       console.log("UPDATE APP WITH ENTRIES: ", Entries);
+
+  //       this.setState({Entries: Entries});
+  //     //   if (selectedEntryId != null && selectedEntryId != undefined) {
+  //     //     if (selectedEntryEditorType != null && selectedEntryEditorType != undefined) {
+  //     //     } else {
+  //     //       selectedEntryEditorType = "flow";
+  //     //     }
+  //     //   } else {
+  //     //     selectedEntryId = Entries[0].id;
+  //     //     try {
+  //     //       selectedEntryEditorType = Entries[0]['editorType'];
+  //     //     } catch (err) {
+  //     //       selectedEntryEditorType = "flow"; 
+  //     //     }
+  //     //   }
+        
+  //     // setState("library", library);
+  //     // setState("editorType", selectedEntryEditorType);
+  //     // setState("entryId", selectedEntryId);
+  //     // // Set Entries in actual React state since
+  //     // // sessionStorage can only do JSON.
+  //     // let states = {};
+  //     // if (this.state.prevEntryId !== selectedEntryId) {
+  //     //   if (selectedEntryId === null || selectedEntryId === undefined) {
+  //     //     states['prevEntryId'] = this.state.Entries[0].id;
+  //     //     setState("entryId", this.state.Entries[0].id);
+  //     //     try {
+  //     //       setState("editorType", this.state.Entries[0].editorType);
+  //     //     } catch (err) {
+  //     //       setState("editorType", "flow");
+  //     //     }
+  //     //   } else {
+  //     //     states['prevEntryId'] = selectedEntryId;
+  //     //   }
+  //     // }
+  //     // if (this.state.prevLibrary !== library) {
+  //   //     states['prevLibrary'] = library;
+  //   //   // }
+  //   //   // if (this.state.prevEntries !== Entries) {
+  //   //     states['prevEntries'] = Entries;
+  //   //     states['Entries'] = Entries;
+  //   //   // }
+  //   //   // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
+  //   //     states['prevEntryEditorType'] = selectedEntryEditorType;
+  //   //   // }
+  //   //   // if (this.state.prevActiveLink !== activeLink) {
+  //   //     states['prevActiveLink'] = activeLink;
+  //   //   // }
+  //   //   if (states.length > 0) {
+  //   //     this.setState({
+  //   //       states
+  //   //     });
+  //   //   }
+  //   // }
+  //     }
+  //   this.forceUpdate();
+  // }
+
   render() {
     // By default editor mode for notes is Flow
-  if (this.state._isMounted) {
-    const Entries = this.state.Entries;
+    if (this.state._isMounted) {
+      const Entries = this.state.Entries;
       let entryId;
       let editorType;
       try {
         entryId = (getState("entryId") != null) ?
         getState("entryId") : Entries[0].id;
       } catch (err) {
-        entryId = exampleEntries[0].id;
-        setState("entryId", entryId);
+        return null;
       }
       let entry = traverseEntriesById(entryId, Entries);
       console.log("FOUND DA ENTRY: ", entry);
@@ -438,7 +532,7 @@ export default class App extends Component {
                               <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                                 splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
                               <div className="analyzerWrapper">
-                                <Analyzer entryId={entryId} updateAppMethod={this.updateApp}/>
+                                <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp}/>
                               </div>
                             </div>
                         </div>

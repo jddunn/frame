@@ -1,4 +1,5 @@
 'use strict';
+import config from '../../data/config.json';
 import React, { Component } from "react";
 import PropTypes, { shape } from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
@@ -34,6 +35,10 @@ import './Analyzer.scss';
 
 const RadioGroup = Radio.Group;
 const Panel = Collapse.Panel;
+
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const defaultFLib = savedSettings.defaultLibrary;
 
 export default class Analyzer extends Component {
 
@@ -448,11 +453,17 @@ export default class Analyzer extends Component {
 
   async getEntries(Library, key) {
     let Entries = [];
-    await getFromDB(Library, key).then(function(result) {
-      Entries = result;
-    }).catch(function(err) {
-      Entries = [];
-    });
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    Entries = getFromDB("entries");
     return Entries;
   }
 
@@ -466,415 +477,419 @@ export default class Analyzer extends Component {
 
   async componentWillReceiveProps(nextProps) {
     if (this.state._isMounted) {
+      const library = defaultFLib;
       const entryId = nextProps.entryId;
-      const m_nextProps = nextProps;
-      const library = getState("library");
       const Library = openDB(library);
-      await this.getEntries(Library, "entries").then(async(result) => {
-        const Entries = result;
-        const entry = traverseEntriesById(entryId, Entries);
-        if (entry !== null) {
-          this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
-        } else {
-          this.setState({Entries: Entries, selectedEntry: Entries[0], lastEntryId: Entries[0].id});
+      let Entries = nextProps.Entries;
+      let entry = nextProps.entry;
+      if (entry !== null) {
+        this.setState({Entries: Entries, selectedEntry: entry, lastEntryId: entryId});
+      } else {
+        this.setState({Entries: Entries, selectedEntry: Entries[0], lastEntryId: Entries[0].id});
         }
-      })
     }
   }
 
   render() {
-    const entryId = getState("entryId");
-    const library = getState("library");
-    const Library = openDB(library);
-    const _this = this;
 
-    let drawerTitle = "";
+    if (this.state._isMounted) {
+      // const entryId = getState("entryId");
+      // const library = getState("library");
+      const library = defaultFLib;
+      const Library = openDB(library);
+      const _this = this;
+      const entry = this.state.entry;
 
-    let analysisDrawerVisible = getState("analysisDrawerVisible");
-    if (analysisDrawerVisible == null || analysisDrawerVisible == undefined ||
-        analysisDrawerVisible == "undefined"
-    ) {
-        analysisDrawerVisible = false;
-    }
-    // if (this.state._isMounted) {
-    let selectedEntry = this.state.selectedEntry;
+      const entryId = this.state.entryId;
 
-    if (selectedEntry == null || selectedEntry == undefined ||
-        selectedEntry == "undefined"
+      const Entries = this.state.Entries;
+  
+      let drawerTitle = "";
+  
+      let analysisDrawerVisible = getState("analysisDrawerVisible");
+      if (analysisDrawerVisible == null || analysisDrawerVisible == undefined ||
+          analysisDrawerVisible == "undefined"
       ) {
-        selectedEntry = Entries[0];
-    }
-    const Entries = this.state.Entries;
-    drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
-    const dateCreated = selectedEntry.dateCreated;
-    let entryTags = selectedEntry.tags;
-    
-    let charCount; 
-    let wordCount; 
-    let sentenceCount; 
-    let syllableCount; 
-    let avgSyllablesPerWord; 
-    let avgSyllablesPerSentence; 
-    let avgWordsPerSentence;
-    let fleschReadability; 
-    let fleschReadabilityDescription;
-    try {
-      charCount = selectedEntry['stats']['charCount'];
-      wordCount = selectedEntry['stats']['wordCount'];
-      sentenceCount = selectedEntry['stats']['sentenceCount'];
-      syllableCount = selectedEntry['stats']['syllableCount'];
-      avgSyllablesPerWord = selectedEntry['stats']['avgSyllablesPerWord'];
-      avgSyllablesPerSentence = selectedEntry['stats']['avgSyllablesPerSentence'];
-      avgWordsPerSentence = selectedEntry['stats']['avgWordsPerSentence'];
-      fleschReadability = selectedEntry['stats']['fleschReadability'];
-    } catch (err) {
-      // console.log(err);
-    }
-    if (fleschReadability != null && fleschReadability != undefined &&
-      fleschReadability != "undefined") {
-        if (fleschReadability >= 90) {
-          fleschReadabilityDescription = fleschReadability.toString() +
-          '  -  Very easy to read (5th - 6th grade reading level)';
-        } else if (fleschReadability >= 65) {
-          fleschReadabilityDescription = fleschReadability.toString() +
-          '  -  Fairly easy to read (6th - 7th grade reading level)';
-        } else if (fleschReadability >= 50) {
-          fleschReadabilityDescription = fleschReadability.toString() + 
-          ' - Fairly difficult to read (10th - 12th grade reading level)';
-        } else if (fleschReadability >= 35) {
-          fleschReadabilityDescription = fleschReadability.toString() + 
-          ' - Difficult to read (College reading level)';
-        } else if (fleschReadability < 35) {
-          fleschReadabilityDescription = fleschReadability.toString() + 
-          ' - Difficult to read (College graduate reading level)';
-        } else {
-          fleschReadabilityDescription = fleschReadability;
-        }
-    }
-    try {
-      entryTags = entryTags.split(' ').join(' ');
-    } catch (err) {
-      entryTags = 'none';
-    }
-    if (entryTags.length <= 0) {
-      entryTags = 'none';
-    }
-
-    const informationExtractionResults = this.buildInformationExtraction(selectedEntry);
-    const summariesResults = this.buildSummaries(selectedEntry);
-    const defaultOpenSummaries = summariesResults[0];
-    const summariesResultsContent = summariesResults[1];
-
-    const entitiesContainerLeft = informationExtractionResults[0];
-    const entitiesContainerRight = informationExtractionResults[1];
-    const entitiesDefaultOpenKeysLeft = informationExtractionResults[2];
-    const entitiesDefaultOpenKeysRight = informationExtractionResults[3];
-
-    let extractiveSummary = selectedEntry['summaryExtractive'];
-    if (extractiveSummary === null || extractiveSummary === "undefined" ||
-      extractiveSummary === "undefined") 
-    { 
-      extractiveSummary = '';
-    }
-    let summaryByParagraphs = selectedEntry['summaryByParagraphs'];
-
-    if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
-    summaryByParagraphs === "undefined") 
-    { 
-      summaryByParagraphs = [];
-    }
-
-    let summaryByParagraphsContainer = [];
-    try {
-      for (let i=0; i<summaryByParagraphs.length; i++) {
-        summaryByParagraphsContainer.push(<p>{summaryByParagraphs[i]}</p>)
+          analysisDrawerVisible = false;
       }
-    } catch (err) {
-      // console.log("ERRRR: ", err);
-    }
-    let detectedLanguages = selectedEntry['detectedLanguages'];
-    let detectedLanguage;
-    try {
-      detectedLanguage = selectedEntry['detectedLanguages'][0]
-    } catch (err) {
-      detectedLanguage = "none";
-    }
-      const entryTextToSummarize = selectedEntry['strippedText'];
-
-      const WrappedAskForm = Form.create()(AskForm);
-
-      return(
-        <div className="analysisContainer">
-          <Drawer
-            title={drawerTitle}
-            mask={false}
-            placement={_this.state.placement}
-            closable={true}
-            onClose={_this.onClose}
-            visible={analysisDrawerVisible}
-          >
-            {/* Tab components */}
-            <Wrapper letterNavigation={true}>
-              <TabList>
-                <ul className='FancyTabs-tablist'>
-                    <Tooltip title="You must save your changes before running a new analysis">
-                      <Button 
-                        type="primary"
-                        ghost={true} 
-                        icon="deployment-unit"
-                        className="runButton"
-                        onClick={()=> { message.success("Analyzing current entry.."), this.props.updateAppMethod}}
-                        >
-                        Run
-                    </Button>
-                  </Tooltip>
-                  <li className='FancyTabs-tablistItem'>
-                    <Tab id='t1' className='FancyTabs-tab'>
-                      {analysisTabs.bind(null, (
-                        <div>
-                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
-                          <span className='FancyTabs-tabText'>
-                            Overview
-                          </span>
+      // if (this.state._isMounted) {
+      let selectedEntry = this.state.selectedEntry;
+  
+      if (selectedEntry == null || selectedEntry == undefined ||
+          selectedEntry == "undefined"
+        ) {
+          selectedEntry = Entries[0];
+      }
+      drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
+      const dateCreated = selectedEntry.dateCreated;
+      let entryTags = selectedEntry.tags;
+      
+      let charCount; 
+      let wordCount; 
+      let sentenceCount; 
+      let syllableCount; 
+      let avgSyllablesPerWord; 
+      let avgSyllablesPerSentence; 
+      let avgWordsPerSentence;
+      let fleschReadability; 
+      let fleschReadabilityDescription;
+      try {
+        charCount = selectedEntry['stats']['charCount'];
+        wordCount = selectedEntry['stats']['wordCount'];
+        sentenceCount = selectedEntry['stats']['sentenceCount'];
+        syllableCount = selectedEntry['stats']['syllableCount'];
+        avgSyllablesPerWord = selectedEntry['stats']['avgSyllablesPerWord'];
+        avgSyllablesPerSentence = selectedEntry['stats']['avgSyllablesPerSentence'];
+        avgWordsPerSentence = selectedEntry['stats']['avgWordsPerSentence'];
+        fleschReadability = selectedEntry['stats']['fleschReadability'];
+      } catch (err) {
+        // console.log(err);
+      }
+      if (fleschReadability != null && fleschReadability != undefined &&
+        fleschReadability != "undefined") {
+          if (fleschReadability >= 90) {
+            fleschReadabilityDescription = fleschReadability.toString() +
+            '  -  Very easy to read (5th - 6th grade reading level)';
+          } else if (fleschReadability >= 65) {
+            fleschReadabilityDescription = fleschReadability.toString() +
+            '  -  Fairly easy to read (6th - 7th grade reading level)';
+          } else if (fleschReadability >= 50) {
+            fleschReadabilityDescription = fleschReadability.toString() + 
+            ' - Fairly difficult to read (10th - 12th grade reading level)';
+          } else if (fleschReadability >= 35) {
+            fleschReadabilityDescription = fleschReadability.toString() + 
+            ' - Difficult to read (College reading level)';
+          } else if (fleschReadability < 35) {
+            fleschReadabilityDescription = fleschReadability.toString() + 
+            ' - Difficult to read (College graduate reading level)';
+          } else {
+            fleschReadabilityDescription = fleschReadability;
+          }
+      }
+      try {
+        entryTags = entryTags.split(' ').join(' ');
+      } catch (err) {
+        entryTags = 'none';
+      }
+      if (entryTags.length <= 0) {
+        entryTags = 'none';
+      }
+  
+      const informationExtractionResults = this.buildInformationExtraction(selectedEntry);
+      const summariesResults = this.buildSummaries(selectedEntry);
+      const defaultOpenSummaries = summariesResults[0];
+      const summariesResultsContent = summariesResults[1];
+  
+      const entitiesContainerLeft = informationExtractionResults[0];
+      const entitiesContainerRight = informationExtractionResults[1];
+      const entitiesDefaultOpenKeysLeft = informationExtractionResults[2];
+      const entitiesDefaultOpenKeysRight = informationExtractionResults[3];
+  
+      let extractiveSummary = selectedEntry['summaryExtractive'];
+      if (extractiveSummary === null || extractiveSummary === "undefined" ||
+        extractiveSummary === "undefined") 
+      { 
+        extractiveSummary = '';
+      }
+      let summaryByParagraphs = selectedEntry['summaryByParagraphs'];
+  
+      if (summaryByParagraphs === null || summaryByParagraphs === "undefined" ||
+      summaryByParagraphs === "undefined") 
+      { 
+        summaryByParagraphs = [];
+      }
+  
+      let summaryByParagraphsContainer = [];
+      try {
+        for (let i=0; i<summaryByParagraphs.length; i++) {
+          summaryByParagraphsContainer.push(<p>{summaryByParagraphs[i]}</p>)
+        }
+      } catch (err) {
+        // console.log("ERRRR: ", err);
+      }
+      let detectedLanguages = selectedEntry['detectedLanguages'];
+      let detectedLanguage;
+      try {
+        detectedLanguage = selectedEntry['detectedLanguages'][0]
+      } catch (err) {
+        detectedLanguage = "none";
+      }
+        const entryTextToSummarize = selectedEntry['strippedText'];
+  
+        const WrappedAskForm = Form.create()(AskForm);
+  
+        return(
+          <div className="analysisContainer">
+            <Drawer
+              title={drawerTitle}
+              mask={false}
+              placement={this.state.placement}
+              closable={true}
+              onClose={this.onClose}
+              visible={analysisDrawerVisible}
+            >
+              {/* Tab components */}
+              <Wrapper letterNavigation={true}>
+                <TabList>
+                  <ul className='FancyTabs-tablist'>
+                      <Tooltip title="You must save your changes before running a new analysis">
+                        <Button 
+                          type="primary"
+                          ghost={true} 
+                          icon="deployment-unit"
+                          className="runButton"
+                          onClick={()=> { message.success("Outputting analysis.."); this.props.updateAppMethod()}}
+                          >
+                          Run
+                      </Button>
+                    </Tooltip>
+                    <li className='FancyTabs-tablistItem'>
+                      <Tab id='t1' className='FancyTabs-tab'>
+                        {analysisTabs.bind(null, (
+                          <div>
+                            {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
+                            <span className='FancyTabs-tabText'>
+                              Overview
+                            </span>
+                          </div>
+                        ))}
+                      </Tab>
+                    </li>
+  
+                    <li className='FancyTabs-tablistItem'>
+                      <Tab id='t6' className='FancyTabs-tab'>
+                        {analysisTabs.bind(null, (
+                          <div>
+                            {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
+                            <span className='FancyTabs-tabText'>
+                              Visualizations
+                            </span>
+                          </div>
+                        ))}
+                      </Tab>
+                    </li>
+                    
+                    <li className='FancyTabs-tablistItem'>
+                      <Tab id='t2' className='FancyTabs-tab'>
+                        {analysisTabs.bind(null, (
+                          <div>
+                            {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
+                            <span className='FancyTabs-tabText'>
+                              Ask
+                            </span>
+                          </div>
+                        ))}
+                      </Tab>
+                    </li>
+                    <li className='FancyTabs-tablistItem'>
+                      <Tab id='t3' className='FancyTabs-tab'>
+                        {analysisTabs.bind(null, (
+                          <div>
+                            {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--megaphone' /> */}
+                            <span className='FancyTabs-tabText'>
+                              Summarize
+                            </span>
+                          </div>
+                        ))}
+                      </Tab>
+                    </li>
+                    <li className='FancyTabs-tablistItem'>
+                      <Tab id='t4' className='FancyTabs-tab'>
+                        {analysisTabs.bind(null, (
+                          <div>
+                            {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--trophy' /> */}
+                            <span className='FancyTabs-tabText'>
+                              Information Extraction
+                            </span>
+                          </div>
+                        ))}
+                      </Tab>
+                    </li>
+  
+                    <li className='FancyTabs-tablistItem'>
+                      <Tab id='t5' className='FancyTabs-tab'>
+                        {analysisTabs.bind(null, (
+                          <div>
+                            {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--trophy' /> */}
+                            <span className='FancyTabs-tabText'>
+                              Metadata
+                            </span>
+                          </div>
+                        ))}
+                      </Tab>
+                    </li>
+                  </ul>
+                </TabList>
+                <div className='FancyTabs-panel'>
+                  <TabPanel tabId='t1'>
+                    <div className='FancyTabs-panelInner'>
+  
+                    <div className="visualizationsContainer">
+                    </div>
+  
+                    <div className="analysisStatsContainer">
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Character Count
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {charCount}
+                      </h4>
+                    </div>
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Word Count
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {wordCount}
+                      </h4>
+                    </div>
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Sentence Count
+                      </h4>
+                      <h4 className="tabInnerContent">
+                        {sentenceCount}
+                      </h4>
+                    </div>
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Average Syllables Per Word
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {avgSyllablesPerWord}
+                      </h4>
+                    </div>
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Average Syllables Per Sentence
+                      </h4>
+                      <h4 className="tabInnerContent">
+                        {avgSyllablesPerSentence}
+                      </h4>
+                    </div>
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Avgerage Words Per Sentence
+                      </h4>
+                      <h4 className="tabInnerContent">
+                        {avgWordsPerSentence}
+                      </h4>
+                    </div>
+                    <div className="tabInnerSection">                  
+                      <h4 className="tabInnerLabel">
+                        Readability Index (Flesch–Kincaid)
+                      </h4>
+                      <h4 className="tabInnerContent">
+                        {fleschReadabilityDescription}
+                      </h4>
+                    </div>
+  
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Entry ID
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {selectedEntry.id}
+                      </h4>
+                    </div>
+  
+                    <div className="tabInnerSection">                  
+                      <h4 className="tabInnerLabel">
+                        Entry Language
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {detectedLanguage}
+                      </h4>
+                    </div>
+  
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                          Category Tags
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {entryTags}
+                      </h4>
+                    </div>
+  
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Date Created
+                      </h4>
+                      <h4 className="tabInnerContent">
+                          {dateCreated}
+                      </h4>
+                    </div>
+  
+                    <div className="tabInnerSection">
+                      <h4 className="tabInnerLabel">
+                        Move Dialog
+                      </h4>
+                      <div className="tabInnerContent">
+                          <RadioGroup
+                            style={{ marginRight: 8 }}
+                            defaultValue={this.state.placement}
+                            onChange={this.onChange}
+                          >
+                            <Radio value="top">top</Radio>
+                            <Radio value="right">right</Radio>
+                            <Radio value="bottom">bottom</Radio>
+                            <Radio value="left">left</Radio>
+                          </RadioGroup>
                         </div>
-                      ))}
-                    </Tab>
-                  </li>
-
-                  <li className='FancyTabs-tablistItem'>
-                    <Tab id='t6' className='FancyTabs-tab'>
-                      {analysisTabs.bind(null, (
-                        <div>
-                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
-                          <span className='FancyTabs-tabText'>
-                            Visualizations
-                          </span>
-                        </div>
-                      ))}
-                    </Tab>
-                  </li>
-                  
-                  <li className='FancyTabs-tablistItem'>
-                    <Tab id='t2' className='FancyTabs-tab'>
-                      {analysisTabs.bind(null, (
-                        <div>
-                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--map' /> */}
-                          <span className='FancyTabs-tabText'>
-                            Ask
-                          </span>
-                        </div>
-                      ))}
-                    </Tab>
-                  </li>
-                  <li className='FancyTabs-tablistItem'>
-                    <Tab id='t3' className='FancyTabs-tab'>
-                      {analysisTabs.bind(null, (
-                        <div>
-                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--megaphone' /> */}
-                          <span className='FancyTabs-tabText'>
-                            Summarize
-                          </span>
-                        </div>
-                      ))}
-                    </Tab>
-                  </li>
-                  <li className='FancyTabs-tablistItem'>
-                    <Tab id='t4' className='FancyTabs-tab'>
-                      {analysisTabs.bind(null, (
-                        <div>
-                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--trophy' /> */}
-                          <span className='FancyTabs-tabText'>
-                            Information Extraction
-                          </span>
-                        </div>
-                      ))}
-                    </Tab>
-                  </li>
-
-                  <li className='FancyTabs-tablistItem'>
-                    <Tab id='t5' className='FancyTabs-tab'>
-                      {analysisTabs.bind(null, (
-                        <div>
-                          {/* <span className='FancyTabs-tabIcon FancyTabs-tabIcon--trophy' /> */}
-                          <span className='FancyTabs-tabText'>
-                            Metadata
-                          </span>
-                        </div>
-                      ))}
-                    </Tab>
-                  </li>
-                </ul>
-              </TabList>
-              <div className='FancyTabs-panel'>
-                <TabPanel tabId='t1'>
-                  <div className='FancyTabs-panelInner'>
-
-                  <div className="visualizationsContainer">
-                  </div>
-
-                  <div className="analysisStatsContainer">
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Character Count
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {charCount}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Word Count
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {wordCount}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Sentence Count
-                    </h4>
-                    <h4 className="tabInnerContent">
-                      {sentenceCount}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Average Syllables Per Word
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {avgSyllablesPerWord}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Average Syllables Per Sentence
-                    </h4>
-                    <h4 className="tabInnerContent">
-                      {avgSyllablesPerSentence}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Avgerage Words Per Sentence
-                    </h4>
-                    <h4 className="tabInnerContent">
-                      {avgWordsPerSentence}
-                    </h4>
-                  </div>
-                  <div className="tabInnerSection">                  
-                    <h4 className="tabInnerLabel">
-                      Readability Index (Flesch–Kincaid)
-                    </h4>
-                    <h4 className="tabInnerContent">
-                      {fleschReadabilityDescription}
-                    </h4>
-                  </div>
-
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Entry ID
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {selectedEntry.id}
-                    </h4>
-                  </div>
-
-                  <div className="tabInnerSection">                  
-                    <h4 className="tabInnerLabel">
-                      Entry Language
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {detectedLanguage}
-                    </h4>
-                  </div>
-
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                        Category Tags
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {entryTags}
-                    </h4>
-                  </div>
-
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Date Created
-                    </h4>
-                    <h4 className="tabInnerContent">
-                        {dateCreated}
-                    </h4>
-                  </div>
-
-                  <div className="tabInnerSection">
-                    <h4 className="tabInnerLabel">
-                      Move Dialog
-                    </h4>
-                    <div className="tabInnerContent">
-                        <RadioGroup
-                          style={{ marginRight: 8 }}
-                          defaultValue={this.state.placement}
-                          onChange={this.onChange}
-                        >
-                          <Radio value="top">top</Radio>
-                          <Radio value="right">right</Radio>
-                          <Radio value="bottom">bottom</Radio>
-                          <Radio value="left">left</Radio>
-                        </RadioGroup>
                       </div>
                     </div>
                   </div>
+                  </TabPanel>
+  
+                  <TabPanel tabId='t6'>
+                    <Visualizer entry={selectedEntry} Entries={Entries}/>
+                  </TabPanel>
+  
+                  <TabPanel tabId='t2'>
+                    <div className='FancyTabs-panelInner'>
+                    <div className="tabInnerSection">
+                        <h4 className="sectionTitleText">
+                          Ask Questions
+                        </h4>
+                        <WrappedAskForm entryText={entryTextToSummarize}/>
+                    </div>
+                    </div>
+                  </TabPanel>
+                  <TabPanel tabId='t3'>
+                    <div className='FancyTabs-panelInner'>
+                      <Collapse bordered={false} defaultActiveKey={defaultOpenSummaries}>
+                        {summariesResultsContent}
+                      </Collapse>
+                    </div>
+                  </TabPanel>
+                  <TabPanel tabId='t4'>
+                    <div className='FancyTabs-panelInner'>
+                      <div className="entitiesCollapseLeft">
+                        <Collapse defaultActiveKey={entitiesDefaultOpenKeysLeft} onChange={this.callback}>
+                          {entitiesContainerLeft}
+                        </Collapse>
+                      </div>
+                      <div className="entitiesCollapseRight">
+                        <Collapse defaultActiveKey={entitiesDefaultOpenKeysRight} onChange={this.callback2}>
+                          {entitiesContainerRight}
+                        </Collapse>
+                      </div>
+                    </div>
+                  </TabPanel>
+                  <TabPanel tabId='t5'>
+                    <ReactJson src={selectedEntry} />
+                  </TabPanel>
                 </div>
-                </TabPanel>
-
-                <TabPanel tabId='t6'>
-                  <Visualizer entry={selectedEntry} Entries={Entries}/>
-                </TabPanel>
-
-                <TabPanel tabId='t2'>
-                  <div className='FancyTabs-panelInner'>
-                  <div className="tabInnerSection">
-                      <h4 className="sectionTitleText">
-                        Ask Questions
-                      </h4>
-                      <WrappedAskForm entryText={entryTextToSummarize}/>
-                  </div>
-                  </div>
-                </TabPanel>
-                <TabPanel tabId='t3'>
-                  <div className='FancyTabs-panelInner'>
-                    <Collapse bordered={false} defaultActiveKey={defaultOpenSummaries}>
-                      {summariesResultsContent}
-                    </Collapse>
-                  </div>
-                </TabPanel>
-                <TabPanel tabId='t4'>
-                  <div className='FancyTabs-panelInner'>
-                    <div className="entitiesCollapseLeft">
-                      <Collapse defaultActiveKey={entitiesDefaultOpenKeysLeft} onChange={this.callback}>
-                        {entitiesContainerLeft}
-                      </Collapse>
-                    </div>
-                    <div className="entitiesCollapseRight">
-                      <Collapse defaultActiveKey={entitiesDefaultOpenKeysRight} onChange={this.callback2}>
-                        {entitiesContainerRight}
-                      </Collapse>
-                    </div>
-                  </div>
-                </TabPanel>
-                <TabPanel tabId='t5'>
-                  <ReactJson src={selectedEntry} />
-                </TabPanel>
-              </div>
-            </Wrapper>
-            {/* End tabs */}
-          </Drawer>
-        </div>
-      );
+              </Wrapper>
+              {/* End tabs */}
+            </Drawer>
+          </div>
+        );
+    } else {
+      return null;
+    }
   }
-    // } else {
-      // return null;
-    // }
 }
 
 // Tab switch handler

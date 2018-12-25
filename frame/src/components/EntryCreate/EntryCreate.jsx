@@ -1,4 +1,5 @@
 'use strict';
+import config from '../../data/config.json';
 import React, { Component } from 'react';
 import {
   Button, Modal, Form, Input, Radio, Select, message,
@@ -25,6 +26,12 @@ import
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const Option = Select.Option;
+
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const defaultFLib = savedSettings.defaultLibrary;
+
+import localforage from "localforage";
 
 const EntryCreateForm = Form.create()(
   // eslint-disable-next-line
@@ -228,40 +235,43 @@ export class EntryCreate extends Component {
     this.setState({visible: false});
   }
 
-  handleCreate = () => {
+  handleCreate = async () => {
     const form = this.formRef.props.form;
     let m_Entries;
     var _this = this;
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (err) {
         message.error(err);
         return;
       }
       console.log("FORM VALUES: ", values);
-      const library = getState("library");
+      const library = defaultFLib;
       // if (library === null || libray === undefined) {
         // library = "default";
       // }
-      const m_Library = openDB("default");
-      console.log(library, m_Library);
-      getFromDB(m_Library, "entries").then(function(result) {
-        m_Entries = result;
-        if (m_Entries === null || m_Entries === undefined || m_Entries === '[]') {
-          m_Entries = [];
-        }
-        console.log("THIS IS M_ENTRIES: ", m_Entries);
+      const m_Library = openDB(library);
+      // m_Entries = getFromDB(m_Library, "entries");
+      m_Entries = await getFromDB("entries");
+      try {
+        m_Entries.unshift(values);
+      } catch (err) {
+        console.log(err);
+        m_Entries = [];
         m_Entries.unshift(values); // Add entry to top of tree
-        saveToDB(m_Library, "entries", m_Entries).then(function(result) {
-          message.success("Creating new library entry..");
-          form.resetFields();
-          _this.setState({visible: false})
-          _this.props.updateEntriesMethod();
-        })
-      }).catch(function(err) {
+      }
+      try {
+        // saveToDB(m_Library, "entries", m_Entries);
+        const res = await localforage.setItem("entries", m_Entries);
+        message.success("Creating new library entry..");
+        form.resetFields();
+        _this.props.updateEntriesMethod();        
+        _this.setState({visible: false})
+      } catch (err) {
+        console.log(err);
         message.error("Failed to create new library entry! " + err);
         form.resetFields();
         _this.setState({visible: false});
-      });
+      }
     });
     this.setState({visible: false});
   }
