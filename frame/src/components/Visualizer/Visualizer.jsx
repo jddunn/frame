@@ -1,4 +1,5 @@
 'use strict';
+import config from '../../data/config.json';
 import React, { Component } from "react";
 import PropTypes, { shape } from 'prop-types';
 import {setState, getState} from '../../utils/session-state';
@@ -24,6 +25,9 @@ import replaceEntry from '../../utils/replace-entry';
 
 import styles from './Visualizer.scss';
 
+/** Data library / source vars */
+const savedSettings = config.savedSettings;
+const defaultFLib = savedSettings.defaultLibrary;
 
 export default class Visualizer extends Component {
 
@@ -41,24 +45,52 @@ export default class Visualizer extends Component {
     });
   }
 
+  componentWillMount() {
+    this.setState({_isMounted: true,
+      entry: this.props.entry
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
-    this.setState({entry: nextProps.entry});
+    this.setState({entry: nextProps.entry, Entries: nextProps.Entries});
+  }
+
+  getEntries(Library, key) {
+    let Entries = [];
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    Entries = getFromDB(Library, key)
+    return Entries;
   }
 
   buildTermsRadar() {
+
+    if (this.state._isMounted) {
     const terms = this.state.entry.terms;
     let container = [];
     terms.each(function(el) {
       
     });
     return container;
+  } return null;
   }
 
   render() {
     if (this.state._isMounted) {
-      if (this.state.entry != null && this.state.entry != undefined &&
-          this.state.entry != "undefined"  
+      let selectedEntry;
+      const stateFound = getState("entryId");
+      // let library = getState("library");
+      let library = defaultFLib;
+      if (this.state.entry !== null && this.state.entry !== undefined &&
+          this.state.entry !== "undefined" && this.state.entry.length > 0  
         ) {
+          selectedEntry = this.state.entry;
+        } else {
+          selectedEntry = traverseEntriesById(stateFound, this.props.Entries);
+        }
         try {
           return (
             <React.Fragment>
@@ -208,8 +240,6 @@ export default class Visualizer extends Component {
         return null;
       }
     }
-    return null;
-  }
 }
 
 // Tab switch handler
