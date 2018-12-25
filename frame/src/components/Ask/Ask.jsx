@@ -60,28 +60,54 @@ export default class AskForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Item>
-          {getFieldDecorator('question', {
-            rules: [{ required: true, message: 'Input a Question' }],
-          })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Ask your question" />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('passage', {
-            initialValue: this.props.entryText,
-            rules: [{ required: true, message: 'Passage of text' }],
-          })(
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} disabled={true}/>
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" >
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      <div className="askWrapper">
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator('question', {
+              rules: [{ required: true, message: 'Input a Question' }],
+            })(
+              <React.Fragment>
+              <Input 
+              className="passagaeQuestionTextInput"
+              prefix={<Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Ask your question" />
+
+              <Button type="primary" htmlType="submit" className="floatingAskButton" icon="radar-chart">
+              Ask Frame
+            </Button>
+            </React.Fragment>
+            )}
+            <Form.Item>
+
+          </Form.Item>
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('passage', {
+              initialValue: this.props.entryText,
+              rules: [{ required: true, message: 'No text passage found, select an entry and click "Run" or save' }],
+            })(
+              <Input 
+              className="passageTextInputDisabled"
+              prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true}/>
+            )}
+          </Form.Item>
+        </Form>
+
+        <div className="result">
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Item>
+              {getFieldDecorator('passage', {
+                initialValue: this.props.entryText,
+                rules: [{ required: true, message: 'No text passage found, select an entry and click "Run" or save' }],
+              })(
+                <Input 
+                className="passageTextResult"
+                prefix={<Icon type="diff" style={{  color: 'rgba(0,0,0,.25)'}} />} disabled={true} placeholder="Answer will be here"/>
+              )}
+            </Form.Item>
+          </Form>
+        </div>
+
+      </div>
     );
   }
 }
