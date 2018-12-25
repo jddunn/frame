@@ -40,19 +40,20 @@ Frame keeps notes, or what are called entries.
 
 Additional libraries and references used:
 
-- AllenNLP [https://allennlp.org/](https://allennlp.org/)
-- Ant Design [https://ant.design/](https://ant.design/)
-- compromise [https://github.com/spencermountain/compromise](https://github.com/spencermountain/compromise)
-- Draft.js [https://draftjs.org/](https://draftjs.org/)
-- franc [https://github.com/wooorm/franc](https://github.com/wooorm/franc)
-- electron-builder [https://www.electron.build/](https://www.electron.build/)
-- LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/)
-- medium-draft [https://github.com/brijeshb42/medium-draft](https://github.com/brijeshb42/medium-draft)
-- node-sumbasic [https://github.com/MSVCode/node-sumbasic](https://github.com/MSVCode/node-sumbasic)
-- React Draft WYSIWYG [https://jpuri.github.io/react-draft-wysiwyg/#/](https://jpuri.github.io/react-draft-wysiwyg/#/)
-- react-aria-tabpanel [https://github.com/davidtheclark/react-aria-tabpanel](https://github.com/davidtheclark/react-aria-tabpanel)
-- react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
-- react-json-view [https://github.com/mac-s-g/react-json-view](https://github.com/mac-s-g/react-json-view)
-- react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
-- Recharts [https://github.com/recharts/recharts](https://github.com/recharts/recharts)
-- uwsgi-nginx-flask-docker [uwsgi-nginx-flask-docker](uwsgi-nginx-flask-docker)
+- AllenNLP [https://allennlp.org/](https://allennlp.org/) - Answer prediction model
+- Ant Design [https://ant.design/](https://ant.design/) - Main UI framework
+- compromise [https://github.com/spencermountain/compromise](https://github.com/spencermountain/compromise) - NLP library (JS)
+- Draft.js [https://draftjs.org/](https://draftjs.org/) - Text editor framework
+- franc [https://github.com/wooorm/franc](https://github.com/wooorm/franc) - Language detection
+- electron-builder [https://www.electron.build/](https://www.electron.build/) - Builder for cross-platform
+- LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/) - Persistent data storage
+- medium-draft [https://github.com/brijeshb42/medium-draft](https://github.com/brijeshb42/medium-draft) - Text editor wrapped around Draft
+- node-sumbasic [https://github.com/MSVCode/node-sumbasic](https://github.com/MSVCode/node-sumbasic) - JS implementation of SumBasic
+- pysummarization [https://pypi.org/project/pysummarization/](https://pypi.org/project/pysummarization/) - Abstractive summarization
+- React Draft WYSIWYG [https://jpuri.github.io/react-draft-wysiwyg/#/](https://jpuri.github.io/react-draft-wysiwyg/#/) - Text editor wrapped around Draft
+- react-aria-tabpanel [https://github.com/davidtheclark/react-aria-tabpanel](https://github.com/davidtheclark/react-aria-tabpanel) - Tabular components
+- react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate] (https://github.com/MikeyFriedChicken/react-electron-web-boilerplate) - - Starter project with config  
+- react-json-view [https://github.com/mac-s-g/react-json-view](https://github.com/mac-s-g/react-json-view) - JSON editor / viewer
+- react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree) - Tree library with UI components and sortable drag-and-drop properties
+- Recharts [https://github.com/recharts/recharts](https://github.com/recharts/recharts) - Data visualization framework 
+- uwsgi-nginx-flask-docker [uwsgi-nginx-flask-docker](uwsgi-nginx-flask-docker) - Nginx server setup 
