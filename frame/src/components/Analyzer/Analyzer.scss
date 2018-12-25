@@ -6,35 +6,36 @@
     margin: 20px !important;
     margin-bottom: 0px !important;
     // margin-left: 150px !important;
-    width: calc(100% - 50px) !important;
+    width: calc(90% - 50px) !important;
     // overflow-x: hidden !important;
     height: calc(55% - 20px) !important;
     // background: none !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer-content {
+    margin-left: 120px !important;
     height: 100% !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
     overflow-x: auto !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-body {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
     overflow-x: auto !important;
     overflow-y: auto !important;
 
 }
 
 .ant-drawer-wrapper-body {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
     overflow-x: auto !important;
     overflow-y: auto !important;
 }
 
 .ant-drawer-wrapper {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer-header {
@@ -138,11 +139,11 @@ span.ant-radio + * {
     font-size: 1.3em !important;
     letter-spacing: 1px !important;
     color: rgb(31, 25, 25) !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer.ant-drawer-bottom ant-drawer-open.no-mask {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-drawer-body {
@@ -213,15 +214,15 @@ span.ant-radio + * {
     padding-top: 5px !important;
     font-size: 1.05em !important;
     letter-spacing: 1px !important;
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 } 
 
 .ant-collapse {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-collapse-content-box {
-    background-color: rgba(239, 244, 248, 0.923) !important;
+    background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .sectionHeadlineText {
