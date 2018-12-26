@@ -219,3 +219,5 @@ dist/
 # Virtualenv
 
 frame-nlp-service-venv
+
+nohup.out
