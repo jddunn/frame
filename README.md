@@ -16,11 +16,6 @@ Note: Frame is currently heavily unoptimized with some UI quirks. The project wa
 
 Download Windows build: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
-## Current Screenshots (12-23-2018)
-
-This is a fully functional build, without the Python backend running for the Ask freature.
-
-
 ## Web UI
 
 A public-serving site is accessible at [https://framed.fwd.wf/](https://framed.fwd.wf/). 
@@ -36,6 +31,8 @@ Download the Windows release of version 0.1.0 here: [https://www.mediafire.com/f
 There is no MacOS build, but it should be able to be built with no modifications. If you have a Mac and are willing to create and upload a build, reach out! Thanks. Linux will hopefully come soon too (not tested yet).
 
 # Future
+
+???
 
 # Acknowledgements
 
