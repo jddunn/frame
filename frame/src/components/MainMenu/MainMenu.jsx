@@ -755,7 +755,11 @@ export default class MainMenu extends Component {
               <Menu.Item>Visual</Menu.Item>
               <Menu.Item>Online</Menu.Item>
               <Menu.Item>Security</Menu.Item>
-              <Menu.Item>About</Menu.Item>
+              <Menu.Item>
+              <a href="https://github.com/jddunn/frame">
+                About
+              </a>
+              </Menu.Item>
             </SubMenu>
           </Menu>
           {/* End main menu comp */}
