@@ -15,8 +15,8 @@
                 "subtitle": "12/24/2018 1:51:17 AM          [frame, example, default]",
                 "id": "9a4798b8-57f7-4e42-97a2-a591f5b8b2e8",
                 "dateCreated": "12/24/2018 1:51:17 AM",
-                "html": "<h3><strong><u>FAQ</u></strong></h3><blockquote><strong>But what is Frame</strong></blockquote><p>Essentially, Frame is a notetaking / journaling application designed with information organization and analysis in mind. A</p><p><em>But you currently cannot do things like add images, links, content alignment, or also separators. This is because Frame&#x27;s editor switching needs to be extended still to save and convert those formats. Hopefully this comes soon!</em></p><blockquote><strong>Who would use something like this</strong></blockquote><p></p><blockquote><strong>What&#x27;s broken right now?</strong></blockquote>",
-                "strippedText": "FAQBut what is Frame\r\r\n\nEssentially, Frame is a notetaking / journaling application designed with information organization and analysis in mind. A\r\r\n\nBut you currently cannot do things like add images, links, content alignment, or also separators. This is because Frame's editor switching needs to be extended still to save and convert those formats. Hopefully this comes soon!Who would use something like this\r\r\n\nWhat's broken right now?",
+                "html": "<h3><strong><u>FAQ</u></strong></h3><blockquote><strong>But what is Frame</strong></blockquote><p>Frame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe.</p><p>Taking a look at the most compelling features of Frame (automatic summarizing and answering questions about data), you might think it took the coolest features from the Hitchhiker&#x27;s Guide to the Galaxy. That&#x27;s because it did. </p><p>You can write entries and organize them with total control. Eventually, more features will be added (hopefully) to Frame to genuinely make it an intelligent, interactive encyclopedia, including automatic ingestion from large data sources (like Wikipedia!).</p><p>In short, SparkNotes your life! </p><blockquote><strong>Who would use something like this</strong></blockquote><p>Researchers, academics, journalists, Martin Freeman, anyone who feels some need to (or at least would find it useful to) catalog, understand, or inquire about information in their lives. Provided that they&#x27;re the ones writing the content (for now at least). </p><blockquote><strong>What&#x27;s broken right now</strong></blockquote><p>Frame is actually fully-functional although slightly buggy, and there are limitations to the UI. You also are unable to add media content like images or videos (as the conversion functionality needs to be extended to include those things across the different planned editor types). </p><p>Frame might run a little slow, as it was built by a single developer over the period of a few weeks. But, it&#x27;s doing some very complicated stuff! And most of the NLP and analysis is done within the application itself, as only the most complicated features (abstractive summarization and answer prediction) is done with server calls to a API written in Python. By default, those calls are made to localhost, and the Python backend can be downloaded as a Docker image.</p>",
+                "strippedText": "FAQBut what is Frame\r\r\n\nFrame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe.\r\r\n\nTaking a look at the most compelling features of Frame (automatic summarizing and answering questions about data), you might think it took the coolest features from the Hitchhiker's Guide to the Galaxy. That's because it did. \r\r\n\nYou can write entries and organize them with total control. Eventually, more features will be added (hopefully) to Frame to genuinely make it an intelligent, interactive encyclopedia, including automatic ingestion from large data sources (like Wikipedia!).\r\r\n\nIn short, SparkNotes your life! Who would use something like this\r\r\n\nResearchers, academics, journalists, Martin Freeman, anyone who feels some need to (or at least would find it useful to) catalog, understand, or inquire about information in their lives. Provided that they're the ones writing the content (for now at least). What's broken right now\r\r\n\nFrame is actually fully-functional although slightly buggy, and there are limitations to the UI. You also are unable to add media content like images or videos (as the conversion functionality needs to be extended to include those things across the different planned editor types). \r\r\n\nFrame might run a little slow, as it was built by a single developer over the period of a few weeks. But, it's doing some very complicated stuff! And most of the NLP and analysis is done within the application itself, as only the most complicated features (abstractive summarization and answer prediction) is done with server calls to a API written in Python. By default, those calls are made to localhost, and the Python backend can be downloaded as a Docker image.",
                 "detectedLanguages": [
                     [
                         "eng",
@@ -24,28 +24,23 @@
                     ],
                     [
                         "sco",
-                        0.9658972352634324
+                        0.9878571029586093
+                    ],
+                    [
+                        "fra",
+                        0.9671493207052997
                     ],
                     [
                         "dan",
-                        0.8963386802295253
+                        0.9653587631809238
                     ],
                     [
-                        "src",
-                        0.8807218309859155
-                    ],
-                    [
-                        "nob",
-                        0.8798415492957746
+                        "cat",
+                        0.9651042991999901
                     ]
                 ],
                 "entities": {
                     "terms": [
-                        {
-                            "normal": "is",
-                            "count": 2,
-                            "percent": 6.67
-                        },
                         {
                             "normal": "frame",
                             "count": 2,
@@ -53,6 +48,16 @@
                         },
                         {
                             "normal": "a",
+                            "count": 2,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "of",
+                            "count": 2,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "the",
                             "count": 2,
                             "percent": 6.67
                         },
@@ -67,27 +72,12 @@
                             "percent": 3.33
                         },
                         {
-                            "normal": "essentially",
+                            "normal": "is",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "notetaking",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "journaling",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "application",
+                            "normal": "was",
                             "count": 1,
                             "percent": 3.33
                         },
@@ -97,7 +87,52 @@
                             "percent": 3.33
                         },
                         {
-                            "normal": "with",
+                            "normal": "as",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "solution",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "to",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "help",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "us",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "make",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "some",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "sense",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "endless",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "onslaught",
                             "count": 1,
                             "percent": 3.33
                         },
@@ -107,7 +142,17 @@
                             "percent": 3.33
                         },
                         {
-                            "normal": "organization",
+                            "normal": "in",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "our",
+                            "count": 1,
+                            "percent": 3.33
+                        },
+                        {
+                            "normal": "lives",
                             "count": 1,
                             "percent": 3.33
                         },
@@ -117,70 +162,53 @@
                             "percent": 3.33
                         },
                         {
-                            "normal": "analysis",
+                            "normal": "universe",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "in",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "mind",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "but",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "you",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "currently",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "can",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "not",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "do",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "things",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "like",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "add",
+                            "normal": "taking",
                             "count": 1,
                             "percent": 3.33
                         }
                     ],
-                    "topics": [],
-                    "people": [],
+                    "topics": [
+                        {
+                            "normal": "martin freeman",
+                            "count": 1,
+                            "percent": 33.33
+                        },
+                        {
+                            "normal": "ui",
+                            "count": 1,
+                            "percent": 33.33
+                        },
+                        {
+                            "normal": "nlp",
+                            "count": 1,
+                            "percent": 33.33
+                        }
+                    ],
+                    "people": [
+                        {
+                            "normal": "martin freeman",
+                            "count": 1,
+                            "percent": 100
+                        }
+                    ],
                     "dates": [],
-                    "organizations": [],
+                    "organizations": [
+                        {
+                            "normal": "ui",
+                            "count": 1,
+                            "percent": 50
+                        },
+                        {
+                            "normal": "nlp",
+                            "count": 1,
+                            "percent": 50
+                        }
+                    ],
                     "places": [],
                     "phoneNumbers": [],
                     "urls": [],
@@ -190,379 +218,498 @@
                         {
                             "normal": "faqbut what is frame",
                             "count": 1,
-                            "percent": 16.67
+                            "percent": 6.67
                         },
                         {
-                            "normal": "essentially frame is a notetaking  journaling application designed with information organization and analysis in mind",
+                            "normal": "frame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe",
                             "count": 1,
-                            "percent": 16.67
+                            "percent": 6.67
                         },
                         {
-                            "normal": "a",
+                            "normal": "taking a look at the most compelling features of frame automatic summarizing and answering questions about data you might think it took the coolest features from the hitchhiker guide to the galaxy",
                             "count": 1,
-                            "percent": 16.67
+                            "percent": 6.67
                         },
                         {
-                            "normal": "but you currently can not do things like add images links content alignment or also separators",
+                            "normal": "that is because it did",
                             "count": 1,
-                            "percent": 16.67
+                            "percent": 6.67
                         },
                         {
-                            "normal": "this is because frame editor switching needs to be extended still to save and convert those formats",
+                            "normal": "you can write entries and organize them with total control",
                             "count": 1,
-                            "percent": 16.67
+                            "percent": 6.67
                         },
                         {
-                            "normal": "hopefully this comes soon!who would use something like this",
+                            "normal": "eventually more features will be added hopefully to frame to genuinely make it an intelligent interactive encyclopedia including automatic ingestion from large data sources like wikipedia",
                             "count": 1,
-                            "percent": 16.67
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "in short sparknotes your life",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "researchers academics journalists martin freeman anyone who feels some need to or at least would find it useful to catalog understand or inquire about information in their lives",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "provided that they are the ones writing the content for now at least",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "frame is actually fully functional although slightly buggy and there are limitations to the ui",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "you also are unable to add media content like images or videos as the conversion functionality needs to be extended to include those things across the different planned editor types",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "frame might run a little slow as it was built by a single developer over the period of a few weeks",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "but it is doing some very complicated stuff",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "and most of the nlp and analysis is done within the application itself as only the most complicated features abstractive summarization and answer prediction is done with server calls to a api written in python",
+                            "count": 1,
+                            "percent": 6.67
+                        },
+                        {
+                            "normal": "by default those calls are made to localhost and the python backend can be downloaded as a docker image",
+                            "count": 1,
+                            "percent": 6.67
                         }
                     ],
                     "questions": [
                         {
+                            "normal": "who would use something like this",
+                            "count": 1,
+                            "percent": 50
+                        },
+                        {
                             "normal": "what is broken right now",
                             "count": 1,
-                            "percent": 100
+                            "percent": 50
                         }
                     ],
                     "bigrams": [
                         {
-                            "normal": "information organization",
+                            "normal": "information in",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "journaling application",
+                            "normal": "the most",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "notetaking journaling",
+                            "normal": "at least",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "application designed",
+                            "normal": "and the",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "essentially frame",
+                            "normal": "is done",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "content alignment",
+                            "normal": "of the",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "with information",
+                            "normal": "to the",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "organization and",
+                            "normal": "as a",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "currently can",
+                            "normal": "abstractive summarization",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "editor switching",
+                            "normal": "interactive encyclopedia",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "also separators",
+                            "normal": "conversion functionality",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "because frame",
+                            "normal": "intelligent interactive",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "switching needs",
+                            "normal": "encyclopedia including",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "frame editor",
+                            "normal": "automatic summarizing",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "extended still",
+                            "normal": "researchers academics",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "hopefully this",
+                            "normal": "academics journalists",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "comes soon!who",
+                            "normal": "complicated features",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "soon!who would",
+                            "normal": "features abstractive",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "something like",
+                            "normal": "compelling features",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "designed with",
+                            "normal": "answering questions",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "you currently",
+                            "normal": "including automatic",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "links content",
+                            "normal": "automatic ingestion",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "convert those",
+                            "normal": "functional although",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "those formats",
+                            "normal": "functionality needs",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "use something",
+                            "normal": "hitchhiker guide",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "what broken",
+                            "normal": "journalists martin",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "a notetaking",
+                            "normal": "catalog understand",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "and analysis",
+                            "normal": "application itself",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "images links",
+                            "normal": "endless onslaught",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "alignment or",
+                            "normal": "about information",
                             "count": 1,
                             "percent": 3.33
                         }
                     ],
                     "trigrams": [
                         {
-                            "normal": "notetaking journaling application",
+                            "normal": "intelligent interactive encyclopedia",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "journaling application designed",
+                            "normal": "interactive encyclopedia including",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "with information organization",
+                            "normal": "features abstractive summarization",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "information organization and",
+                            "normal": "researchers academics journalists",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "application designed with",
+                            "normal": "encyclopedia including automatic",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "designed with information",
+                            "normal": "complicated features abstractive",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "organization and analysis",
+                            "normal": "conversion functionality needs",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "frame editor switching",
+                            "normal": "including automatic ingestion",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "a notetaking journaling",
+                            "normal": "abstractive summarization and",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "links content alignment",
+                            "normal": "academics journalists martin",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "because frame editor",
+                            "normal": "functional although slightly",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "editor switching needs",
+                            "normal": "the conversion functionality",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "convert those formats",
+                            "normal": "frame automatic summarizing",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "essentially frame is",
+                            "normal": "an intelligent interactive",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "you currently can",
+                            "normal": "journalists martin freeman",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "images links content",
+                            "normal": "automatic summarizing and",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "content alignment or",
+                            "normal": "summarizing and answering",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "hopefully this comes",
+                            "normal": "answering questions about",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "comes soon!who would",
+                            "normal": "inquire about information",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "currently can do",
+                            "normal": "actually fully functional",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "this comes soon!who",
+                            "normal": "fully functional although",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "would use something",
+                            "normal": "most complicated features",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "something like this",
+                            "normal": "onslaught of information",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "what broken right",
+                            "normal": "most compelling features",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "or also separators",
+                            "normal": "eventually more features",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "is because frame",
+                            "normal": "automatic ingestion from",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "switching needs to",
+                            "normal": "different planned editor",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "soon!who would use",
+                            "normal": "summarization and answer",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "use something like",
+                            "normal": "and answering questions",
                             "count": 1,
                             "percent": 3.33
                         },
                         {
-                            "normal": "but you currently",
+                            "normal": "although slightly buggy",
                             "count": 1,
                             "percent": 3.33
                         }
                     ]
                 },
-                "summaryExtractive": "Essentially, Frame is a notetaking . Who would use something like this. FAQBut what is Frame.",
+                "summaryExtractive": "Taking a look at the most compelling features of Frame (automatic summarizing and answering questions about data), you might think it took the coolest features from the Hitchhikers Guide to the Galaxy. Frame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe.",
                 "summaryByParagraphs": [
                     "FAQBut what is Frame.",
                     "",
                     "",
                     "",
-                    "Essentially, Frame is a notetaking .",
-                    "/ journaling application designed with information organization and analysis in mind.",
+                    "Frame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe.",
+                    "",
+                    "",
+                    "Taking a look at the most compelling features of Frame (automatic summarizing and answering questions about data), you might think it took the coolest features from the Hitchhiker's Guide to the Galaxy.",
+                    "That's because it did.",
+                    "",
+                    "",
+                    "You can write entries and organize them with total control.",
+                    "Eventually, more features will be added (hopefully) to Frame to genuinely make it an intelligent, interactive encyclopedia, including automatic ingestion from large data sources (like Wikipedia!",
+                    "",
+                    "",
+                    "In short, SparkNotes your life!",
+                    "Who would use something like this.",
                     "",
                     "",
                     "",
-                    "",
-                    "But you currently cannot do things like add images, links, content alignment, or also separators.",
-                    "This is because Frame's editor switching needs to be extended still to save and convert those formats.",
-                    "Hopefully this comes soon!",
-                    "",
+                    "Researchers, academics, journalists, Martin Freeman, anyone who feels some need to (or at least would find it useful to) catalog, understand, or inquire about information in their lives.",
+                    "Provided that they're the ones writing the content (for now at least).",
+                    "What's broken right now.",
                     "",
                     "",
-                    "What's broken right now?"
+                    "",
+                    "Frame is actually fully-functional although slightly buggy, and there are limitations to the UI.",
+                    "You also are unable to add media content like images or videos (as the conversion functionality needs to be extended to include those things across the different planned editor types).",
+                    "",
+                    "",
+                    "Frame might run a little slow, as it was built by a single developer over the period of a few weeks.",
+                    "But, it's doing some very complicated stuff!",
+                    "And most of the NLP and analysis is done within the application itself, as only the most complicated features (abstractive summarization and answer prediction) is done with server calls to a API written in Python.",
+                    "By default, those calls are made to localhost, and the Python backend can be downloaded as a Docker image."
                 ],
                 "stats": {
-                    "charCount": 438,
-                    "syllableCount": 119,
-                    "wordCount": 66,
-                    "sentenceCount": 19,
-                    "avgWordsPerSentence": 3.47,
-                    "avgSyllablesPerSentence": 6.26,
-                    "avgSyllablesPerWord": 1.8,
-                    "fleschReadability": 50.77
+                    "charCount": 1754,
+                    "syllableCount": 472,
+                    "wordCount": 283,
+                    "sentenceCount": 37,
+                    "avgWordsPerSentence": 7.65,
+                    "avgSyllablesPerSentence": 12.76,
+                    "avgSyllablesPerWord": 1.67,
+                    "fleschReadability": 57.97
                 },
                 "wordFrequency": [
                     {
-                        "word": "this",
+                        "word": "Frame",
+                        "count": 6
+                    },
+                    {
+                        "word": "features",
+                        "count": 4
+                    },
+                    {
+                        "word": "as",
+                        "count": 4
+                    },
+                    {
+                        "word": "most",
+                        "count": 3
+                    },
+                    {
+                        "word": "at",
+                        "count": 3
+                    },
+                    {
+                        "word": "in",
+                        "count": 3
+                    },
+                    {
+                        "word": "some",
+                        "count": 3
+                    },
+                    {
+                        "word": "Python",
+                        "count": 2
+                    },
+                    {
+                        "word": "calls",
+                        "count": 2
+                    },
+                    {
+                        "word": "done",
+                        "count": 2
+                    },
+                    {
+                        "word": "complicated",
+                        "count": 2
+                    },
+                    {
+                        "word": "those",
+                        "count": 2
+                    },
+                    {
+                        "word": "now",
+                        "count": 2
+                    },
+                    {
+                        "word": "content",
                         "count": 2
                     },
                     {
@@ -570,175 +717,111 @@
                         "count": 2
                     },
                     {
-                        "word": "Frame",
+                        "word": "would",
                         "count": 2
                     },
                     {
-                        "word": "now?",
-                        "count": 1
+                        "word": "with",
+                        "count": 2
                     },
                     {
-                        "word": "right",
-                        "count": 1
+                        "word": "can",
+                        "count": 2
                     },
                     {
-                        "word": "broken",
-                        "count": 1
+                        "word": "You",
+                        "count": 2
                     },
                     {
-                        "word": "What's",
-                        "count": 1
+                        "word": "might",
+                        "count": 2
                     },
                     {
-                        "word": "something",
-                        "count": 1
+                        "word": "about",
+                        "count": 2
                     },
                     {
-                        "word": "use",
-                        "count": 1
-                    },
-                    {
-                        "word": "would",
-                        "count": 1
-                    },
-                    {
-                        "word": "soon!Who",
-                        "count": 1
-                    },
-                    {
-                        "word": "comes",
-                        "count": 1
-                    },
-                    {
-                        "word": "Hopefully",
-                        "count": 1
-                    },
-                    {
-                        "word": "formats",
-                        "count": 1
-                    },
-                    {
-                        "word": "those",
-                        "count": 1
-                    },
-                    {
-                        "word": "convert",
-                        "count": 1
-                    },
-                    {
-                        "word": "save",
-                        "count": 1
-                    },
-                    {
-                        "word": "still",
-                        "count": 1
-                    },
-                    {
-                        "word": "extended",
-                        "count": 1
-                    },
-                    {
-                        "word": "needs",
-                        "count": 1
-                    },
-                    {
-                        "word": "switching",
-                        "count": 1
-                    },
-                    {
-                        "word": "editor",
-                        "count": 1
-                    },
-                    {
-                        "word": "Frame's",
-                        "count": 1
-                    },
-                    {
-                        "word": "because",
-                        "count": 1
-                    },
-                    {
-                        "word": "This",
-                        "count": 1
-                    },
-                    {
-                        "word": "separators",
-                        "count": 1
-                    },
-                    {
-                        "word": "also",
-                        "count": 1
-                    },
-                    {
-                        "word": "alignment,",
-                        "count": 1
-                    },
-                    {
-                        "word": "content",
-                        "count": 1
-                    },
-                    {
-                        "word": "links,",
-                        "count": 1
-                    },
-                    {
-                        "word": "images,",
-                        "count": 1
-                    },
-                    {
-                        "word": "add",
-                        "count": 1
-                    },
-                    {
-                        "word": "things",
-                        "count": 1
-                    },
-                    {
-                        "word": "do",
-                        "count": 1
-                    },
-                    {
-                        "word": "cannot",
-                        "count": 1
-                    },
-                    {
-                        "word": "currently",
-                        "count": 1
-                    },
-                    {
-                        "word": "you",
-                        "count": 1
-                    },
-                    {
-                        "word": "But",
-                        "count": 1
-                    },
-                    {
-                        "word": "mind",
-                        "count": 1
-                    },
-                    {
-                        "word": "in",
-                        "count": 1
-                    },
-                    {
-                        "word": "analysis",
-                        "count": 1
-                    },
-                    {
-                        "word": "organization",
-                        "count": 1
+                        "word": "lives",
+                        "count": 2
                     },
                     {
                         "word": "information",
+                        "count": 2
+                    },
+                    {
+                        "word": "make",
+                        "count": 2
+                    },
+                    {
+                        "word": "was",
+                        "count": 2
+                    },
+                    {
+                        "word": "image",
                         "count": 1
                     },
                     {
-                        "word": "with",
+                        "word": "Docker",
                         "count": 1
                     },
                     {
-                        "word": "designed",
+                        "word": "downloaded",
+                        "count": 1
+                    },
+                    {
+                        "word": "backend",
+                        "count": 1
+                    },
+                    {
+                        "word": "localhost,",
+                        "count": 1
+                    },
+                    {
+                        "word": "made",
+                        "count": 1
+                    },
+                    {
+                        "word": "default,",
+                        "count": 1
+                    },
+                    {
+                        "word": "By",
+                        "count": 1
+                    },
+                    {
+                        "word": "written",
+                        "count": 1
+                    },
+                    {
+                        "word": "API",
+                        "count": 1
+                    },
+                    {
+                        "word": "server",
+                        "count": 1
+                    },
+                    {
+                        "word": "prediction)",
+                        "count": 1
+                    },
+                    {
+                        "word": "answer",
+                        "count": 1
+                    },
+                    {
+                        "word": "summarization",
+                        "count": 1
+                    },
+                    {
+                        "word": "(abstractive",
+                        "count": 1
+                    },
+                    {
+                        "word": "only",
+                        "count": 1
+                    },
+                    {
+                        "word": "itself,",
                         "count": 1
                     },
                     {
@@ -746,28 +829,51 @@
                         "count": 1
                     },
                     {
-                        "word": "journaling",
+                        "word": "within",
                         "count": 1
                     },
                     {
-                        "word": "notetaking",
+                        "word": "analysis",
                         "count": 1
                     },
                     {
-                        "word": "Essentially,",
+                        "word": "NLP",
                         "count": 1
                     },
                     {
-                        "word": "what",
+                        "word": "stuff!",
+                        "count": 1
+                    },
+                    {
+                        "word": "very",
+                        "count": 1
+                    },
+                    {
+                        "word": "doing",
+                        "count": 1
+                    },
+                    {
+                        "word": "But,",
                         "count": 1
                     }
                 ],
                 "expanded": true,
-                "children": []
+                "children": [],
+                "summaryAbstractive": "FAQBut what is Frame\r\r\n!? Frame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe.\n\r\n!? Taking a look at the most compelling features of Frame (automatic summarizing and answering questions about data), you might think it took the coolest features from the Hitchhiker's Guide to the Galaxy.\n\r\n!?  That's because it did.\n\r\n!? You can write entries and organize them with total control.\n\r\n!?  Eventually, more features will be added (hopefully) to Frame to genuinely make it an intelligent, interactive encyclopedia, including automatic ingestion from large data sources (like Wikipedia!? In short, SparkNotes your life!?  Who would use something like this\r\r\n!? Researchers, academics, journalists, Martin Freeman, anyone who feels some need to (or at least would find it useful to) catalog, understand, or inquire about information in their lives.\n\r\n!?  By default, those calls are made to localhost, and the Python backend can be downloaded as a Docker image.\n\r\n!?",
+                "summaryAbstractiveByParagraphs": [
+                    "FAQBut what is Frame\r\r.\n\r\n!?",
+                    "Frame was designed as a solution to help us make some sense of the endless onslaught of information in our lives and the universe.\n\r\n!?",
+                    "Taking a look at the most compelling features of Frame (automatic summarizing and answering questions about data), you might think it took the coolest features from the Hitchhiker's Guide to the Galaxy.\n\r\n!?  That's because it did.\n\r\n!?",
+                    "You can write entries and organize them with total control.\n\r\n!?  Eventually, more features will be added (hopefully) to Frame to genuinely make it an intelligent, interactive encyclopedia, including automatic ingestion from large data sources (like Wikipedia!?",
+                    "In short, SparkNotes your life!?  Who would use something like this\r\r.\n\r\n!?",
+                    "Researchers, academics, journalists, Martin Freeman, anyone who feels some need to (or at least would find it useful to) catalog, understand, or inquire about information in their lives.\n\r\n!?  Provided that they're the ones writing the content (for now at least).\n\r\n!?  What's broken right now\r\r.\n\r\n!?",
+                    "Frame is actually fully-functional although slightly buggy, and there are limitations to the UI.\n\r\n!?  You also are unable to add media content like images or videos (as the conversion functionality needs to be extended to include those things across the different planned editor types).\n\r\n!?",
+                    "Frame might run a little slow, as it was built by a single developer over the period of a few weeks.\n\r\n!?  But, it's doing some very complicated stuff!?  And most of the NLP and analysis is done within the application itself, as only the most complicated features (abstractive summarization and answer prediction) is done with server calls to a API written in Python.\n\r\n!?  By default, those calls are made to localhost, and the Python backend can be downloaded as a Docker image.\n\r\n!?"
+                ]
             }
         ],
-        "html": "<h3><strong>THIS IS A HOMEPAGE. </strong></h3><h3>Frame is the notebook that talks <u>back</u>!   <strong>😃🍺</strong> </h3><blockquote><strong>FRAME WILL ALLOW YOU TO DO GREAT THINGS.</strong></blockquote><ol><li>Like, getting informed answers within the context of your notes, from questions you ask in natural language.</li><li>And, automatically generating summaries of your data as you save, allowing you to easily navigate your entries to find and study the most important parts. </li><li>Also, extracting key items of information like names, dates, phone numbers, and other entities, and outputting visualizations in a seamless dashboard!</li></ol><p><em><strong>Just click the Ask / Analyze tab to immediately see what Frame has to offer!</strong></em></p><p>Download the app at <strong><u>http://github.com/jddunn/frame</u></strong> now while it&#x27;s fresh and buggy still! (So don&#x27;t be clicking through your entries too fast or it&#x27;ll stress out). Currently, only a Windows version is built, since I don&#x27;t have a Mac.</p><p>Or, you can use Frame right now, on this site, to store and export your entries. </p><p><em><strong>Warning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed.</strong> This is NOT a production-ready site; this version wasn&#x27;t designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage. Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more. </em></p>",
-        "strippedText": "THIS IS A HOMEPAGE. Frame is the notebook that talks back!    FRAME WILL ALLOW YOU TO DO GREAT THINGS.Like, getting informed answers within the context of your notes, from questions you ask in natural language.And, automatically generating summaries of your data as you save, allowing you to easily navigate your entries to find and study the most important parts. Also, extracting key items of information like names, dates, phone numbers, and other entities, and outputting visualizations in a seamless dashboard!\r\r\n\nJust click the Ask / Analyze tab to immediately see what Frame has to offer!\r\r\n\nDownload the app at http://github.com/jddunn/frame now while it's fresh and buggy still! (So don't be clicking through your entries too fast or it'll stress out). Currently, only a Windows version is built, since I don't have a Mac.\r\r\n\nOr, you can use Frame right now, on this site, to store and export your entries. \r\r\n\nWarning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed. This is NOT a production-ready site; this version wasn't designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage. Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more. ",
+        "html": "<h3><strong>THIS IS A HOMEPAGE. </strong></h3><h3>Frame is the notebook that talks <u>back</u>!   <strong>😃🍺</strong> </h3><blockquote><strong>FRAME CAN DO GREAT THINGS FOR YOU.</strong></blockquote><ol><li>Like, answer questions you ask it about your notes!</li><li>And, automatically generating summaries as you save!</li><li>Also, extracting key information like names, dates, phone numbers, and showing you charts and graphs!</li></ol><p><em><strong>Just click the Ask / Analyze tab to see what Frame has to offer!</strong></em></p><p>Download the app at <strong><u>http://github.com/jddunn/frame</u></strong> now while it&#x27;s fresh, buggy, and very unoptimized still (So don&#x27;t be clicking through your entries too fast or it&#x27;ll stress out). Currently, only a Windows version is built, since I don&#x27;t have a Mac. If you&#x27;d like to make a MacOS build and have it uploaded, reach out!</p><p>Or, you can use Frame right now, on this site, to store and export your entries. </p><p><em><strong>Warning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed.</strong> This is NOT a production-ready site; this version wasn&#x27;t designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage. Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more. </em></p><p></p>",
+        "strippedText": "THIS IS A HOMEPAGE. Frame is the notebook that talks back!    FRAME CAN DO GREAT THINGS FOR YOU.Like, answer questions you ask it about your notes!And, automatically generating summaries as you save!Also, extracting key information like names, dates, phone numbers, and showing you charts and graphs!\r\r\n\nJust click the Ask / Analyze tab to see what Frame has to offer!\r\r\n\nDownload the app at http://github.com/jddunn/frame now while it's fresh, buggy, and very unoptimized still (So don't be clicking through your entries too fast or it'll stress out). Currently, only a Windows version is built, since I don't have a Mac. If you'd like to make a MacOS build and have it uploaded, reach out!\r\r\n\nOr, you can use Frame right now, on this site, to store and export your entries. \r\r\n\nWarning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed. This is NOT a production-ready site; this version wasn't designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage. Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more. \r\r\n\n",
         "entities": {
             "terms": [
                 {
@@ -777,11 +883,6 @@
                 },
                 {
                     "normal": "frame",
-                    "count": 2,
-                    "percent": 6.67
-                },
-                {
-                    "normal": "the",
                     "count": 2,
                     "percent": 6.67
                 },
@@ -797,6 +898,11 @@
                 },
                 {
                     "normal": "homepage",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "the",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -821,22 +927,7 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "will",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "allow",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "you",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "to",
+                    "normal": "can",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -851,37 +942,47 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "things.like",
+                    "normal": "things",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "getting",
+                    "normal": "for",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "informed",
+                    "normal": "you.like",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "answers",
+                    "normal": "answer",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "within",
+                    "normal": "questions",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "context",
+                    "normal": "you",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "of",
+                    "normal": "ask",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "it",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "about",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -891,17 +992,27 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "notes",
+                    "normal": "notes!and",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "from",
+                    "normal": "automatically",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "questions",
+                    "normal": "generating",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "summaries",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "as",
                     "count": 1,
                     "percent": 3.33
                 }
@@ -925,73 +1036,68 @@
                 {
                     "normal": "this is a homepage",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
                     "normal": "frame is the notebook that talks back",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
-                    "normal": "frame will allow you to do great things.like getting informed answers within the context of your notes from questions you ask in natural language.and automatically generating summaries of your data as you save allowing you to easily navigate your entries to find and study the most important parts",
+                    "normal": "frame can do great things for you.like answer questions you ask it about your notes!and automatically generating summaries as you save!also extracting key information like names dates phone numbers and showing you charts and graphs",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
-                    "normal": "also extracting key items of information like names dates phone numbers and other entities and outputting visualizations in a seamless dashboard",
+                    "normal": "just click the ask  analyze tab to see what frame has to offer",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
-                    "normal": "just click the ask  analyze tab to immediately see what frame has to offer",
+                    "normal": "download the app at http://github.com/jddunn/frame now while it is fresh buggy and very unoptimized still so do not be clicking through your entries too fast or it will stress out",
                     "count": 1,
-                    "percent": 8.33
-                },
-                {
-                    "normal": "download the app at http://github.com/jddunn/frame now while it is fresh and buggy still",
-                    "count": 1,
-                    "percent": 8.33
-                },
-                {
-                    "normal": "so do not be clicking through your entries too fast or it will stress out",
-                    "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
                     "normal": "currently only a windows version is built since i do not have a mac",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
+                },
+                {
+                    "normal": "if you would like to make a macos build and have it uploaded reach out",
+                    "count": 1,
+                    "percent": 9.09
                 },
                 {
                     "normal": "or you can use frame right now on this site to store and export your entries",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
                     "normal": "warning this is a temporary site host for frame so you must export your data and save it to your computer or it will be eventually removed",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
                     "normal": "this is not a production ready site this version was not designed to handle large traffic but to be a self contained out of the box ready package to be distributed for local offline usage",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 },
                 {
                     "normal": "eventually a hosted version of frame will be served with authentication secure storage and cloud synchronization and more",
                     "count": 1,
-                    "percent": 8.33
+                    "percent": 9.09
                 }
             ],
             "questions": [],
             "bigrams": [
                 {
-                    "normal": "your entries",
+                    "normal": "this is",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "this is",
+                    "normal": "your entries",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1001,27 +1107,7 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "frame will",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "your data",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "of your",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
                     "normal": "will be",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "you to",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1046,17 +1132,12 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "language.and automatically",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "outputting visualizations",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
                     "normal": "automatically generating",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "notes!and automatically",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1071,17 +1152,12 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "natural language.and",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
                     "normal": "generating summaries",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "things.like getting",
+                    "normal": "save!also extracting",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1096,32 +1172,17 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "seamless dashboard",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
                     "normal": "eventually removed",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "great things.like",
+                    "normal": "unoptimized still",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "visualizations in",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "getting informed",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "informed answers",
+                    "normal": "answer questions",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1131,7 +1192,52 @@
                     "percent": 3.33
                 },
                 {
+                    "normal": "very unoptimized",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
                     "normal": "clicking through",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "production ready",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "you.like answer",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "key information",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "windows version",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "was designed",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "distributed for",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "your notes!and",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "extracting key",
                     "count": 1,
                     "percent": 3.33
                 }
@@ -1148,11 +1254,6 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "language.and automatically generating",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
                     "normal": "app at http://github.com/jddunn/frame",
                     "count": 1,
                     "percent": 3.33
@@ -1163,7 +1264,7 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "natural language.and automatically",
+                    "normal": "notes!and automatically generating",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1173,22 +1274,17 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "and outputting visualizations",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
                     "normal": "authentication secure storage",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "things.like getting informed",
+                    "normal": "your notes!and automatically",
                     "count": 1,
                     "percent": 3.33
                 },
                 {
-                    "normal": "outputting visualizations in",
+                    "normal": "extracting key information",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1203,7 +1299,7 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "great things.like getting",
+                    "normal": "you.like answer questions",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1218,7 +1314,12 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "getting informed answers",
+                    "normal": "you save!also extracting",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "save!also extracting key",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1228,22 +1329,7 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "informed answers within",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "in natural language.and",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "generating summaries of",
-                    "count": 1,
-                    "percent": 3.33
-                },
-                {
-                    "normal": "entities and outputting",
+                    "normal": "generating summaries as",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1258,7 +1344,7 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "navigate your entries",
+                    "normal": "very unoptimized still",
                     "count": 1,
                     "percent": 3.33
                 },
@@ -1283,22 +1369,42 @@
                     "percent": 3.33
                 },
                 {
-                    "normal": "do great things.like",
+                    "normal": "answer questions you",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "about your notes!and",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "key information like",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "and very unoptimized",
+                    "count": 1,
+                    "percent": 3.33
+                },
+                {
+                    "normal": "unoptimized still so",
                     "count": 1,
                     "percent": 3.33
                 }
             ]
         },
-        "summaryExtractive": "Or, you can use Frame right now, on this site, to store and export your entries. Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more. And, automatically generating summaries of your data as you save, allowing you to easily navigate your entries to find and study the most important parts.",
+        "summaryExtractive": "Or, you can use Frame right now, on this site, to store and export your entries. Also, extracting key information like names, dates, phone numbers, and showing you charts and graphs! Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more.",
         "stats": {
-            "charCount": 1379,
-            "syllableCount": 365,
-            "wordCount": 224,
+            "charCount": 1239,
+            "syllableCount": 320,
+            "wordCount": 205,
             "sentenceCount": 41,
-            "avgWordsPerSentence": 5.46,
-            "avgSyllablesPerSentence": 8.9,
-            "avgSyllablesPerWord": 1.63,
-            "fleschReadability": 63.44
+            "avgWordsPerSentence": 5,
+            "avgSyllablesPerSentence": 7.8,
+            "avgSyllablesPerWord": 1.56,
+            "fleschReadability": 69.7
         },
         "detectedLanguages": [
             [
@@ -1307,38 +1413,37 @@
             ],
             [
                 "sco",
-                0.9856935244156988
+                0.9813278008298755
             ],
             [
                 "fra",
-                0.964417016266154
+                0.9583383840738496
             ],
             [
-                "dan",
-                0.9566935779363269
+                "glg",
+                0.9522122243461234
             ],
             [
                 "src",
-                0.9548038880677818
+                0.9514336332696163
             ]
         ],
         "summaryByParagraphs": [
             "THIS IS A HOMEPAGE.",
             "Frame is the notebook that talks back!",
-            "FRAME WILL ALLOW YOU TO DO GREAT THINGS.",
-            "Also, extracting key items of information like names, dates, phone numbers, and other entities, and outputting visualizations in a seamless dashboard!",
+            "Like, answer questions you ask it about your notes!",
             "",
             "",
             "Just click the Ask .",
-            "/ Analyze tab to immediately see what Frame has to offer!",
+            "/ Analyze tab to see what Frame has to offer!",
             "",
             "",
             "Download the app at http:/.",
             "/github.",
             "/jddunn.",
-            "/frame now while it's fresh and buggy still!",
-            "(So don't be clicking through your entries too fast or it'll stress out).",
+            "/frame now while it's fresh, buggy, and very unoptimized still (So don't be clicking through your entries too fast or it'll stress out).",
             "Currently, only a Windows version is built, since I don't have a Mac.",
+            "If you'd like to make a MacOS build and have it uploaded, reach out!",
             "",
             "",
             "Or, you can use Frame right now, on this site, to store and export your entries.",
@@ -1347,12 +1452,14 @@
             "Warning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed.",
             "This is NOT a production-ready site; this version wasn't designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage.",
             "Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more.",
+            "",
+            "",
             ""
         ],
         "wordFrequency": [
             {
                 "word": "your",
-                "count": 7
+                "count": 5
             },
             {
                 "word": "you",
@@ -1364,10 +1471,6 @@
             },
             {
                 "word": "version",
-                "count": 3
-            },
-            {
-                "word": "entries",
                 "count": 3
             },
             {
@@ -1387,15 +1490,19 @@
                 "count": 2
             },
             {
+                "word": "have",
+                "count": 2
+            },
+            {
+                "word": "entries",
+                "count": 2
+            },
+            {
                 "word": "don't",
                 "count": 2
             },
             {
-                "word": "data",
-                "count": 2
-            },
-            {
-                "word": "in",
+                "word": "like",
                 "count": 2
             },
             {
@@ -1523,6 +1630,10 @@
                 "count": 1
             },
             {
+                "word": "data",
+                "count": 1
+            },
+            {
                 "word": "must",
                 "count": 1
             },
@@ -1545,19 +1656,15 @@
             {
                 "word": "temporary",
                 "count": 1
-            },
-            {
-                "word": "Warning:",
-                "count": 1
             }
         ],
-        "summaryAbstractive": " Frame is the notebook that talks back!?     FRAME WILL ALLOW YOU TO DO GREAT THINGS.\n\r\n!? Like, getting informed answers within the context of your notes, from questions you ask in natural language.\n\r\n!? And, automatically generating summaries of your data as you save, allowing you to easily navigate your entries to find and study the most important parts.\n\r\n!?  Also, extracting key items of information like names, dates, phone numbers, and other entities, and outputting visualizations in a seamless dashboard!? Just click the Ask / Analyze tab to immediately see what Frame has to offer!? Download the app at http://github.\n\r\n!? com/jddunn/frame now while it's fresh and buggy still!?  (So don't be clicking through your entries too fast or it'll stress out).\n\r\n!? Warning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed.\n\r\n!?",
+        "summaryAbstractive": " Frame is the notebook that talks back!?     FRAME CAN DO GREAT THINGS FOR YOU.\n\r\n!? Like, answer questions you ask it about your notes!? And, automatically generating summaries as you save!? Also, extracting key information like names, dates, phone numbers, and showing you charts and graphs!? Just click the Ask / Analyze tab to see what Frame has to offer!? com/jddunn/frame now while it's fresh, buggy, and very unoptimized still (So don't be clicking through your entries too fast or it'll stress out).\n\r\n!?  Currently, only a Windows version is built, since I don't have a Mac.\n\r\n!?  If you'd like to make a MacOS build and have it uploaded, reach out!? Or, you can use Frame right now, on this site, to store and export your entries.\n\r\n!?",
         "summaryAbstractiveByParagraphs": [
-            "THIS IS A HOMEPAGE.\n\r\n!?  Frame is the notebook that talks back!?     FRAME WILL ALLOW YOU TO DO GREAT THINGS.\n\r\n!? Like, getting informed answers within the context of your notes, from questions you ask in natural language.\n\r\n!? And, automatically generating summaries of your data as you save, allowing you to easily navigate your entries to find and study the most important parts.\n\r\n!?  Also, extracting key items of information like names, dates, phone numbers, and other entities, and outputting visualizations in a seamless dashboard!?",
-            "Just click the Ask / Analyze tab to immediately see what Frame has to offer!?",
-            "Download the app at http://github.\n\r\n!? com/jddunn/frame now while it's fresh and buggy still!?  (So don't be clicking through your entries too fast or it'll stress out).\n\r\n!?  Currently, only a Windows version is built, since I don't have a Mac.\n\r\n!?",
+            "THIS IS A HOMEPAGE.\n\r\n!?  Frame is the notebook that talks back!?     FRAME CAN DO GREAT THINGS FOR YOU.\n\r\n!? Like, answer questions you ask it about your notes!? And, automatically generating summaries as you save!? Also, extracting key information like names, dates, phone numbers, and showing you charts and graphs!?",
+            "Just click the Ask / Analyze tab to see what Frame has to offer!?",
+            "Download the app at http://github.\n\r\n!? com/jddunn/frame now while it's fresh, buggy, and very unoptimized still (So don't be clicking through your entries too fast or it'll stress out).\n\r\n!?  Currently, only a Windows version is built, since I don't have a Mac.\n\r\n!?  If you'd like to make a MacOS build and have it uploaded, reach out!?",
             "Or, you can use Frame right now, on this site, to store and export your entries.\n\r\n!?",
-            "Warning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed.\n\r\n!?  This is NOT a production-ready site; this version wasn't designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage.\n\r\n!?  Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more.\n\r\n!?  .\n\r\n!?"
+            "Warning: This is a temporary site host for Frame, so you must export your data and save it to your computer, or it will be eventually removed.\n\r\n!?  This is NOT a production-ready site; this version wasn't designed to handle large traffic, but to be a self-contained, out-of-the-box ready package to be distributed for local offline usage.\n\r\n!?  Eventually, a hosted version of Frame will be served with authentication, secure storage, and cloud synchronization and more.\n\r\n!?"
         ]
     },
     {
@@ -1577,177 +1684,257 @@
                 "id": "39b57226-d0e0-4188-8ace-5cfae8eb24ac",
                 "dateCreated": "12/22/2018 8:19:12 AM",
                 "html": "<p>Woo, made this here with all the ice on in the booth<br/>At the gate outside, when they pull up, they get me loose<br/>Yeah, Jump Out boys, that&#x27;s Nike boys, hoppin&#x27; out coupes<br/>This shit way too big, when we pull up, give me the loot<br/>(<em>Gimme the loot!</em>)<br/>Was off the Remy, had a Papoose<br/>Had to hit my old town to duck the news<br/>Two four hour lockdown, we made no moves<br/>Now it&#x27;s 4 AM and I&#x27;m back up poppin&#x27; with the crew<br/>I just landed in, Chase B mix this pop like Jamba Juice<br/>Different colored chains, think my jeweler really sellin&#x27; fruits<br/>And they chokin&#x27;, man, know the crackers wish it was a noose </p><p><em>Some-Some-Some-Someone said</em><br/>To win the retreat, we all in too deep<br/>Pl-Pl-Playin&#x27; for keeps, don&#x27;t play us for weak (<em>Someone said</em>)<br/>To win the retreat, we all in too deep<br/>Pl-Pl-Playin&#x27; for keeps, don&#x27;t play us for weak </p><p><em>Someone said</em><br/>Shorty FaceTimed me out the blue<br/><em>Someone said</em><br/><strong>Pl-Playin&#x27; for keeps</strong><br/><em>Someone said, motherfucker—someone said</em><br/><strong>Don&#x27;t play us for weak</strong></p><p>Yeah!<br/><em>Astro, yeah, yeah</em><br/><strong>Tay Keith, fuck these niggas up!</strong><br/><em>Ayy, ayy</em> </p><p>She&#x27;s in love with who I am<br/>Back in high school, I used to bus it to the dance (<em>Yeah</em>)<br/>Now I hit the FBO with duffels in my hands<br/>I did half a Xan, 13 hours &#x27;til I land<br/>Had me out like a light, ayy, yeah<br/>Like a light, ayy, yeah </p><p>Like a light, ayy, slept through the flight, ayy<br/>Knocked for the night, ayy<br/>767, man, this shit got double bedroom, man<br/>I still got scores to settle, man<br/>I crept down the block (Down the block)<br/>Made a right (Yeah, right)<br/>Cut the lights (Yeah, what?), paid the price (Yeah)<br/>Niggas think it&#x27;s sweet (Nah, never), it&#x27;s on sight (Yeah, what?)<br/>Nothin&#x27; nice (Yeah), baguettes in my ice (Aw, man)<br/>Jesus Christ (Yeah), checks over stripes (Yeah)<br/>That&#x27;s what I like (<em>Yeah</em>), that&#x27;s what we like (<em>Yeah</em>)<br/>Lost my respect, you not a threat<br/>When I shoot my shot, that shit wetty like I&#x27;m Sheck (<em>Bitch!</em>)<br/>See the shots that I took (Ayy), wet like I&#x27;m Book (Ayy)<br/>Wet like I&#x27;m Lizzie<br/>I be spinnin&#x27; Valley, circle blocks &#x27;til I&#x27;m dizzy (Yeah, what?)<br/>Like where is he? (Yeah, what?)<br/>No one seen him (Yeah, yeah)<br/>I&#x27;m tryna clean &#x27;em (Yeah)</p>",
-                "strippedText": "\r\r\n\nWoo, made this here with all the ice on in the boothAt the gate outside, when they pull up, they get me looseYeah, Jump Out boys, that's Nike boys, hoppin' out coupesThis shit way too big, when we pull up, give me the loot(Gimme the loot!)Was off the Remy, had a PapooseHad to hit my old town to duck the newsTwo four hour lockdown, we made no movesNow it's 4 AM and I'm back up poppin' with the crewI just landed in, Chase B mix this pop like Jamba JuiceDifferent colored chains, think my jeweler really sellin' fruitsAnd they chokin', man, know the crackers wish it was a noose \r\r\n\nSome-Some-Some-Someone saidTo win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak (Someone said)To win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak \r\r\n\nSomeone saidShorty FaceTimed me out the blueSomeone saidPl-Playin' for keepsSomeone said, motherfuckersomeone saidDon't play us for weak\r\r\n\nYeah!Astro, yeah, yeahTay Keith, fuck these niggas up!Ayy, ayy \r\r\n\nShe's in love with who I amBack in high school, I used to bus it to the dance (Yeah)Now I hit the FBO with duffels in my handsI did half a Xan, 13 hours 'til I landHad me out like a light, ayy, yeahLike a light, ayy, yeah \r\r\n\nLike a light, ayy, slept through the flight, ayyKnocked for the night, ayy767, man, this shit got double bedroom, manI still got scores to settle, manI crept down the block (Down the block)Made a right (Yeah, right)Cut the lights (Yeah, what?), paid the price (Yeah)Niggas think it's sweet (Nah, never), it's on sight (Yeah, what?)Nothin' nice (Yeah), baguettes in my ice (Aw, man)Jesus Christ (Yeah), checks over stripes (Yeah)That's what I like (Yeah), that's what we like (Yeah)Lost my respect, you not a threatWhen I shoot my shot, that shit wetty like I'm Sheck (Bitch!)See the shots that I took (Ayy), wet like I'm Book (Ayy)Wet like I'm LizzieI be spinnin' Valley, circle blocks 'til I'm dizzy (Yeah, what?)Like where is he? (Yeah, what?)No one seen him (Yeah, yeah)I'm tryna clean 'em (Yeah)",
+                "strippedText": " Woo, made this here with all the ice on in the booth At the gate outside, when they pull up, they get me loose Yeah, Jump Out boys, that&#x27;s Nike boys, hoppin&#x27; out coupes This shit way too big, when we pull up, give me the loot ( Gimme the loot! ) Was off the Remy, had a Papoose Had to hit my old town to duck the news Two four hour lockdown, we made no moves Now it&#x27;s 4 AM and I&#x27;m back up poppin&#x27; with the crew I just landed in, Chase B mix this pop like Jamba Juice Different colored chains, think my jeweler really sellin&#x27; fruits And they chokin&#x27;, man, know the crackers wish it was a noose    Some-Some-Some-Someone said  To win the retreat, we all in too deep Pl-Pl-Playin&#x27; for keeps, don&#x27;t play us for weak ( Someone said ) To win the retreat, we all in too deep Pl-Pl-Playin&#x27; for keeps, don&#x27;t play us for weak    Someone said  Shorty FaceTimed me out the blue  Someone said   Pl-Playin&#x27; for keeps   Someone said, motherfucker—someone said   Don&#x27;t play us for weak   Yeah!  Astro, yeah, yeah   Tay Keith, fuck these niggas up!   Ayy, ayy    She&#x27;s in love with who I am Back in high school, I used to bus it to the dance ( Yeah ) Now I hit the FBO with duffels in my hands I did half a Xan, 13 hours &#x27;til I land Had me out like a light, ayy, yeah Like a light, ayy, yeah   Like a light, ayy, slept through the flight, ayy Knocked for the night, ayy 767, man, this shit got double bedroom, man I still got scores to settle, man I crept down the block (Down the block) Made a right (Yeah, right) Cut the lights (Yeah, what?), paid the price (Yeah) Niggas think it&#x27;s sweet (Nah, never), it&#x27;s on sight (Yeah, what?) Nothin&#x27; nice (Yeah), baguettes in my ice (Aw, man) Jesus Christ (Yeah), checks over stripes (Yeah) That&#x27;s what I like ( Yeah ), that&#x27;s what we like ( Yeah ) Lost my respect, you not a threat When I shoot my shot, that shit wetty like I&#x27;m Sheck ( Bitch! ) See the shots that I took (Ayy), wet like I&#x27;m Book (Ayy) Wet like I&#x27;m Lizzie I be spinnin&#x27; Valley, circle blocks &#x27;til I&#x27;m dizzy (Yeah, what?) Like where is he? (Yeah, what?) No one seen him (Yeah, yeah) I&#x27;m tryna clean &#x27;em (Yeah) ",
                 "entities": {
                     "terms": [
                         {
                             "normal": "the",
-                            "count": 3,
+                            "count": 5,
                             "percent": 10
+                        },
+                        {
+                            "normal": "this",
+                            "count": 2,
+                            "percent": 4
+                        },
+                        {
+                            "normal": "when",
+                            "count": 2,
+                            "percent": 4
                         },
                         {
                             "normal": "they",
                             "count": 2,
-                            "percent": 6.67
+                            "percent": 4
+                        },
+                        {
+                            "normal": "pull",
+                            "count": 2,
+                            "percent": 4
+                        },
+                        {
+                            "normal": "up",
+                            "count": 2,
+                            "percent": 4
+                        },
+                        {
+                            "normal": "me",
+                            "count": 2,
+                            "percent": 4
+                        },
+                        {
+                            "normal": "out",
+                            "count": 2,
+                            "percent": 4
                         },
                         {
                             "normal": "boys",
                             "count": 2,
-                            "percent": 6.67
+                            "percent": 4
                         },
                         {
                             "normal": "woo",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "made",
                             "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "this",
-                            "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "here",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "with",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "all",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "ice",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "on",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "in",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "boothat",
+                            "normal": "booth",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "at",
+                            "count": 1,
+                            "percent": 2
                         },
                         {
                             "normal": "gate",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "outside",
                             "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "when",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "pull",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "up",
-                            "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "get",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "me",
+                            "normal": "loose",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "looseyeah",
+                            "normal": "yeah",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "jump",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "out",
+                            "normal": "that&#x27;s",
                             "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "that",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "is",
-                            "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "nike",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "hoppin&#x27",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "coupes",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "shit",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "way",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "too",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "big",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "we",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "give",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "loot",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "(",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "gimme",
+                            "count": 1,
+                            "percent": 2
                         }
                     ],
                     "topics": [
                         {
                             "normal": "out boys",
                             "count": 1,
-                            "percent": 25
+                            "percent": 16.67
                         },
                         {
                             "normal": "nike boys",
                             "count": 1,
-                            "percent": 25
-                        },
-                        {
-                            "normal": "keith",
-                            "count": 1,
-                            "percent": 25
-                        },
-                        {
-                            "normal": "fbo",
-                            "count": 1,
-                            "percent": 25
-                        }
-                    ],
-                    "people": [
-                        {
-                            "normal": "someone",
-                            "count": 3,
-                            "percent": 50
-                        },
-                        {
-                            "normal": "man",
-                            "count": 2,
-                            "percent": 33.33
+                            "percent": 16.67
                         },
                         {
                             "normal": "keith",
                             "count": 1,
                             "percent": 16.67
+                        },
+                        {
+                            "normal": "fbo",
+                            "count": 1,
+                            "percent": 16.67
+                        },
+                        {
+                            "normal": "jesus christ",
+                            "count": 1,
+                            "percent": 16.67
+                        },
+                        {
+                            "normal": "lizzie",
+                            "count": 1,
+                            "percent": 16.67
+                        }
+                    ],
+                    "people": [
+                        {
+                            "normal": "someone",
+                            "count": 6,
+                            "percent": 46.15
+                        },
+                        {
+                            "normal": "man",
+                            "count": 4,
+                            "percent": 30.77
+                        },
+                        {
+                            "normal": "keith",
+                            "count": 1,
+                            "percent": 7.69
+                        },
+                        {
+                            "normal": "man jesus christ",
+                            "count": 1,
+                            "percent": 7.69
+                        },
+                        {
+                            "normal": "lizzie",
+                            "count": 1,
+                            "percent": 7.69
                         }
                     ],
                     "dates": [],
@@ -1775,621 +1962,555 @@
                     "quotes": [],
                     "statements": [
                         {
-                            "normal": "some some some someone saidto win the retreat we all in too deeppl pl playin for keeps do not play us for weak someone said)to win the retreat we all in too deeppl pl playin for keeps do not play us for weak",
+                            "normal": ") was off the remy had a papoose had to hit my old town to duck the news two four hour lockdown we made no moves now it&#x27;s 4 am and i&#x27;m back up poppin&#x27 with the crew i just landed in chase b mix this pop like jamba juice different colored chains think my jeweler really sellin&#x27 fruits and they chokin&#x27 man know the crackers wish it was a noose some some some someone said to win the retreat we all in too deep pl pl playin&#x27 for keeps don&#x27;t play us for weak ( someone said ) to win the retreat we all in too deep pl pl playin&#x27 for keeps don&#x27;t play us for weak someone said shorty facetimed me out the blue someone said pl playin&#x27 for keeps someone said motherfucker someone said don&#x27;t play us for weak yeah",
                             "count": 1,
-                            "percent": 20
+                            "percent": 50
                         },
                         {
-                            "normal": "someone saidshorty facetimed me out the bluesomeone saidpl playin for keepssomeone said motherfuckersomeone saiddo not play us for weak",
+                            "normal": "astro yeah yeah tay keith fuck these niggas up",
                             "count": 1,
-                            "percent": 20
-                        },
-                        {
-                            "normal": "yeah!astro yeah yeahtay keith fuck these niggas up!ayy ayy",
-                            "count": 1,
-                            "percent": 20
-                        },
-                        {
-                            "normal": "she is in love with who i amback in high school i used to bus it to the dance yeah)now i hit the fbo with duffels in my handsi did half a xan 13 hours today i learned i landhad me out like a light ayy yeahlike a light ayy yeah",
-                            "count": 1,
-                            "percent": 20
-                        },
-                        {
-                            "normal": "yeah what?)no one seen him yeah yeah)i'm tryna clean em yeah",
-                            "count": 1,
-                            "percent": 20
+                            "percent": 50
                         }
                     ],
                     "questions": [
                         {
-                            "normal": "woo made this here with all the ice on in the boothat the gate outside when they pull up they get me looseyeah jump out boys that is nike boys hoppin out coupesthis shit way too big when we pull up give me the loot(gimme the loot!)was off the remy had a papoosehad to hit my old town to duck the newstwo four hour lockdown we made no movesnow it is 4 am and i am back up poppin with the crewi just landed in chase b mix this pop like jamba juicedifferent colored chains think my jeweler really sellin fruitsand they choking man know the crackers wish it was a noose",
+                            "normal": "woo made this here with all the ice on in the booth at the gate outside when they pull up they get me loose yeah jump out boys that&#x27;s nike boys hoppin&#x27 out coupes this shit way too big when we pull up give me the loot ( gimme the loot",
                             "count": 1,
-                            "percent": 50
+                            "percent": 25
                         },
                         {
-                            "normal": "like a light ayy slept through the flight ayyknocked for the night ayy767 man this shit got double bedroom mani still got scores to settle mani crept down the block down the block)made a right yeah right)cut the lights yeah what paid the price yeah)niggas think it is sweet nah never it has on sight yeah what?)nothin nice yeah baguettes in my ice aw man)jesus christ yeah checks over stripes yeah)that what i like yeah that is what we like yeah)lost my respect you not a threatwhen i shoot my shot that shit wetty like i am sheck bitch!)see the shots that i took ayy wet like i am book ayy)wet like i am lizziei be spinnin valley circle blocks today i learned i am dizzy yeah what?)like where is he",
+                            "normal": "ayy ayy she&#x27;s in love with who i am back in high school i used to bus it to the dance ( yeah ) now i hit the fbo with duffels in my hands i did half a xan 13 hours &#x27;til i land had me out like a light ayy yeah like a light ayy yeah like a light ayy slept through the flight ayy knocked for the night ayy 767 man this shit got double bedroom man i still got scores to settle man i crept down the block down the block made a right yeah right cut the lights yeah what paid the price yeah niggas think it&#x27;s sweet nah never it&#x27;s on sight yeah what nothin&#x27 nice yeah baguettes in my ice aw man jesus christ yeah checks over stripes yeah that&#x27;s what i like ( yeah ), that&#x27;s what we like ( yeah ) lost my respect you not a threat when i shoot my shot that shit wetty like i&#x27;m sheck ( bitch",
                             "count": 1,
-                            "percent": 50
+                            "percent": 25
+                        },
+                        {
+                            "normal": ") see the shots that i took ayy wet like i&#x27;m book ayy wet like i&#x27;m lizzie i be spinnin&#x27 valley circle blocks &#x27;til i&#x27;m dizzy yeah what like where is he",
+                            "count": 1,
+                            "percent": 25
+                        },
+                        {
+                            "normal": "yeah what no one seen him yeah yeah i&#x27;m tryna clean &#x27;em yeah",
+                            "count": 1,
+                            "percent": 25
                         }
                     ],
                     "bigrams": [
                         {
-                            "normal": "playin for",
+                            "normal": "someone said",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "light ayy",
+                            "normal": "yeah what",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "for weak",
+                            "normal": "playin&#x27 for",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "like i",
+                            "normal": "don&#x27;t play",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "play us",
+                            "normal": "pl playin&#x27",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "a light",
+                            "normal": "like i&#x27;m",
                             "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "us for",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "the retreat",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "keeps do",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "retreat we",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "too deeppl",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "do play",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "some some",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "deeppl pl",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "pl playin",
-                            "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "for keeps",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "down the",
+                            "normal": "light ayy",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "pull up",
+                            "normal": "for weak",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "win the",
+                            "normal": "play us",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "we all",
+                            "normal": "a light",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "all in",
+                            "normal": "us for",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "in too",
+                            "normal": "( yeah",
                             "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "me out",
-                            "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "like a",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "keeps don&#x27;t",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "that&#x27;s what",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "the retreat",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "retreat we",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "this shit",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "some some",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "yeah yeah",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "yeah like",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "the block",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "the loot",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "too deep",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "ayy yeah",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "down the",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "wet like",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "pull up",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "win the",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "deep pl",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "ayy wet",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "to win",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "we all",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "all in",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "in too",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "me out",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "yeah )",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "like (",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "pl pl",
+                            "count": 1,
+                            "percent": 2
                         },
                         {
                             "normal": "in my",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "motherfuckersomeone saiddo",
+                            "normal": "man i",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "said motherfuckersomeone",
+                            "normal": "motherfucker someone",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "juicedifferent colored",
+                            "normal": "spinnin&#x27 valley",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "jamba juicedifferent",
+                            "normal": "really sellin&#x27",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "saidshorty facetimed",
+                            "normal": "sellin&#x27 fruits",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "&#x27;til i&#x27;m",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "different colored",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "said motherfucker",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "boys that&#x27;s",
+                            "count": 1,
+                            "percent": 2
                         }
                     ],
                     "trigrams": [
                         {
-                            "normal": "play us for",
+                            "normal": "playin&#x27 for keeps",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "us for weak",
+                            "normal": "pl playin&#x27 for",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "a light ayy",
+                            "normal": "don&#x27;t play us",
                             "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "deeppl pl playin",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "playin for keeps",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "keeps do play",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "win the retreat",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "for keeps do",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "the retreat we",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "retreat we all",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "in too deeppl",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "too deeppl pl",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "pl playin for",
-                            "count": 1,
-                            "percent": 3.33
-                        },
-                        {
-                            "normal": "do play us",
-                            "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
                             "normal": "like a light",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "play us for",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "us for weak",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "a light ayy",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "keeps don&#x27;t play",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "for keeps don&#x27;t",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "pl pl playin&#x27",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "wet like i&#x27;m",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "win the retreat",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "the retreat we",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "retreat we all",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "light ayy yeah",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "down the block",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "ayy yeah like",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "ayy wet like",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "in too deep",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "too deep pl",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "yeah like a",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "like ( yeah",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "to win the",
+                            "count": 1,
+                            "percent": 2
                         },
                         {
                             "normal": "all in too",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "deep pl pl",
+                            "count": 1,
+                            "percent": 2
                         },
                         {
                             "normal": "we all in",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "keepssomeone said motherfuckersomeone",
+                            "normal": "( yeah )",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "said motherfuckersomeone saiddo",
+                            "normal": "jeweler really sellin&#x27",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "motherfuckersomeone saiddo play",
+                            "normal": "spinnin&#x27 valley circle",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "juicedifferent colored chains",
+                            "normal": "really sellin&#x27 fruits",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "jamba juicedifferent colored",
+                            "normal": "someone said motherfucker",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "someone saidshorty facetimed",
+                            "normal": "said motherfucker someone",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "like jamba juicedifferent",
+                            "normal": "motherfucker someone said",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "bluesomeone saidpl playin",
+                            "normal": "blocks &#x27;til i&#x27;m",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "loot(gimme the loot!)was",
+                            "normal": "different colored chains",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "over stripes yeah)that",
+                            "normal": "stripes yeah that&#x27;s",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "stripes yeah)that what",
+                            "normal": "&#x27;til i&#x27;m dizzy",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "really sellin fruitsand",
+                            "normal": "juice different colored",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
                         },
                         {
-                            "normal": "saidshorty facetimed me",
+                            "normal": "someone said don&#x27;t",
                             "count": 1,
-                            "percent": 3.33
+                            "percent": 2
+                        },
+                        {
+                            "normal": "circle blocks &#x27;til",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "hoppin&#x27 out coupes",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "sellin&#x27 fruits and",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "niggas think it&#x27;s",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "be spinnin&#x27 valley",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "boys that&#x27;s nike",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "that&#x27;s nike boys",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "nike boys hoppin&#x27",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "jamba juice different",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "said shorty facetimed",
+                            "count": 1,
+                            "percent": 2
+                        },
+                        {
+                            "normal": "think it&#x27;s sweet",
+                            "count": 1,
+                            "percent": 2
                         }
                     ]
                 },
-                "summaryExtractive": ")No one seen him (Yeah, yeah)Im tryna clean em (Yeah). )See the shots that I took (Ayy), wet like Im Book (Ayy)Wet like Im LizzieI be spinnin Valley, circle blocks til Im dizzy (Yeah, what? Some-Some-Some-Someone saidTo win the retreat, we all in too deepPl-Pl-Playin for keeps, dont play us for weak (Someone said)To win the retreat, we all in too deepPl-Pl-Playin for keeps, dont play us for weak .",
+                "summaryExtractive": "Astro, yeah, yeah   Tay Keith, fuck these niggas up!",
                 "stats": {
-                    "charCount": 2033,
-                    "syllableCount": 458,
-                    "wordCount": 354,
-                    "sentenceCount": 31,
-                    "avgWordsPerSentence": 11.42,
-                    "avgSyllablesPerSentence": 14.77,
-                    "avgSyllablesPerWord": 1.29,
-                    "fleschReadability": 85.79
+                    "charCount": 2240,
+                    "syllableCount": 457,
+                    "wordCount": 408,
+                    "sentenceCount": 22,
+                    "avgWordsPerSentence": 18.55,
+                    "avgSyllablesPerSentence": 20.77,
+                    "avgSyllablesPerWord": 1.12,
+                    "fleschReadability": 93.25
                 },
-                "expanded": true,
-                "detectedLanguages": [
-                    [
-                        "eng",
-                        1
-                    ],
-                    [
-                        "sco",
-                        0.9962845229740329
-                    ],
-                    [
-                        "nob",
-                        0.9832584976359366
-                    ],
-                    [
-                        "nno",
-                        0.9826149673013738
-                    ],
-                    [
-                        "dan",
-                        0.9823089868404118
-                    ]
-                ],
-                "wordFrequency": [
-                    {
-                        "word": "I",
-                        "count": 7
-                    },
-                    {
-                        "word": "like",
-                        "count": 7
-                    },
-                    {
-                        "word": "in",
-                        "count": 7
-                    },
-                    {
-                        "word": "(Yeah,",
-                        "count": 6
-                    },
-                    {
-                        "word": "my",
-                        "count": 6
-                    },
-                    {
-                        "word": "I'm",
-                        "count": 5
-                    },
-                    {
-                        "word": "we",
-                        "count": 5
-                    },
-                    {
-                        "word": "me",
-                        "count": 4
-                    },
-                    {
-                        "word": "with",
-                        "count": 4
-                    },
-                    {
-                        "word": "(Yeah),",
-                        "count": 3
-                    },
-                    {
-                        "word": "ayy,",
-                        "count": 3
-                    },
-                    {
-                        "word": "light,",
-                        "count": 3
-                    },
-                    {
-                        "word": "weak",
-                        "count": 3
-                    },
-                    {
-                        "word": "us",
-                        "count": 3
-                    },
-                    {
-                        "word": "play",
-                        "count": 3
-                    },
-                    {
-                        "word": "too",
-                        "count": 3
-                    },
-                    {
-                        "word": "shit",
-                        "count": 3
-                    },
-                    {
-                        "word": "out",
-                        "count": 3
-                    },
-                    {
-                        "word": "they",
-                        "count": 3
-                    },
-                    {
-                        "word": "all",
-                        "count": 3
-                    },
-                    {
-                        "word": "this",
-                        "count": 3
-                    },
-                    {
-                        "word": "that",
-                        "count": 2
-                    },
-                    {
-                        "word": "what",
-                        "count": 2
-                    },
-                    {
-                        "word": "manI",
-                        "count": 2
-                    },
-                    {
-                        "word": "got",
-                        "count": 2
-                    },
-                    {
-                        "word": "'til",
-                        "count": 2
-                    },
-                    {
-                        "word": "don't",
-                        "count": 2
-                    },
-                    {
-                        "word": "keeps,",
-                        "count": 2
-                    },
-                    {
-                        "word": "deepPl-Pl-Playin'",
-                        "count": 2
-                    },
-                    {
-                        "word": "retreat,",
-                        "count": 2
-                    },
-                    {
-                        "word": "win",
-                        "count": 2
-                    },
-                    {
-                        "word": "man,",
-                        "count": 2
-                    },
-                    {
-                        "word": "think",
-                        "count": 2
-                    },
-                    {
-                        "word": "hit",
-                        "count": 2
-                    },
-                    {
-                        "word": "that's",
-                        "count": 2
-                    },
-                    {
-                        "word": "boys,",
-                        "count": 2
-                    },
-                    {
-                        "word": "up,",
-                        "count": 2
-                    },
-                    {
-                        "word": "pull",
-                        "count": 2
-                    },
-                    {
-                        "word": "when",
-                        "count": 2
-                    },
-                    {
-                        "word": "on",
-                        "count": 2
-                    },
-                    {
-                        "word": "ice",
-                        "count": 2
-                    },
-                    {
-                        "word": "made",
-                        "count": 2
-                    },
-                    {
-                        "word": "(Yeah)",
-                        "count": 1
-                    },
-                    {
-                        "word": "'em",
-                        "count": 1
-                    },
-                    {
-                        "word": "clean",
-                        "count": 1
-                    },
-                    {
-                        "word": "tryna",
-                        "count": 1
-                    },
-                    {
-                        "word": "yeah)I'm",
-                        "count": 1
-                    },
-                    {
-                        "word": "him",
-                        "count": 1
-                    },
-                    {
-                        "word": "seen",
-                        "count": 1
-                    },
-                    {
-                        "word": "one",
-                        "count": 1
-                    }
-                ],
-                "summaryByParagraphs": [
-                    "",
-                    "",
-                    "",
-                    "Woo, made this here with all the ice on in the boothAt the gate outside, when they pull up, they get me looseYeah, Jump Out boys, that's Nike boys, hoppin' out coupesThis shit way too big, when we pull up, give me the loot(Gimme the loot!",
-                    "",
-                    "",
-                    "",
-                    "Some-Some-Some-Someone saidTo win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak (Someone said)To win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak .",
-                    "",
-                    "",
-                    "",
-                    "Someone saidShorty FaceTimed me out the blueSomeone saidPl-Playin' for keepsSomeone said, motherfuckersomeone saidDon't play us for weak.",
-                    "",
-                    "",
-                    "",
-                    "Yeah! Ayy, ayy .",
-                    "",
-                    "",
-                    "",
-                    "She's in love with who I amBack in high school, I used to bus it to the dance (Yeah)Now I hit the FBO with duffels in my handsI did half a Xan, 13 hours 'til I landHad me out like a light, ayy, yeahLike a light, ayy, yeah .",
-                    "",
-                    "",
-                    "",
-                    ")Nothin' nice (Yeah), baguettes in my ice (Aw, man)Jesus Christ (Yeah), checks over stripes (Yeah)That's what I like (Yeah), that's what we like (Yeah)Lost my respect, you not a threatWhen I shoot my shot, that shit wetty like I'm Sheck (Bitch!",
-                    "(Yeah, what?",
-                    ""
-                ],
-                "summaryAbstractive": "Woo, made this here with all the ice on in the boothAt the gate outside, when they pull up, they get me looseYeah, Jump Out boys, that's Nike boys, hoppin' out coupesThis shit way too big, when we pull up, give me the loot(Gimme the loot!? )Was off the Remy, had a PapooseHad to hit my old town to duck the newsTwo four hour lockdown, we made no movesNow it's 4 AM and I'm back up poppin' with the crewI just landed in, Chase B mix this pop like Jamba JuiceDifferent colored chains, think my jeweler really sellin' fruitsAnd they chokin', man, know the crackers wish it was a noose \r\r\n!? Some-Some-Some-Someone saidTo win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak (Someone said)To win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak \r\r\n!? Someone saidShorty FaceTimed me out the blueSomeone saidPl-Playin' for keepsSomeone said, motherfuckersomeone saidDon't play us for weak\r\r\n!? She's in love with who I amBack in high school, I used to bus it to the dance (Yeah)Now I hit the FBO with duffels in my handsI did half a Xan, 13 hours 'til I landHad me out like a light, ayy, yeahLike a light, ayy, yeah \r\r\n!? Like a light, ayy, slept through the flight, ayyKnocked for the night, ayy767, man, this shit got double bedroom, manI still got scores to settle, manI crept down the block (Down the block)Made a right (Yeah, right)Cut the lights (Yeah, what? ), paid the price (Yeah)Niggas think it's sweet (Nah, never), it's on sight (Yeah, what? )Nothin' nice (Yeah), baguettes in my ice (Aw, man)Jesus Christ (Yeah), checks over stripes (Yeah)That's what I like (Yeah), that's what we like (Yeah)Lost my respect, you not a threatWhen I shoot my shot, that shit wetty like I'm Sheck (Bitch!? )See the shots that I took (Ayy), wet like I'm Book (Ayy)Wet like I'm LizzieI be spinnin' Valley, circle blocks 'til I'm dizzy (Yeah, what?",
-                "summaryAbstractiveByParagraphs": [
-                    "Woo, made this here with all the ice on in the boothAt the gate outside, when they pull up, they get me looseYeah, Jump Out boys, that's Nike boys, hoppin' out coupesThis shit way too big, when we pull up, give me the loot(Gimme the loot!? )Was off the Remy, had a PapooseHad to hit my old town to duck the newsTwo four hour lockdown, we made no movesNow it's 4 AM and I'm back up poppin' with the crewI just landed in, Chase B mix this pop like Jamba JuiceDifferent colored chains, think my jeweler really sellin' fruitsAnd they chokin', man, know the crackers wish it was a noose \r\r.\n\r\n!?",
-                    "Some-Some-Some-Someone saidTo win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak (Someone said)To win the retreat, we all in too deepPl-Pl-Playin' for keeps, don't play us for weak \r\r.\n\r\n!?",
-                    "Someone saidShorty FaceTimed me out the blueSomeone saidPl-Playin' for keepsSomeone said, motherfuckersomeone saidDon't play us for weak\r\r.\n\r\n!?",
-                    "Astro, yeah, yeahTay Keith, fuck these niggas up!? Ayy, ayy \r\r.\n\r\n!?",
-                    "She's in love with who I amBack in high school, I used to bus it to the dance (Yeah)Now I hit the FBO with duffels in my handsI did half a Xan, 13 hours 'til I landHad me out like a light, ayy, yeahLike a light, ayy, yeah \r\r.\n\r\n!?",
-                    "Like a light, ayy, slept through the flight, ayyKnocked for the night, ayy767, man, this shit got double bedroom, manI still got scores to settle, manI crept down the block (Down the block)Made a right (Yeah, right)Cut the lights (Yeah, what? ), paid the price (Yeah)Niggas think it's sweet (Nah, never), it's on sight (Yeah, what? )Nothin' nice (Yeah), baguettes in my ice (Aw, man)Jesus Christ (Yeah), checks over stripes (Yeah)That's what I like (Yeah), that's what we like (Yeah)Lost my respect, you not a threatWhen I shoot my shot, that shit wetty like I'm Sheck (Bitch!? )See the shots that I took (Ayy), wet like I'm Book (Ayy)Wet like I'm LizzieI be spinnin' Valley, circle blocks 'til I'm dizzy (Yeah, what? )Like where is he?  (Yeah, what? )No one seen him (Yeah, yeah)I'm tryna clean 'em (Yeah).\n\r\n!?"
-                ]
+                "expanded": true
             },
             {
                 "title": "Alice in Wonderland - Chapter 1",
