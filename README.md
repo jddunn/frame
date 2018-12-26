@@ -8,6 +8,8 @@ Frame is fully functional without running the Python backend (no online API is a
 
 Eventually, a donation-supported / subscription-based edition could be serviced for online users through a server on the cloud, with extended features and protected data storage, and automated data extraction / ingestion.
 
+Note: Frame is currently heavily unoptimized with some UI quirks. The project was created as a proof-of-concept but designed to work as a MVP as well. But it is fully functional!
+
 ## Current Screenshots (12-23-2018)
 
 This is a fully functional build, without the Python backend running for the Ask freature.

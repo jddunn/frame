@@ -1,4 +1,4 @@
-# Frame (NLP Service Python Backend)
+# Frame (NLP Service - Python Backend)
 
 Frame's abstractive summarization and answer prediction features are done in a Python environment running PyTorch, with an API exposed (by default to all traffic). Frame is still fully functional without the Python backend, and most of the analysis and all visualizations are rendered in the UI files.
 

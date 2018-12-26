@@ -261,190 +261,7 @@ export default class Notepad extends Component {
         editorType = "flow";
         setState("editorType", "flow");
       }
-      try {
-        if (entry['html'] !== null && entry['html'] !== undefined) {
-          const strippedText = HTMLToText(entry['html']);
-          entry['strippedText'] = strippedText;
-          const combinedText = entry['title'] + ' ' + strippedText;
-          const detectedLanguages = franc.all(combinedText).slice(0, 5);
-          entry['detectedLanguages'] = detectedLanguages;
-          entry['entities'] = {
-            terms: parseTextForTerms(strippedText),
-            topics: parseTextForTopics(strippedText),
-            people: parseTextForPeople(strippedText),
-            dates: parseTextForDates(strippedText),
-            organizations: parseTextForOrganizations(strippedText),
-            places: parseTextForPlaces(strippedText),
-            phoneNumbers: parseTextForPhoneNumbers(strippedText),
-            urls: parseTextForURLs(strippedText),
-            hashtags: parseTextForHashtags(strippedText),
-            quotes: parseTextForQuotes(strippedText),
-            statements: parseTextForStatements(strippedText),
-            questions: parseTextForQuestions(strippedText),
-            bigrams: parseTextForBigrams(strippedText),
-            trigrams: parseTextForTrigrams(strippedText)
-          };
-          entry['editorType'] = editorType;
-          // Get text stats
-          const charCount = countChars(strippedText);
-          const syllableCount = countTotalSyllables(strippedText);
-          const wordCount = countWords(strippedText);
-          const sentenceCount = countSentences(strippedText);
-          const avgWordsPerSentence = parseFloat(((wordCount / sentenceCount).toFixed(2)));
-          const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
-          const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
-          const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
-          let summaryExtractive;
-          let summaryByParagraphs;
-          let summaryAbstractive;
-          let summaryAbstractiveByParagraphs;
-          let sentencesSplit = [];
-          const docs = [];
-          if (sentenceCount > 0) {
-            sentencesSplit = splitSentences(strippedText);
-            sentencesSplit.forEach(function(el) {
-              const strLength = el.length;
-              try {
-                if (el[strLength-1].match(/^[.,:!?]/)) {
-                  docs.push(el);
-                } else {
-                  const newEl = el.concat('.\r\n');
-                  docs.push(newEl);
-                }
-              } catch (err) {
-              }
-            });
-          }
-          entry['stats'] = {
-            charCount: charCount,
-            syllableCount: syllableCount,
-            wordCount: wordCount,
-            sentenceCount: sentenceCount,
-            avgWordsPerSentence: avgWordsPerSentence,
-            avgSyllablesPerSentence: avgSyllablesPerSentence,
-            avgSyllablesPerWord: avgSyllablesPerWord,
-            fleschReadability: fleschReadability
-          };
-          entry['wordFrequency'] = getWordFrequency(strippedText);
-          if (sentenceCount > 1) {
-            try {
-              summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-              summaryByParagraphs = summarizeParagraphs(docs.join(""));
-            } catch (err) {
-              // console.log(err);
-              summaryExtractive = '';
-              summaryByParagraphs = [];
-            }
-            fetch("http://localhost:80/api/abstractive_summarize", {
-              method: "POST",
-              mode: 'cors',
-              body: JSON.stringify(strippedText),
-              headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-              },
-              credentials: "same-origin"
-              }).then(function(response) {
-                return response.json()
-              })
-              .then(function(jsonRes) {
-                summaryAbstractive = jsonRes['summarize_result'].join(" ");
-                fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
-                  method: "POST",
-                  mode: 'cors',
-                  body: JSON.stringify(strippedText.split(/\n/g)),
-                  headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json',
-                  },
-                  credentials: "same-origin"
-                  }).then(function(response) {
-                    return response.json()
-                  })
-                  .then(function(jsonRes) {
-                    let summaries = [];
-                    for (let i=0; i<jsonRes.length; i++) {
-                      let ps = (jsonRes[i]['summarize_result'].join(" "));
-                      if (ps !== "" && ps.length !== 0) {
-                        summaries.push(ps);
-                      }
-                    }
-                    entry['summaryExtractive'] = summaryExtractive;
-                    entry['summaryByParagraphs'] = summaryByParagraphs;
-                    entry['summaryAbstractive'] = summaryAbstractive;
-                    entry['summaryAbstractiveByParagraphs'] = summaries;
-                 
-                    const newEntries = replaceEntry(entry, Entries);
-                    const res = getContentFromHTML(entry['html']);
-                    _this.setState({Entries: newEntries, editorState: res,
-                    editorType: editorType});
-                  })
-                .catch(err => {
-                  summaryAbstractive = '';
-                  summaryAbstractiveByParagraphs = [];
-                  const newEntries = replaceEntry(entry, Entries);
-                  _this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
-                  editorType: editorType});
-                    // console.log(err);
-                    // message.error(err);
-                });
-              })
-            .catch(err => {
-              summaryAbstractive = '';
-              summaryAbstractiveByParagraphs = [];
-              summaryAbstractive = '';
-              summaryAbstractiveByParagraphs = [];
-              const newEntries = replaceEntry(entry, Entries);
-              _this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
-              editorType: editorType});
-            });
-          } else {
-            summaryAbstractive = '';
-            summaryAbstractiveByParagraphs = [];
-            summaryAbstractive = '';
-            summaryAbstractiveByParagraphs = [];
-            const newEntries = replaceEntry(entry, Entries);
-            _this.setState({Entries: newEntries, editorState: EditorState.createEmpty(),
-            editorType: editorType});
-          }
-        } else {
-          this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
-            editorType: editorType, entryId: nextProps.entryId});
-        }
-      } catch (err) {
-        // console.log(err);
-        this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
-      }
-    }
-  }
-  
-
-  /**
-   * Handles the dropdown select menu to switch editor modes.
-   * *this.state.editorType* is passed to Notepad props.
-   *
-   * @event {event} object
-   * @public
-   */
-  handleEditorSwitchClick = async (event) => {
-    setState("editorType", event.key.toString());
-    // const library = getState("library");
-    const library = defaultFLib;
-    const Library = openDB(library);
-    // const entryId = getState("entryId");
-    const entryId = this.state.entryId;
-    const entry = this.state.entry;
-    // let Entries = [];
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
-    // Entries = getFromDB(Library,"entries")
-    // const entry = traverseEntriesById(entryId, Entries);
-    if (entry !== null) {
-      try {
-        entry['html'] = getHTMLFromContent(this.state.editorState);
+      if (entry['html'] !== null && entry['html'] !== undefined) {
         const strippedText = HTMLToText(entry['html']);
         entry['strippedText'] = strippedText;
         const combinedText = entry['title'] + ' ' + strippedText;
@@ -466,6 +283,7 @@ export default class Notepad extends Component {
           bigrams: parseTextForBigrams(strippedText),
           trigrams: parseTextForTrigrams(strippedText)
         };
+        entry['editorType'] = editorType;
         // Get text stats
         const charCount = countChars(strippedText);
         const syllableCount = countTotalSyllables(strippedText);
@@ -475,6 +293,10 @@ export default class Notepad extends Component {
         const avgSyllablesPerSentence = parseFloat(((syllableCount / sentenceCount).toFixed(2)));
         const avgSyllablesPerWord = parseFloat(((syllableCount / wordCount).toFixed(2)));
         const fleschReadability = parseFloat((getFleschReadability(syllableCount, wordCount, sentenceCount).toFixed(2)));
+        let summaryExtractive;
+        let summaryByParagraphs;
+        let summaryAbstractive;
+        let summaryAbstractiveByParagraphs;
         let sentencesSplit = [];
         const docs = [];
         if (sentenceCount > 0) {
@@ -492,17 +314,27 @@ export default class Notepad extends Component {
             }
           });
         }
-        let summaryExtractive;
-        let summaryByParagraphs;
-        if (sentenceCount > 1) {
-          try {
-            summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
-            summaryByParagraphs = summarizeParagraphs(docs.join(""));
-          } catch (err) {
-            // console.log(err);
-            summaryExtractive = '';
-            summaryByParagraphs = [];
-          }
+        entry['stats'] = {
+          charCount: charCount,
+          syllableCount: syllableCount,
+          wordCount: wordCount,
+          sentenceCount: sentenceCount,
+          avgWordsPerSentence: avgWordsPerSentence,
+          avgSyllablesPerSentence: avgSyllablesPerSentence,
+          avgSyllablesPerWord: avgSyllablesPerWord,
+          fleschReadability: fleschReadability
+        };
+        entry['wordFrequency'] = getWordFrequency(strippedText);
+        // if (sentenceCount > 1) {
+        try {
+          summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+          summaryByParagraphs = summarizeParagraphs(docs.join(""));
+        } catch (err) {
+          // console.log(err);
+          summaryExtractive = '';
+          summaryByParagraphs = [];
+        }
+        try {
           fetch("http://localhost:80/api/abstractive_summarize", {
             method: "POST",
             mode: 'cors',
@@ -541,62 +373,88 @@ export default class Notepad extends Component {
                   entry['summaryByParagraphs'] = summaryByParagraphs;
                   entry['summaryAbstractive'] = summaryAbstractive;
                   entry['summaryAbstractiveByParagraphs'] = summaries;
-                  entry['stats'] = {
-                    charCount: charCount,
-                    syllableCount: syllableCount,
-                    wordCount: wordCount,
-                    sentenceCount: sentenceCount,
-                    avgWordsPerSentence: avgWordsPerSentence,
-                    avgSyllablesPerSentence: avgSyllablesPerSentence,
-                    avgSyllablesPerWord: avgSyllablesPerWord,
-                    fleschReadability: fleschReadability
-                  };
-                  entry['wordFrequency'] = getWordFrequency(strippedText);
                   const newEntries = replaceEntry(entry, Entries);
                   const res = getContentFromHTML(entry['html']);
-                  this.setState({Entries: newEntries, editorState: res,
+                  _this.setState({Entries: newEntries, editorState: res,
                   editorType: editorType});
                 })
               .catch(err => {
                 summaryAbstractive = '';
                 summaryAbstractiveByParagraphs = [];
-                  // console.log(err);
-                  // message.error(err);
+                entry['summaryExtractive'] = summaryExtractive;
+                entry['summaryByParagraphs'] = summaryByParagraphs;
+                entry['summaryAbstractive'] = summaryAbstractive;
+                entry['summaryAbstractiveByParagraphs'] = [];
+                const newEntries = replaceEntry(entry, Entries);
+                const res = getContentFromHTML(entry['html']);
+                _this.setState({Entries: newEntries,  editorState: res,
+                editorType: editorType});
+                // console.log(err);
+                // message.error(err);
               });
             })
           .catch(err => {
             summaryAbstractive = '';
             summaryAbstractiveByParagraphs = [];
-              // console.log(err);
-              // message.error(err);
+            entry['summaryExtractive'] = summaryExtractive;
+            entry['summaryByParagraphs'] = summaryByParagraphs;
+            entry['summaryAbstractive'] = summaryAbstractive;
+            entry['summaryAbstractiveByParagraphs'] = [];
+            const newEntries = replaceEntry(entry, Entries);
+            const res = getContentFromHTML(entry['html']);
+            _this.setState({Entries: newEntries,  editorState: res,
+            editorType: editorType});
           });
-        } else {
-          summaryExtractive = '';
-          summaryAbstractive = '';
+        } catch (err) {
           summaryAbstractive = '';
           summaryAbstractiveByParagraphs = [];
+          summaryAbstractive = '';
+          summaryAbstractiveByParagraphs = [];
+          entry['summaryExtractive'] = summaryExtractive;
+          entry['summaryByParagraphs'] = summaryByParagraphs;
+          entry['summaryAbstractive'] = summaryAbstractive;
+          entry['summaryAbstractiveByParagraphs'] = summaries;
+        
+          const newEntries = replaceEntry(entry, Entries);
+          const res = getContentFromHTML(entry['html']);
+          _this.setState({Entries: newEntries,  editorState: res,
+          editorType: editorType});
         }
-        entry['summaryExtractive'] = summaryExtractive;
-        entry['summaryByParagraphs'] = summaryByParagraphs;
-        entry['stats'] = {
-          charCount: charCount,
-          syllableCount: syllableCount,
-          wordCount: wordCount,
-          sentenceCount: sentenceCount,
-          avgWordsPerSentence: avgWordsPerSentence,
-          avgSyllablesPerSentence: avgSyllablesPerSentence,
-          avgSyllablesPerWord: avgSyllablesPerWord,
-          fleschReadability: fleschReadability
-        }
-        entry['wordFrequency'] = getWordFrequency(strippedText);
-        const newEntries = replaceEntry(entry, Entries);
-        const res = getContentFromHTML(entry['html']);
-        this.setState({Entries: newEntries, editorState: EditorState.createWithContent(getContentFromHTML(entry['html'])),
-          editorType: entry['editorType']});
-      } catch (err) {
-        this.setState({Entries: Entries, editorState: EditorState.createEmpty(), editorType: event.key.toString()});
       }
+    } else {
+      this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
+        editorType: editorType, entryId: nextProps.entryId});
     }
+  }
+  
+
+  /**
+   * Handles the dropdown select menu to switch editor modes.
+   * *this.state.editorType* is passed to Notepad props.
+   *
+   * @event {event} object
+   * @public
+   */
+  handleEditorSwitchClick = async (event) => {
+    setState("editorType", event.key.toString());
+    // const library = getState("library");
+    const library = defaultFLib;
+    const Library = openDB(library);
+    // const entryId = getState("entryId");
+    const entryId = this.state.entryId;
+    const entry = this.state.entry;
+    // let Entries = [];
+    // await getFromDB(Library, key).then(function(result) {
+    //   Entries = result;
+    // }).catch(function(err) {
+    //   Entries = [];
+    // });
+    // Entries = getFromDB(Library,"entries")
+    // const entry = traverseEntriesById(entryId, Entries);
+    // if (entry['html'] === null || entry['html'] === undefined || entry['html'] === '') {
+    //   this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
+    // }
+
   this.props.updateAppMethod();
   }
 
@@ -664,14 +522,7 @@ export default class Notepad extends Component {
     // const editorType = getState("editorType");
     const Library = openDB(library);
     const m_this = this;
-    // if (entryId === null || entryId === undefined) {
-    //   entryId = this.state.entryId;
-    // }
-    // if (library === null || library === undefined) {
-    //   library = "default";
-    // }
-    // Entries = getFromDB(Library,"entries")
-    // const entry = traverseEntriesById(entryId, Entries);
+
     if (entry !== null && entry !== undefined) {
       entry['html'] = getHTMLFromContent(this.state.editorState);
       const strippedText = HTMLToText(entry['html']);
