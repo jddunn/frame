@@ -1,5 +1,9 @@
 # Frame
 
+<img src="screenshots/Frame-animated-demo.gif" height="350" alt="Frame - Demo (Animated)"/>
+
+Test online here: [https://framed.fwd.wf/](https://framed.fwd.wf/) (Currently having trouble with my AWS account)
+
 The first release of Frame was completed and released December 25th, 2018.
 
 Frame is a notetaking / journaling web and desktop application with natural language processing features, that allows users to retrieve informed answers in context to questions they can ask in the UI. Frame also automatically generates summaries (both extractive and abstractive) of the text. This analysis is done in real-time (on save), and can navigated intuitively while still editing the content. Frame is designed for introspective and analytical users (researchers and academics might be most interested in this).
@@ -10,29 +14,24 @@ Eventually, a donation-supported / subscription-based edition could be serviced 
 
 Note: Frame is currently heavily unoptimized with some UI quirks. The project was created as a proof-of-concept but designed to work as a MVP as well. But it is fully functional!
 
+Download Windows build: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
+
 ## Current Screenshots (12-23-2018)
 
 This is a fully functional build, without the Python backend running for the Ask freature.
 
-<img src="screenshots/frame-screenshot-12-23-2018-1.png" height="250" alt="Frame - Screenshot 1"/>
-
-<img src="screenshots/frame-screenshot-12-23-2018-2.png" height="250" alt="Frame - Screenshot 3"/>
-
-<img src="screenshots/frame-screenshot-12-23-2018-4.png" height="250" alt="Frame - Screenshot 4"/>
-
-<img src="screenshots/frame-screenshot-12-23-2018-5.png" height="250" alt="Frame - Screenshot 5"/>
-
-<img src="screenshots/frame-screenshot-12-23-2018-6.png" height="250" alt="Frame - Screenshot 6"/>
 
 ## Web UI
 
-A public-serving site is accessible at []().
+A public-serving site is accessible at [https://framed.fwd.wf/](https://framed.fwd.wf/). 
+
+I would deploy on AWS but I'm having trouble with my account right now, as my student email's been deactivated :(
 
 Because Frame's data storage uses the local browser of the user, no user management is needed, as the entries you write are stored in your local browser cache. 
 
 ## Desktop UI
 
-Download the Windows release of version 0.1.0 here: []()
+Download the Windows release of version 0.1.0 here: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
 There is no MacOS build, but it should be able to be built with no modifications. If you have a Mac and are willing to create and upload a build, reach out! Thanks. Linux will hopefully come soon too (not tested yet).
 
