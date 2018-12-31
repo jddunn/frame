@@ -60,6 +60,8 @@ export default class AskForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        message.success("Asking Frame..");
+        this.props.form.resetFields();
         fetch("http://localhost:80/api/make_predict", {
           method: "POST",
           mode: 'cors',
