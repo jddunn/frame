@@ -378,6 +378,7 @@ export default class MainMenu extends Component {
     switch (index) {
       case 1:
         setState("activeLink", "look");
+        setState("analysisDrawerVisible", false);
         this.props.updateAppMethod();
         break;
       case 5: 
@@ -386,7 +387,7 @@ export default class MainMenu extends Component {
         this.props.updateAppMethod();
         break;
       default:
-        this.props.updateAppMethod();
+        // this.props.updateAppMethod();
         break;
     }
   }
