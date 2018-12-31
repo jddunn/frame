@@ -139,7 +139,7 @@ export default class AskForm extends React.Component {
           </Form.Item>
 
           <p className="smallDetailText">
-              If you're having trouble, remember to hit "Run" or save before asking. <br></br>If nothing is happening still, then the NLP Python server must not be running or is down!
+              If you're having trouble, remember to hit "Run" or save before asking. <br></br>If nothing is happening still, then the Python NLP server must not be running or is down!
         </p>
 
         </Form>
