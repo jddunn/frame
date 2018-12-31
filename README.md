@@ -2,11 +2,11 @@
 
 ## Screenshots
 
-<img src="screenshots/Frame-animated-demo-1.gif" height="350" alt="Frame - Demo - Sicko Mode"/>
+<img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="350" alt="Frame - Demo - Sicko Mode"/>
 
 Frame analyzing Sicko Mode - Sped up by 1.5x  
 
-<img src="screenshots/Frame-animated-demo-2.gif" height="350" alt="Frame - Demo - Cryptocurrency Wikipedia article"/>
+<img src="screenshots/Frame-animated-demo-12-31-08-2.gif" height="350" alt="Frame - Demo - Cryptocurrency Wikipedia article"/>
 
 Frame analyzing the Cryptocurrency Wikipedia article - Sped up by 2.5x
 
