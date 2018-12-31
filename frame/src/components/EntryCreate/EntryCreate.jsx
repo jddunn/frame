@@ -52,7 +52,7 @@ const EntryCreateForm = Form.create()(
       */
       this.state = {entryTags: [], entryTitle: 'New entry', entrySubtitle: '', 
                     timestamp:'', entrySubtitleTagsPlaceholder: '',
-                    webLinkToExtract: ''
+                    // webLinkToExtract: ''
     };
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
@@ -68,7 +68,7 @@ const EntryCreateForm = Form.create()(
       this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
                         timestamp:'', entrySubtitleTagsPlaceholder: '',
                         timestamp:'', entrySubtitleTagsPlaceholder: '',
-                        webLinkToExtract: ''
+                        // webLinkToExtract: ''
       });
     }
 
@@ -166,7 +166,7 @@ const EntryCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <FormItem label="Link To Download"
+            {/* <FormItem label="Link To Download"
               {...formItemLayout}
               >
               {getFieldDecorator('linkToExtract', {
@@ -178,7 +178,7 @@ const EntryCreateForm = Form.create()(
                   </Tooltip>
                   } autocomplete="off" placeholder='http://'/>
               )}
-            </FormItem>
+            </FormItem> */}
 
             <FormItem label="Category Tags"
                 {...formItemLayout}
@@ -275,55 +275,57 @@ export class EntryCreate extends Component {
       // }
       const m_Library = openDB(library);
       // m_Entries = getFromDB(m_Library, "entries");
-      let linkToExtract = values['linkToExtract'];
-      console.log("THIS IS LINK TO EXTRACT: ", linkToExtract);
-      // if (linkToExtract !== null && linkToExtract !== undefined && linkToExtract !== '') {
-      //   const options = {
-      //     host: linkToExtract,
-      //     port: 80,
-      //     path: "/"
-      //   };
-      //   http.get(linkToExtract, function(res) {
-      //     console.log("Got response: " + res.statusCode);
-      //     console.log(res.text());
-      //   }).on('error', function(e) {
-      //     console.log("Got error: " + e.message);
-      //   });
+      // let linkToExtract = values['linkToExtract'];
+      // console.log("THIS IS LINK TO EXTRACT: ", linkToExtract);
+      // // if (linkToExtract !== null && linkToExtract !== undefined && linkToExtract !== '') {
+      // //   const options = {
+      // //     host: linkToExtract,
+      // //     port: 80,
+      // //     path: "/"
+      // //   };
+      // //   http.get(linkToExtract, function(res) {
+      // //     console.log("Got response: " + res.statusCode);
+      // //     console.log(res.text());
+      // //   }).on('error', function(e) {
+      // //     console.log("Got error: " + e.message);
+      // //   });
 
-        try {
-          fetch(linkToExtract,
-            {
-              mode: 'cors',
-              headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-              }
-            }
-            )
-          .then(function(response) {
-              // console.log("DA RESPONSE TEXT: ", response.text());
-              return response.text()
-          })
-          .then(function(html) {
-              var parser = new DOMParser();
-              // Parse the text
-              var doc = parser.parseFromString(html, "text/html");
-              // You can now even select part of that html as you would in the regular DOM 
-              // Example:
-              // var docArticle = doc.querySelector('article').innerHTML;
-              console.log(doc);
-              values['html'] = doc;
-              values['strippedText'] = HTMLToText(doc);
-          })
-          .catch(function(err) {  
-              console.log('Failed to fetch page: ', err);  
-              message.error("Unable to fetch page content from: " + linkToExtract + ' - ' + err);
-          });
-        } catch (err) {
-          console.log(err);
-          message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
-        }
-      m_Entries = await getFromDB("entries");
+      //   try {
+      //     fetch(linkToExtract,
+      //       {
+      //         mode: 'cors',
+      //         headers: {
+      //           'Accept': 'application/json, text/plain, */*',
+      //           'Content-Type': 'application/json',
+      //         }
+      //       }
+      //       )
+      //     .then(function(response) {
+      //         // console.log("DA RESPONSE TEXT: ", response.text());
+      //         return response.text()
+      //     })
+      //     .then(function(html) {
+      //         var parser = new DOMParser();
+      //         // Parse the text
+      //         var doc = parser.parseFromString(html, "text/html");
+      //         // You can now even select part of that html as you would in the regular DOM 
+      //         // Example:
+      //         // var docArticle = doc.querySelector('article').innerHTML;
+      //         console.log(doc);
+      //         values['html'] = doc;
+      //         values['strippedText'] = HTMLToText(doc);
+      //     })
+      //     .catch(function(err) {  
+      //         console.log('Failed to fetch page: ', err);  
+      //         message.error("Unable to fetch page content from: " + linkToExtract + ' - ' + err);
+      //     });
+      //   } catch (err) {
+      //     console.log(err);
+      //     message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
+      //   }
+      // m_Entries = await getFromDB("entries");
+      m_Entries = await localforage.getItem("entries");
+      console.log("THESE ARE M_ENTRIES: ");
       try {
         m_Entries.unshift(values);
       } catch (err) {
@@ -335,6 +337,8 @@ export class EntryCreate extends Component {
         // saveToDB(m_Library, "entries", m_Entries);
         const res = await localforage.setItem("entries", m_Entries);
         message.success("Creating new library entry..");
+        message.success(res);
+        console.log(res);
         form.resetFields();
         _this.props.updateEntriesMethod();        
         _this.setState({visible: false})
