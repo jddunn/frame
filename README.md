@@ -1,8 +1,12 @@
 # Frame
 
-<img src="screenshots/Frame-animated-demo-2.gif" height="350" alt="Frame - Demo - Cryptocurrency Wikipedia article"/>
+## Screenshots
 
 <img src="screenshots/Frame-animated-demo-1.gif" height="350" alt="Frame - Demo - Sicko Mode"/>
+
+<img src="screenshots/Frame-animated-demo-2.gif" height="350" alt="Frame - Demo - Cryptocurrency Wikipedia article"/>
+
+## Links
 
 Test online here: 
 
