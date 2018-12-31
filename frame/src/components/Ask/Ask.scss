@@ -36,10 +36,12 @@
 }
 
 .smallDetailText {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    margin-left: 70px !important;
+    width: 60% !important;
+    // margin-right: auto !important;
+    // margin-left: auto !important;
+    margin-left: 50px !important;
     font-size: .9em !important;
     margin-top: 8px !important;
     letter-spacing: 1px !important;
+    text-align: center !important;
 }
