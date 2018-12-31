@@ -14,7 +14,7 @@ class AbstractiveSummarizer:
     self.abstractable_doc = TopNRankAbstractor()
     return
 
-  def summarize(self, document):
+  def summarize(self, document: str):
     result_dict = self.auto_abstractor.summarize(document, self.abstractable_doc)
     # print(result_dict)
     # for sentence in result_dict["summarize_result"]:
