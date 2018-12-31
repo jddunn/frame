@@ -172,70 +172,7 @@ export default class App extends Component {
     this.setState({_isMounted: false});
   }
 
-  async shouldComponentUpdate () {
-    // let selectedEntryId = getState("entryId");
-    // let selectedEntryEditorType = getState("editorType");
-    // let library = getState("library");
-    // let activeLink = getState("activeLink");
-    // // if (library === null || library === "null" || library === "undefined" || library === undefined) {
-    //   library = defaultFLib;
-    // // }
-    // if (this.state._isMounted) {
-    //   let selectedEntryId;
-    //   let selectedEntry;
-    //   let selectedEntryEditorType;
-      
-    //   const library = defaultFLib;
-    //   // await this.sleep(2000);
-    //   const Library = openDB(library);
-    //   let Entries = [];
-    //   // await getFromDB(Library, key).then(function(result) {
-    //   //   Entries = result;
-    //   // }).catch(function(err) {
-    //   //   Entries = [];
-    //   // });
-    //   Entries = getFromDB(Library, "entries")
-
-    //   console.log("UPDATE APP WITH ENTRIES: ", Entries);
-
-    //   this.setState({Entries: Entries});
-      // console.log("INITIAL ENTRIES GOTTEN: ", Entries);
-      // if (Entries === null || Entries === undefined) { 
-      //     Entries = exampleEntries;
-      //     message.error("Unable to load entries, setting library to example data.");
-      //     selectedEntryId = Entries[0].id;
-      //     selectedEntryEditorType = Entries[0]['editorType'];
-      //   }
-      //   // Set Entries in actual React state since
-      //   // sessionStorage can only do JSON.
-      //   let states = {};
-      //   // if (this.state.prevEntryId !== selectedEntryId) {
-      //     states['prevEntryId'] = selectedEntryId;
-      //   // }
-      //   // if (this.state.prevLibrary !== library) {
-      //     states['prevLibrary'] = library;
-      //   // }
-      //   if (this.state.prevEntries !== Entries) {
-      //     states['prevEntries'] = Entries;
-      //   }
-      //   // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-      //     states['prevEntryEditorType'] = selectedEntryEditorType;
-      //   // }
-      //   // if (this.state.prevActiveLink !== activeLink) {
-      //     states['prevActiveLink'] = activeLink;
-      //   // }
-      //   console.log("Should comp update with new states: ", states);
-      //   if (states.length > 0) {
-      //     this.setState({
-      //       states
-      //     });
-        // }
-      // }
-  }
-
   async updateEntries() {
-    // console.log("Sleeping for 200 msecs to get data");
-    // console.log("Adding an entry from new: ");
     if (this.state._isMounted) {
       // let library = getState("library");
       // if (library === null || library === undefined) {
@@ -246,11 +183,7 @@ export default class App extends Component {
       const library = defaultFLib;
       const Library = openDB(library);
       let Entries = [];
-      // await getFromDB(Library, key).then(function(result) {
-      //   Entries = result;
-      // }).catch(function(err) {
-      //   Entries = [];
-      // });
+
       Entries = await this.getEntriesInitial("entries");
       selectedEntryId = Entries[0].id;
       try {
@@ -275,9 +208,6 @@ export default class App extends Component {
 
   // Force app to re-render; this func is passed down in props to children
   async updateApp() {
-    // const needUpdate = getState("needUpdate");
-    // if (needUpdate) 
-      // setState("needUpdate", false);
     if (this.state._isMounted) {
       // let library = getState("library");
       let library = defaultFLib;
@@ -345,92 +275,6 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-
-  // // Force app to re-render; this func is passed down in props to children
-  // async updateApp() {
-  //     // const needUpdate = getState("needUpdate");
-  //     // if (needUpdate) 
-  //       // setState("needUpdate", false);
-  //     if (this.state._isMounted) {
-  //       await this.sleep(500);
-  //       // let library = getState("library");
-  //       // if (library === null || library === undefined || library === "null") {
-  //       let library = defaultFLib;
-  //       // }
-  //       const Library = openDB(library);
-  //     //   let selectedEntryId = getState("entryId");
-  //     //   let selectedEntryEditorType = getState("entryEditorType");
-  //     //   let activeLink = getState("activeLink");
-
-  //       let Entries = [];
-  //     //   // await getFromDB(Library, key).then(function(result) {
-  //     //   //   Entries = result;
-  //     //   // }).catch(function(err) {
-  //     //   //   Entries = [];
-  //     //   // });
-  //       Entries = getFromDB(Library,"entries");
-
-  //       console.log("THIS IS DEFAULT FLIB FROM ENTRIES: ", library, Library);
-
-  //       console.log("UPDATE APP WITH ENTRIES: ", Entries);
-
-  //       this.setState({Entries: Entries});
-  //     //   if (selectedEntryId != null && selectedEntryId != undefined) {
-  //     //     if (selectedEntryEditorType != null && selectedEntryEditorType != undefined) {
-  //     //     } else {
-  //     //       selectedEntryEditorType = "flow";
-  //     //     }
-  //     //   } else {
-  //     //     selectedEntryId = Entries[0].id;
-  //     //     try {
-  //     //       selectedEntryEditorType = Entries[0]['editorType'];
-  //     //     } catch (err) {
-  //     //       selectedEntryEditorType = "flow"; 
-  //     //     }
-  //     //   }
-        
-  //     // setState("library", library);
-  //     // setState("editorType", selectedEntryEditorType);
-  //     // setState("entryId", selectedEntryId);
-  //     // // Set Entries in actual React state since
-  //     // // sessionStorage can only do JSON.
-  //     // let states = {};
-  //     // if (this.state.prevEntryId !== selectedEntryId) {
-  //     //   if (selectedEntryId === null || selectedEntryId === undefined) {
-  //     //     states['prevEntryId'] = this.state.Entries[0].id;
-  //     //     setState("entryId", this.state.Entries[0].id);
-  //     //     try {
-  //     //       setState("editorType", this.state.Entries[0].editorType);
-  //     //     } catch (err) {
-  //     //       setState("editorType", "flow");
-  //     //     }
-  //     //   } else {
-  //     //     states['prevEntryId'] = selectedEntryId;
-  //     //   }
-  //     // }
-  //     // if (this.state.prevLibrary !== library) {
-  //   //     states['prevLibrary'] = library;
-  //   //   // }
-  //   //   // if (this.state.prevEntries !== Entries) {
-  //   //     states['prevEntries'] = Entries;
-  //   //     states['Entries'] = Entries;
-  //   //   // }
-  //   //   // if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-  //   //     states['prevEntryEditorType'] = selectedEntryEditorType;
-  //   //   // }
-  //   //   // if (this.state.prevActiveLink !== activeLink) {
-  //   //     states['prevActiveLink'] = activeLink;
-  //   //   // }
-  //   //   if (states.length > 0) {
-  //   //     this.setState({
-  //   //       states
-  //   //     });
-  //   //   }
-  //   // }
-  //     }
-  //   this.forceUpdate();
-  // }
-
   render() {
     // By default editor mode for notes is Flow
     if (this.state._isMounted) {
@@ -449,8 +293,10 @@ export default class App extends Component {
       // As we get more sections, this will eventually need
       // refactored, since a splitNotebookLayout would only
       // be true on the explore / inquire page (currently)
-      let splitNotebookLayout = activeLink === "look" ?
-        false : true;
+      // let splitNotebookLayout = activeLink === "look" ?
+        // false : true;
+
+      let splitNotebookLayout = getState("analysisDrawerVisible");
       if (entry === null) {
         // console.log("Could not find entry with ID: ", entryId);
         // console.log("Setting default entry to top in tree");
@@ -529,7 +375,7 @@ export default class App extends Component {
                               <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
                                 splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
                               <div className="analyzerWrapper">
-                                <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp}/>
+                                <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={splitNotebookLayout}/>
                               </div>
                             </div>
                         </div>

@@ -123,7 +123,11 @@ export default class Notepad extends Component {
       editorEnabled: true,
       placeholder: 'Write here...',
       _isMounted: false,
-      editorType: "flow"
+      editorType: "flow",
+      // Keep track of the last known entry / editor in state to reduce
+      // unnecessary rendering
+      prevEditorState: {},
+      prevEntryId: ""
       // uploadedImages: [],
     };
 
@@ -182,26 +186,32 @@ export default class Notepad extends Component {
   }
 
   setEditorState(state) {
-    this.setState({editorState: state});
+    if (state !== this.state.prevEditorState) {
+      this.setState({editorState: state, prevEditorState: state});
+    }
   }
   
   onChange = (editorState, callback = null) => {
     if (this.state._isMounted)
-    if (this.state.editorEnabled) {
-      this.setState({ editorState }, () => {
-        if (callback) {
-          callback();
-        }
-      });
+      if (this.state.editorEnabled) {
+        if (editorState !== this.state.prevEditorState) {
+          this.setState({ editorState }, () => {
+            if (callback) {
+              callback();
+            }
+        });
+      }
     }
   };
 
   onEditorStateChange = (editorState) => {
     // console.log("Editor state change: ", editorState);
     if (this.state._isMounted) 
-    this.setState({
-      editorState,
-    });
+    if (editorState !== this.state.prevEditorState) {
+      this.setState({
+        editorState,
+      });
+    }
   }
 
   componentDidMount() {
@@ -215,12 +225,13 @@ export default class Notepad extends Component {
         blocksFromHTML.entityMap
       );
       this.setState({_isMounted: true, editorState: EditorState.createWithContent(editorContent), entryId: entryIdProp,
-        Entries: EntriesProp, entry: entryProp
+        Entries: EntriesProp, entry: entryProp, prevEditorState: EditorState.createWithContent(editorContent), 
+        prevEntryId: entryIdProp
       });
     } catch (err) {
       console.log("Notebook mount err: ", err);
-      this.setState({_isMounted: true, editorState: EditorState.createEmpty(), entryId: entryIdProp,
-                    Entries: EntriesProp, entry: entryProp
+      this.setState({_isMounted: true, editorState: EditorState.createEmpty(), prevEditorState: EditorState.createEmpty(), entryId: entryIdProp,
+                    Entries: EntriesProp, entry: entryProp, prevEntryId: entryIdProp
       });
     }
   }
@@ -232,7 +243,10 @@ export default class Notepad extends Component {
   async componentWillReceiveProps(nextProps) {
     const _this = this;
     if (this.state._isMounted) {
-      const nextEntryId = nextProps.entryId;      
+      const nextEntryId = nextProps.entryId;    
+      if (nextEntryId === this.state.prevEntryId) {
+        return;
+      }  
       const nextEntry = nextProps.entry;
       const nextEntries = nextProps.Entries;
       const library = defaultFLib;
