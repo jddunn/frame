@@ -36,20 +36,6 @@ Note: Frame is currently heavily unoptimized with some UI quirks. The project wa
 
 Download Windows build: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
-## Web UI
-
-A public-serving site is accessible at [https://framed.fwd.wf/](https://framed.fwd.wf/). 
-
-I would deploy on AWS but I'm having trouble with my account right now, as my student email's been deactivated :(
-
-Because Frame's data storage uses the local browser of the user, no user management is needed, as the entries you write are stored in your local browser cache. 
-
-## Desktop UI
-
-Download the Windows release of version 0.1.0 here: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
-
-There is no MacOS build, but it should be able to be built with no modifications. If you have a Mac and are willing to create and upload a build, reach out! Thanks. Linux will hopefully come soon too (not tested yet).
-
 # Todo List (In order of priority)
 
 These are features that would make Frame considerably more robust in terms of usability and functionality. Some are stretch goals. The list will be modified as progress continues.
