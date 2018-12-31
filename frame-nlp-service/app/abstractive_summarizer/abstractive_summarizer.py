@@ -23,8 +23,6 @@ class AbstractiveSummarizer:
 
 if __name__ != 'main':
     abstractive_summarizer = AbstractiveSummarizer()
-    # res = abstractive_summarizer.summarize("""They propose continuous space LMs using neural networks to fight the curse of dimensionality by learning a distributed representation for words."""
-    # )
 else:
     abstractive_summarizer = AbstractiveSummarizer()
 
