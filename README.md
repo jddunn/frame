@@ -2,7 +2,7 @@
 
 <img src="screenshots/Frame-animated-demo-2.gif" height="350" alt="Frame - Demo - Cryptocurrency Wikipedia article"/>
 
-<img src="screenshots/Frame-animated-demo.gif" height="350" alt="Frame - Demo - Sicko Mode"/>
+<img src="screenshots/Frame-animated-demo-1.gif" height="350" alt="Frame - Demo - Sicko Mode"/>
 
 Test online here: 
 
