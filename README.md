@@ -1,6 +1,6 @@
 # Frame
 
-## Screenshots
+# Screenshots
 
 <img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="350" alt="Frame - Demo - Sicko Mode"/>
 
@@ -10,7 +10,7 @@ Frame analyzing Sicko Mode - Sped up by 1.5x
 
 Frame analyzing the Cryptocurrency Wikipedia article - Sped up by 2.5x
 
-## Links
+# Links
 
 Test online here: 
 
@@ -24,7 +24,7 @@ Download the Windows release of version 0.1.0 here:
 
 The first release of Frame was completed and released December 25th, 2018. The releases on GitHub may not reflect that, as optimizations and features have been added in and replaced existing releases. 
 
-## Intro
+# Intro
 
 Frame is a notetaking / journaling web and desktop application with natural language processing features, that allows users to retrieve informed answers in context to questions they can ask in the UI. Frame also automatically generates summaries (both extractive and abstractive) of the text. This analysis is done in real-time (on save), and can navigated intuitively while still editing the content. Frame is designed for introspective and analytical users (researchers and academics might be most interested in this).
 
