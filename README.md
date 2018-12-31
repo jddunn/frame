@@ -2,7 +2,9 @@
 
 <img src="screenshots/Frame-animated-demo.gif" height="350" alt="Frame - Demo (Animated)"/>
 
-Test online here: [https://framed.fwd.wf/](https://framed.fwd.wf/) (Currently having trouble with my AWS account)
+Test online here: [https://framed.fwd.wf/](https://framed.fwd.wf/) (Currently having trouble with my AWS instance and installing PyTorch..)
+
+Download the Windows release of version 0.1.0 here: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/) (Need a Mac user to build the MacOS version; Linux is untested, will update on that soon).
 
 The first release of Frame was completed and released December 25th, 2018.
 
