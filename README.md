@@ -40,6 +40,40 @@ Download the Windows release of version 0.1.0 here: [https://www.mediafire.com/f
 
 There is no MacOS build, but it should be able to be built with no modifications. If you have a Mac and are willing to create and upload a build, reach out! Thanks. Linux will hopefully come soon too (not tested yet).
 
+# Todo List (In order of priority)
+
+These are features that would make Frame considerably more robust in terms of usability and functionality. Some are stretch goals. The list will be modified as progress continues.
+
+- Build Docker image of Python backend and deploy app on AWS
+
+- Optimize / refactor app (reduce unnecessary re-renders; serialize editor states and store into database instead of rebuilding content from HTML every load, only re-run analysis when the entry text has changed, etc) 
+
+- Separate out larger components (reduce size of components); clean up code; add better comments
+
+- Add feature to extract text content automatically from a given link when creating a new entry
+
+- Add in full editing component for entry properties (title, tags, etc.); add in Last_Date_Modified property to entry data
+
+- Add feature to automatically generate entries based off of file upload (PDF, text)
+
+- Add setting to configure Python backend server address
+
+- Refine sentence / new line tokenization
+
+- Add new section where users can see summarizations and ask questions by groups of entries (like searching entries with related tags, or searching an entry and its sub-entries)
+
+- Add in visual themes and switcher options
+
+- Add full word processing editor, coding IDE, and equations / calculator screen
+
+- Fix multimedia content uploading and saving in editor (and make it persistent across multiple editors)
+
+- Add password protection / security settings
+
+- Add in live view in Notepad component where users can see content and summarization and navigate both simultaneously side-by-side
+
+- Add in voice recognition and synthesis for recognizing questions and outputting answers (with adjustable tone settings)
+
 # Future
 
 ???
