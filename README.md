@@ -36,6 +36,17 @@ Note: Frame is currently heavily unoptimized with some UI quirks. The project wa
 
 Download Windows build: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
+# Installation
+
+Download the binary for your OS. Installing (double-clicking) the binary file should extract all necessary data to the current directory, and you will be able to add a shortcut / icon that instance of Frame for future opening (without having to reinstall every time).
+
+Frame is fully functional with just the offline application; however, the advanced NLP features (abstractive summarization and answer prediction) require a Python backend running PyTorch serving localhost on port 80. This can be automatically done by downloading the necessary Docker or Python files and either building and running the container or installing the library dependencies in a Python environment, and running the main script. If configured through the Docker image, the Python backend will use Nginx, and would be suitable for handling large volumes of traffic.
+
+With just the client application features, Frame can still do extractive summarization and key information extraction. The majority of the NLP analysis is done within the app itself, not the Python server.
+
+All the data is self-contained within the specific installation instance of Frame. So, to own multiple copies of Frame with different libraries of data, you can simply duplicate the downloaded binary and rename and use the duplicated applications as you wish.
+
+
 # Todo List (In order of priority)
 
 These are features that would make Frame considerably more robust in terms of usability and functionality. Some are stretch goals. The list will be modified as progress continues.
