@@ -276,28 +276,21 @@ export class EntryCreate extends Component {
       const m_Library = openDB(library);
       // m_Entries = getFromDB(m_Library, "entries");
       // let linkToExtract = values['linkToExtract'];
-      // console.log("THIS IS LINK TO EXTRACT: ", linkToExtract);
-      // // if (linkToExtract !== null && linkToExtract !== undefined && linkToExtract !== '') {
-      // //   const options = {
-      // //     host: linkToExtract,
-      // //     port: 80,
-      // //     path: "/"
-      // //   };
-      // //   http.get(linkToExtract, function(res) {
-      // //     console.log("Got response: " + res.statusCode);
-      // //     console.log(res.text());
-      // //   }).on('error', function(e) {
-      // //     console.log("Got error: " + e.message);
-      // //   });
-
       //   try {
+      //     linkToExtract = linkToExtract.replace("http:", "");
+      //     linkToExtract = linkToExtract.replace("https:", "");
+      //     linkToExtract = linkToExtract.replace("www.", "");
+      //     linkToExtract = linkToExtract.replace("https://www.", "");
+      //     // linkToExtract = linkToExtract.replace("//", "");
+      //     console.log("THIS IS LINK TO EXTRACT: ", linkToExtract);
       //     fetch(linkToExtract,
       //       {
-      //         mode: 'cors',
-      //         headers: {
-      //           'Accept': 'application/json, text/plain, */*',
-      //           'Content-Type': 'application/json',
-      //         }
+      //         mode: 'no-cors',
+      //         // headers: {
+      //         //   "Access-Control-Allow-Origin": "*",
+      //         //   'Accept': 'application/json, text/plain, */*',
+      //         //   'Content-Type': 'application/json',
+      //         // }
       //       }
       //       )
       //     .then(function(response) {
@@ -305,15 +298,16 @@ export class EntryCreate extends Component {
       //         return response.text()
       //     })
       //     .then(function(html) {
-      //         var parser = new DOMParser();
+      //         // var parser = new DOMParser();
       //         // Parse the text
-      //         var doc = parser.parseFromString(html, "text/html");
+      //         // var doc = parser.parseFromString(html, "text/html");
       //         // You can now even select part of that html as you would in the regular DOM 
       //         // Example:
       //         // var docArticle = doc.querySelector('article').innerHTML;
-      //         console.log(doc);
-      //         values['html'] = doc;
-      //         values['strippedText'] = HTMLToText(doc);
+      //         // console.log(doc);
+      //         console.log("HTML: ", html);
+      //         values['html'] = html;
+      //         values['strippedText'] = HTMLToText(html);
       //     })
       //     .catch(function(err) {  
       //         console.log('Failed to fetch page: ', err);  
@@ -323,9 +317,7 @@ export class EntryCreate extends Component {
       //     console.log(err);
       //     message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
       //   }
-      // m_Entries = await getFromDB("entries");
       m_Entries = await localforage.getItem("entries");
-      console.log("THESE ARE M_ENTRIES: ");
       try {
         m_Entries.unshift(values);
       } catch (err) {
