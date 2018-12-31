@@ -66,11 +66,12 @@ export default class App extends Component {
       collapsed: false,
       Entries: [],
       _isMounted: false,
-      // Keep track of these to see if we need to
-      prevLibrary: {},
-      prevEntryId: {},
-      prevEntryEditorType: {},
-      prevActiveLink: {}
+      // Keep track of these to see if we need to render
+      // (For now these aren't necessary because we aren't focused on optimization yet)
+      // prevLibrary: {},
+      // prevEntryId: {},
+      // prevEntryEditorType: {},
+      // prevActiveLink: {}
     }
     // Initial load entries from db (this func is only called on componentWillMount)
     this.getEntriesInitial = this.getEntriesInitial.bind(this);
@@ -237,40 +238,41 @@ export default class App extends Component {
       setState("library", library);
       setState("editorType", selectedEntryEditorType);
       setState("entryId", selectedEntryId);
+      // TODO: Make eventual optimizations below by keeping track of what needs to be re-rendered
       // Set Entries in actual React state since
       // sessionStorage can only do JSON.
-      let states = {};
-      if (this.state.prevEntryId !== selectedEntryId) {
-        if (selectedEntryId === null || selectedEntryId === undefined) {
-          states['prevEntryId'] = this.state.Entries[0].id;
-          setState("entryId", this.state.Entries[0].id);
-          try {
-            setState("editorType", this.state.Entries[0].editorType);
-          } catch (err) {
-            setState("editorType", "flow");
-          }
-        } else {
-          states['prevEntryId'] = selectedEntryId;
-        }
-      }
-      if (this.state.prevLibrary !== library) {
-        states['prevLibrary'] = library;
-      }
-      if (this.state.prevEntries !== Entries) {
-        states['prevEntries'] = Entries;
-        states['Entries'] = Entries;
-      }
-      if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
-        states['prevEntryEditorType'] = selectedEntryEditorType;
-      }
-      if (this.state.prevActiveLink !== activeLink) {
-        states['prevActiveLink'] = activeLink;
-      }
-      if (states.length > 0) {
-        this.setState({
-          states
-        });
-      }
+      // let states = {};
+      // if (this.state.prevEntryId !== selectedEntryId) {
+        // if (selectedEntryId === null || selectedEntryId === undefined) {
+          // states['prevEntryId'] = this.state.Entries[0].id;
+          // setState("entryId", this.state.Entries[0].id);
+          // try {
+            // setState("editorType", this.state.Entries[0].editorType);
+          // } catch (err) {
+            // setState("editorType", "flow");
+          // }
+        // } else {
+          // states['prevEntryId'] = selectedEntryId;
+        // }
+      // }
+    //   if (this.state.prevLibrary !== library) {
+    //     states['prevLibrary'] = library;
+    //   }
+    //   if (this.state.prevEntries !== Entries) {
+    //     states['prevEntries'] = Entries;
+    //     states['Entries'] = Entries;
+    //   }
+    //   if (this.state.prevEntryEditorType !== selectedEntryEditorType) {
+    //     states['prevEntryEditorType'] = selectedEntryEditorType;
+    //   }
+    //   if (this.state.prevActiveLink !== activeLink) {
+    //     states['prevActiveLink'] = activeLink;
+    //   }
+    //   if (states.length > 0) {
+    //     this.setState({
+    //       states
+    //     });
+    //   }
     }
     this.forceUpdate();
   }

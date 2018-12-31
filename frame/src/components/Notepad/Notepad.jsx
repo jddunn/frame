@@ -489,7 +489,7 @@ export default class Notepad extends Component {
             editorTypes.FLOW.slice(1)}
         </Tooltip>
       </Menu.Item>
-      <Menu.Item key="full">
+      <Menu.Item key="full" disabled>
         <Tooltip placement="left"
           overlayStyle={{width: '120px', opacity: '.80'}}
           title={"Full HTML editor with word processor-like capabilities; currently, only \

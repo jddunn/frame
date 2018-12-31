@@ -3,7 +3,7 @@ import config from '../../data/config.json';
 import React, { Component } from 'react';
 import {
   Button, Modal, Form, Input, Radio, Select, message,
-  Tooltip
+  Tooltip, Icon
 } from 'antd';
 
 import './EntryCreate.scss';
@@ -31,7 +31,12 @@ const Option = Select.Option;
 const savedSettings = config.savedSettings;
 const defaultFLib = savedSettings.defaultLibrary;
 
+const http = require('http');
+
 import localforage from "localforage";
+
+import { HTMLToText } from "../../utils/translate-html";
+
 
 const EntryCreateForm = Form.create()(
   // eslint-disable-next-line
@@ -46,7 +51,8 @@ const EntryCreateForm = Form.create()(
          input field with state.
       */
       this.state = {entryTags: [], entryTitle: 'New entry', entrySubtitle: '', 
-                    timestamp:'', entrySubtitleTagsPlaceholder: ''
+                    timestamp:'', entrySubtitleTagsPlaceholder: '',
+                    webLinkToExtract: ''
     };
       this.handleEditorChange = this.handleEditorChange.bind(this);
       this.handleReset = this.handleReset.bind(this);
@@ -60,7 +66,9 @@ const EntryCreateForm = Form.create()(
 
     handleReset() {
       this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
-                        timestamp:'', entrySubtitleTagsPlaceholder: ''
+                        timestamp:'', entrySubtitleTagsPlaceholder: '',
+                        timestamp:'', entrySubtitleTagsPlaceholder: '',
+                        webLinkToExtract: ''
       });
     }
 
@@ -105,11 +113,12 @@ const EntryCreateForm = Form.create()(
       const { getFieldDecorator } = form;
       const uuid = generateUUID();
       const formItemLayout = {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 13 }
+        labelCol: { span: 9,
+        },
+        wrapperCol: { span: 14 }
       };
       const buttonItemLayout = {
-        wrapperCol: { span: 14, offset: 4
+        wrapperCol: { span: 14, offset: 2
         }
       };
       let entryTags = this.state.entryTags;
@@ -150,12 +159,27 @@ const EntryCreateForm = Form.create()(
               })(
               <Select defaultValue="flow" style={{ width: 120 }} onChange={this.handleEditorChange}>
                 <Option value="flow">Flow</Option>
-                <Option value="full">Full</Option>
+                <Option value="full" disabled>Full</Option>
                 <Option value="code" disabled>Code</Option>
                 <Option value="equation" disabled>Equation</Option>
               </Select>
               )}
             </FormItem>
+
+            <FormItem label="Link To Download"
+              {...formItemLayout}
+              >
+              {getFieldDecorator('linkToExtract', {
+                rules: [{ required: false}],
+              })(
+                <Input prefix={
+                  <Tooltip title="Enter in a link / URL to automatically extract the text from for as content">                
+                    <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)' }}/>
+                  </Tooltip>
+                  } autocomplete="off" placeholder='http://'/>
+              )}
+            </FormItem>
+
             <FormItem label="Category Tags"
                 {...formItemLayout}
               >
@@ -251,6 +275,54 @@ export class EntryCreate extends Component {
       // }
       const m_Library = openDB(library);
       // m_Entries = getFromDB(m_Library, "entries");
+      let linkToExtract = values['linkToExtract'];
+      console.log("THIS IS LINK TO EXTRACT: ", linkToExtract);
+      // if (linkToExtract !== null && linkToExtract !== undefined && linkToExtract !== '') {
+      //   const options = {
+      //     host: linkToExtract,
+      //     port: 80,
+      //     path: "/"
+      //   };
+      //   http.get(linkToExtract, function(res) {
+      //     console.log("Got response: " + res.statusCode);
+      //     console.log(res.text());
+      //   }).on('error', function(e) {
+      //     console.log("Got error: " + e.message);
+      //   });
+
+        try {
+          fetch(linkToExtract,
+            {
+              mode: 'cors',
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+              }
+            }
+            )
+          .then(function(response) {
+              // console.log("DA RESPONSE TEXT: ", response.text());
+              return response.text()
+          })
+          .then(function(html) {
+              var parser = new DOMParser();
+              // Parse the text
+              var doc = parser.parseFromString(html, "text/html");
+              // You can now even select part of that html as you would in the regular DOM 
+              // Example:
+              // var docArticle = doc.querySelector('article').innerHTML;
+              console.log(doc);
+              values['html'] = doc;
+              values['strippedText'] = HTMLToText(doc);
+          })
+          .catch(function(err) {  
+              console.log('Failed to fetch page: ', err);  
+              message.error("Unable to fetch page content from: " + linkToExtract + ' - ' + err);
+          });
+        } catch (err) {
+          console.log(err);
+          message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
+        }
       m_Entries = await getFromDB("entries");
       try {
         m_Entries.unshift(values);
