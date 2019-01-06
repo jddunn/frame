@@ -3,6 +3,7 @@
     margin: 0 !important;
     max-width: 100% !important;  
     max-height: 100% !important;
+    height: 100% !important;
     resize: none !important;
     color: rgb(36, 36, 36);
 }
@@ -11,7 +12,9 @@
     padding: 0 !important;
     margin: 0 !important;
     max-width: 100% !important;  
-    max-height: 50% !important;
+    // max-height: 50% !important;
+    max-height: 100% !important;
+    height: 100% !important;
     resize: none !important;
     color: rgb(36, 36, 36);
 }
@@ -52,7 +55,7 @@
     padding: 0 !important;
     padding-left: 10px !important;
     width: 100% !important;
-    height: 100vh !important;
+    // height: 100vh !important;
 }
 
 .DraftEditor-editorContainer {
@@ -67,9 +70,9 @@
     margin-left: 20px !important;
     position: sticky !important;
     min-height: 140px;
-    max-height: 600px !important;
+    // max-height: 600px !important;
     max-width: 100% !important;
-    height: 600px !important;
+    // height: 600px !important;
 }
 
 .rdw-colorpicker-modal {
@@ -106,9 +109,10 @@
 }
 
 .md-RichEditor-root {
-    resize:vertical !important;
-    height: calc(100% - 20px) !important;
-    width:100% !important;
+    // resize:vertical !important;
+    // height: calc(100% - 20px) !important;
+    height: 100% !important;
+    width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     background: rgba(250, 250, 250, 1.0) !important;
@@ -143,7 +147,14 @@
 }
 
 .danteEditorWrapper {
+    height: 100% !important;
+    width: 100% !important;
     font-size: 1.2em;
+}
+
+.editor-action {
+    height: 100% !important;
+    width: 100% !important;
 }
 
 .md-sb-img-button {
@@ -169,5 +180,10 @@
 }
 
 .md-RichEditor-editor {
+    margin: 80px !important;
+    padding-right: 50px !important;
+    padding-top: 35px !important;
+    height: 100% !important;
+    width: 100% !important;
     overflow-y: scroll !important;
 }

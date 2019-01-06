@@ -358,7 +358,7 @@ export default class App extends Component {
                 </Sider>
               <Layout>
                 <Content>
-                  <div className="center mainPageContainer">
+                  <div className="mainPageContainer">
                     <div className="titleWrapper">
                       <h4 className="sectionTitleText">
                         {entryPageTitle}
@@ -370,7 +370,7 @@ export default class App extends Component {
                           the editor text, and both will update together in real-time. 
                       */}
                       <div className="notepadContainer">
-                        <div>
+                        <React.Fragment>
                           {splitNotebookLayout ? (
                           <div className="editorWrapper">
                             <div id="editor">
@@ -389,7 +389,7 @@ export default class App extends Component {
                             </div>
                           </div>
                           )}
-                        </div>
+                        </React.Fragment>
                       </div>
                     </div>
                   </Content>
