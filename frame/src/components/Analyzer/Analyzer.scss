@@ -48,7 +48,7 @@
 .FancyTabs-tabInner {
     z-index: 500 !important;
     background-color: rgba(135, 211, 235, 0);
-    font-size: 1.0em !important;
+    // font-size: 1.0em !important;
     letter-spacing: 1px !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -129,7 +129,8 @@
 }
 
 span.ant-radio + * {
-    font-size: .81em !important;
+    // font-size: .81em !important;
+    font-size: .7vmax !important;
 }
 
 .ant-drawer-title {
@@ -138,7 +139,8 @@ span.ant-radio + * {
     margin: 0 !important;
     padding: 0 !important;
     margin-top: 0px !important;
-    font-size: 1.3em !important;
+    // font-size: 1.3em !important;
+    font-size: 1.25vmax !important;
     letter-spacing: 1px !important;
     color: rgb(31, 25, 25) !important;
     background-color: rgba(239, 244, 248, 1.0) !important;
@@ -162,7 +164,8 @@ span.ant-radio + * {
 .tabInnerLabel {
     font-weight: normal !important;
     min-width: 100px !important;
-    font-size: 1.0em !important;
+    // font-size: 1.0em !important;
+    font-size: 1.15vmax !important;
     letter-spacing: 1px !important;
     display: inline !important;
     margin-right: 20px !important;
@@ -171,7 +174,8 @@ span.ant-radio + * {
 .tabInnerContent {
     display: inline !important;
     min-width: 100px !important;
-    font-size: .95em !important;
+    // font-size: .95em !important;
+    font-size: 1.13vmax !important;
     letter-spacing: 1px !important;
     display: inline !important;
     margin-left: 35px !important;
@@ -190,7 +194,8 @@ span.ant-radio + * {
     margin: 0 !important;
     padding: 0 !important;
     letter-spacing: 1px !important;
-    font-size: 1.25em !important;
+    // font-size: 1.25em !important;
+    font-size: 1.15vmax !important;
 }
 
 .entitiesCollapseLeft {
@@ -214,7 +219,8 @@ span.ant-radio + * {
 .ant-collapse-header {
     height: 33px !important;
     padding-top: 5px !important;
-    font-size: 1.05em !important;
+    // font-size: 1.05em !important;
+    font-size: 1.15vmax !important;
     letter-spacing: 1px !important;
     background-color: rgba(239, 244, 248, 1.0) !important;
 } 
@@ -232,7 +238,8 @@ span.ant-radio + * {
     margin: auto !important;
     margin-top: 5px !important;
     letter-spacing: 1px !important;
-    font-size: 1.1em !important;
+    // font-size: 1.1em !important;
+    font-size: 1.15vmax !important;
 }
 
 .summaryContent {
@@ -242,10 +249,11 @@ span.ant-radio + * {
     margin-bottom: 20px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-left: 60px !important;
+    margin-left: 160px !important;
     letter-spacing: 1px !important;
-    font-size: 1.0em !important;
-    max-width: calc(90% - 20px) !important;
+    // font-size: 1.0em !important;
+    font-size: 1.0vmax !important;
+    max-width: calc(80% - 20px) !important;
 }
 
 .summaryContent p {

@@ -2,7 +2,7 @@
   margin: 0 !important;
   padding: 0 !important;
   letter-spacing: 1px !important;
-  font-size: 1.05em !important;
+  font-size: 1.05vmax !important;
   margin-top: -10px !important;
 }
 
@@ -45,28 +45,27 @@
   text-align: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  max-width: calc(75% - 20px) !important;
-  max-height: calc(80% - 20px) !important;
+  max-width: calc(55% - 20px) !important;
+  // max-height: calc(80% - 20px) !important;
 }
 
 .leftViz tspan {
-  font-size: .9em !important;
+  font-size: .9vmax !important;
 }
 
 .rightViz tspan {
-  font-size: .9em !important;
+  font-size: .9vmax !important;
 }
 
 .centerViz tspan {
-  font-size: .9em !important;
+  font-size: .9vmax !important;
 }
 
 .innerContentTextCenter {
   text-align: center !important;
   letter-spacing: 1px !important;
-  font-size: 1.0em !important;
+  font-size: 1.0vmax !important;
 }
-
 
 
 .FancyTabs-tablistHigher { 

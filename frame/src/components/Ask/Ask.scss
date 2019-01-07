@@ -4,12 +4,13 @@
     height: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-left: 280px !important;
+    max-width: calc(65% - 20px) !important;
+    padding-left: 100px !important;
 }
 
 .questionTextInput {
     z-index: 1000 !important;
-    width: calc(50% - 20px) !important;
+    width: calc(60% - 20px) !important;
     height: 50px !important;
     margin-top: 18px !important;
     margin-left: auto !important;
@@ -31,16 +32,16 @@
     margin-right: auto !important;
     text-align: center !important;
     position: sticky !important;
-    margin-left: 240px !important;
+    margin-left: 340px !important;
     // text-align: center !important;
 }
 
 .smallDetailText {
-    width: 60% !important;
+    width: calc(60% - 20px) !important;
     // margin-right: auto !important;
     // margin-left: auto !important;
     margin-left: 100px !important;
-    font-size: 1.25em !important;
+    font-size: 1.05vmax !important;
     margin-top: 8px !important;
     letter-spacing: 1px !important;
     // text-align: center !important;

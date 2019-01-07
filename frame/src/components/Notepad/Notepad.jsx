@@ -276,7 +276,6 @@ export default class Notepad extends Component {
         setState("editorType", "flow");
       }
 
-
       const splitNotebookLayout = nextProps.splitNotebookLayout;
   
       if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>") {

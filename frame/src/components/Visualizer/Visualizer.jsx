@@ -143,7 +143,7 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                               Terms ({this.state.entry.entities.terms.length})
                               </h4>
-                              <RadarChart cx={220} cy={220} outerRadius={180} width={470} height={400} data={this.state.entry.entities.terms}>
+                              <RadarChart cx={220} cy={220} outerRadius={180} width={480} height={420} data={this.state.entry.entities.terms}>
                                 <PolarGrid />
                                   <PolarAngleAxis dataKey="normal" />
                                   <PolarRadiusAxis/>
@@ -154,7 +154,7 @@ export default class Visualizer extends Component {
                             <h4 className="innerContentTextCenter">
                               Topics ({this.state.entry.entities.topics.length})
                             </h4>            
-                            <RadarChart cx={220} cy={220} outerRadius={180} width={470} height={400} data={this.state.entry.entities.topics}>
+                            <RadarChart cx={220} cy={220} outerRadius={180} width={480} height={420} data={this.state.entry.entities.topics}>
                                 <PolarGrid />
                                   <PolarAngleAxis dataKey="normal" />
                                   <PolarRadiusAxis/>
@@ -169,7 +169,7 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                                   People ({this.state.entry.entities.people.length})
                               </h4>            
-                              <RadarChart cx={220} cy={220} outerRadius={180} width={470} height={400} data={this.state.entry.entities.people}>
+                              <RadarChart cx={250} cy={250} outerRadius={150} width={480} height={420}  data={this.state.entry.entities.people}>
                                     <PolarGrid />
                                       <PolarAngleAxis dataKey="normal" />
                                       <PolarRadiusAxis/>
@@ -180,7 +180,7 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                                   Places ({this.state.entry.entities.places.length})
                               </h4>            
-                              <RadarChart cx={220} cy={220} outerRadius={180} width={470} height={400} data={this.state.entry.entities.places}>
+                              <RadarChart cx={250} cy={250} outerRadius={150} width={480} height={420} data={this.state.entry.entities.places}>
                                     <PolarGrid />
                                       <PolarAngleAxis dataKey="normal" />
                                       <PolarRadiusAxis/>
@@ -191,7 +191,7 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                                   Organizations ({this.state.entry.entities.organizations.length})
                               </h4>            
-                              <RadarChart cx={220} cy={220} outerRadius={180} width={470} height={400} data={this.state.entry.entities.organizations}>
+                              <RadarChart cx={250} cy={250} outerRadius={150} width={480} height={420} data={this.state.entry.entities.organizations}>
                                     <PolarGrid />
                                       <PolarAngleAxis dataKey="normal" />
                                       <PolarRadiusAxis/>
@@ -202,7 +202,7 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                                   Dates ({this.state.entry.entities.dates.length})
                               </h4>            
-                              <RadarChart cx={220} cy={220} outerRadius={180} width={470} height={400} data={this.state.entry.dates}>
+                              <RadarChart cx={250} cy={250} outerRadius={150} width={480} height={420} data={this.state.entry.dates}>
                                     <PolarGrid />
                                       <PolarAngleAxis dataKey="normal" />
                                       <PolarRadiusAxis/>
@@ -217,8 +217,8 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                                   Most Frequent Words
                               </h4>            
-                              <LineChart width={700} height={240} data={this.state.entry.wordFrequency}
-                                    margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                              <LineChart width={750} height={280} data={this.state.entry.wordFrequency}
+                                    margin={{top: 5, right: 30, left: 120, bottom: 5}}>
                                 <XAxis dataKey="word"/>
                                 <YAxis/>
                                 <CartesianGrid strokeDasharray="3 3"/>

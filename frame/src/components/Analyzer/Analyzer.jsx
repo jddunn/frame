@@ -352,7 +352,8 @@ export default class Analyzer extends Component {
   }
 
   buildSummaries(entry) {
-    const abstractiveSummary = entry['summaryAbstractive'];
+    let abstractiveSummary = entry['summaryAbstractive'];
+
     const extractiveSummary = entry['summaryExtractive'];
     const summaryByParagraphs = entry['summaryByParagraphs'];
     const summaryByAParagraphs = entry['summaryAbstractiveByParagraphs'];
@@ -396,6 +397,11 @@ export default class Analyzer extends Component {
       } else {
         showArrow = false;
       }
+      abstractiveSummary = abstractiveSummary.replace(" !?", "");
+      abstractiveSummary = abstractiveSummary.replace("  !?", "");
+      abstractiveSummary = abstractiveSummary.replace("!?", "");
+      abstractiveSummary = abstractiveSummary.replace(" !? ", "");
+
       div = (
         <Panel className="panelHeaderBorderless" header="Abstractive Summary" key="2" showArrow={showArrow}>
           <div className="abstractiveSummaryContainer">
@@ -428,8 +434,15 @@ export default class Analyzer extends Component {
       if (filteredSummaryByParagraphs.length > 0) {
         showArrow = true;
         defaultOpenKeys.push('3');
+        
         for (let i=0; i<filteredSummaryByParagraphs.length; i++) {
-          paragraphs.push(<p className="summaryContent">{filteredSummaryByParagraphs[i]}</p>)
+          let _filteredSummaryByParagraph = filteredSummaryByParagraphs[i];
+          _filteredSummaryByParagraph = _filteredSummaryByParagraph.replace(" !?", " ");
+          _filteredSummaryByParagraph = _filteredSummaryByParagraph.replace("  !?", " ");
+          _filteredSummaryByParagraph = _filteredSummaryByParagraph.replace("!?", " ");
+          _filteredSummaryByParagraph = _filteredSummaryByParagraph.replace(" !? ", " ");
+
+          paragraphs.push(<p className="summaryContent">{_filteredSummaryByParagraph}</p>)
         }
       } else {
         showArrow = false;
@@ -467,7 +480,12 @@ export default class Analyzer extends Component {
         showArrow = true;
         defaultOpenKeys.push('4');
         for (let i=0; i<filteredSummaryByAParagraphs.length; i++) {
-          paragraphs.push(<p className="summaryContent">{filteredSummaryByAParagraphs[i]}</p>)
+          let _filteredSummaryByAParagraph = filteredSummaryByAParagraphs[i];
+          _filteredSummaryByAParagraph = _filteredSummaryByAParagraph.replace(" !?", " ");
+          _filteredSummaryByAParagraph = _filteredSummaryByAParagraph.replace("  !?", " ");
+          _filteredSummaryByAParagraph = _filteredSummaryByAParagraph.replace("!?", " ");
+          _filteredSummaryByAParagraph = _filteredSummaryByAParagraph.replace(" !? ", " ");
+          paragraphs.push(<p className="summaryContent">{_filteredSummaryByAParagraph}</p>)
         }
       } else {
         showArrow = false;
