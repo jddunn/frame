@@ -249,23 +249,11 @@ export default class Notepad extends Component {
       }  
       const nextEntry = nextProps.entry;
       const nextEntries = nextProps.Entries;
+      console.log("THIS IS NEXT ENTRY: ", nextEntry);
       const library = defaultFLib;
       const Library = openDB(library);
       let editorType;
-      try {
-        const blocksFromHTML = convertFromHTML(entryProp['html']);
-        const editorContent = ContentState.createFromBlockArray(
-          blocksFromHTML.contentBlocks,
-          blocksFromHTML.entityMap
-        );
-        this.setState({editorState: EditorState.createWithContent(editorContent), entryId: entryId,
-          Entries: nextEntries, entry: nextEntry
-        });
-      } catch (err) {
-        this.setState({editorState: EditorState.createEmpty(), entryId: nextEntryId,
-                      Entries: nextEntries, entry: nextEntry
-        });
-      }
+
       let Entries = nextEntries;
       let entry = nextEntry;
       let entryId = nextEntryId;
@@ -275,7 +263,13 @@ export default class Notepad extends Component {
         editorType = "flow";
         setState("editorType", "flow");
       }
-      if (entry['html'] !== null && entry['html'] !== undefined) {
+      if (entry['html'] === null || entry['html'] === undefined || entry['html'] === '<p></p>') {
+        this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
+          editorType: editorType, entryId: nextProps.entryId});
+        return;
+      }
+      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>") {
+        console.log("DA ENTRY HTML IS NOT NULL: ", entry['html']);
         const strippedText = HTMLToText(entry['html']);
         entry['strippedText'] = strippedText;
         const combinedText = entry['title'] + ' ' + strippedText;
@@ -435,9 +429,6 @@ export default class Notepad extends Component {
           editorType: editorType});
         }
       }
-    } else {
-      this.setState({Entries: Entries, editorState: EditorState.createEmpty(),
-        editorType: editorType, entryId: nextProps.entryId});
     }
   }
   
@@ -863,27 +854,27 @@ export default class Notepad extends Component {
     return (
       <React.Fragment>
       <div className="notebookSwitch">
-      <Tooltip 
-        placement="left"
-        overlayStyle={{width: '180px', opacity: '.95'}}
-        title=
-          {"Switch editor mode / default format for entry (must refresh for changes to show)"}
-        >
-        <Dropdown.Button
-          className="dropdownCustom"
-          style={{borderRadius: '15px', marginRight: '5px'}}
-          dropdownMatchSelectWidth={true}
-          // onClick={this.handleDropdownButtonClick}
-          overlay={this.buildEditorSwitchMenu}
+        <Tooltip 
+          placement="left"
+          overlayStyle={{width: '180px', opacity: '.95'}}
+          title=
+            {"Switch editor mode / default format for entry (must refresh for changes to show)"}
           >
-          <div className="innerButtonLabel">
-            <p>                                 
-              {editorType.charAt(0).toUpperCase() +
-               editorType.slice(1)}
-            </p>
-          </div>
-        </Dropdown.Button>
-        </Tooltip>
+          <Dropdown.Button
+            className="dropdownCustom"
+            style={{borderRadius: '15px', marginRight: '5px'}}
+            dropdownMatchSelectWidth={true}
+            // onClick={this.handleDropdownButtonClick}
+            overlay={this.buildEditorSwitchMenu}
+            >
+            <div className="innerButtonLabel">
+              <p>                                 
+                {editorType.charAt(0).toUpperCase() +
+                editorType.slice(1)}
+              </p>
+            </div>
+          </Dropdown.Button>
+          </Tooltip>
         </div>
         <div className="saveButtonNotebook">
           <Tooltip title="Save your changes in notebook">              
@@ -895,7 +886,8 @@ export default class Notepad extends Component {
             onClick={this.saveNotebookData}
             />
           </Tooltip>
-        </div>
+          </div>
+        {/* </div> */}
         <React.Fragment>
           {splitNotebookLayout ? (
             <div className="notebookEditorWrapper">

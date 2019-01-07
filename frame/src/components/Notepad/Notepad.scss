@@ -63,6 +63,7 @@
     height: 100% !important;
     margin: 15px !important;
     margin-top: 0px !important;
+    overflow: auto !important;
 }
 
 .public-DraftEditorPlaceholder-inner {
@@ -181,9 +182,10 @@
 
 .md-RichEditor-editor {
     margin: 80px !important;
-    padding-right: 50px !important;
-    padding-top: 35px !important;
+    margin-top: 0px !important;
+    padding-right: 195px !important;
+    padding-top: 5px !important;
     height: 100% !important;
     width: 100% !important;
-    overflow-y: scroll !important;
+    overflow: auto !important;
 }

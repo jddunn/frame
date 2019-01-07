@@ -52,6 +52,8 @@ body {
   text-align: center !important;
   padding-right: 450px !important;
   letter-spacing: 2px !important;
+  overflow: hidden !important;
+
 }
 
 .brandWrapper {
@@ -162,7 +164,6 @@ body {
   margin-left: 10px !important;
   margin-bottom: 6px;
   padding-left: 10px;
-  
 }
 
 .innerButtonLabel { 
@@ -179,16 +180,13 @@ body {
 
 .notebookSwitch {
   z-index: 1000 !important;
+  top: 0px !important;
   right: 0px !important;
-  top: -8px !important;
-  bottom: 20px !important;
-  margin: 20px !important;
-  font-size: .9em !important;
-  margin-right: 185px !important;
+  position: fixed !important;
+  margin-top: 13px !important;
+  margin-right: 115px !important;
   display: inline !important;
   border-radius: 10px !important;
-  margin-top: 23px !important;
-  position: fixed !important;
 }
 
 #editor {
@@ -199,15 +197,13 @@ body {
 }
 
 .saveButtonNotebook {
-  margin: 5px !important;
-  margin-top: 6px !important;
-  padding: 0 !important;
   border: none !important;
   z-index: 1000 !important;
-  font-size: 1.5em !important;
-  right: 0px !important;
+  font-size: 1.45em !important;
   top: 0px !important;
-  margin-right: 155px !important;
+  right: 0px !important;
+  margin-right: 20px !important;
+  margin-top: 5px !important;
   display: inline !important;
   position: fixed !important;
 }
@@ -223,6 +219,7 @@ body {
 
 .ant-btn-group .ant-dropdown-button .dropdownCustom {
   margin-top: -5px !important;
+
 }
 
 .ant-dropdown-trigger {
@@ -234,6 +231,8 @@ body {
 }
   
 .ant-dropdown-button {
+  font-size: .5em !important;
+  width: 50px !important;
   background-color: transparent;
 }
 

@@ -166,7 +166,7 @@ export default class MainMenu extends Component {
     const library = getState("library");
     const Library = openDB(library);
     // saveToDB("entries", this.state.treeData);
-    message.success('Saving library changes.. - ' + res);
+    message.success('Saving changes in your library..');
     const res = await localforage.setItem("entries", this.state.treeData);
     // this.props.updateAppMethod();
     this.props.updateEntriesMethod();
