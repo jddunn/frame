@@ -6,6 +6,8 @@ Last release on 01/06/2019
 
 <img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/>
 
+Frame extracting a web link with David Foster Wallace's This is Water essay - Sped up by 2.125x
+
 <img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="450" alt="Frame - Demo - Sicko Mode"/>
 
 Frame analyzing Sicko Mode - Sped up by 1.5x  
