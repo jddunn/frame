@@ -1,6 +1,10 @@
 # Frame
 
+Last release on 01/06/2019
+
 # Screenshots
+
+<img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/>
 
 <img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="450" alt="Frame - Demo - Sicko Mode"/>
 
@@ -16,7 +20,7 @@ Test online here:
 
 [https://framed.fwd.wf/](https://framed.fwd.wf/) 
 
-Download the Windows release of version 0.1.0 here: 
+Download the Windows release of version 0.1.0 here (last updated 01/06/2019)
 
 [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/) 
 
@@ -34,7 +38,7 @@ Eventually, a donation-supported / subscription-based edition could be serviced 
 
 Note: Frame is currently heavily unoptimized with some UI quirks. The project was created as a proof-of-concept but designed to work as a MVP as well. But it is fully functional!
 
-Download Windows build: [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
+Download Windows build (last updated 01/06/2019): [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
 # Installation
 
