@@ -124,14 +124,14 @@ export function countTotalSyllables(text) {
 }
 
 export function countSentences(text) {
-    // const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
-    const sentencesSplit = text.split( /<br \/>(?=&#?[a-zA-Z0-9]+;)/g );
+    const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
+    // const sentencesSplit = text.split( /<br \/>(?=&#?[a-zA-Z0-9]+;)/g );
     return sentencesSplit.length;
 }
 
 export function splitSentences(text) {
-    // const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
-    const sentencesSplit = text.split( /<br \/>(?=&#?[a-zA-Z0-9]+;)/g );
+    const sentencesSplit = text.split(/((?:\S[^/\r?\n/\.\?\!]*)[\.\?\!]*)/g);
+    // const sentencesSplit = text.split( /<br \/>(?=&#?[a-zA-Z0-9]+;)/g );
     return sentencesSplit;
 }
 
