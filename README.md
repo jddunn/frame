@@ -63,7 +63,7 @@ These are features that would make Frame considerably more robust in terms of us
 
 - Separate out larger components (reduce size of components); clean up code; add better comments
 
-- ~~Add feature to extract text content automatically from a given link when creating a new entry (DONE)~~
+- ~~Add feature to extract text content automatically from a given link when creating a new entry~~ (DONE)
 
 - Add in full editing component for entry properties (title, tags, etc.); add in Last_Date_Modified property to entry data
 
@@ -71,7 +71,7 @@ These are features that would make Frame considerably more robust in terms of us
 
 - Add setting to configure Python backend server address
 
-- ~~Refine sentence / new line tokenization (DONE)~~
+- ~~Refine sentence / new line tokenization~~ (DONE)
 
 - Add new section where users can see summarizations and ask questions by groups of entries (like searching entries with related tags, or searching an entry and its sub-entries)
 
