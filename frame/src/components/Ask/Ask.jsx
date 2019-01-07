@@ -76,6 +76,7 @@ export default class AskForm extends React.Component {
         })
         .then(function(jsonRes) {
          message.success("The answer is: " + jsonRes);
+         document.getElementsByClassName("answerText")[0].innerHTML = "Answer: " + jsonRes;
          _this.setState({passageAnswer: jsonRes});
          console.log(jsonRes);
         })
@@ -140,9 +141,15 @@ export default class AskForm extends React.Component {
 
           </Form.Item>
 
+
+          
+          <p className="answerText">
+          </p>
+
           <p className="smallDetailText">
               If you're having trouble, remember to hit "Run" or save before asking. <br></br>If nothing is happening still, then the Python NLP server must not be running or is down!
-        </p>
+          </p>
+
 
         </Form>
 

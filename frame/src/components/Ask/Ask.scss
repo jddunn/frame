@@ -46,3 +46,15 @@
     letter-spacing: 1px !important;
     // text-align: center !important;
 }
+
+.answerText {
+    width: calc(60% - 20px) !important;
+    // margin-right: auto !important;
+    // margin-left: auto !important;
+    margin-left: 100px !important;
+    font-size: 1.05vmax !important;
+    margin-top: 8px !important;
+    letter-spacing: 1px !important;
+    color: rgba(204, 204, 204, .8);
+    // text-align: center !important;
+}
