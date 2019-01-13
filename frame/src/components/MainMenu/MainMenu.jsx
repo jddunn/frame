@@ -472,8 +472,8 @@ export default class MainMenu extends Component {
             }}
             defaultSelectedKeys={['sub2', '1']}
             defaultOpenKeys={['sub2']}
-            selectedKeys={selectedKeys}
-            openKeys={openKeys}
+            // selectedKeys={selectedKeys}
+            // openKeys={openKeys}
             mode="inline"
             theme="dark"
             inlineCollapsed={this.state.collapsed}
