@@ -303,7 +303,7 @@ export default class MainMenu extends Component {
       return;
     }
     try {
-      message.success('Opening "' + rowInfo.node.id + '"', 1);
+      message.loading('Opening "' + rowInfo.node.id + '"', 1);
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
     } catch (err) {
@@ -361,7 +361,7 @@ export default class MainMenu extends Component {
           const json = JSON.parse(e.target.result);
           // console.log("JSON: ", json);
           message.success("Successfully uploaded library " + e.target);
-          message.success("You will not be able to view the new library in your notebook without saving first. \
+          message.info("You will not be able to view the new library in your notebook without saving first. \
           If you want to preview contents before saving, look in the editor mode in the main menu!");
           _this.setState({treeData: json});
         } catch (err) {
@@ -382,7 +382,7 @@ export default class MainMenu extends Component {
         this.props.updateAppMethod();
         break;
       case 5: 
-        setState("activeLink", "explore");
+        setState("activeLink", "analysis");
         setState("analysisDrawerVisible", true);
         this.props.updateAppMethod();
         break;
@@ -438,6 +438,20 @@ export default class MainMenu extends Component {
       entriesEditorButtonType = 'browser';
     }
 
+    const activeLink = getState("activeLink");
+    let selectedKeys = [];
+    let openKeys = [];
+    if (activeLink !== null && activeLink !== undefined && activeLink !== "undefined") {
+      if (activeLink === "look") {
+        selectedKeys.push('sub2', '1')
+        openKeys.push('sub2');
+      } 
+      if (activeLink === 'analysis') {
+        selectedKeys.push('5');
+        openKeys.push('sub2');
+      }
+    }
+
     // Get these default vals for inline child entry creation
     const timestampNow = getTimestamp();
     // TODO: Make tags a default inherited value from the parent child entry
@@ -458,6 +472,8 @@ export default class MainMenu extends Component {
             }}
             defaultSelectedKeys={['sub2', '1']}
             defaultOpenKeys={['sub2']}
+            selectedKeys={selectedKeys}
+            openKeys={openKeys}
             mode="inline"
             theme="dark"
             inlineCollapsed={this.state.collapsed}

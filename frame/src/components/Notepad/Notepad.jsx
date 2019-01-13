@@ -19,7 +19,7 @@ import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
-import localforage from "localforage";
+import localforage from 'localforage';
 
 /**
  *  JS NLP stuff (we make these calls in the Notebook component,
@@ -128,7 +128,6 @@ export default class Notepad extends Component {
       // unnecessary rendering
       prevEditorState: {},
       prevEntryId: ""
-      // uploadedImages: [],
     };
 
     this.sideButtons = [{
@@ -165,8 +164,6 @@ export default class Notepad extends Component {
 
     // Save content in Notebook comp to db
     this.saveNotebookData = this.saveNotebookData.bind(this);
-
-    this.sleep = this.sleep.bind(this);
   }
 
   async getEntries(key) {
@@ -527,17 +524,14 @@ export default class Notepad extends Component {
   }
 
   async saveNotebookData() {
-    // let entryId = getState("entryId");
     let entry = this.state.entry;
     const entryId = this.state.entryId;
     const Entries = this.state.Entries;
     let editorType = entry['editorType'];
     // let library = getState("library");
     let library = defaultFLib;
-    // const editorType = getState("editorType");
     const Library = openDB(library);
     const m_this = this;
-
     if (entry !== null && entry !== undefined) {
       entry['html'] = getHTMLFromContent(this.state.editorState);
       const strippedText = HTMLToText(entry['html']);
@@ -597,7 +591,6 @@ export default class Notepad extends Component {
           summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
           summaryByParagraphs = summarizeParagraphs(docs.join(""));
         } catch (err) {
-          // console.log(err);
           summaryExtractive = '';
           summaryByParagraphs = [];
         }
@@ -916,7 +909,6 @@ export default class Notepad extends Component {
 
 
 // Medium-draft sidebar menu comps
-
 class SeparatorSideButton extends React.Component {
   constructor(props) {
     super(props);

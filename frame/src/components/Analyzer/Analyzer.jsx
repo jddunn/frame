@@ -56,6 +56,7 @@ export default class Analyzer extends Component {
   
   onClose = () => {
     setState("analysisDrawerVisible", false);
+    setState("activeLink", "look");
     this.props.updateAppMethod();
   };
 

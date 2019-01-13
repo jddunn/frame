@@ -113,13 +113,6 @@ export default class App extends Component {
 
   async getEntries(key) {
     let Entries = [];
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
-    // Entries = getFromDB(key);
-    // localforage.getItem(key).then(function(value) {
     Entries = await localforage.getItem(key);
     return Entries;
   }
@@ -147,11 +140,6 @@ export default class App extends Component {
     // }
     const Library = openDB(library);
     let Entries = [];
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
     Entries = await this.getEntriesInitial("entries");
     selectedEntryId = Entries[0].id;
     selectedEntryEditorType = Entries[0]['editorType'];
@@ -290,15 +278,12 @@ export default class App extends Component {
         return null;
       }
       let entry = traverseEntriesById(entryId, Entries);
-
       let activeLink = getState("activeLink");
       // As we get more sections, this will eventually need
-      // refactored, since a splitNotebookLayout would only
+      // refactored, since a showAnalysisOverlay would only
       // be true on the explore / inquire page (currently)
-      // let splitNotebookLayout = activeLink === "look" ?
-        // false : true;
-
-      let splitNotebookLayout = getState("analysisDrawerVisible");
+      let showAnalysisOverlay = activeLink === "analysis" ? true : false;
+      // let showAnalysisOverlay = getState("analysisDrawerVisible");
       if (entry === null) {
         // console.log("Could not find entry with ID: ", entryId);
         // console.log("Setting default entry to top in tree");
@@ -329,6 +314,46 @@ export default class App extends Component {
       } catch (err) {
         entryPageTitle = 'Notebook - Select "Entries > Create" to start writing';
       }
+      let mainContent;
+      
+      mainContent = 
+      <Content>
+      <div className="mainPageContainer">
+        <div className="titleWrapper">
+          <h4 className="sectionTitleText">
+            {entryPageTitle}
+          </h4>
+        </div>
+          {/* 
+              Within the notepad, we divide the vertical layout in half
+              to show the explore / inquire content simultaneously with
+              the editor text, and both will update together in real-time. 
+          */}
+          <div className="notepadContainer">
+            <React.Fragment>
+              {showAnalysisOverlay ? (
+              <div className="editorWrapper">
+                <div id="editor">
+                  <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
+                    showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
+                  <div className="analyzerWrapper">
+                    <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={showAnalysisOverlay}/>
+                  </div>
+                </div>
+            </div>
+              ) : (
+              <div className="editorWrapper">
+                <div id="editor">
+                    <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
+                              showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
+                </div>
+              </div>
+              )}
+            </React.Fragment>
+          </div>
+        </div>
+      </Content>
+
       // console.log("Passing in: ", entryId, entry, Entries);
       return (
           <React.Fragment>
@@ -357,42 +382,7 @@ export default class App extends Component {
               </div>
                 </Sider>
               <Layout>
-                <Content>
-                  <div className="mainPageContainer">
-                    <div className="titleWrapper">
-                      <h4 className="sectionTitleText">
-                        {entryPageTitle}
-                      </h4>
-                    </div>
-                      {/* 
-                          Within the notepad, we divide the vertical layout in half
-                          to show the explore / inquire content simultaneously with
-                          the editor text, and both will update together in real-time. 
-                      */}
-                      <div className="notepadContainer">
-                        <React.Fragment>
-                          {splitNotebookLayout ? (
-                          <div className="editorWrapper">
-                            <div id="editor">
-                              <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
-                                splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
-                              <div className="analyzerWrapper">
-                                <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={splitNotebookLayout}/>
-                              </div>
-                            </div>
-                        </div>
-                          ) : (
-                          <div className="editorWrapper">
-                            <div id="editor">
-                                <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
-                                          splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
-                            </div>
-                          </div>
-                          )}
-                        </React.Fragment>
-                      </div>
-                    </div>
-                  </Content>
+              {mainContent}
                 </Layout>
               </Layout>
             </React.Fragment>
