@@ -17,10 +17,12 @@
   cursor: pointer;
 }
 
+/*
 .brandContainer:hover .brandTitle {
   color: rgb(255,223,0)  !important;
   text-shadow: 1px 1px 1px rgb(84, 97, 91) !important;
 }
+*/
 
 .brandContainer h4{ 
   letter-spacing: 3px;
@@ -38,7 +40,25 @@
   text-shadow: 1px 2px 1px rgba(50,20,50,0.05);
 }
 
+/* Neon glow effect from here: http://enjoycss.com/gallery/text_effects/39 */
+
 .brandTitle {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: none;
+  color: rgba(255,255,255,1);
+  text-decoration: normal;
+  text-align: center;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  white-space: pre;
+  text-shadow: 0 0 10px rgba(255,255,255,.75) , 0 0 20px rgba(255,255,255,.75) , 0 0 30px rgba(255,255,255,.75) , 0 0 40px #00ffff , 0 0 70px #00ffff , 0 0 80px #00ffff , 0 0 100px #00ffff !important;
+
+  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
+  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
+  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
+  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
   display: inline-block;
   margin: 0;
   margin-left: auto;
@@ -46,7 +66,17 @@
   text-align: center;
 }
 
+.brandTitle:hover {
+  text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 0 30px rgba(255,255,255,1) , 0 0 20px #ff00de , 0 0 40px #ff00de , 0 0 60px #ff00de , 0 0 80px #ff00de !important;
+
+}
+
 .brandSubtitle {
   margin-left: 20px;
   display: inline-block;
+  text-shadow: 0 0 10px rgba(255,255,255,.3) , 0 0 20px rgba(255,255,255,.3) , 0 0 30px rgba(255,255,255,.3) , 0 0 20px #ff00de , 0 0 40px #ff00de , 0 0 60px #ff00de , 0 0 80px #ff00de !important;
+  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
+  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
+  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
+  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) !important;
 }

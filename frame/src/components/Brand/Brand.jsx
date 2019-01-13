@@ -11,7 +11,9 @@ export default class Brand extends Component {
   render() {
     return (
       <div className="brandContainer">
+        <div className="logo">
           <h4 className="brandTitle">F R A M E</h4> <p className="brandSubtitle">v 0.1.0</p>
+          </div>
       </div>
     );
   }

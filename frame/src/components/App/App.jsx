@@ -11,6 +11,7 @@ import {
          } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 import Home from '../Home/Home';
+import Settings from '../Settings/Settings';
 /** Menu with sortable tree component */
 import MainMenu from '../MainMenu/MainMenu';
 /** Notebook / Editor */
@@ -266,11 +267,16 @@ export default class App extends Component {
       const Entries = this.state.Entries;
       let entryId;
       let editorType;
-      try {
-        entryId = (getState("entryId") != null) ?
-        getState("entryId") : Entries[0].id;
-      } catch (err) {
-        return null;
+      // try {
+      //   entryId = (getState("entryId") != null) ?
+      //   getState("entryId") : Entries[0].id;
+      // } catch (err) {
+      //   return null;
+      // }
+      entryId = getState("entryId");
+      if (entryId !== null && entryId !== undefined && entryId !== "undefined") {
+      } else {
+        entryId = Entries[0].id;
       }
       let entry = traverseEntriesById(entryId, Entries);
       let activeLink = getState("activeLink");
@@ -360,14 +366,32 @@ export default class App extends Component {
               </h4>
             </div>
               <div className="notepadContainer">
-                <Home Entries={Entries} updateEntriesMethod={this.updateEntries}
+                <div className="editorWrapper">
+                  <Home Entries={Entries} entry={entry} updateEntriesMethod={this.updateEntries}
                     updateAppMethod={this.updateApp}/>
+                </div>
               </div>
             </div>
           </Content>
       }
-      
-
+      if (activeLink === "settings") {
+        mainContent = 
+        <Content>
+        <div className="mainPageContainer">
+          <div className="titleWrapper">
+            <h4 className="sectionTitleText">
+              {/* {entryPageTitle} */}
+             Settings
+            </h4>
+          </div>
+            <div className="notepadContainer">
+              <div className="editorWrapper">
+                <Settings updateAppMethod={this.updateApp}/>
+                </div>
+            </div>
+          </div>
+        </Content>
+      }
       // console.log("Passing in: ", entryId, entry, Entries);
       return (
           <React.Fragment>

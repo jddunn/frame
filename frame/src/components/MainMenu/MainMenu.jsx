@@ -533,7 +533,7 @@ export default class MainMenu extends Component {
               <span>Home</span>
             </Menu.Item>
 
-            <Menu.Item key="1" style={{marginTop: '20px'}}
+            <Menu.Item key="1" style={{}}
               onClick={() => { this.switchLink(1) }}
             >
               <Tooltip title="View / edit entries">

@@ -15,9 +15,6 @@ import {
  * since this class is getting massive.
  */
 
-import Clock from 'react-live-clock';
-
-
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
 import ReactJson from 'react-json-view';
@@ -28,7 +25,7 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
-import './Home.scss';
+import './Settings.scss';
 
 const RadioGroup = Radio.Group;
 const Panel = Collapse.Panel;
@@ -37,22 +34,12 @@ const Panel = Collapse.Panel;
 const savedSettings = config.savedSettings;
 const defaultFLib = savedSettings.defaultLibrary;
 
-
-import { Group } from '@vx/group';
-import { LinePath } from '@vx/shape';
-import { curveMonotoneX } from '@vx/curve';
-import { genDateValue } from '@vx/mock-data';
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { extent, max } from 'd3-array';
-
-export default class Home extends Component {
+export default class Settings extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       _isMounted: false,
-      entry: {},
-      Entries: []
     };
   }
   
@@ -64,28 +51,11 @@ export default class Home extends Component {
     this.setState({_isMounted: false});
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({entry: nextProps.entry, Entries: nextProps.Entries});
-  }
-
   render() {
     return (
-      <React.Fragment>
-        <div className="datetime">
-          <div className="timeContainer">
-            <Clock
-              format={'ddd, h:mm A'}
-              ticking={true}
-              />
-          </div>
-          <div className="dateContainer">
-            <Clock
-              format={'MMMM DD, YYYY'}
-              ticking={true}
-              />
-            </div>
-        </div>
-        </React.Fragment>
+      <div>
+        {/* Settingsssss */}
+      </div>
     );
   }
 }

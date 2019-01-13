@@ -244,6 +244,7 @@ export default class Notepad extends Component {
       if (nextEntryId === this.state.prevEntryId) {
         return;
       }  
+
       const nextEntry = nextProps.entry;
       const nextEntries = nextProps.Entries;
       const library = defaultFLib;
@@ -266,6 +267,10 @@ export default class Notepad extends Component {
       let Entries = nextEntries;
       let entry = nextEntry;
       let entryId = nextEntryId;
+
+      console.log("THIS IS THE NEXT PROP ENTRY: ", nextEntry);
+
+
       try { 
         editorType = entry.editorType;
       } catch (err) {
@@ -275,7 +280,10 @@ export default class Notepad extends Component {
 
       const splitNotebookLayout = nextProps.splitNotebookLayout;
   
-      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>") {
+      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>"
+        && entry['html'] !== "undefined"
+      ) {
+        console.log("THE ENTRY HTML IS NOT UNDEFINED: ", entry['html']);
         if (splitNotebookLayout) {
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
@@ -434,7 +442,11 @@ export default class Notepad extends Component {
         const newEntries = replaceEntry(entry, Entries);
         const res = getContentFromHTML(entry['html']);
         _this.setState({Entries: newEntries,  editorState: res,
-        editorType: editorType});
+        editorType: editorType, prevEntryId: entryId});
+      } else {
+        console.log("THE ENTRY HTML IS UNDEFINED YES");
+        _this.setState({ editorState: EditorState.createEmpty(),
+});
       }
     }
   }
