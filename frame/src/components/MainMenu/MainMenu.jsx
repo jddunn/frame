@@ -302,15 +302,23 @@ export default class MainMenu extends Component {
     if (event.target.className.includes('ant-btn')) {
       return;
     }
+    const activeLink = getState("activeLink");
+    let newActiveLink;
+    if (activeLink === "main") {
+      newActiveLink = "look";
+    } else {
+      newActiveLink = activeLink;
+    }
     try {
-      message.loading('Opening "' + rowInfo.node.id + '"', 1);
+      setState("activeLink", newActiveLink);
+      message.loading('Opening "' + rowInfo.node.id + '"', .2);
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
+      this.props.updateAppMethod();
     } catch (err) {
       // console.log(err);
       message.error('Failed to open - ' + err, 1);
     }
-    this.props.updateAppMethod();
   }
 
   exportLibraryToJSONFile(library) {
@@ -376,6 +384,11 @@ export default class MainMenu extends Component {
   switchLink(index) {
     if (this.state._isMounted)
     switch (index) {
+      case 0:
+        setState("activeLink", "main");
+        setState("analysisDrawerVisible", false);
+        this.props.updateAppMethod();
+        break;
       case 1:
         setState("activeLink", "look");
         setState("analysisDrawerVisible", false);
@@ -383,6 +396,11 @@ export default class MainMenu extends Component {
         break;
       case 5: 
         setState("activeLink", "analysis");
+        setState("analysisDrawerVisible", true);
+        this.props.updateAppMethod();
+        break;
+      case 6:
+        setState("activeLink", "settings");
         setState("analysisDrawerVisible", true);
         this.props.updateAppMethod();
         break;
@@ -439,18 +457,44 @@ export default class MainMenu extends Component {
     }
 
     const activeLink = getState("activeLink");
+    const collapsed = getState("collapsed");
     let selectedKeys = [];
     let openKeys = [];
-    if (activeLink !== null && activeLink !== undefined && activeLink !== "undefined") {
-      if (activeLink === "look") {
-        selectedKeys.push('sub2', '1')
-        openKeys.push('sub2');
-      } 
-      if (activeLink === 'analysis') {
-        selectedKeys.push('5');
-        openKeys.push('sub2');
+    if (!collapsed) {
+      if (activeLink !== null && activeLink !== undefined && activeLink !== "undefined") {
+        if (activeLink === "look") {
+          selectedKeys.push('1')
+          openKeys.push('sub2');
+        } 
+        if (activeLink === 'analysis') {
+          selectedKeys.push('5');
+          openKeys.push('sub2');
+        }
+        if (activeLink === "main") {
+          selectedKeys.push('0');
+          // openKeys.push('sub2');
+        }
+        if (activeLink === "settings") {
+          selectedKeys.push('6');
+          // openKeys.push('sub2');
+        }
       }
+    } else {
+      if (activeLink !== null && activeLink !== undefined && activeLink !== "undefined") {
+        if (activeLink === "look") {
+          selectedKeys.push('1')
+        } 
+        if (activeLink === 'analysis') {
+          selectedKeys.push('5');
+        }
+        if (activeLink === "main") {
+          selectedKeys.push('0');
+        }
+        if (activeLink === "settings") {
+          selectedKeys.push('6');
+        }
     }
+  }
 
     // Get these default vals for inline child entry creation
     const timestampNow = getTimestamp();
@@ -470,14 +514,25 @@ export default class MainMenu extends Component {
               left: '0 !important',
               float: 'left',
             }}
-            defaultSelectedKeys={['sub2', '1']}
+            selectedKeys={selectedKeys}
+            openKeys={openKeys}
+            defaultSelectedKeys={['0']}
+            // defaultSelectedKeys={['sub2', '1']}
             defaultOpenKeys={['sub2']}
-            // selectedKeys={selectedKeys}
-            // openKeys={openKeys}
+            multiple={false}
             mode="inline"
             theme="dark"
             inlineCollapsed={this.state.collapsed}
           >
+            <Menu.Item key="0" style={{marginTop: '20px'}}
+              onClick={() => { this.switchLink(0) }}
+            >
+              <Tooltip title="View / edit entries">
+                <Icon type="desktop" />
+              </Tooltip>
+              <span>Home</span>
+            </Menu.Item>
+
             <Menu.Item key="1" style={{marginTop: '20px'}}
               onClick={() => { this.switchLink(1) }}
             >
@@ -486,11 +541,14 @@ export default class MainMenu extends Component {
               </Tooltip>
               <span>Look</span>
             </Menu.Item>
-              <SubMenu key="sub2" title={<span>
+              <SubMenu
+                disabled={true}
+                key="sub2" title={<span>
                 <Tooltip title="Select, navigate, and organize entries">              
-                  <Icon type="snippets"/>
+                  <Icon type="snippets" style={{color:'white'}}/>
                 </Tooltip>
-                <span>Library</span></span>}>
+                <span style={{color: 'white'}}>Library</span></span>}
+                >
                 <Divider />
                   <div className="entriesEditorButtonsContainer">
                     <div className="mainEntriesButtonsWrapper">
@@ -761,23 +819,22 @@ export default class MainMenu extends Component {
               <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
                       try saving or selecting the entry again.
               ">              
-                <span>Ask / Analyze</span>
+                <span>Analysis Overlay</span>
               </Tooltip>
             </Menu.Item>
-            <SubMenu key="sub3" title={<span>
-              <Tooltip title="Visual, online, and privacy / security settings">              
-                <Icon type="appstore" />
+            <Menu.Item key="6" 
+               onClick={() => { this.switchLink(6) }}
+            >
+              <Tooltip title="Visual, online, and security settings
+              ">              
+                <Icon type="inbox" />
               </Tooltip>
-              <span>Settings</span></span>}>
-              <Menu.Item>Visual</Menu.Item>
-              <Menu.Item>Online</Menu.Item>
-              <Menu.Item>Security</Menu.Item>
-              <Menu.Item>
-              <a href="https://github.com/jddunn/frame">
-                About
-              </a>
-              </Menu.Item>
-            </SubMenu>
+              <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
+                      try saving or selecting the entry again.
+              ">              
+                <span>Settings</span>
+              </Tooltip>
+            </Menu.Item>
           </Menu>
           {/* End main menu comp */}
       </React.Fragment>

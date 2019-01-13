@@ -138,22 +138,15 @@ export default class AskForm extends React.Component {
             <Button type="ghost" icon="radar-chart" className="floatingAskButton" htmlType="submit" >
               Ask Frame
             </Button>
-
           </Form.Item>
 
-
-          
           <p className="answerText">
           </p>
 
           <p className="smallDetailText">
               If you're having trouble, remember to hit "Run" or save before asking. <br></br>If nothing is happening still, then the Python NLP server must not be running or is down!
           </p>
-
-
         </Form>
-
-
       </div>
     );
   }

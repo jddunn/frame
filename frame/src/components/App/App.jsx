@@ -10,14 +10,13 @@ import {
          Tooltip
          } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
+import Home from '../Home/Home';
 /** Menu with sortable tree component */
 import MainMenu from '../MainMenu/MainMenu';
 /** Notebook / Editor */
 import Notepad from '../Notepad/Notepad';
-
 /** Analysis / chatbot interface component */
 import Analyzer from '../Analyzer/Analyzer';
-
 /** Branding for logo / nav */
 import Brand from '../Brand/Brand';
 /** App global comp styles */
@@ -81,12 +80,6 @@ export default class App extends Component {
     this.updateEntries = this.updateEntries.bind(this);
     // Update app method
     this.updateApp = this.updateApp.bind(this);
-
-    this.sleep = this.sleep.bind(this);
-  }
-
-  sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
@@ -106,6 +99,7 @@ export default class App extends Component {
    * @public
    */
   toggleCollapsed = () => {
+    setState("collapsed", !getState("collapsed"));
     this.setState({
       collapsed: !this.state.collapsed,
     });
@@ -131,8 +125,6 @@ export default class App extends Component {
 }
 
   async componentDidMount() {
-    let selectedEntryId = getState("entryId");
-    let selectedEntryEditorType = getState("editorType");
     // let library = getState("library");
     let library = defaultFLib;
     // if (library === null || library === "null" || library === "undefined" || library === undefined) {
@@ -140,12 +132,15 @@ export default class App extends Component {
     // }
     const Library = openDB(library);
     let Entries = [];
+    let selectedEntryId;
+    let selectedEntryEditorType;
     Entries = await this.getEntriesInitial("entries");
     selectedEntryId = Entries[0].id;
     selectedEntryEditorType = Entries[0]['editorType'];
     setState("entryId", selectedEntryId);
     setState("editorType", selectedEntryEditorType);
-    setState("activeLink", "look");
+    // setState("activeLink", "look");
+    setState("activeLink", "main");
     this.setState({
       Entries: Entries,
       prevEntryId: selectedEntryId,
@@ -315,44 +310,63 @@ export default class App extends Component {
         entryPageTitle = 'Notebook - Select "Entries > Create" to start writing';
       }
       let mainContent;
-      
-      mainContent = 
-      <Content>
-      <div className="mainPageContainer">
-        <div className="titleWrapper">
-          <h4 className="sectionTitleText">
-            {entryPageTitle}
-          </h4>
-        </div>
-          {/* 
-              Within the notepad, we divide the vertical layout in half
-              to show the explore / inquire content simultaneously with
-              the editor text, and both will update together in real-time. 
-          */}
-          <div className="notepadContainer">
-            <React.Fragment>
-              {showAnalysisOverlay ? (
-              <div className="editorWrapper">
-                <div id="editor">
-                  <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
-                    showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
-                  <div className="analyzerWrapper">
-                    <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={showAnalysisOverlay}/>
+      if (activeLink === "look" || activeLink === "analysis") {
+        mainContent = 
+        <Content>
+        <div className="mainPageContainer">
+          <div className="titleWrapper">
+            <h4 className="sectionTitleText">
+              {entryPageTitle}
+            </h4>
+          </div>
+            {/* 
+                Within the notepad, we divide the vertical layout in half
+                to show the explore / inquire content simultaneously with
+                the editor text, and both will update together in real-time. 
+            */}
+            <div className="notepadContainer">
+              <React.Fragment>
+                {showAnalysisOverlay ? (
+                <div className="editorWrapper">
+                  <div id="editor">
+                    <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
+                      showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
+                    <div className="analyzerWrapper">
+                      <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={showAnalysisOverlay}/>
+                    </div>
+                  </div>
+              </div>
+                ) : (
+                <div className="editorWrapper">
+                  <div id="editor">
+                      <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
+                                showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
                   </div>
                 </div>
+                )}
+              </React.Fragment>
             </div>
-              ) : (
-              <div className="editorWrapper">
-                <div id="editor">
-                    <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
-                              showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
-                </div>
-              </div>
-              )}
-            </React.Fragment>
           </div>
-        </div>
-      </Content>
+        </Content>
+      } 
+      if (activeLink === "main") {
+          mainContent = 
+          <Content>
+          <div className="mainPageContainer">
+            <div className="titleWrapper">
+              <h4 className="sectionTitleText">
+                {/* {entryPageTitle} */}
+               Welcome home!
+              </h4>
+            </div>
+              <div className="notepadContainer">
+                <Home Entries={Entries} updateEntriesMethod={this.updateEntries}
+                    updateAppMethod={this.updateApp}/>
+              </div>
+            </div>
+          </Content>
+      }
+      
 
       // console.log("Passing in: ", entryId, entry, Entries);
       return (
