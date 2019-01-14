@@ -4,21 +4,21 @@ Last release on 01/06/2019
 
 # Screenshots
 
+Frame - 01-14-2019 release - demo use case for outdoors survival info - sped up by 2.05x
+
 <img src="screenshots/Frame-animated-demo-01-14-2019.gif" height="450" alt="Frame - 01-14-2019 Release"/>
 
-Frame - 01-14-2019 Release - Demo Use Case
+Frame extracting a web link with David Foster Wallace's This is Water essay - sped up by 2.125x
 
-<!-- <img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/> -->
+<img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/>
 
-<!-- Frame extracting a web link with David Foster Wallace's This is Water essay - Sped up by 2.125x -->
+Frame analyzing Sicko Mode - sped up by 1.5x  
 
 <img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="450" alt="Frame - Demo - Sicko Mode"/>
 
-Frame analyzing Sicko Mode - Sped up by 1.5x  
+<!-- <img src="screenshots/Frame-animated-demo-12-31-08-2.gif" height="450" alt="Frame - Demo - Cryptocurrency Wikipedia article"/> -->
 
-<img src="screenshots/Frame-animated-demo-12-31-08-2.gif" height="450" alt="Frame - Demo - Cryptocurrency Wikipedia article"/>
-
-Frame analyzing the Cryptocurrency Wikipedia article - Sped up by 2.5x
+<!-- Frame analyzing the Cryptocurrency Wikipedia article - Sped up by 2.5x -->
 
 # Links
 
