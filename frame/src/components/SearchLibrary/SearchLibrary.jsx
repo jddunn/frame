@@ -7,7 +7,7 @@ import {
   Row, Col, Layout, Menu, Breadcrumb,
   Icon, Button, Switch, Dropdown, message,
   Tooltip, Select, Drawer, Radio, Collapse, List,
-  Divider, Form, Input, Tag
+  Divider, Form, Input, Tag, AutoComplete
   } from 'antd';
 
 import Clock from 'react-live-clock';
@@ -53,9 +53,11 @@ export default class SearchLibrary extends Component {
       textCorpus: "",
       textCorpusWithOrigins: {},
       selectedTagsToSearch: [],
+      allTagsFound: [],
       tagInputVisible: false,
       tagInputValue: '',
     };
+    this.buildTextCorpusFromEntries = this.buildTextCorpusFromEntries.bind(this);
   }
   
   // Tag inputs
@@ -66,24 +68,27 @@ export default class SearchLibrary extends Component {
   }
 
   showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
+    this.setState({ tagInputVisible: true }, () => this.input.focus());
   }
 
   handleInputChange = (e) => {
-    this.setState({ inputValue: e.target.value });
+    this.setState({ tagInputValue: e.target.value });
   }
 
   handleInputConfirm = () => {
     const state = this.state;
-    const inputValue = state.inputValue;
+    const tagInputValue = state.tagInputValue;
     let selectedTagsToSearch = state.selectedTagsToSearch
-    if (inputValue && selectedTagsToSearch.indexOf(inputValue) === -1) {
-      selectedTagsToSearch = [...selectedTagsToSearch, inputValue];
+    // console.log("HANDLING INPUT TAG: ", tagInputValue, selectedTagsToSearch);
+    // console.log("THIS IS TAG INPUT VALUE: ", tagInputValue);
+    if (tagInputValue && selectedTagsToSearch.indexOf(tagInputValue) === -1) {
+      // console.log("ADD DA TAG: ", tagInputValue);
+      selectedTagsToSearch = [...selectedTagsToSearch, tagInputValue];
     }
     this.setState({
       selectedTagsToSearch,
-      inputVisible: false,
-      inputValue: '',
+      tagInputVisible: false,
+      tagInputValue: '',
     });
   }
 
@@ -91,13 +96,17 @@ export default class SearchLibrary extends Component {
 
   // End tag input funcs
 
+  buildTextCorpusFromEntries(tags) {
+
+  }
 
   componentDidMount() {
     const Entries = this.props.Entries;
     const selectedTagsToSearch = getAllEntryTags(Entries);
     this.setState({_isMounted: true,
                    Entries: Entries,
-                   selectedTagsToSearch: selectedTagsToSearch
+                   selectedTagsToSearch: selectedTagsToSearch,
+                   allTagsFound: selectedTagsToSearch
     });
   }
 
@@ -107,13 +116,19 @@ export default class SearchLibrary extends Component {
 
   componentWillReceiveProps(nextProps) {
     const Entries = nextProps.Entries;
-    const selectedTagsToSearch = getAllEntryTags(Entries);
-    this.setState({ Entries: nextProps.Entries, selectedTagsToSearch: selectedTagsToSearch});
+    let selectedTagsToSearch = this.state.selectedTagsToSearch;
+    const allTagsFound = getAllEntryTags(Entries);
+    if (selectedTagsToSearch.length == 0) {
+      this.setState({ Entries: nextProps.Entries, allTagsFound: allTagsFound,
+        selectedTagsToSearch: allTagsFound});
+    } else {
+      this.setState({ Entries: nextProps.Entries, allTagsFound: allTagsFound});
+    }
   }
 
   render() {
 
-    const { selectedTagsToSearch, inputVisible, inputValue } = this.state;
+    const { selectedTagsToSearch, allTagsFound, tagInputVisible, tagInputValue} = this.state;
 
     const entriesObj = {"title": "Entries",
                         "children": this.state.Entries
@@ -131,12 +146,14 @@ export default class SearchLibrary extends Component {
 
     const WrappedAskForm = Form.create()(AskForm);
     
+    const _this = this;
+
     return (
             <div className="askInput">
             
             <Collapse bordered={false} defaultActiveKey={['1']} className="collapseTransparent">
                 <Panel header="Ask / Search for Information" key="1" style={customPanelStyle}>
-                <p>Add or remove tags to filter what entries are to be searched (by default, all tags or entries are searched)</p>
+                <p>Add or remove tags to filter what entries are to be searched (by default, all tags or entries are listed)</p>
                   <div>
                   {selectedTagsToSearch.map((tag, index) => {
                     const isLongTag = tag.length > 20;
@@ -147,19 +164,21 @@ export default class SearchLibrary extends Component {
                     );
                     return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
                   })}
-                  {inputVisible && (
+                  {tagInputVisible && (
+     
                     <Input
                       ref={this.saveInputRef}
                       type="text"
                       size="small"
                       style={{ width: 78 }}
-                      value={inputValue}
+                      placeholder="enter tag"
+                      value={tagInputValue}
                       onChange={this.handleInputChange}
                       onBlur={this.handleInputConfirm}
                       onPressEnter={this.handleInputConfirm}
                     />
                   )}
-                  {!inputVisible && (
+                  {!tagInputVisible && (
                     <Tag
                       onClick={this.showInput}
                       style={{ background: '#fff', borderStyle: 'dashed' }}

@@ -84,7 +84,7 @@ export default class VisualizeLibrary extends Component {
     return (
       <div className="entriesChart">
           <Collapse bordered={false} defaultActiveKey={['1']} className="collapseTransparent">
-            <Panel header="Library Visualized" key="1" style={customPanelStyle}>
+            <Panel header="Library Outline" key="1" style={customPanelStyle}>
               <svg width={width} height={height}>
                 <LinearGradient id="lg" from={peach} to={pink} />
                 <rect width={width} height={height} rx={14} fill="none" />
