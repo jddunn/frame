@@ -17,7 +17,7 @@ function *traverseEntriesGenerator(Entries) {
     }
 }
 
-export default function traverseEntriesById(id, Entries) {
+export function traverseEntriesById(id, Entries) {
     const next = traverseEntriesGenerator(Entries);
     let res = next.next();
     // Need to wrap this in try..catch because React
@@ -41,4 +41,24 @@ export default function traverseEntriesById(id, Entries) {
     // return null;
     if (res.value) return res.value;
     return null;
+}
+
+export function getAllEntryTags(Entries) {
+    const eTags = [];
+    const next = traverseEntriesGenerator(Entries);
+    let res = next.next();
+    try {
+        const tags = res.tags.split(',');
+        eTags.extend(tags);
+    } catch (err) {
+    }
+    while (!res.done) {
+        res = next.next();
+        try {
+            const tags = res.tags.split(',');
+            eTags.extend(tags);
+        } catch (err) {
+        }
+    }
+    return Array.from(new Set(eTags)); // Remove duplicate tags
 }

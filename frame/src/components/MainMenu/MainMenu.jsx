@@ -539,7 +539,7 @@ export default class MainMenu extends Component {
               <Tooltip title="View / edit entries">
                 <Icon type="snippets" />
               </Tooltip>
-              <span>Look</span>
+              <span>Look / Write</span>
             </Menu.Item>
               <SubMenu
                 disabled={true}
@@ -819,7 +819,7 @@ export default class MainMenu extends Component {
               <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
                       try saving or selecting the entry again.
               ">              
-                <span>Analysis Overlay</span>
+                <span>Entry Analysis</span>
               </Tooltip>
             </Menu.Item>
             <Menu.Item key="6" 

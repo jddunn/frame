@@ -14,7 +14,7 @@ import Clock from 'react-live-clock';
 
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
-import './Home.scss';
+import './VisualizeLibrary.scss';
 
 const RadioGroup = Radio.Group;
 const Panel = Collapse.Panel;
@@ -28,8 +28,6 @@ import { Tree } from '@vx/hierarchy';
 import { LinkHorizontal } from '@vx/shape';
 import { hierarchy } from 'd3-hierarchy';
 import { LinearGradient } from '@vx/gradient';
-import SearchLibrary from '../SearchLibrary/SearchLibrary.jsx';
-import VisualizeLibrary from '../VisualizeLibrary/VisualizeLibrary.jsx';
 
 const peach = '#fd9b93';
 const pink = '#fe6e9e';
@@ -40,7 +38,7 @@ const lightpurple = '#374469';
 const white = '#ffffff';
 const bg = '#272b4d';
 
-export default class Home extends Component {
+export default class VisualizeLibrary extends Component {
 
   constructor(props) {
     super(props);
@@ -74,7 +72,6 @@ export default class Home extends Component {
     const yMax = width/1.5;
     const xMax = height/1.5;
 
-    const entryTextToSummarize = "";
 
     const customPanelStyle = {
       background: '#f7f7f7',
@@ -85,41 +82,37 @@ export default class Home extends Component {
     };
 
     return (
-      <div className="homeWrapper">
-        <div className="datetime">
-          <div className="timeContainer">
-            <Clock
-              format={'ddd, h:mm A'}
-              ticking={true}
-              />
-          </div>
-          <div className="dateContainer">
-            <Clock
-              format={'MMMM DD, YYYY'}
-              ticking={true}
-              />
-            </div>
-        </div>
-        <Row>
-          <Col span={18}>
-            <p>Welcome home! </p>
-          </Col>
-        </Row>
-
-        <Row>
-        <Col span={18}>
-            <div className="askInput">
-              <SearchLibrary Entries={this.state.Entries}/>
-            </div>
-          </Col>
-          </Row>
-          <Row>
-          <Col span={18}>
-          <div className="entriesChart">
-              <VisualizeLibrary Entries={this.state.Entries}/>
-            </div>
-            </Col>
-          </Row>
+      <div className="entriesChart">
+          <Collapse bordered={false} defaultActiveKey={['1']} className="collapseTransparent">
+            <Panel header="Library Visualized" key="1" style={customPanelStyle}>
+              <svg width={width} height={height}>
+                <LinearGradient id="lg" from={peach} to={pink} />
+                <rect width={width} height={height} rx={14} fill="none" />
+                <Tree root={data} size={[yMax, xMax]}>
+                  {tree => {
+                    return (
+                      <Group>
+                        {tree.links().map((link, i) => {
+                          return (
+                            <LinkHorizontal
+                              key={`link-${i}`}
+                              data={link}
+                              stroke={lightpurple}
+                              strokeWidth="1"
+                              fill="none"
+                            />
+                          );
+                        })}
+                        {tree.descendants().map((node, i) => {
+                          return <Node key={`node-${i}`} node={node}/>;
+                        })}
+                      </Group>
+                    );
+                  }}
+                </Tree>
+              </svg>
+            </Panel>
+          </Collapse>
         </div>
     );
   }

@@ -27,7 +27,7 @@ import localforage from 'localforage';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
-import traverseEntriesById from '../../utils/entries-traversal';
+import { traverseEntriesById, getAllEntryTags } from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 import {getHTMLFromContent,
   getContentFromHTML,
