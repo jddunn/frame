@@ -342,11 +342,12 @@ export class EntryCreate extends Component {
           try {
             const res = await localforage.setItem("entries", m_Entries);
             message.success("Creating new library entry..");
-            await message.info("Frame will now reload the page. This is because of a bug with the current content extraction feature, and will be resolved soon. You will need to select the new entry after creating when it's reloaded.", 3.25);
+            await message.info("Frame will now reload the page. This is because of a bug with the current content extraction feature, and will be resolved soon. You will need to select the new entry to view it after reloading.", 3.25);
             // message.success(res);
             // console.log(res);
             form.resetFields();
-            _this.props.updateEntriesMethod();        
+            _this.props.updateEntriesMethod();
+            _this.props.updateAppMethod();        
             location.reload();
             _this.setState({visible: false})
           } catch (err) {
