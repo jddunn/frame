@@ -263,6 +263,7 @@ export class EntryCreate extends Component {
     this.setState({visible: false});
   }
 
+
   handleCreate = async () => {
     const form = this.formRef.props.form;
     let m_Entries;
@@ -279,58 +280,88 @@ export class EntryCreate extends Component {
       const m_Library = openDB(library);
       let newEntryTitle = values['title'];
       let linkToExtract = values['linkToExtract'];
-        try {
-          // linkToExtract = linkToExtract.replace("http:", "");
-          linkToExtract = linkToExtract.replace("https:", "http:");
-          // linkToExtract = linkToExtract.replace("www.", "");
-          linkToExtract = linkToExtract.replace("https://www.", "http://www.");
-          // linkToExtract = linkToExtract.replace("//", "");
-          let _linkToExtract = 'https://cors-anywhere.herokuapp.com/' + linkToExtract;
-          message.info("Sending fetch request to link.. this could take a while. Hold tight!");
-          await fetch(_linkToExtract,
-          {
-              mode: 'cors',
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                'X-Requested-With': "XMLHttpRequest",
-                'Access-Control-Allow-Credentials' : 'true', 'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Origins' : '*', 
-              }
-          })
-          .then(async function(response) {
-            message.info("Sucessfully fetched content from link. Rendering data now..");
-            const clone = response.clone();
-            clone.text().then(async function(html) {
-            let htmlTitle = "";
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
-            const all_ts = doc.getElementsByTagName("*");
-            const show_ts = [];
-            for (let i=0; i<all_ts.length; i++){
-              if (all_ts[i].tagName == 'TITLE') {
-                htmlTitle = all_ts[i].innerHTML;
-              }
-              if(all_ts[i].tagName == 'H1' || all_ts[i].tagName == 'H2' || all_ts[i].tagName == 'H3' ||
-                 all_ts[i].tagName == 'H4' || all_ts[i].tagName == 'P' || all_ts[i].tagName == 'SPAN' 
-                 || all_ts[i].tagName == 'UL' || all_ts[i].tagName == 'LI') {
-                  if (all_ts[i].innerHTML.length > 20 || countSentences(all_ts[i].innerHTML) >= 2) {
-                    // console.log(all_ts[i].tagName, all_ts[i].innerHTML, countSentences(all_ts[i].innerHTML));
-                    show_ts.push(all_ts[i].innerHTML);
-                  }
-              }
+      try {
+        // linkToExtract = linkToExtract.replace("http:", "");
+        linkToExtract = linkToExtract.replace("https:", "http:");
+        // linkToExtract = linkToExtract.replace("www.", "");
+        linkToExtract = linkToExtract.replace("https://www.", "http://www.");
+        // linkToExtract = linkToExtract.replace("//", "");
+        let _linkToExtract = 'https://cors-anywhere.herokuapp.com/' + linkToExtract;
+        message.info("Sending fetch request to link.. this could take a while. Hold tight!");
+        await fetch(_linkToExtract,
+        {
+            mode: 'cors',
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              'X-Requested-With': "XMLHttpRequest",
+              'Access-Control-Allow-Credentials' : 'true', 'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Origins' : '*', 
             }
-            if (newEntryTitle == "" || newEntryTitle == " " || newEntryTitle == "New entry") {
-              newEntryTitle = htmlTitle;
-              if (newEntryTitle == "" || newEntryTitle == " ") {
-                newEntryTitle == "New entry";
-              }
+        })
+        .then(async function(response) {
+          message.info("Sucessfully fetched content from link. Rendering data now..");
+          const clone = response.clone();
+          clone.text().then(async function(html) {
+          let htmlTitle = "";
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const all_ts = doc.getElementsByTagName("*");
+          const show_ts = [];
+          for (let i=0; i<all_ts.length; i++){
+            if (all_ts[i].tagName == 'TITLE') {
+              htmlTitle = all_ts[i].innerHTML;
             }
-            if (linkToExtract !== " " && linkToExtract !== "" && linkToExtract !== undefined && 
-              linkToExtract !== "undefined") {
-                values['title'] = newEntryTitle;
+            if(all_ts[i].tagName == 'H1' || all_ts[i].tagName == 'H2' || all_ts[i].tagName == 'H3' ||
+                all_ts[i].tagName == 'H4' || all_ts[i].tagName == 'P' || all_ts[i].tagName == 'SPAN' 
+                || all_ts[i].tagName == 'UL' || all_ts[i].tagName == 'LI') {
+                if (all_ts[i].innerHTML.length > 20 || countSentences(all_ts[i].innerHTML) >= 2) {
+                  // console.log(all_ts[i].tagName, all_ts[i].innerHTML, countSentences(all_ts[i].innerHTML));
+                  show_ts.push(all_ts[i].innerHTML);
+                }
             }
-            values['html'] = show_ts.join("<br>");
-            values['strippedText'] = HTMLToText(show_ts.join(" "));
+          }
+          if (newEntryTitle == "" || newEntryTitle == " " || newEntryTitle == "New entry") {
+            newEntryTitle = htmlTitle;
+            if (newEntryTitle == "" || newEntryTitle == " ") {
+              newEntryTitle == "New entry";
+            }
+          }
+          if (linkToExtract !== " " && linkToExtract !== "" && linkToExtract !== undefined && 
+            linkToExtract !== "undefined") {
+              values['title'] = newEntryTitle;
+          }
+          values['html'] = show_ts.join("<br>");
+          values['strippedText'] = HTMLToText(show_ts.join(" "));
+          m_Entries = await localforage.getItem("entries");
+          try {
+            m_Entries.unshift(values);
+          } catch (err) {
+            // console.log(err);
+            m_Entries = [];
+            m_Entries.unshift(values); // Add entry to top of tree
+          }
+          try {
+            const res = await localforage.setItem("entries", m_Entries);
+            message.success("Creating new library entry..");
+            await message.info("Frame will now reload the page. This is because of a bug with the current content extraction feature, and will be resolved soon. You will need to select the new entry after creating when it's reloaded.", 3.25);
+            // message.success(res);
+            // console.log(res);
+            form.resetFields();
+            _this.props.updateEntriesMethod();        
+            location.reload();
+            _this.setState({visible: false})
+          } catch (err) {
+            console.log(err);
+            message.error("Failed to create new library entry! " + err);
+            form.resetFields();
+            _this.setState({visible: false});
+          }
+        })
+        .catch(async function(err) {  
+            // console.log('Failed to fetch page: ', err);  
+            // message.error("Unable to fetch page content from: " + linkToExtract + ' - ' + err);
             m_Entries = await localforage.getItem("entries");
+            // values['html'] = '<p></p>';
+            // values['strippedText'] = '';
             try {
               m_Entries.unshift(values);
             } catch (err) {
@@ -352,65 +383,37 @@ export class EntryCreate extends Component {
               form.resetFields();
               _this.setState({visible: false});
             }
-          })
-          .catch(async function(err) {  
-              // console.log('Failed to fetch page: ', err);  
-              // message.error("Unable to fetch page content from: " + linkToExtract + ' - ' + err);
-              m_Entries = await localforage.getItem("entries");
-              // values['html'] = '<p></p>';
-              // values['strippedText'] = '';
-              try {
-                m_Entries.unshift(values);
-              } catch (err) {
-                // console.log(err);
-                m_Entries = [];
-                m_Entries.unshift(values); // Add entry to top of tree
-              }
-              try {
-                const res = await localforage.setItem("entries", m_Entries);
-                message.success("Creating new library entry..");
-                // message.success(res);
-                // console.log(res);
-                form.resetFields();
-                _this.props.updateEntriesMethod();        
-                _this.setState({visible: false})
-              } catch (err) {
-                console.log(err);
-                message.error("Failed to create new library entry! " + err);
-                form.resetFields();
-                _this.setState({visible: false});
-              }
-              // message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
-          });
+            // message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
         });
-        } catch (err) {
-          m_Entries = await localforage.getItem("entries");
-          try {
-            m_Entries.unshift(values);
-          } catch (err) {
-            // console.log(err);
-            m_Entries = [];
-            m_Entries.unshift(values); // Add entry to top of tree
-          }
-          try {
-            const res = await localforage.setItem("entries", m_Entries);
-            message.success("Creating new library entry..");
-            // message.success(res);
-            // console.log(res);
-            form.resetFields();
-            _this.props.updateEntriesMethod();        
-            _this.setState({visible: false})
-          } catch (err) {
-            console.log(err);
-            message.error("Failed to create new library entry! " + err);
-            form.resetFields();
-            _this.setState({visible: false});
-          }
-          // message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
-        }
-    });
-    this.setState({visible: false});
-  }
+      });
+      } catch (err) {
+        // m_Entries = await localforage.getItem("entries");
+        // try {
+        //   m_Entries.unshift(values);
+        // } catch (err) {
+        //   // console.log(err);
+        //   m_Entries = [];
+        //   m_Entries.unshift(values); // Add entry to top of tree
+        // }
+        // try {
+        //   const res = await localforage.setItem("entries", m_Entries);
+        //   message.success("Creating new library entry..");
+        //   // message.success(res);
+        //   // console.log(res);
+        //   form.resetFields();
+        //   _this.props.updateEntriesMethod();        
+        //   _this.setState({visible: false})
+        // } catch (err) {
+          console.log(err);
+          message.error("Failed to create new library entry! " + err);
+          form.resetFields();
+          _this.setState({visible: false});
+        // }
+        // message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
+      }
+  });
+  this.setState({visible: false});
+}
 
   saveFormRef = (formRef) => {
     this.formRef = formRef;

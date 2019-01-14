@@ -268,9 +268,6 @@ export default class Notepad extends Component {
       let entry = nextEntry;
       let entryId = nextEntryId;
 
-      console.log("THIS IS THE NEXT PROP ENTRY: ", nextEntry);
-
-
       try { 
         editorType = entry.editorType;
       } catch (err) {

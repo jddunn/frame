@@ -689,7 +689,7 @@ export default class Analyzer extends Component {
                             ghost={true} 
                             icon="deployment-unit"
                             className="runButton"
-                            onClick={()=> { message.success("Outputting analysis.."); this.props.updateAppMethod()}}
+                            onClick={()=> { message.success("Outputting analysis.. if nothing is happening, hit the Save button in the notebook, and then hit Run again."); this.props.updateAppMethod()}}
                             >
                             Run
                         </Button>
