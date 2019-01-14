@@ -19,7 +19,7 @@ import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
-import localforage from "localforage";
+import localforage from 'localforage';
 
 /**
  *  JS NLP stuff (we make these calls in the Notebook component,
@@ -128,7 +128,6 @@ export default class Notepad extends Component {
       // unnecessary rendering
       prevEditorState: {},
       prevEntryId: ""
-      // uploadedImages: [],
     };
 
     this.sideButtons = [{
@@ -165,8 +164,6 @@ export default class Notepad extends Component {
 
     // Save content in Notebook comp to db
     this.saveNotebookData = this.saveNotebookData.bind(this);
-
-    this.sleep = this.sleep.bind(this);
   }
 
   async getEntries(key) {
@@ -247,6 +244,7 @@ export default class Notepad extends Component {
       if (nextEntryId === this.state.prevEntryId) {
         return;
       }  
+
       const nextEntry = nextProps.entry;
       const nextEntries = nextProps.Entries;
       const library = defaultFLib;
@@ -269,6 +267,10 @@ export default class Notepad extends Component {
       let Entries = nextEntries;
       let entry = nextEntry;
       let entryId = nextEntryId;
+
+      console.log("THIS IS THE NEXT PROP ENTRY: ", nextEntry);
+
+
       try { 
         editorType = entry.editorType;
       } catch (err) {
@@ -278,7 +280,10 @@ export default class Notepad extends Component {
 
       const splitNotebookLayout = nextProps.splitNotebookLayout;
   
-      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>") {
+      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>"
+        && entry['html'] !== "undefined"
+      ) {
+        console.log("THE ENTRY HTML IS NOT UNDEFINED: ", entry['html']);
         if (splitNotebookLayout) {
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
@@ -437,7 +442,11 @@ export default class Notepad extends Component {
         const newEntries = replaceEntry(entry, Entries);
         const res = getContentFromHTML(entry['html']);
         _this.setState({Entries: newEntries,  editorState: res,
-        editorType: editorType});
+        editorType: editorType, prevEntryId: entryId});
+      } else {
+        console.log("THE ENTRY HTML IS UNDEFINED YES");
+        _this.setState({ editorState: EditorState.createEmpty(),
+});
       }
     }
   }
@@ -527,17 +536,14 @@ export default class Notepad extends Component {
   }
 
   async saveNotebookData() {
-    // let entryId = getState("entryId");
     let entry = this.state.entry;
     const entryId = this.state.entryId;
     const Entries = this.state.Entries;
     let editorType = entry['editorType'];
     // let library = getState("library");
     let library = defaultFLib;
-    // const editorType = getState("editorType");
     const Library = openDB(library);
     const m_this = this;
-
     if (entry !== null && entry !== undefined) {
       entry['html'] = getHTMLFromContent(this.state.editorState);
       const strippedText = HTMLToText(entry['html']);
@@ -597,7 +603,6 @@ export default class Notepad extends Component {
           summaryExtractive = sumBasic(docs, parseInt(wordCount / 5), parseInt(sentenceCount / 5)).replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
           summaryByParagraphs = summarizeParagraphs(docs.join(""));
         } catch (err) {
-          // console.log(err);
           summaryExtractive = '';
           summaryByParagraphs = [];
         }
@@ -916,7 +921,6 @@ export default class Notepad extends Component {
 
 
 // Medium-draft sidebar menu comps
-
 class SeparatorSideButton extends React.Component {
   constructor(props) {
     super(props);

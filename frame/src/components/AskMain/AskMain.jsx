@@ -26,7 +26,7 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
-import './Ask.scss';
+import './AskMain.scss';
 
 const { TextArea } = Input;
 
@@ -35,7 +35,7 @@ const savedSettings = config.savedSettings;
 const pythonNLPServer = config.savedSettings.NLPServer;
 const defaultFLib = savedSettings.defaultLibrary;
 
-export default class AskForm extends React.Component {
+export default class AskMain extends React.Component {
 
   constructor(props) {
     super(props);
@@ -58,7 +58,10 @@ export default class AskForm extends React.Component {
     const _this = this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
+      if (err) {
+        // this.forceUpdate();
+        this.props.updateAppMethod();
+      } else {
         console.log('Received values of form: ', values);
         message.success("Asking Frame..");
         this.props.form.resetFields();
@@ -76,12 +79,13 @@ export default class AskForm extends React.Component {
         })
         .then(function(jsonRes) {
          message.success("The answer is: " + jsonRes);
-         document.getElementsByClassName("answerText")[0].innerHTML = "Answer: " + jsonRes;
+         document.getElementsByClassName("answerTextAskMain")[0].innerHTML = "Answer: " + jsonRes;
          _this.setState({passageAnswer: jsonRes});
          console.log(jsonRes);
         })
         .catch(err => {
             console.log(err);
+            this.forceUpdate();
             message.error(err);
         });
       }
@@ -94,13 +98,13 @@ export default class AskForm extends React.Component {
     const answer = this.state.passageAnswer;
 
     return (
-      <div className="askWrapper">
+      <div className="askWrapperMain">
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {getFieldDecorator('question', {
               rules: [{ required: true, message: 'Input a Question' }],
             })(
-              <Input className="questionTextInput"
+              <Input className="questionTextInputMain"
               size="large"
               prefix={<Icon type="question-circle" 
               style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -135,16 +139,16 @@ export default class AskForm extends React.Component {
           </Form.Item>
 
           <Form.Item>
-            <Button type="ghost" icon="radar-chart" className="floatingAskButton" htmlType="submit" >
+            <Button type="ghost" icon="radar-chart" className="floatingAskButtonMain" htmlType="submit" >
               Ask Frame
             </Button>
           </Form.Item>
 
-          <p className="answerText">
+          <p className="answerTextAskMain">
           </p>
 
-          <p className="smallDetailText">
-              If you're having trouble, remember to hit "Run" or save before asking. <br></br>If nothing is happening still, then the Python NLP server must not be running or is down!
+          <p className="smallDetailTextAskMain">
+              You'll have to hit the Ask button once first to send the text corpus. If nothing is happening still after, then the Python NLP server must not be running or is down!
           </p>
         </Form>
       </div>

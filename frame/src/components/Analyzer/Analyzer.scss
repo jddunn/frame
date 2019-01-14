@@ -222,15 +222,18 @@ span.ant-radio + * {
     // font-size: 1.05em !important;
     font-size: 1.15vmax !important;
     letter-spacing: 1px !important;
-    background-color: rgba(239, 244, 248, 1.0) !important;
+    background-color: transparent !important;
+    // background-color: rgba(239, 244, 248, 1.0) !important;
 } 
 
 .ant-collapse {
-    background-color: rgba(239, 244, 248, 1.0) !important;
+    background-color: transparent !important;
+    // background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .ant-collapse-content-box {
-    background-color: rgba(239, 244, 248, 1.0) !important;
+    background-color: transparent !important;
+    // background-color: rgba(239, 244, 248, 1.0) !important;
 }
 
 .sectionHeadlineText {

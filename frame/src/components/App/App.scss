@@ -43,33 +43,28 @@ body {
   height: 60px !important;
   border: none !important;
   background-color: rgb(248, 248, 248) !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  // padding-left: 80px !important;
+  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.15) !important;
+  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.15) !important;
+  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.15) !important;
+  padding-left: 80px !important;
   padding-top: 2px !important;
-  text-align: center !important;
+  // text-align: center !important;
   padding-right: 450px !important;
   letter-spacing: 2px !important;
   overflow: hidden !important;
-
 }
 
 .brandWrapper {
   width: calc(100% -2px) !important;
-  // background: #2980b9;  /* fallback for old browsers */
-  // background: -webkit-linear-gradient(to top, #2c3e50, #2980b9);  /* Chrome 10-25, Safari 5.1-6 */
-  // background: linear-gradient(to top, #2c3e50, #2980b9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.15) !important;
+  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.15) !important;
+  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.15) !important;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-top: 2px !important;
   margin-left: 1px;
   position: sticky !important;
   z-index: 500 !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(88, 88, 88, 0.35) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(88, 88, 88, 0.35) !important;
-  box-shadow: -1px 0px 2px 1px rgba(88, 88, 88, 0.35) !important;
   
 }
 
@@ -80,9 +75,6 @@ body {
   width: 100%;
   max-width: 350px !important;
   color: rgba(250, 248, 250, 1.0);
-  // background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
-  // background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
-  // background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow-x: none !important; 
   position: sticky !important;
   z-index: 450 !important;
@@ -115,9 +107,6 @@ body {
   height: 100% !important;
   background-color: rgba(250, 250, 250, 1.0);
   box-shadow: none !important;
-  -webkit-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  -moz-box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
-  box-shadow: -1px 0px 2px 1px rgba(40,24,13,0.2) !important;
 }
 
 .analyzerWrapper {
@@ -138,6 +127,8 @@ body {
   margin-top: -10px !important;
   margin-left: 0px !important;
   overflow: hidden !important;
+  box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.06) !important;
+
   // box-shadow: 0 0 1px rgba(239, 239, 239, .3) !important;
 }
 
@@ -156,14 +147,16 @@ body {
 
 .sectionTitleText  {
   padding-top: 12px;
-  color: rgba(56, 56, 56, 1.0) !important;
+  color: rgb(133, 128, 128) !important;
+  // text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2d95, 0 0 30px #ff2d95, 0 0 40px #ff2d95, 0 0 50px #ff2d95, 0 0 75px #ff2d95;
   font-weight: normal;
-  letter-spacing: 1px;
-  font-size: 1.58em;
-  text-shadow: 1px 1px 1px rgba(50,50,50,0.08);
-  margin-left: 10px !important;
+  letter-spacing: 4px;
+  font-size: 1.8em;
+  text-shadow: none !important;
+  // text-shadow: 1px 1px 1px rgba(112, 112, 112, 0.01);
+  margin-left: -40px !important;
   margin-bottom: 6px;
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 .innerButtonLabel { 
@@ -242,7 +235,18 @@ body {
 /* Antd overrides */
 
 .ant-layout-sider {
-  background-color: transparent !important;
+  // background-color: transparent !important;
+  background: #2193b0 !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #6dd5ed, #2193b0) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.ant-layout-sider-dark {
+  background: #00B4DB;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+  box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.06) !important;
 }
 
 .ant-layout {

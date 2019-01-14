@@ -6,6 +6,10 @@
   background-color: transparent !important;
 }
 
+.ant-menu-submenu-disabled {
+  opacity: .95 !important;
+}
+
 /* Footer / brand */
 .footerContainer {
     opacity: .85;
@@ -73,9 +77,12 @@
 }
 
 .ant-menu-vertical {
-  background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #2980b9 !important;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #2c3e50, #2980b9) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #2c3e50, #2980b9) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  // background: rgba(79, 171, 224, 0.73) !important;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to bottom, rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important;  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to bottom,  rgba(79, 171, 224, 0.53) , rgba(54, 91, 112, 0.53) ) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .rst__tree {
@@ -89,7 +96,7 @@
   margin-left: -10px !important;
   border-radius: 3px !important;
   box-shadow: 1px 1px 1px 1px rgba(1, 131, 212, 0.75) !important;
-  background: rgb(238, 238, 238) !important;  /* fallback for old browsers */
+  background: rgb(245, 245, 245) !important;  /* fallback for old browsers */
 }
 
 .rst__rowLabel {

@@ -10,14 +10,14 @@ import {
          Tooltip
          } from 'antd';
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
+import Home from '../Home/Home';
+import Settings from '../Settings/Settings';
 /** Menu with sortable tree component */
 import MainMenu from '../MainMenu/MainMenu';
 /** Notebook / Editor */
 import Notepad from '../Notepad/Notepad';
-
 /** Analysis / chatbot interface component */
 import Analyzer from '../Analyzer/Analyzer';
-
 /** Branding for logo / nav */
 import Brand from '../Brand/Brand';
 /** App global comp styles */
@@ -27,7 +27,7 @@ import localforage from 'localforage';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
-import traverseEntriesById from '../../utils/entries-traversal';
+import { traverseEntriesById, getAllEntryTags } from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 import {getHTMLFromContent,
   getContentFromHTML,
@@ -81,12 +81,6 @@ export default class App extends Component {
     this.updateEntries = this.updateEntries.bind(this);
     // Update app method
     this.updateApp = this.updateApp.bind(this);
-
-    this.sleep = this.sleep.bind(this);
-  }
-
-  sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
@@ -106,6 +100,7 @@ export default class App extends Component {
    * @public
    */
   toggleCollapsed = () => {
+    setState("collapsed", !getState("collapsed"));
     this.setState({
       collapsed: !this.state.collapsed,
     });
@@ -113,13 +108,6 @@ export default class App extends Component {
 
   async getEntries(key) {
     let Entries = [];
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
-    // Entries = getFromDB(key);
-    // localforage.getItem(key).then(function(value) {
     Entries = await localforage.getItem(key);
     return Entries;
   }
@@ -138,8 +126,6 @@ export default class App extends Component {
 }
 
   async componentDidMount() {
-    let selectedEntryId = getState("entryId");
-    let selectedEntryEditorType = getState("editorType");
     // let library = getState("library");
     let library = defaultFLib;
     // if (library === null || library === "null" || library === "undefined" || library === undefined) {
@@ -147,17 +133,15 @@ export default class App extends Component {
     // }
     const Library = openDB(library);
     let Entries = [];
-    // await getFromDB(Library, key).then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
+    let selectedEntryId;
+    let selectedEntryEditorType;
     Entries = await this.getEntriesInitial("entries");
     selectedEntryId = Entries[0].id;
     selectedEntryEditorType = Entries[0]['editorType'];
     setState("entryId", selectedEntryId);
     setState("editorType", selectedEntryEditorType);
-    setState("activeLink", "look");
+    // setState("activeLink", "look");
+    setState("activeLink", "main");
     this.setState({
       Entries: Entries,
       prevEntryId: selectedEntryId,
@@ -204,8 +188,6 @@ export default class App extends Component {
         )
     }
   }
-
-
 
   // Force app to re-render; this func is passed down in props to children
   async updateApp() {
@@ -283,22 +265,24 @@ export default class App extends Component {
       const Entries = this.state.Entries;
       let entryId;
       let editorType;
-      try {
-        entryId = (getState("entryId") != null) ?
-        getState("entryId") : Entries[0].id;
-      } catch (err) {
-        return null;
+      // try {
+      //   entryId = (getState("entryId") != null) ?
+      //   getState("entryId") : Entries[0].id;
+      // } catch (err) {
+      //   return null;
+      // }
+      entryId = getState("entryId");
+      if (entryId !== null && entryId !== undefined && entryId !== "undefined") {
+      } else {
+        entryId = Entries[0].id;
       }
       let entry = traverseEntriesById(entryId, Entries);
-
       let activeLink = getState("activeLink");
       // As we get more sections, this will eventually need
-      // refactored, since a splitNotebookLayout would only
+      // refactored, since a showAnalysisOverlay would only
       // be true on the explore / inquire page (currently)
-      // let splitNotebookLayout = activeLink === "look" ?
-        // false : true;
-
-      let splitNotebookLayout = getState("analysisDrawerVisible");
+      let showAnalysisOverlay = activeLink === "analysis" ? true : false;
+      // let showAnalysisOverlay = getState("analysisDrawerVisible");
       if (entry === null) {
         // console.log("Could not find entry with ID: ", entryId);
         // console.log("Setting default entry to top in tree");
@@ -329,6 +313,83 @@ export default class App extends Component {
       } catch (err) {
         entryPageTitle = 'Notebook - Select "Entries > Create" to start writing';
       }
+      let mainContent;
+      if (activeLink === "look" || activeLink === "analysis") {
+        mainContent = 
+        <Content>
+        <div className="mainPageContainer">
+          <div className="titleWrapper">
+            <h4 className="sectionTitleText">
+              {entryPageTitle}
+            </h4>
+          </div>
+            {/* 
+                Within the notepad, we divide the vertical layout in half
+                to show the explore / inquire content simultaneously with
+                the editor text, and both will update together in real-time. 
+            */}
+            <div className="notepadContainer">
+              <React.Fragment>
+                {showAnalysisOverlay ? (
+                <div className="editorWrapper">
+                  <div id="editor">
+                    <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
+                      showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
+                    <div className="analyzerWrapper">
+                      <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={showAnalysisOverlay}/>
+                    </div>
+                  </div>
+              </div>
+                ) : (
+                <div className="editorWrapper">
+                  <div id="editor">
+                      <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
+                                showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
+                  </div>
+                </div>
+                )}
+              </React.Fragment>
+            </div>
+          </div>
+        </Content>
+      } 
+      if (activeLink === "main") {
+          mainContent = 
+          <Content>
+          <div className="mainPageContainer">
+            <div className="titleWrapper">
+              <h4 className="sectionTitleText">
+                {/* {entryPageTitle} */}
+               Welcome home!
+              </h4>
+            </div>
+              <div className="notepadContainer">
+                <div className="editorWrapper">
+                  <Home Entries={Entries} entry={entry} updateEntriesMethod={this.updateEntries}
+                    updateAppMethod={this.updateApp}/>
+                </div>
+              </div>
+            </div>
+          </Content>
+      }
+      if (activeLink === "settings") {
+        mainContent = 
+        <Content>
+        <div className="mainPageContainer">
+          <div className="titleWrapper">
+            <h4 className="sectionTitleText">
+              {/* {entryPageTitle} */}
+             Settings
+            </h4>
+          </div>
+            <div className="notepadContainer">
+              <div className="editorWrapper">
+                <Settings updateAppMethod={this.updateApp}/>
+                </div>
+            </div>
+          </div>
+        </Content>
+      }
       // console.log("Passing in: ", entryId, entry, Entries);
       return (
           <React.Fragment>
@@ -357,42 +418,7 @@ export default class App extends Component {
               </div>
                 </Sider>
               <Layout>
-                <Content>
-                  <div className="mainPageContainer">
-                    <div className="titleWrapper">
-                      <h4 className="sectionTitleText">
-                        {entryPageTitle}
-                      </h4>
-                    </div>
-                      {/* 
-                          Within the notepad, we divide the vertical layout in half
-                          to show the explore / inquire content simultaneously with
-                          the editor text, and both will update together in real-time. 
-                      */}
-                      <div className="notepadContainer">
-                        <React.Fragment>
-                          {splitNotebookLayout ? (
-                          <div className="editorWrapper">
-                            <div id="editor">
-                              <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
-                                splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
-                              <div className="analyzerWrapper">
-                                <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={splitNotebookLayout}/>
-                              </div>
-                            </div>
-                        </div>
-                          ) : (
-                          <div className="editorWrapper">
-                            <div id="editor">
-                                <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId} 
-                                          splitNotebookLayout={splitNotebookLayout} entry={entry} Entries={Entries}/>
-                            </div>
-                          </div>
-                          )}
-                        </React.Fragment>
-                      </div>
-                    </div>
-                  </Content>
+              {mainContent}
                 </Layout>
               </Layout>
             </React.Fragment>

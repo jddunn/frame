@@ -20,7 +20,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid,
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
-import traverseEntriesById from '../../utils/entries-traversal';
+import { traverseEntriesById } from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
 import styles from './Visualizer.scss';
@@ -217,7 +217,7 @@ export default class Visualizer extends Component {
                               <h4 className="innerContentTextCenter">
                                   Most Frequent Words
                               </h4>            
-                              <LineChart width={750} height={280} data={this.state.entry.wordFrequency}
+                              <LineChart width={900} height={320} data={this.state.entry.wordFrequency}
                                     margin={{top: 5, right: 30, left: 120, bottom: 5}}>
                                 <XAxis dataKey="word"/>
                                 <YAxis/>
