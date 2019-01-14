@@ -100,16 +100,21 @@ export default class Home extends Component {
               />
             </div>
         </div>
-        <Row>
-          <Col span={18}>
-            <p>Welcome home! </p>
-          </Col>
-        </Row>
-
+        {/* <Row> */}
+          {/* <Col span={18}> */}
+            {/* <div className="libraryOverview">
+              <Collapse bordered={false} defaultActiveKey={['1']} className="collapseTransparent">
+                <Panel header="Library Overview" key="1" style={customPanelStyle}>
+                  <h4 className="libraryOverviewText">You've done this</h4>
+                </Panel>
+              </Collapse>
+            </div> */}
+          {/* </Col> */}
+        {/* </Row> */}
         <Row>
         <Col span={18}>
             <div className="askInput">
-              <SearchLibrary Entries={this.state.Entries}/>
+              <SearchLibrary Entries={this.state.Entries}  updateAppMethod={this.props.updateAppMethod}/>
             </div>
           </Col>
           </Row>

@@ -12,7 +12,7 @@ import {
 
 import Clock from 'react-live-clock';
 
-import AskForm from '../Ask/Ask'; 
+import AskMain from '../AskMain/AskMain'; 
 
 import { Wrapper, Tab, TabList, TabPanel} from 'react-aria-tabpanel';
 
@@ -40,7 +40,9 @@ const lightpurple = '#374469';
 const white = '#ffffff';
 const bg = '#272b4d';
 
-import { traverseEntriesById, getAllEntryTags } from '../../utils/entries-traversal';
+import { traverseEntriesById, getAllEntryTags,
+         getEntriesTextsByTags, getEntriesByTags
+} from '../../utils/entries-traversal';
 
 
 export default class SearchLibrary extends Component {
@@ -63,8 +65,13 @@ export default class SearchLibrary extends Component {
   // Tag inputs
 
   handleClose = (removedTag) => {
+    const Entries = this.state.Entries;
     const selectedTagsToSearch = this.state.selectedTagsToSearch.filter(tag => tag !== removedTag);
-    this.setState({ selectedTagsToSearch });
+    console.log("SELECTED TAGS TO SEARCH: ", selectedTagsToSearch);
+    const textCorpusWithOrigins = getEntriesTextsByTags(selectedTagsToSearch, Entries);
+    const textCorpus = this.buildTextCorpusFromEntries(textCorpusWithOrigins); 
+    console.log("THIS DA TEXT CORPUS ORIGINS: ", textCorpusWithOrigins);
+    this.setState({ selectedTagsToSearch, textCorpus, textCorpusWithOrigins });
   }
 
   showInput = () => {
@@ -79,16 +86,18 @@ export default class SearchLibrary extends Component {
     const state = this.state;
     const tagInputValue = state.tagInputValue;
     let selectedTagsToSearch = state.selectedTagsToSearch
-    // console.log("HANDLING INPUT TAG: ", tagInputValue, selectedTagsToSearch);
-    // console.log("THIS IS TAG INPUT VALUE: ", tagInputValue);
     if (tagInputValue && selectedTagsToSearch.indexOf(tagInputValue) === -1) {
-      // console.log("ADD DA TAG: ", tagInputValue);
       selectedTagsToSearch = [...selectedTagsToSearch, tagInputValue];
     }
+    const Entries = this.state.Entries;
+    const filteredEntries = getEntriesTextsByTags(selectedTagsToSearch, Entries);
+    const textCorpus = this.buildTextCorpusFromEntries(filteredEntries); 
     this.setState({
-      selectedTagsToSearch,
+      selectedTagsToSearch: selectedTagsToSearch,
       tagInputVisible: false,
       tagInputValue: '',
+      textCorpus: textCorpus,
+      textCorpusWithOrigins: filteredEntries
     });
   }
 
@@ -96,17 +105,25 @@ export default class SearchLibrary extends Component {
 
   // End tag input funcs
 
-  buildTextCorpusFromEntries(tags) {
-
+  buildTextCorpusFromEntries(filteredEntries) {
+    let corpus = "";
+    Object.keys(filteredEntries).forEach(function(key) {
+      corpus += " " + filteredEntries[key]; 
+    });
+    return corpus;
   }
 
   componentDidMount() {
     const Entries = this.props.Entries;
     const selectedTagsToSearch = getAllEntryTags(Entries);
+    const filteredEntries = getEntriesTextsByTags(selectedTagsToSearch, Entries);
+    const textCorpus = this.buildTextCorpusFromEntries(filteredEntries); 
     this.setState({_isMounted: true,
                    Entries: Entries,
                    selectedTagsToSearch: selectedTagsToSearch,
-                   allTagsFound: selectedTagsToSearch
+                   allTagsFound: selectedTagsToSearch,
+                   textCorpus: textCorpus,
+                   textCorpusWithOrigins: filteredEntries
     });
   }
 
@@ -118,17 +135,25 @@ export default class SearchLibrary extends Component {
     const Entries = nextProps.Entries;
     let selectedTagsToSearch = this.state.selectedTagsToSearch;
     const allTagsFound = getAllEntryTags(Entries);
+    const filteredEntries = getEntriesTextsByTags(selectedTagsToSearch, Entries);
+    const textCorpus = this.buildTextCorpusFromEntries(filteredEntries); 
     if (selectedTagsToSearch.length == 0) {
       this.setState({ Entries: nextProps.Entries, allTagsFound: allTagsFound,
-        selectedTagsToSearch: allTagsFound});
+        selectedTagsToSearch: allTagsFound,
+        textCorpus: textCorpus, textCorpusWithOrigins: filteredEntries
+      });
     } else {
-      this.setState({ Entries: nextProps.Entries, allTagsFound: allTagsFound});
+      this.setState({ Entries: nextProps.Entries, allTagsFound: allTagsFound,
+                      textCorpus: textCorpus, textCorpusWithOrigins: filteredEntries
+      });
     }
   }
 
   render() {
 
-    const { selectedTagsToSearch, allTagsFound, tagInputVisible, tagInputValue} = this.state;
+    const { selectedTagsToSearch, allTagsFound, tagInputVisible, tagInputValue,
+            textCorpus
+    } = this.state;
 
     const entriesObj = {"title": "Entries",
                         "children": this.state.Entries
@@ -144,53 +169,58 @@ export default class SearchLibrary extends Component {
       overflow: 'hidden',
     };
 
-    const WrappedAskForm = Form.create()(AskForm);
+    const WrappedAskForm = Form.create()(AskMain);
     
     const _this = this;
 
     return (
+      <React.Fragment>
+            <br/>
             <div className="askInput">
-            
+              <div>
+              <div className="tagsHolder">
+              {selectedTagsToSearch.map((tag, index) => {
+                const isLongTag = tag.length > 20;
+                const tagElem = (
+                  <Tag key={tag} closable={index == index} afterClose={() => this.handleClose(tag)}>
+                    {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                  </Tag>
+                );
+                return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
+              })}
+              {tagInputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  style={{ width: 78 }}
+                  placeholder="enter tag"
+                  value={tagInputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={this.handleInputConfirm}
+                  onPressEnter={this.handleInputConfirm}
+                />
+              )}
+              {!tagInputVisible && (
+                <Tag
+                  onClick={this.showInput}
+                  style={{ background: '#fff', borderStyle: 'dashed' }}
+                >
+                  <Icon type="plus" /> Add tag
+                </Tag>
+              )}
+              <br/>
+              <p className="titleTextP">Add or remove tags to filter what entries are to be searched (by default, all tags are listed / searched)</p>
+              </div>
+              <br/>
+            </div>
             <Collapse bordered={false} defaultActiveKey={['1']} className="collapseTransparent">
                 <Panel header="Ask / Search for Information" key="1" style={customPanelStyle}>
-                <p>Add or remove tags to filter what entries are to be searched (by default, all tags or entries are listed)</p>
-                  <div>
-                  {selectedTagsToSearch.map((tag, index) => {
-                    const isLongTag = tag.length > 20;
-                    const tagElem = (
-                      <Tag key={tag} closable={index == index} afterClose={() => this.handleClose(tag)}>
-                        {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-                      </Tag>
-                    );
-                    return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
-                  })}
-                  {tagInputVisible && (
-     
-                    <Input
-                      ref={this.saveInputRef}
-                      type="text"
-                      size="small"
-                      style={{ width: 78 }}
-                      placeholder="enter tag"
-                      value={tagInputValue}
-                      onChange={this.handleInputChange}
-                      onBlur={this.handleInputConfirm}
-                      onPressEnter={this.handleInputConfirm}
-                    />
-                  )}
-                  {!tagInputVisible && (
-                    <Tag
-                      onClick={this.showInput}
-                      style={{ background: '#fff', borderStyle: 'dashed' }}
-                    >
-                      <Icon type="plus" /> New Tag
-                    </Tag>
-                  )}
-                </div>
-                  <WrappedAskForm entryText={entryTextToSummarize}/>
+                  <WrappedAskForm entryText={textCorpus} updateAppMethod={this.props.updateAppMethod}/>
                 </Panel>
               </Collapse>
             </div>
+        </React.Fragment>
     );
   }
 }

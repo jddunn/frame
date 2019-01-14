@@ -27,7 +27,24 @@
     padding: 0 !important;
     margin: 0 !important;
     margin: 20px !important;
+    text-align: center !important;
     // margin: 40px !important;
+}
+
+.titleTextP {
+    margin: 20px !important;
+    letter-spacing: 1px !important;
+    color: rgba(88, 88, 88, 1.0) !important;
+    font-size: 1.25em !important;
+}
+
+.tagsHolder {
+    text-align: center !important;
+    width: calc(70% - 20px) !important;
+    margin: 20px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-left: 150px !important;
 }
 
 .collapseTransparent {
