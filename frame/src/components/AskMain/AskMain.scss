@@ -7,12 +7,13 @@
 .questionTextInputMain {
     margin: 0px !important;
     padding: 0px !important;
-    margin-left: -50px !important;
     z-index: 1000 !important;
     height: 50px !important;
     margin-top: 18px !important;
     text-align: center !important;
     width: calc(70% - 20px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .passageTextDisabled {
@@ -23,11 +24,11 @@
 .floatingAskButtonMain {
     margin: 0px !important;
     padding: 0px !important;
-    margin-left: -50px !important;
     z-index: 1000 !important;
     text-align: center !important;
     width: calc(70% - 20px) !important;
-
+    margin-left: auto !important;
+    margin-right: auto !important;
     // text-align: center !important;
 }
 
@@ -39,9 +40,8 @@
     margin-top: 8px !important;
     letter-spacing: 1px !important;
     width: calc(70% - 20px) !important;
-    margin-left: 150px !important;
-    // margin: 0px !important;
-    // padding: 0px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     text-align: center !important;
     // text-align: center !important;
 }
@@ -55,7 +55,8 @@
     padding: 0px !important;
     font-size: 1.25em !important;
     margin-top: 8px !important;
-    margin-left: 150px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     letter-spacing: 1px !important;
     color: rgba(204, 204, 204, .8) !important;
     text-align: center !important;
