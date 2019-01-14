@@ -1,6 +1,18 @@
 # Frame
 
-Last release on 01/06/2019
+Last release on 01/14/2019
+
+# Links
+
+Test online here: 
+
+[https://framed.fwd.wf/](https://framed.fwd.wf/) 
+
+Download the Windows release of version 0.1.0 here (last updated 01/14/2019)
+
+[https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/) 
+
+(Need a Mac user to build the MacOS version; Linux is untested, will update on that soon).
 
 # Screenshots
 
@@ -20,19 +32,6 @@ Frame analyzing Sicko Mode - sped up by 1.5x
 
 <!-- Frame analyzing the Cryptocurrency Wikipedia article - Sped up by 2.5x -->
 
-# Links
-
-Test online here: 
-
-[https://framed.fwd.wf/](https://framed.fwd.wf/) 
-
-Download the Windows release of version 0.1.0 here (last updated 01/14/2019)
-
-[https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/) 
-
-(Need a Mac user to build the MacOS version; Linux is untested, will update on that soon).
-
-The first release of Frame was completed and released December 25th, 2018. The releases on GitHub may not reflect that, as optimizations and features have been added in and replaced existing releases. 
 
 # Intro
 
