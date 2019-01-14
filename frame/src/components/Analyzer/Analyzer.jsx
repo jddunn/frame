@@ -27,7 +27,7 @@ import ReactJson from 'react-json-view';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
-import traverseEntriesById from '../../utils/entries-traversal';
+import { traverseEntriesById } from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 
 import './tabStyle.css';;

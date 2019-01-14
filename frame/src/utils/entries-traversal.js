@@ -44,21 +44,27 @@ export function traverseEntriesById(id, Entries) {
 }
 
 export function getAllEntryTags(Entries) {
-    const eTags = [];
+    let eTags = [];
     const next = traverseEntriesGenerator(Entries);
     let res = next.next();
     try {
-        const tags = res.tags.split(',');
-        eTags.extend(tags);
+        const tags = res.value.tags.split(', ');
+        eTags = eTags.concat(tags);
     } catch (err) {
     }
     while (!res.done) {
         res = next.next();
         try {
-            const tags = res.tags.split(',');
-            eTags.extend(tags);
+            const tags = res.value.tags.split(', ');
+            eTags = eTags.concat(tags);
         } catch (err) {
         }
     }
+    eTags = eTags.filter(function (el) {
+        return el !== null;
+    });      
+    eTags = eTags.filter(function (el) {
+        return el !== '';
+    });      
     return Array.from(new Set(eTags)); // Remove duplicate tags
 }
