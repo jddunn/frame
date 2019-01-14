@@ -189,8 +189,6 @@ export default class App extends Component {
     }
   }
 
-
-
   // Force app to re-render; this func is passed down in props to children
   async updateApp() {
     if (this.state._isMounted) {

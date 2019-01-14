@@ -527,7 +527,7 @@ export default class MainMenu extends Component {
             <Menu.Item key="0" style={{marginTop: '20px'}}
               onClick={() => { this.switchLink(0) }}
             >
-              <Tooltip title="View / edit entries">
+              <Tooltip title="Main search / library overview">
                 <Icon type="desktop" />
               </Tooltip>
               <span>Home</span>
@@ -537,7 +537,7 @@ export default class MainMenu extends Component {
               onClick={() => { this.switchLink(1) }}
             >
               <Tooltip title="View / edit entries">
-                <Icon type="desktop" />
+                <Icon type="snippets" />
               </Tooltip>
               <span>Look</span>
             </Menu.Item>
@@ -545,7 +545,7 @@ export default class MainMenu extends Component {
                 disabled={true}
                 key="sub2" title={<span>
                 <Tooltip title="Select, navigate, and organize entries">              
-                  <Icon type="snippets" style={{color:'white'}}/>
+                  <Icon type="book" style={{color:'white'}}/>
                 </Tooltip>
                 <span style={{color: 'white'}}>Library</span></span>}
                 >
@@ -814,7 +814,7 @@ export default class MainMenu extends Component {
                                 text summarizations, and other stats (save or select an entry to
                                 run analysis)
               ">              
-                <Icon type="inbox" />
+                <Icon type="bulb" />
               </Tooltip>
               <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
                       try saving or selecting the entry again.
