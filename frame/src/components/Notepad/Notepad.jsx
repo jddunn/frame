@@ -283,7 +283,6 @@ export default class Notepad extends Component {
       if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>"
         && entry['html'] !== "undefined"
       ) {
-        console.log("THE ENTRY HTML IS NOT UNDEFINED: ", entry['html']);
         if (splitNotebookLayout) {
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
@@ -412,8 +411,8 @@ export default class Notepad extends Component {
                   const res = getContentFromHTML(entry['html']);
                   _this.setState({Entries: newEntries,  editorState: res,
                   editorType: editorType});
-                  // console.log(err);
-                  // message.error(err);
+                  console.log(err);
+                  message.error(err);
                 });
               })
             .catch(err => {
@@ -425,6 +424,8 @@ export default class Notepad extends Component {
               entry['summaryAbstractiveByParagraphs'] = [];
               const newEntries = replaceEntry(entry, Entries);
               const res = getContentFromHTML(entry['html']);
+              console.log(err);
+              message.error(err);
               _this.setState({Entries: newEntries,  editorState: res,
               editorType: editorType});
             });
@@ -437,6 +438,8 @@ export default class Notepad extends Component {
             entry['summaryByParagraphs'] = summaryByParagraphs;
             entry['summaryAbstractive'] = summaryAbstractive;
             entry['summaryAbstractiveByParagraphs'] = summaries;
+            console.log(err);
+            message.error(err);
           }
         }
         const newEntries = replaceEntry(entry, Entries);
@@ -444,7 +447,6 @@ export default class Notepad extends Component {
         _this.setState({Entries: newEntries,  editorState: res,
         editorType: editorType, prevEntryId: entryId});
       } else {
-        console.log("THE ENTRY HTML IS UNDEFINED YES");
         _this.setState({ editorState: EditorState.createEmpty(),
 });
       }
@@ -544,7 +546,7 @@ export default class Notepad extends Component {
     let library = defaultFLib;
     const Library = openDB(library);
     const m_this = this;
-    if (entry !== null && entry !== undefined) {
+    // if (entry !== null && entry !== undefined) {
       entry['html'] = getHTMLFromContent(this.state.editorState);
       const strippedText = HTMLToText(entry['html']);
       entry['strippedText'] = strippedText;
@@ -701,7 +703,7 @@ export default class Notepad extends Component {
       } catch (err) {
         message.error("Failed to save notebook! " + err);
       }
-    }
+    // }
   }
 
   handleDroppedFiles(selection, files) {

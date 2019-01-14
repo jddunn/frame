@@ -156,7 +156,7 @@ export default class SearchLibrary extends Component {
   render() {
 
     const { selectedTagsToSearch, allTagsFound, tagInputVisible, tagInputValue,
-            textCorpus
+            textCorpus, Entries
     } = this.state;
 
     const entriesObj = {"title": "Entries",
@@ -228,7 +228,9 @@ export default class SearchLibrary extends Component {
             </div>
             <Collapse bordered={false} defaultActiveKey={['1']} className="collapseTransparent">
                 <Panel header="Ask / Search for Information" key="1" style={customPanelStyle}>
-                  <WrappedAskForm entryText={textCorpus} updateAppMethod={this.props.updateAppMethod}/>
+                  <WrappedAskForm entryText={textCorpus} updateAppMethod={this.props.updateAppMethod}
+                                  Entries={Entries}
+                  />
                 </Panel>
               </Collapse>
             </div>

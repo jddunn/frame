@@ -286,6 +286,7 @@ export class EntryCreate extends Component {
           linkToExtract = linkToExtract.replace("https://www.", "http://www.");
           // linkToExtract = linkToExtract.replace("//", "");
           let _linkToExtract = 'https://cors-anywhere.herokuapp.com/' + linkToExtract;
+          message.info("Sending fetch request to link.. this could take a while. Hold tight!");
           await fetch(_linkToExtract,
           {
               mode: 'cors',
@@ -296,6 +297,7 @@ export class EntryCreate extends Component {
               }
           })
           .then(async function(response) {
+            message.info("Sucessfully fetched content from link. Rendering data now..");
             const clone = response.clone();
             clone.text().then(async function(html) {
             let htmlTitle = "";
