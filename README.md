@@ -18,7 +18,7 @@ Download the Windows release of version 0.1.0 here (last updated 01/14/2019)
 
 Frame - 01-14-2019 release - demo use case for collecting and analyzing outdoors survival info - sped up by 2.05x
 
-<img src="screenshots/Frame-animated-demo-01-14-2019.gif" height="450" alt="Frame - 01-14-2019 Release"/>
+<img src="screenshots/Frame-animated-demo-01-14-2019.gif" height="500" alt="Frame - 01-14-2019 Release"/>
 
 Frame extracting a web link with David Foster Wallace's This is Water essay - sped up by 2.125x
 
