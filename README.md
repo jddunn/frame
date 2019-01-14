@@ -26,7 +26,7 @@ Test online here:
 
 [https://framed.fwd.wf/](https://framed.fwd.wf/) 
 
-Download the Windows release of version 0.1.0 here (last updated 01/06/2019)
+Download the Windows release of version 0.1.0 here (last updated 01/14/2019)
 
 [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/) 
 
@@ -44,7 +44,7 @@ Eventually, a donation-supported / subscription-based edition could be serviced 
 
 Note: Frame is currently heavily unoptimized with some UI quirks. The project was created as a proof-of-concept but designed to work as a MVP as well. But it is fully functional!
 
-Download Windows build (last updated 01/06/2019): [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
+Download Windows build (last updated 01/14/2019): [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
 # Installation
 
