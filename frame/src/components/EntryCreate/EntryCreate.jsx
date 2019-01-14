@@ -151,7 +151,7 @@ const EntryCreateForm = Form.create()(
                 initialValue: 'New entry',
                 rules: [{ required: true, message: 'Title of entry is required' }],
               })(
-                <Input onChange={this.handleTitleInputChange}  autocomplete="off" placeholder='New entry'/>
+                <Input onChange={this.handleTitleInputChange}  autoComplete="off" placeholder='New entry'/>
               )}
             </FormItem>
             <FormItem label="Document Type"
@@ -180,7 +180,7 @@ const EntryCreateForm = Form.create()(
                   <Tooltip title="Enter in a link / URL to automatically extract the text from for as content">                
                     <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)' }}/>
                   </Tooltip>
-                  } autocomplete="off" placeholder='http://'/>
+                  } autoComplete="off" placeholder='http://'/>
               )}
             </FormItem>
 
@@ -280,11 +280,11 @@ export class EntryCreate extends Component {
       let newEntryTitle = values['title'];
       let linkToExtract = values['linkToExtract'];
         try {
-          linkToExtract = linkToExtract.replace("http:", "");
-          linkToExtract = linkToExtract.replace("https:", "");
-          linkToExtract = linkToExtract.replace("www.", "");
-          linkToExtract = linkToExtract.replace("https://www.", "");
-          linkToExtract = linkToExtract.replace("//", "");
+          // linkToExtract = linkToExtract.replace("http:", "");
+          linkToExtract = linkToExtract.replace("https:", "http:");
+          // linkToExtract = linkToExtract.replace("www.", "");
+          linkToExtract = linkToExtract.replace("https://www.", "http://www.");
+          // linkToExtract = linkToExtract.replace("//", "");
           let _linkToExtract = 'https://cors-anywhere.herokuapp.com/' + linkToExtract;
           await fetch(_linkToExtract,
           {
@@ -292,7 +292,7 @@ export class EntryCreate extends Component {
               headers: {
                 "Access-Control-Allow-Origin": "*",
                 'X-Requested-With': "XMLHttpRequest",
-                'Access-Control-Allow-Credentials' : 'true', 'Access-Control-Allow-Origin' : 'http://localhost', 'Access-Control-Allow-Origins' : 'http://localhost', 
+                'Access-Control-Allow-Credentials' : 'true', 'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Origins' : '*', 
               }
           })
           .then(async function(response) {
