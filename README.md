@@ -4,9 +4,13 @@ Last release on 01/06/2019
 
 # Screenshots
 
-<img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/>
+<img src="screenshots/Frame-animated-demo-01-14-2019.gif" height="450" alt="Frame - 01-14-2019 Release"/>
 
-Frame extracting a web link with David Foster Wallace's This is Water essay - Sped up by 2.125x
+Frame - 01-14-2019 Release - Demo Use Case
+
+<!-- <img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/> -->
+
+<!-- Frame extracting a web link with David Foster Wallace's This is Water essay - Sped up by 2.125x -->
 
 <img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="450" alt="Frame - Demo - Sicko Mode"/>
 
@@ -73,7 +77,7 @@ These are features that would make Frame considerably more robust in terms of us
 
 - ~~Refine sentence / new line tokenization~~ (DONE)
 
-- Add new section where users can see summarizations and ask questions by groups of entries (like searching entries with related tags, or searching an entry and its sub-entries)
+- ~~Add new section where users can see summarizations and ask questions by groups of entries (like searching entries with related tags, or searching an entry and its sub-entries)~~ (DONE)
 
 - Add in visual themes and switcher options
 
