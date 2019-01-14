@@ -108,7 +108,7 @@ export default class AskMain extends React.Component {
               size="large"
               prefix={<Icon type="question-circle" 
               style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Write your question (must be about the text on this page)" />
+              placeholder="Write your question" />
             )}
           </Form.Item>
 
