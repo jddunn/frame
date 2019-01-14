@@ -67,15 +67,19 @@ export default class SearchLibrary extends Component {
   handleClose = (removedTag) => {
     const Entries = this.state.Entries;
     const selectedTagsToSearch = this.state.selectedTagsToSearch.filter(tag => tag !== removedTag);
-    console.log("SELECTED TAGS TO SEARCH: ", selectedTagsToSearch);
     const textCorpusWithOrigins = getEntriesTextsByTags(selectedTagsToSearch, Entries);
     const textCorpus = this.buildTextCorpusFromEntries(textCorpusWithOrigins); 
-    console.log("THIS DA TEXT CORPUS ORIGINS: ", textCorpusWithOrigins);
     this.setState({ selectedTagsToSearch, textCorpus, textCorpusWithOrigins });
   }
 
   showInput = () => {
     this.setState({ tagInputVisible: true }, () => this.input.focus());
+  }
+
+  clearTags = () => {
+    this.setState({ tagInputVisible: true,
+      selectedTagsToSearch: []
+    }, () => this.input.focus());
   }
 
   handleInputChange = (e) => {
@@ -202,12 +206,20 @@ export default class SearchLibrary extends Component {
                 />
               )}
               {!tagInputVisible && (
+                <React.Fragment>
                 <Tag
                   onClick={this.showInput}
                   style={{ background: '#fff', borderStyle: 'dashed' }}
                 >
                   <Icon type="plus" /> Add tag
                 </Tag>
+                <Tag
+                onClick={this.clearTags}
+                style={{ background: '#fff', borderStyle: 'dashed' }}
+              >
+                <Icon type="close" /> Remove tags
+              </Tag>
+              </React.Fragment>
               )}
               <br/>
               <p className="titleTextP">Add or remove tags to filter what entries are to be searched (by default, all tags are listed / searched)</p>
