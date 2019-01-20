@@ -57,7 +57,6 @@ export default class SearchLibrary extends Component {
       selectedTagsToSearch: [],
       allTagsFound: [],
       tagInputVisible: false,
-      tagInputValue: '',
     };
     this.buildTextCorpusFromEntries = this.buildTextCorpusFromEntries.bind(this);
   }
@@ -73,39 +72,20 @@ export default class SearchLibrary extends Component {
   }
 
   showInput = () => {
-    this.setState({ tagInputVisible: true }, () => this.input.focus());
+    this.setState({ tagInputVisible: true });
+      // , () => this.input.focus());
   }
 
   clearTags = () => {
     this.setState({ tagInputVisible: true,
       selectedTagsToSearch: []
-    }, () => this.input.focus());
+    });
+    // , () => this.input.focus());
   }
 
   handleInputChange = (e) => {
     this.setState({ tagInputValue: e.target.value });
   }
-
-  handleInputConfirm = () => {
-    const state = this.state;
-    const tagInputValue = state.tagInputValue;
-    let selectedTagsToSearch = state.selectedTagsToSearch
-    if (tagInputValue && selectedTagsToSearch.indexOf(tagInputValue) === -1) {
-      selectedTagsToSearch = [...selectedTagsToSearch, tagInputValue];
-    }
-    const Entries = this.state.Entries;
-    const filteredEntries = getEntriesTextsByTags(selectedTagsToSearch, Entries);
-    const textCorpus = this.buildTextCorpusFromEntries(filteredEntries); 
-    this.setState({
-      selectedTagsToSearch: selectedTagsToSearch,
-      tagInputVisible: false,
-      tagInputValue: '',
-      textCorpus: textCorpus,
-      textCorpusWithOrigins: filteredEntries
-    });
-  }
-
-  saveInputRef = input => this.input = input
 
   // End tag input funcs
 
@@ -153,9 +133,36 @@ export default class SearchLibrary extends Component {
     }
   }
 
+  handleSearch = (value) => {
+    this.setState({
+      dataSource: !value ? [] : [
+        value,
+        value + value,
+        value + value + value,
+      ],
+    });
+  }
+
+  onSelect = (value) => {
+    const state = this.state;
+    let selectedTagsToSearch = state.selectedTagsToSearch
+    if (value && selectedTagsToSearch.indexOf(value) === -1) {
+      selectedTagsToSearch = [...selectedTagsToSearch, value];
+    }
+    const Entries = this.state.Entries;
+    const filteredEntries = getEntriesTextsByTags(selectedTagsToSearch, Entries);
+    const textCorpus = this.buildTextCorpusFromEntries(filteredEntries); 
+    this.setState({
+      selectedTagsToSearch: selectedTagsToSearch,
+      tagInputVisible: false,
+      textCorpus: textCorpus,
+      textCorpusWithOrigins: filteredEntries
+    });
+  }
+
   render() {
 
-    const { selectedTagsToSearch, allTagsFound, tagInputVisible, tagInputValue,
+    const { selectedTagsToSearch, allTagsFound, tagInputVisible,
             textCorpus, Entries
     } = this.state;
 
@@ -193,17 +200,14 @@ export default class SearchLibrary extends Component {
                 return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
               })}
               {tagInputVisible && (
-                <Input
-                  ref={this.saveInputRef}
-                  type="text"
-                  size="small"
-                  style={{ width: 78 }}
-                  placeholder="enter tag"
-                  value={tagInputValue}
-                  onChange={this.handleInputChange}
-                  onBlur={this.handleInputConfirm}
-                  onPressEnter={this.handleInputConfirm}
-                />
+              <AutoComplete
+                dataSource={allTagsFound}
+                style={{ width: 78 }}
+                onSelect={this.onSelect}
+                onSearch={this.handleSearch}
+                placeholder="enter tag"
+                filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+              />
               )}
               {!tagInputVisible && (
                 <React.Fragment>
