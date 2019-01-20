@@ -268,7 +268,7 @@ const EntryCreateForm = Form.create()(
            <FormItem label="Date Created"
             {...formItemLayout}
             >
-            {getFieldDecorator('dateCreated', {
+            {getFieldDecorator('timestampCreated', {
               initialValue: timestampNow,
               })(<Input disabled={true} type="textarea" />)}
             </FormItem>
@@ -278,7 +278,7 @@ const EntryCreateForm = Form.create()(
               <FormItem label="Date Modified"
               {...formItemLayout}
               >
-              {getFieldDecorator('dateModified', {
+              {getFieldDecorator('timestampLastModified', {
                 initialValue: timestampNow,
                 })(<Input disabled={true} type="textarea" />)}
               </FormItem>

@@ -21,6 +21,7 @@ import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 import localforage from 'localforage';
 
+import getTimestamp from '../../utils/get-timestamp';
 /**
  *  JS NLP stuff (we make these calls in the Notebook component,
  *  so analysis can be done seamlessly with saving inside the editor.
@@ -536,6 +537,7 @@ export default class Notepad extends Component {
 
   async saveNotebookData() {
     let entry = this.state.entry;
+    const timestampNow = getTimestamp();
     const entryId = this.state.entryId;
     const Entries = this.state.Entries;
     let editorType = entry['editorType'];
@@ -543,6 +545,7 @@ export default class Notepad extends Component {
     let library = defaultFLib;
     const Library = openDB(library);
     const m_this = this;
+    entry['timestampLastModified'] = timestampNow;
     // if (entry !== null && entry !== undefined) {
       entry['html'] = getHTMLFromContent(this.state.editorState);
       const strippedText = HTMLToText(entry['html']);

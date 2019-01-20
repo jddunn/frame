@@ -11,6 +11,7 @@ import getFlatDataFromTree from '../../utils/vendor/tree-data-utils';
 import FJSONEditor from '../FJSONEditor/FJSONEditor';
 /** Modal / form input for new entry */
 import { EntryCreate } from '../EntryCreate/EntryCreate';
+import { EntryEditForm } from '../EntryEditForm/EntryEditForm';
 /** Ant Design */
 import { 
   Menu, Icon, Button, ButtonGroup,
@@ -30,7 +31,10 @@ import localforage from 'localforage';
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
-import traverseEntriesById from '../../utils/entries-traversal';
+import { traverseEntriesById,
+         getEntryIdByNodeIndex,
+} from '../../utils/entries-traversal';
+import replaceEntry from '../../utils/replace-entry';
 /** State management with session storage.
  *  This is used to pass state vals across React components,
  *  in lieu of passing props or using Redux / Flow, for simplicity.
@@ -83,6 +87,8 @@ export default class MainMenu extends Component {
       entriesEditorUsingJson: false,
       // Showing entry modal creation form
       visible: false,
+      entryEditVisible: false,
+      entryIdToEdit: '',
       _isMounted: false,
 
     };
@@ -136,14 +142,14 @@ export default class MainMenu extends Component {
       });
     } else {
       this.setState({treeData: treeData,
-              _isMounted: true
+          _isMounted: true
       });
     }
   }
 
   componentWillUnmount () {
     this.setState({
-      _isMounted: true
+      _isMounted: false
     });
   }
 
@@ -311,22 +317,44 @@ export default class MainMenu extends Component {
   }
 
   // Show info for node in alert
-  alertNodeInfo = ({ node, path, treeIndex }) => {
+  alertNodeInfo = ({node, path, treeIndex }) => {
+    console.log(event);
+    event.stopPropagation(); // https://github.com/frontend-collective/react-sortable-tree/issues/74
+    console.log(event.target.className);
+     if (!event.target.className.includes('rowContentsToolbarIcon')) {
+      return;
+    }
     const objectString = Object.keys(node)
       .map(k => (k === 'children' ? 'children: Array' : `${k}: '${node[k]}'`))
       .join(',\n   ');
-  
-    global.alert(
-        `{\n   ${objectString}\n},\n`
-        // `path: [${path.join(', ')}],\n` +
-        // `treeIndex: ${treeIndex}`
-    );
+
+    if (this.state._isMounted) {
+      const Entries = this.state.treeData;
+      const entryId = getEntryIdByNodeIndex(treeIndex, Entries);
+      const entry = traverseEntriesById(entryId, Entries);
+      // if (entryId !== null && entryId !== undefined && entryId !== "undefined") {
+        this.setState({entryEditVisible: true,
+                      entryIdToEdit: entryId,
+                      entryValsToEdit: entry
+        });
+        setState("entryEditVisible", true);
+      // } else {
+        // message.fail("Unable to find the entry with the right ID. This could mean that entry's data has been corrupted in the database.");
+      }
+    // }
+    // global.alert(
+    //     `{\n   ${objectString}\n},\n` +
+    //     // `path: [${path.join(', ')}],\n` +
+    //     `treeIndex: ${treeIndex}`
+    // );
   };
 
   clickNodeSelect(event, rowInfo) {
     // Attaching an onClick to rowInfo includes all buttons
     // within the row contents, and we want those buttons
     // to do different things than selecting the node itself.
+    // setState("entryEditVisible", false);
+    event.stopPropagation(); // https://github.com/frontend-collective/react-sortable-tree/issues/74
     if (event.target.className.includes('ant-btn')) {
       return;
     }
@@ -529,6 +557,13 @@ export default class MainMenu extends Component {
     const uuid = generateUUID();
     const newChildEntryTitle = `New entry`;
     const newChildSubtitlePlaceholderText = timestampNow;
+    const Entries = this.state.Entries;
+    // const entryEditVisible = this.state.entryEditVisible;
+    const entryEditVisible = getState("entryEditVisible");
+    const entryIdToEdit = this.state.entryIdToEdit;
+    const entryValsToEdit = this.state.entryValsToEdit;
+    console.log("ENTRY ID TO EDIT: ", entryIdToEdit, entryValsToEdit);
+
     if (this.state._isMounted) {
       return (
         <React.Fragment>     
@@ -597,6 +632,9 @@ export default class MainMenu extends Component {
                           </Button>
                         </Tooltip>
                       </div>
+                      <EntryEdit updateEntriesMethod={this.props.updateEntriesMethod} updateAppMethod={this.props.updateAppMethod} entryEditVisible={entryEditVisible}
+                                                      entryIdToEdit={entryIdToEdit} Entires={Entries} entryValsToEdit={entryValsToEdit}
+                      />
                       <div className="saveLoadExportButtonsContainer">
                           <Upload beforeUpload={this.handleUploadFile} 
                             afterUpload={null} accept="json" customRequest={null}
@@ -737,6 +775,8 @@ export default class MainMenu extends Component {
                           }
                         generateNodeProps={rowInfo => ({
                           onClick: (event) => { 
+                            event.stopPropagation(); // https://github.com/frontend-collective/react-sortable-tree/issues/74
+
                             if(event.target.className.includes('collapseButton') || event.target.className.includes('expandButton')) {
                               // Ignore the onlick, or do something different as the (+) or (-) button has been clicked.
                             }
@@ -745,15 +785,21 @@ export default class MainMenu extends Component {
                             }
                           },
                           buttons: [
+                            <Tooltip title="Edit this node / entry properties">
                             <Button
                               shape="circle" 
                               ghost={true}
                               className="rowContentsToolbarIcon"
-                              onClick={() => this.alertNodeInfo(rowInfo)}
+                                onClick= {(event) => { 
+                                this.alertNodeInfo(rowInfo)}         
+                                }                       
                               >
-                                <Icon size="small" type="left" />
-                            </Button>,
-                            <Tooltip title="Changes need to be saved after inline adding">
+                                <Icon size="small" type="left"
+                                />
+                            </Button>
+                            </Tooltip>
+                            ,
+                            <Tooltip title="Add new entry inline (changes must be saved for effect)">
                             <Button
                               shape="circle" 
                               ghost={true}
@@ -763,7 +809,7 @@ export default class MainMenu extends Component {
                             <Icon size="small" type="plus" />
                             </Button>
                             </Tooltip>,
-                            <Tooltip title="Changes need to be saved after inline deleting">
+                            <Tooltip title="Delete entry (changes must be saved for effect)">
                             <Button
                               shape="circle" 
                               ghost={true}
@@ -852,3 +898,105 @@ export default class MainMenu extends Component {
   }
 }
 
+
+export class EntryEdit extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+      _isMounted: false,
+      Entries: [],
+      entryId: '',
+      entryVals: {}
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+        visible: this.props.entryEditVisible,
+        _isMounted: true
+    });
+  }
+
+  componentWillUnmount () {
+    this.setState({
+      _isMounted: false
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state._isMounted) {
+      if (this.state.entryId !== nextProps.entryId) {
+        // const form = this.formRef.props.form;
+        // form.resetFields();
+        // const entry = traverseEntriesById(nextProps.entryIdToEdit);
+        console.log("DA ENTRY EDITOR GOT ENTRY: ", nextProps);
+        this.setState({visible: nextProps.entryEditVisible,
+          entryVals: nextProps.entryValsToEdit,
+          entryId: nextProps.entryIdToEdit,
+          Entries: nextProps.Entries
+        });  
+      }
+    }
+  }
+
+  handleCancel = () => {
+    const form = this.formRef.props.form;
+    form.resetFields();
+    this.setState({ visible: false });
+    setState("entryEditVisible", false);
+  }
+
+  refreshMenuList = () => {
+    this.setState({visible: false});
+    setState("entryEditVisible", false);
+  }
+
+  saveFormRef = (formRef) => {
+    this.formRef = formRef;
+  }
+
+  handleSave = async () => {
+    const form = this.formRef.props.form;
+
+    let m_Entries;
+    var _this = this;
+    form.validateFields(async (err, values) => {
+      if (err) {
+        message.error(err);
+        return;
+      }
+      console.log("WE ARE SAVING: FORM VALUES: ", values)
+      const library = defaultFLib;
+      // if (library === null || libray === undefined) {
+        // library = "default";
+      // }
+      const m_Library = openDB(library);
+      this.setState({visible: false});
+      setState("entryEditVisible", false);
+      this.props.updateAppMethod();
+    });
+  }
+
+  render() {
+    const {entryId, entryVals, Entries } = this.state;
+    const visible = getState("entryEditVisible");
+    console.log("RENDER: ", entryId, entryVals);
+    console.log("IS IT VISIBLE: ", visible);
+    return (
+      <React.Fragment>
+          <EntryEditForm
+            Entries={Entries}
+            entryId={entryId}
+            entryVals={entryVals}
+            wrappedComponentRef={this.saveFormRef}
+            visible={visible}
+            onCancel={this.handleCancel}
+            onSave={this.handleSave}
+            updateAppMethod={this.props.updateAppMethod} 
+          />
+      </React.Fragment>
+    );
+  }
+}

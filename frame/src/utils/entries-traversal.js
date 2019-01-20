@@ -68,14 +68,12 @@ export function getEntriesByTags(tags, Entries) {
 }
 
 export function getEntriesTextsByTags(tags, Entries) {
-    console.log("GETTING ENTRY TEXTS BY TAGS: ", tags);
     const entriesTexts = {};
     const next = traverseEntriesGenerator(Entries);
     let res = next.next();
     try {
         const tagsText = res.value.tags;
         if (tags.some(v => tagsText.includes(v))) {
-            console.log("ADD ENTRY TAG: ", tagsText);
             entriesTexts[res.value.id] = res.value.strippedText;
         }
     } catch (err) {
@@ -118,4 +116,33 @@ export function getAllEntryTags(Entries) {
         return el !== '';
     });      
     return Array.from(new Set(eTags)); // Remove duplicate tags
+}
+
+export function getEntryIdByNodeIndex(index, Entries) {
+    let runningIndex = 0;
+    const next = traverseEntriesGenerator(Entries);
+    let entryId;
+    let res = next.next();
+    if (index === runningIndex) {
+        entryId = res.value.id;
+        return entryId;
+    }
+    try {
+        res = res.next();
+        runningIndex++;
+        if (index === runningIndex) {
+            entryId = res.value.id;
+            return entryId;
+        }
+    } catch (err) {
+    }
+    while (!res.done) {
+        res = next.next();
+        runningIndex++;
+        if (index === runningIndex) {
+            entryId = res.value.id;
+            return entryId;
+        }
+    }
+    return null;
 }
