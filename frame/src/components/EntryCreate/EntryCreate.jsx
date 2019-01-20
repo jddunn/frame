@@ -432,13 +432,10 @@ export class EntryCreate extends Component {
             try {
               const res = await localforage.setItem("entries", m_Entries);
               message.success("Creating new library entry..");
-              // message.success(res);
-              // console.log(res);
               form.resetFields();
               _this.props.updateEntriesMethod();        
               _this.setState({visible: false})
             } catch (err) {
-              console.log(err);
               message.error("Failed to create new library entry! " + err);
               form.resetFields();
               _this.setState({visible: false});
@@ -464,6 +461,7 @@ export class EntryCreate extends Component {
           _this.props.updateEntriesMethod();        
           _this.setState({visible: false})
         } catch (err) {
+          message.fail("Failed to create entry! " + err);
           form.resetFields();
           _this.setState({visible: false});
         }

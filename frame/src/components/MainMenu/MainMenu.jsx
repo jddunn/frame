@@ -844,16 +844,6 @@ export default class MainMenu extends Component {
                           </p>
                         </div>
                       </div>
-                          {/* <button
-                            onClick={() =>
-                              this.setState(state => ({
-                                treeData: state.treeData.concat({
-                                  title: `New entry`,
-                                }),
-                              }))
-                            }
-                          >
-                          */} 
                     </div>
                   )}
                 </div>
@@ -959,7 +949,6 @@ export class EntryEdit extends Component {
 
   handleSave = async () => {
     const form = this.formRef.props.form;
-
     let m_Entries;
     var _this = this;
     form.validateFields(async (err, values) => {
@@ -967,7 +956,6 @@ export class EntryEdit extends Component {
         message.error(err);
         return;
       }
-      console.log("WE ARE SAVING: FORM VALUES: ", values)
       const library = defaultFLib;
       // if (library === null || libray === undefined) {
         // library = "default";
@@ -976,14 +964,32 @@ export class EntryEdit extends Component {
       this.setState({visible: false});
       setState("entryEditVisible", false);
       this.props.updateAppMethod();
+      m_Entries = await localforage.getItem("entries");
+      const entryId = values.id;
+      const entry = traverseEntriesById(entryId, m_Entries);
+      let _entry = entry;
+      _entry['timestampLastModified'] = values.timestampLastModified;
+      _entry['tags'] = values.tags;
+      _entry['subtitle'] = values.subtitle;
+      _entry['title'] = values.title;
+      const newEntries = replaceEntry(_entry, m_Entries);
+      try {
+        const res = await localforage.setItem("entries", newEntries);
+        message.success("Saving new entry data..");
+        form.resetFields();
+        _this.props.updateEntriesMethod();        
+        _this.setState({visible: false})
+      } catch (err) {
+        message.fail("Failed to save edits! " + err);
+        form.resetFields();
+        _this.setState({visible: false});
+      }
     });
   }
 
   render() {
     const {entryId, entryVals, Entries } = this.state;
     const visible = getState("entryEditVisible");
-    console.log("RENDER: ", entryId, entryVals);
-    console.log("IS IT VISIBLE: ", visible);
     return (
       <React.Fragment>
           <EntryEditForm
