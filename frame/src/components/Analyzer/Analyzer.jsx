@@ -572,7 +572,8 @@ export default class Analyzer extends Component {
             selectedEntry = Entries[0];
         }
         drawerTitle = '' + selectedEntry.title + '' + '\xa0\xa0\xa0\xa0-\xa0\xa0\xa0\xa0Analysis';
-        const dateCreated = selectedEntry.dateCreated;
+        const timestampCreated = selectedEntry.timestampCreated;
+        const timestampLastModified = selectedEntry.timestampLastModified;
         let entryTags = selectedEntry.tags;
         
         let charCount; 
@@ -871,9 +872,19 @@ export default class Analyzer extends Component {
                           Date Created
                         </h4>
                         <h4 className="tabInnerContent">
-                            {dateCreated}
+                            {timestampCreated}
                         </h4>
                       </div>
+
+                      <div className="tabInnerSection">
+                        <h4 className="tabInnerLabel">
+                          Date Last Modified
+                        </h4>
+                        <h4 className="tabInnerContent">
+                            {timestampLastModified}
+                        </h4>
+                      </div>
+    
     
                       <div className="tabInnerSection">
                         <h4 className="tabInnerLabel">

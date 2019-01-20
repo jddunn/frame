@@ -80,17 +80,19 @@ export const EntryEditForm = Form.create()(
           const Entries = nextProps.Entries;
           const entryVals = nextProps.entryVals;
           const entryId = nextProps.entryId;
-          console.log("GETTING NEXTPROPS: ", nextProps);
-          try {
-            this.setState({ Entries: Entries, entryId: entryId, entryVals: entryVals,
-              entryTags: entryVals.tags, entryTitle: entryVals.title, 
-              entrySubtitle: entryVals.subtitle, entryEditorType:
-              entryVals.editorType, entryTimestampCreated: entryVals.timestampCreated,
-              entryTimestampLastModified: entryVals.timestampLastModified,
-              visible: true
-            });
-            // setState("entryEditVisible", true);
-          } catch (err) {
+          const visible = getState("entryEditVisible");
+          if (visible) {
+            try {
+              this.setState({ Entries: Entries, entryId: entryId, entryVals: entryVals,
+                entryTags: entryVals.tags, entryTitle: entryVals.title, 
+                entrySubtitle: entryVals.subtitle, entryEditorType:
+                entryVals.editorType, entryTimestampCreated: entryVals.timestampCreated,
+                entryTimestampLastModified: entryVals.timestampLastModified,
+                visible: true
+              });
+              // setState("entryEditVisible", true);
+            } catch (err) {
+            }
           }
         } else {
           this.setState({visible: false});
