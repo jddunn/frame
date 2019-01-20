@@ -689,7 +689,10 @@ export default class Analyzer extends Component {
                             ghost={true} 
                             icon="deployment-unit"
                             className="runButton"
-                            onClick={()=> { message.success("Outputting analysis.. if nothing is happening, hit the Save button in the notebook, and then hit Run again."); this.props.updateAppMethod()}}
+                            onClick={()=> 
+                              { message.info("Outputting analysis.. if nothing is happening, hit the Save button in the notebook, and then hit Run again.");
+                                this.props.updateAppMethod()
+                              }}
                             >
                             Run
                         </Button>
@@ -874,7 +877,7 @@ export default class Analyzer extends Component {
     
                       <div className="tabInnerSection">
                         <h4 className="tabInnerLabel">
-                          Move Dialog
+                          Move Dialog Position
                         </h4>
                         <div className="tabInnerContent">
                             <RadioGroup
@@ -883,9 +886,9 @@ export default class Analyzer extends Component {
                               onChange={this.onChange}
                             >
                               <Radio value="top">top</Radio>
-                              <Radio value="right">right</Radio>
+                              {/* <Radio value="right">right</Radio> */}
                               <Radio value="bottom">bottom</Radio>
-                              <Radio value="left">left</Radio>
+                              {/* <Radio value="left">left</Radio> */}
                             </RadioGroup>
                           </div>
                         </div>

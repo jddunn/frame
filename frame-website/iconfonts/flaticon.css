@@ -1,0 +1,118 @@
+@font-face {
+	font-family: "Flaticon";
+	src: url("flaticon.eot");
+	src: url("flaticon.eot#iefix") format("embedded-opentype"),
+	url("flaticon.woff") format("woff"),
+	url("flaticon.ttf") format("truetype"),
+	url("flaticon.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+	font-family: Flaticon;
+    
+font-style: normal;
+ 
+}.flaticon-aim:before {
+	content: "\e000";
+}
+.flaticon-arrow:before {
+	content: "\e001";
+}
+.flaticon-attachment:before {
+	content: "\e002";
+}
+.flaticon-battery:before {
+	content: "\e003";
+}
+.flaticon-bluetooth:before {
+	content: "\e004";
+}
+.flaticon-calendar:before {
+	content: "\e005";
+}
+.flaticon-call:before {
+	content: "\e006";
+}
+.flaticon-camera:before {
+	content: "\e007";
+}
+.flaticon-code:before {
+	content: "\e008";
+}
+.flaticon-connecting:before {
+	content: "\e009";
+}
+.flaticon-tick:before {
+	content: "\e00a";
+}
+.flaticon-facebook:before {
+	content: "\e00b";
+}
+.flaticon-google:before {
+	content: "\e00c";
+}
+.flaticon-graduates:before {
+	content: "\e00d";
+}
+.flaticon-heart:before {
+	content: "\e00e";
+}
+.flaticon-home:before {
+	content: "\e00f";
+}
+.flaticon-layers:before {
+	content: "\e010";
+}
+.flaticon-list:before {
+	content: "\e011";
+}
+.flaticon-mail:before {
+	content: "\e012";
+}
+.flaticon-more:before {
+	content: "\e013";
+}
+.flaticon-move:before {
+	content: "\e014";
+}
+.flaticon-outcoming:before {
+	content: "\e015";
+}
+.flaticon-pinterest:before {
+	content: "\e016";
+}
+.flaticon-play:before {
+	content: "\e017";
+}
+.flaticon-plus:before {
+	content: "\e018";
+}
+.flaticon-position:before {
+	content: "\e019";
+}
+.flaticon-round:before {
+	content: "\e01a";
+}
+.flaticon-settings:before {
+	content: "\e01b";
+}
+.flaticon-shopping:before {
+	content: "\e01c";
+}
+.flaticon-shutdown:before {
+	content: "\e01d";
+}
+.flaticon-special:before {
+	content: "\e01e";
+}
+.flaticon-speech:before {
+	content: "\e01f";
+}
+.flaticon-star:before {
+	content: "\e020";
+}
+.flaticon-twitter:before {
+	content: "\e021";
+}

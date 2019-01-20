@@ -83,7 +83,8 @@ export default class MainMenu extends Component {
       entriesEditorUsingJson: false,
       // Showing entry modal creation form
       visible: false,
-      _isMounted: false
+      _isMounted: false,
+
     };
     // Switch menu links
     this.switchLink = this.switchLink.bind(this);
@@ -110,11 +111,7 @@ export default class MainMenu extends Component {
     // Upload library JSON
     this.handleUploadFile = this.handleUploadFile.bind(this);
 
-    this.sleep = this.sleep.bind(this);
-  }
-
-  sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    this.onInlineAddClick = this.onInlineAddClick.bind(this);
   }
 
   async getEntries(Library, key) {
@@ -282,6 +279,37 @@ export default class MainMenu extends Component {
     }));
   }
 
+  onInlineAddClick(rowInfo) {
+    if (this.state._isMounted) {
+      const getNodeKey = ({ treeIndex }) => treeIndex;
+      const timestampNow = getTimestamp();
+      // TODO: Make tags a default inherited value from the parent child entry
+      const uuid = generateUUID();
+      const newChildEntryTitle = `New entry`;
+      const newChildSubtitlePlaceholderText = timestampNow;
+      this.setState(state => ({
+        treeData: addNodeUnderParent({
+          treeData: state.treeData,
+          parentKey: rowInfo.path[rowInfo.path.length - 1],
+          expandParent: true,
+          getNodeKey: getNodeKey,
+          newNode: {
+            title: newChildEntryTitle,
+            subtitle: newChildSubtitlePlaceholderText,
+            id: uuid,
+            timestampCreated: timestampNow,
+            timestampLastModified: timestampNow,
+            editorType: "flow",
+            tags: [],
+            data: {},
+            dragDisabled: false
+          },
+          addAsFirstChild: state.addAsFirstChild,
+        }).treeData,
+      })) 
+    }
+  }
+
   // Show info for node in alert
   alertNodeInfo = ({ node, path, treeIndex }) => {
     const objectString = Object.keys(node)
@@ -445,7 +473,6 @@ export default class MainMenu extends Component {
       // console.log("Could not find entries! ", err);
       foundEntries = false;
     }
-
 
     const entriesSearchPlaceholderText = (foundEntries == true) ? 'Search entries..' : 'No entries written';
     const entriesEditorUsingJson = this.state.entriesEditorUsingJson;
@@ -731,28 +758,7 @@ export default class MainMenu extends Component {
                               shape="circle" 
                               ghost={true}
                               className="rowContentsToolbarButtonPlus"
-                              onClick={() =>
-                                this.setState(state => ({
-                                  treeData: addNodeUnderParent({
-                                    treeData: state.treeData,
-                                    parentKey: rowInfo.path[rowInfo.path.length - 1],
-                                    expandParent: true,
-                                    getNodeKey: getNodeKey,
-                                    newNode: {
-                                      title: newChildEntryTitle,
-                                      subtitle: newChildSubtitlePlaceholderText,
-                                      id: uuid,
-                                      timestampCreated: timestampNow,
-                                      timestampLastModified: null,
-                                      editorType: "flow",
-                                      tags: [],
-                                      data: {},
-                                      dragDisabled: false
-                                    },
-                                    addAsFirstChild: state.addAsFirstChild,
-                                  }).treeData,
-                                }))
-                              }                  
+                              onClick={() => { this.onInlineAddClick(rowInfo)}}                  
                               >
                             <Icon size="small" type="plus" />
                             </Button>
@@ -767,7 +773,8 @@ export default class MainMenu extends Component {
                                   treeData: removeNodeAtPath({
                                     treeData: state.treeData,
                                     path: rowInfo.path,
-                                    getNodeKey: getNodeKey
+                                    getNodeKey: getNodeKey,
+                                    timestampLastModified: timestampNow
                                   }),
                                 }))
                               }

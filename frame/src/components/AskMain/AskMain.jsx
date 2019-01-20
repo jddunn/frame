@@ -59,11 +59,10 @@ export default class AskMain extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (err) {
-        // this.forceUpdate();
         this.props.updateAppMethod();
       } else {
-        console.log('Received values of form: ', values);
-        message.success("Asking Frame..");
+        // console.log('Received values of form: ', values);
+        message.info("Asking Frame..");
         this.props.form.resetFields();
         fetch("http://localhost:80/api/make_predict", {
           method: "POST",
