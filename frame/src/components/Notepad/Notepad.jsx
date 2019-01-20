@@ -242,10 +242,12 @@ export default class Notepad extends Component {
     const _this = this;
     if (this.state._isMounted) {
       const nextEntryId = nextProps.entryId;    
-      if (nextEntryId === this.state.prevEntryId) {
-        return;
-      }  
-
+      const needAnalysisUpdate = getState("needAnalysisUpdate");
+      if (!needAnalysisUpdate) {
+        if (nextEntryId === this.state.prevEntryId) {
+          return;
+        }  
+      }
       const nextEntry = nextProps.entry;
       const nextEntries = nextProps.Entries;
       const library = defaultFLib;
@@ -276,12 +278,12 @@ export default class Notepad extends Component {
         setState("editorType", "flow");
       }
 
-      const splitNotebookLayout = nextProps.splitNotebookLayout;
+      const showAnalysisOverlay = nextProps.showAnalysisOverlay;
   
       if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>"
         && entry['html'] !== "undefined"
       ) {
-        if (splitNotebookLayout) {
+        if (showAnalysisOverlay) {
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
           const combinedText = entry['title'] + ' ' + strippedText;
@@ -699,9 +701,11 @@ export default class Notepad extends Component {
         // saveToDB("entries", newEntries);
         message.success("Saving notebook changes and analysis results..");
         const res = await localforage.setItem("entries", newEntries);
+        setState("needAnalysisUpdate", false);
         m_this.props.updateAppMethod();
       } catch (err) {
         message.error("Failed to save notebook! " + err);
+        setState("needAnalysisUpdate", false);
       }
     // }
   }
@@ -867,7 +871,7 @@ export default class Notepad extends Component {
           </div>
     };
 
-    const splitNotebookLayout = this.props.splitNotebookLayout;
+    const showAnalysisOverlay = this.props.showAnalysisOverlay;
     return (
       <React.Fragment>
       <div className="notebookSwitch">
@@ -906,7 +910,7 @@ export default class Notepad extends Component {
           </div>
         {/* </div> */}
         <React.Fragment>
-          {splitNotebookLayout ? (
+          {showAnalysisOverlay ? (
             <div className="notebookEditorWrapper">
               {editor}
             </div>

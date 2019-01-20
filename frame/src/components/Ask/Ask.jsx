@@ -102,6 +102,7 @@ export default class AskForm extends React.Component {
             })(
               <Input className="questionTextInput"
               size="large"
+              autoComplete="off"
               prefix={<Icon type="question-circle" 
               style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Write your question (must be about the text on this page)" />

@@ -187,10 +187,12 @@ export default class App extends Component {
           }
         )
     }
+    this.forceUpdate();
   }
 
   // Force app to re-render; this func is passed down in props to children
   async updateApp() {
+    console.log("UPDATING DA APP");
     if (this.state._isMounted) {
       // let library = getState("library");
       let library = defaultFLib;

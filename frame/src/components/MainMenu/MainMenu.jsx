@@ -318,9 +318,7 @@ export default class MainMenu extends Component {
 
   // Show info for node in alert
   alertNodeInfo = ({node, path, treeIndex }) => {
-    console.log(event);
     event.stopPropagation(); // https://github.com/frontend-collective/react-sortable-tree/issues/74
-    console.log(event.target.className);
      if (!event.target.className.includes('rowContentsToolbarIcon')) {
       return;
     }
@@ -550,7 +548,6 @@ export default class MainMenu extends Component {
         }
     }
   }
-
     // Get these default vals for inline child entry creation
     const timestampNow = getTimestamp();
     // TODO: Make tags a default inherited value from the parent child entry
@@ -562,8 +559,6 @@ export default class MainMenu extends Component {
     const entryEditVisible = getState("entryEditVisible");
     const entryIdToEdit = this.state.entryIdToEdit;
     const entryValsToEdit = this.state.entryValsToEdit;
-    console.log("ENTRY ID TO EDIT: ", entryIdToEdit, entryValsToEdit);
-
     if (this.state._isMounted) {
       return (
         <React.Fragment>     
@@ -921,7 +916,6 @@ export class EntryEdit extends Component {
         // const form = this.formRef.props.form;
         // form.resetFields();
         // const entry = traverseEntriesById(nextProps.entryIdToEdit);
-        console.log("DA ENTRY EDITOR GOT ENTRY: ", nextProps);
         this.setState({visible: nextProps.entryEditVisible,
           entryVals: nextProps.entryValsToEdit,
           entryId: nextProps.entryIdToEdit,

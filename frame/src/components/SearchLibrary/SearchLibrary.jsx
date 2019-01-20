@@ -206,6 +206,7 @@ export default class SearchLibrary extends Component {
                 onSelect={this.onSelect}
                 onSearch={this.handleSearch}
                 placeholder="enter tag"
+                autoComplete="off"
                 filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
               />
               )}

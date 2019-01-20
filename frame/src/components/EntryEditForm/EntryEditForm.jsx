@@ -222,9 +222,11 @@ export const EntryEditForm = Form.create()(
               })(<Input 
                   placeholder='Separate tags by spaces and punct' type="textarea" 
                   onChange={this.handleTagsInputChange}
-                  value={entryTags} 
+                  value={entryTags}
+                  autoComplete="off"
               />)}
             </FormItem>
+            <br></br><br></br>
             <FormItem label="Description"
               {...formItemLayout}
               >
@@ -232,6 +234,7 @@ export const EntryEditForm = Form.create()(
                   initialValue: this.state.entrySubtitle,
                   rules: [{}],
               })(<Input.TextArea 
+                  autoComplete="off"
                   disabled={true} 
                   autosize={{ minRows: 2, maxRows: 6 }}/
                   >
@@ -243,7 +246,9 @@ export const EntryEditForm = Form.create()(
             >
             {getFieldDecorator('id', {
               initialValue: entryId,
-              })(<Input disabled={true} type="textarea" />)}
+              })(<Input disabled={true} type="textarea"
+                  autoComplete="off"         
+              />)}
             </FormItem>
            <FormItem label="Date Created"
             {...formItemLayout}

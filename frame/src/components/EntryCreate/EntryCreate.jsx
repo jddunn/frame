@@ -239,6 +239,7 @@ const EntryCreateForm = Form.create()(
                   placeholder='Separate tags by spaces and punct' type="textarea" 
                   onChange={this.handleTagsInputChange}
                   value={entryTags} 
+                  autoComplete="off"
               />)}
             </FormItem>
 
@@ -402,15 +403,14 @@ export class EntryCreate extends Component {
           }
           try {
             const res = await localforage.setItem("entries", m_Entries);
-            message.success("Creating new library entry..");
-            await message.info("Frame will now reload the page. This is because of a bug with the current content extraction feature, and will be resolved soon. You will need to select the new entry to view it after reloading.", 3.25);
+            message.success("Creating new library entry.. you may have to wait for a short time depending on the text length.catch.");
             // message.success(res);
             // console.log(res);
             form.resetFields();
-            _this.props.updateEntriesMethod();
-            _this.props.updateAppMethod();        
-            location.reload();
             _this.setState({visible: false})
+            _this.props.updateEntriesMethod();
+            // _this.props.updateAppMethod();        
+            // location.reload();
           } catch (err) {
             console.log(err);
             message.error("Failed to create new library entry! " + err);

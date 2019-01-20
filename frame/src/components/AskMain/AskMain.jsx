@@ -105,6 +105,7 @@ export default class AskMain extends React.Component {
             })(
               <Input className="questionTextInputMain"
               size="large"
+              autoComplete="off"
               prefix={<Icon type="question-circle" 
               style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Write your question" />
