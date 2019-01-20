@@ -202,7 +202,7 @@ export default class SearchLibrary extends Component {
               {tagInputVisible && (
               <AutoComplete
                 dataSource={allTagsFound}
-                style={{ width: 78 }}
+                style={{ width: 128 }}
                 onSelect={this.onSelect}
                 onSearch={this.handleSearch}
                 placeholder="enter tag"

@@ -358,6 +358,8 @@ export class EntryCreate extends Component {
           }
         })
         .catch(async function(err) {  
+            // console.log('Failed to fetch page: ', err);  
+            // message.error("Unable to fetch page content from: " + linkToExtract + ' - ' + err);
             m_Entries = await localforage.getItem("entries");
             // values['html'] = '<p></p>';
             // values['strippedText'] = '';
@@ -386,26 +388,29 @@ export class EntryCreate extends Component {
         });
       });
       } catch (err) {
-        m_Entries = await localforage.getItem("entries");
-        try {
-          m_Entries.unshift(values);
-        } catch (err) {
-          // console.log(err);
-          m_Entries = [];
-          m_Entries.unshift(values); // Add entry to top of tree
-        }
-        try {
-          const res = await localforage.setItem("entries", m_Entries);
-          message.success("Creating new library entry..");
-          // message.success(res);
-          // console.log(res);
-          form.resetFields();
-          _this.props.updateEntriesMethod();        
-          _this.setState({visible: false})
-        } catch (err) {
+        // m_Entries = await localforage.getItem("entries");
+        // try {
+        //   m_Entries.unshift(values);
+        // } catch (err) {
+        //   // console.log(err);
+        //   m_Entries = [];
+        //   m_Entries.unshift(values); // Add entry to top of tree
+        // }
+        // try {
+        //   const res = await localforage.setItem("entries", m_Entries);
+        //   message.success("Creating new library entry..");
+        //   // message.success(res);
+        //   // console.log(res);
+        //   form.resetFields();
+        //   _this.props.updateEntriesMethod();        
+        //   _this.setState({visible: false})
+        // } catch (err) {
+          console.log(err);
+          message.error("Failed to create new library entry! " + err);
           form.resetFields();
           _this.setState({visible: false});
-        }
+        // }
+        // message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
       }
   });
   this.setState({visible: false});
