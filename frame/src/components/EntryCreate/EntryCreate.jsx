@@ -176,60 +176,6 @@ const EntryCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <br></br>
-
-
-            
-            <FormItem label="Bulk Upload"
-              {...formItemLayout}
-              >
-              <RadioGroup 
-                onChange={this.onLinkExtractionTypeChange} 
-                defaultValue={'no'}
-              >
-                <Radio value={'no'}>No</Radio>
-                <Radio value={'yes'}>Yes</Radio>
-              </RadioGroup>
-            </FormItem>
-
-            <FormItem label="Link Extraction Type"
-              {...formItemLayout}
-              >
-              <RadioGroup 
-                onChange={this.onLinkExtractionTypeChange} 
-                defaultValue={'web-extraction'}
-              >
-                <Radio value={'web-extraction'}>Web crawler</Radio>
-                <Radio value={'file-extraction'}>Local upload</Radio>
-              </RadioGroup>
-            </FormItem>
-
-            <FormItem label="Link To Download"
-              {...formItemLayout}
-              >
-              {getFieldDecorator('linkToExtract', {
-                rules: [{ required: false}],
-              })(
-                <Input prefix={
-                  <Tooltip title="Enter in a link / URL to automatically extract the text from for as content">                
-                    <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)' }}/>
-                  </Tooltip>
-                  } autoComplete="off" placeholder='http://'/>
-                  )}
-            </FormItem>
-
-            <FormItem label="Auto-generate Tags"
-              {...formItemLayout}
-              >
-            <RadioGroup 
-              onChange={this.onLinkExtractionTypeChange} 
-              defaultValue={'off'}
-              >
-              <Radio value={'off'}>Off</Radio>
-              <Radio value={'on'}>On</Radio>
-            </RadioGroup>
-            </FormItem>
-
             <FormItem label="Category Tags"
                 {...formItemLayout}
               >
@@ -244,6 +190,72 @@ const EntryCreateForm = Form.create()(
             </FormItem>
 
             <br></br><br></br>
+
+            <h4 style={{textAlign: 'center', letterSpacing: '1px'}}>
+            <Tooltip title="Currently you can enter a URL to automatically extract the HTML, page title, and text to build a new entry (this will be greatly improved in the future)">                
+                      <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)', marginRight: '5px' }}/>
+                    </Tooltip>
+            Documents Ingestion / Extraction</h4>
+              <FormItem label="Link To Download"
+                {...formItemLayout}
+                >
+                {getFieldDecorator('linkToExtract', {
+                  rules: [{ required: false}],
+                })(
+                  <Input prefix={
+                    <Tooltip title="Enter in a link / URL to automatically extract the text from for as content">                
+                      <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.25)' }}/>
+                    </Tooltip>
+                    } autoComplete="off" placeholder='http://'/>
+                    )}
+              </FormItem>
+            
+            <FormItem label="Bulk Upload"
+              {...formItemLayout}
+              >
+              <RadioGroup 
+                onChange={this.onLinkExtractionTypeChange} 
+                defaultValue={'no'}
+                disabled={true} 
+
+              >
+                <Radio value={'no'}>No</Radio>
+                <Radio value={'yes'}>Yes</Radio>
+              </RadioGroup>
+            </FormItem>
+
+            <FormItem label="Link Extraction Type"
+              {...formItemLayout}
+              >
+              <RadioGroup 
+                onChange={this.onLinkExtractionTypeChange} 
+                defaultValue={'web-extraction'}
+                disabled={true} 
+
+              >
+                <Radio value={'web-extraction'}>Web crawler</Radio>
+                <Radio value={'file-extraction'}>Local upload</Radio>
+              </RadioGroup>
+            </FormItem>
+
+     
+            <FormItem label="Auto-generate Tags"
+              {...formItemLayout}
+              >
+            <RadioGroup 
+              onChange={this.onLinkExtractionTypeChange} 
+              defaultValue={'off'}
+              disabled={true} 
+              >
+              <Radio value={'off'}>Off</Radio>
+              <Radio value={'on'}>On</Radio>
+            </RadioGroup>
+            </FormItem>
+
+
+
+            <br></br><br></br>
+            
 
             <FormItem label="Description"
               {...formItemLayout}
@@ -349,7 +361,7 @@ export class EntryCreate extends Component {
         linkToExtract = linkToExtract.replace("https://www.", "http://www.");
         // linkToExtract = linkToExtract.replace("//", "");
         let _linkToExtract = 'https://cors-anywhere.herokuapp.com/' + linkToExtract;
-        message.info("Sending fetch request to link.. this could take a while. Hold tight!");
+        await message.info("Sending fetch request to link.. this could take a while. Hold tight!", 1.5);
         await fetch(_linkToExtract,
         {
             mode: 'cors',
@@ -360,7 +372,7 @@ export class EntryCreate extends Component {
             }
         })
         .then(async function(response) {
-          message.info("Sucessfully fetched content from link. Rendering data now..");
+          await message.info("Sucessfully fetched content from link. Rendering data now..", 1.5);
           const clone = response.clone();
           clone.text().then(async function(html) {
           let htmlTitle = "";

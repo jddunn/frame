@@ -684,16 +684,16 @@ export default class Analyzer extends Component {
                 <Wrapper letterNavigation={true}>
                   <TabList>
                     <ul className='FancyTabs-tablist'>
-                        <Tooltip title="Process current text for analysis / visualization">
+                        <Tooltip title="Process current text for analysis / visualization (make sure to save the changes in your notebook first!)">
                           <Button 
                             type="primary"
                             ghost={true} 
                             icon="deployment-unit"
                             className="runButton"
-                            onClick={()=> 
+                            onClick={async () => 
                               { 
                                 setState("needAnalysisUpdate", true);
-                                message.info("Outputting analysis.. if nothing is happening, hit the Save button in the notebook, and then hit Run again.");
+                                await message.info("Outputting analysis.. if nothing is happening, hit the Save button in the notebook, and then hit Run again.", 1.5);
                                 this.props.updateAppMethod();
                               }}
                             >

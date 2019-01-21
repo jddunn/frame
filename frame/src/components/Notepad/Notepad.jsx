@@ -9,10 +9,8 @@ import {
   Icon, Button, Switch, Dropdown, message,
   Tooltip, Select
   } from 'antd';
-import { EditorState, ContentState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js';
-// TODO: Refactor out Editor and MEditor into different React components
-import { Editor} from 'react-draft-wysiwyg'; // Full text editor
-import { Editor as MEditor } from 'medium-draft'; // Medium-style text editor
+
+import ReactQuill from 'react-quill'; // This editor's the best one i found for now
 
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
@@ -20,6 +18,9 @@ import openDB from '../../utils/create-db';
 import traverseEntriesById from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 import localforage from 'localforage';
+
+// import 'react-quill/dist/quill.snow.css';
+import '../../assets/css/quill.snow.css';
 
 import getTimestamp from '../../utils/get-timestamp';
 /**
@@ -66,35 +67,15 @@ import {
   }
   from '../../lib/node-nlp-service';
  
-import {
-  KeyBindingUtil,
-  Modifier,
-  AtomicBlockUtils,
-} from 'draft-js';
-import {
-  Block,
-  createEditorState,
-  addNewBlockAt,
-  getCurrentBlock,
-  ImageSideButton,
-  BreakSideButton,
-} from '../vendor/index';
 
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import 'medium-draft/lib/index.css';
-import '../vendor/components/addbutton.scss';
-import '../vendor/components/toolbar.scss';
-import '../vendor/components/blocks/text.scss';
-import '../vendor/components/blocks/atomic.scss';
-import '../vendor/components/blocks/blockquotecaption.scss';
-import '../vendor/components/blocks/caption.scss';
-import '../vendor/components/blocks/todo.scss';
-import '../vendor/components/blocks/image.scss';
 // Local style
 import './Notepad.scss';
 import { getHTMLFromContent, getContentFromHTML, HTMLToText } from "../../utils/translate-html";
 
 const Option = Select.Option;
+
+const CustomStarButton = () => <span className="octicon octicon-star" />;
+
 
 /** Notebook editors types */
 const editorTypes = Object.freeze(
@@ -109,18 +90,13 @@ const editorTypes = Object.freeze(
 // Main notebook comp (handles editor switching)
 export default class Notepad extends Component {
 
-  static propTypes = {
-    setEditorState: PropTypes.func,
-    getEditorState: PropTypes.func,
-    close: PropTypes.func,
-  };
-  
   constructor(props) {
 
     super(props);
 
     this.state = {
-      editorState: createEditorState(),
+      editorHtml: '',
+      // theme: 'snow',
       editorEnabled: true,
       placeholder: 'Write here...',
       _isMounted: false,
@@ -131,38 +107,9 @@ export default class Notepad extends Component {
       prevEntryId: ""
     };
 
-    this.sideButtons = [{
-        title: 'Image',
-        component: ImageSideButton,
-      }, {
-        title: 'Embed',
-        component: EmbedSideButton,
-      },
-      {
-        title: 'Break',
-        component: BreakSideButton,
-      }
-    ];
-
-    // this.exporter = setRenderOptions({
-      // styleToHTML,
-      // blockToHTML: newBlockToHTML,
-      // entityToHTML: newEntityToHTML,
-    // });
-
     this.handleEditorSwitchClick = this.handleEditorSwitchClick.bind(this);
-
+    this.handleChange = this.handleChange.bind(this);
     this.getEntries = this.getEntries.bind(this);
-    this.getEditorState = this.getEditorState.bind(this);
-    this.setEditorState = this.setEditorState.bind(this);
-    this.handleDroppedFiles = this.handleDroppedFiles.bind(this);
-    this.onChange = this.onChange.bind(this);
-
-    this.onEditorStateChange = this.onEditorStateChange.bind(this); 
-    this.refsEditor = React.createRef();
-    this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
-    // this._uploadImageCallBack = this._uploadImageCallBack.bind(this);
-
     // Save content in Notebook comp to db
     this.saveNotebookData = this.saveNotebookData.bind(this);
   }
@@ -170,66 +117,33 @@ export default class Notepad extends Component {
   async getEntries(key) {
     let Entries = [];
     Entries = await getFromDB(key);
-    // then(function(result) {
-    //   Entries = result;
-    // }).catch(function(err) {
-    //   Entries = [];
-    // });
-    // Entries = getFromDB(Library, key)
     return Entries;
   }
 
-  getEditorState() {
-    return(this.state.editorState);
-  }
-
-  setEditorState(state) {
-    if (state !== this.state.prevEditorState) {
-      this.setState({editorState: state, prevEditorState: state});
-    }
+  handleChange (html) {
+  	this.setState({ editorHtml: html });
   }
   
-  onChange = (editorState, callback = null) => {
-    if (this.state._isMounted)
-      if (this.state.editorEnabled) {
-        if (editorState !== this.state.prevEditorState) {
-          this.setState({ editorState }, () => {
-            if (callback) {
-              callback();
-            }
-        });
-      }
-    }
-  };
-
-  onEditorStateChange = (editorState) => {
-    // console.log("Editor state change: ", editorState);
-    if (this.state._isMounted) 
-    if (editorState !== this.state.prevEditorState) {
-      this.setState({
-        editorState,
-      });
-    }
+  handleThemeChange (newTheme) {
+    if (newTheme === "core") newTheme = null;
+    this.setState({ theme: newTheme })
   }
-
+  
   componentDidMount() {
     const entryIdProp = this.props.entryId;
     const EntriesProp = this.props.Entries;
     const entryProp = this.props.entry;
+    // this.refs.editor.focus();
     try {
-      const blocksFromHTML = convertFromHTML(entryProp['html']);
-      const editorContent = ContentState.createFromBlockArray(
-        blocksFromHTML.contentBlocks,
-        blocksFromHTML.entityMap
-      );
-      this.setState({_isMounted: true, editorState: EditorState.createWithContent(editorContent), entryId: entryIdProp,
-        Entries: EntriesProp, entry: entryProp, prevEditorState: EditorState.createWithContent(editorContent), 
-        prevEntryId: entryIdProp
+      this.setState({_isMounted: true, entryId: entryIdProp,
+        Entries: EntriesProp, entry: entryProp,
+        prevEntryId: entryIdProp, editorHtml: entryProp['html'] || ''
       });
     } catch (err) {
       console.log("Notebook mount err: ", err);
-      this.setState({_isMounted: true, editorState: EditorState.createEmpty(), prevEditorState: EditorState.createEmpty(), entryId: entryIdProp,
-                    Entries: EntriesProp, entry: entryProp, prevEntryId: entryIdProp
+      this.setState({_isMounted: true, entryId: entryIdProp,
+                    Entries: EntriesProp, entry: entryProp, prevEntryId: entryIdProp,
+                    editorHtml: ''
       });
     }
   }
@@ -253,20 +167,7 @@ export default class Notepad extends Component {
       const library = defaultFLib;
       const Library = openDB(library);
       let editorType;
-      // try {
-      //   const blocksFromHTML = convertFromHTML(nextEntry['html']);
-      //   const editorContent = ContentState.createFromBlockArray(
-      //     blocksFromHTML.contentBlocks,
-      //     blocksFromHTML.entityMap
-      //   );
-      //   this.setState({editorState: EditorState.createWithContent(editorContent), entryId: entryId,
-      //     Entries: nextEntries, entry: nextEntry
-      //   });
-      // } catch (err) {
-      //   this.setState({editorState: EditorState.createEmpty(), entryId: nextEntryId,
-      //                 Entries: nextEntries, entry: nextEntry
-      //   });
-      // }
+
       let Entries = nextEntries;
       let entry = nextEntry;
       let entryId = nextEntryId;
@@ -280,7 +181,7 @@ export default class Notepad extends Component {
 
       const showAnalysisOverlay = nextProps.showAnalysisOverlay;
   
-      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== "<p></p>"
+      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== ""
         && entry['html'] !== "undefined"
       ) {
         if (showAnalysisOverlay) {
@@ -396,8 +297,9 @@ export default class Notepad extends Component {
                     entry['summaryAbstractive'] = summaryAbstractive;
                     entry['summaryAbstractiveByParagraphs'] = summaries;
                     const newEntries = replaceEntry(entry, Entries);
-                    const res = getContentFromHTML(entry['html']);
-                    _this.setState({Entries: newEntries, editorState: res,
+                    // const res = getContentFromHTML(entry['html']);
+                    const html = entry['html'];
+                    _this.setState({Entries: newEntries, editorHtml: html,
                     editorType: editorType});
                   })
                 .catch(err => {
@@ -408,10 +310,9 @@ export default class Notepad extends Component {
                   entry['summaryAbstractive'] = summaryAbstractive;
                   entry['summaryAbstractiveByParagraphs'] = [];
                   const newEntries = replaceEntry(entry, Entries);
-                  const res = getContentFromHTML(entry['html']);
-                  _this.setState({Entries: newEntries,  editorState: res,
+                  const html = entry['html'];
+                  _this.setState({Entries: newEntries, editorHtml: html,
                   editorType: editorType});
-                  console.log(err);
                   message.error(err);
                 });
               })
@@ -423,10 +324,11 @@ export default class Notepad extends Component {
               entry['summaryAbstractive'] = summaryAbstractive;
               entry['summaryAbstractiveByParagraphs'] = [];
               const newEntries = replaceEntry(entry, Entries);
-              const res = getContentFromHTML(entry['html']);
-              console.log(err);
+              // const res = getContentFromHTML(entry['html']);
+              const html = entry['html'];
+              // console.log(err);
               message.error(err);
-              _this.setState({Entries: newEntries,  editorState: res,
+              _this.setState({Entries: newEntries,  editorHtml: html,
               editorType: editorType});
             });
           } catch (err) {
@@ -438,17 +340,18 @@ export default class Notepad extends Component {
             entry['summaryByParagraphs'] = summaryByParagraphs;
             entry['summaryAbstractive'] = summaryAbstractive;
             entry['summaryAbstractiveByParagraphs'] = summaries;
-            console.log(err);
+            // console.log(err);
             message.error(err);
           }
         }
         const newEntries = replaceEntry(entry, Entries);
-        const res = getContentFromHTML(entry['html']);
-        _this.setState({Entries: newEntries,  editorState: res,
+        // const res = getContentFromHTML(entry['html']);
+        const html = entry['html'];
+        _this.setState({Entries: newEntries, editorHtml: html,
         editorType: editorType, prevEntryId: entryId});
       } else {
-        _this.setState({ editorState: EditorState.createEmpty(),
-});
+        _this.setState({ editorHtml: ''
+        });
       }
     }
   }
@@ -480,8 +383,6 @@ export default class Notepad extends Component {
     // if (entry['html'] === null || entry['html'] === undefined || entry['html'] === '') {
     //   this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
     // }
-
-  this.props.updateAppMethod();
   }
 
 
@@ -533,11 +434,7 @@ export default class Notepad extends Component {
   );
 
 
-  sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  async saveNotebookData() {
+  async saveNotebookData () {
     let entry = this.state.entry;
     const timestampNow = getTimestamp();
     const entryId = this.state.entryId;
@@ -549,7 +446,9 @@ export default class Notepad extends Component {
     const m_this = this;
     entry['timestampLastModified'] = timestampNow;
     // if (entry !== null && entry !== undefined) {
-      entry['html'] = getHTMLFromContent(this.state.editorState);
+      // entry['html'] = getHTMLFromContent(this.state.editorState);
+      entry['html'] = this.state.editorHtml;
+      console.log(entry['html']);
       const strippedText = HTMLToText(entry['html']);
       entry['strippedText'] = strippedText;
       const combinedText = entry['title'] + ' ' + strippedText;
@@ -660,9 +559,10 @@ export default class Notepad extends Component {
                 };
                 entry['wordFrequency'] = getWordFrequency(strippedText);
                 const newEntries = replaceEntry(entry, Entries);
-                const res = getContentFromHTML(entry['html']);
-                this.setState({Entries: newEntries, editorState: res,
-                editorType: editorType});
+                // const res = getContentFromHTML(entry['html']);
+                const html = entry['html'];
+                this.setState({Entries: newEntries,
+                editorType: editorType, editorHtml: html});
               })
             .catch(err => {
               summaryAbstractive = '';
@@ -699,7 +599,7 @@ export default class Notepad extends Component {
       const newEntries = replaceEntry(entry, Entries);
       try {
         // saveToDB("entries", newEntries);
-        message.success("Saving notebook changes and analysis results..");
+        await message.success("Saving notebook changes and analysis results..", 1.2);
         const res = await localforage.setItem("entries", newEntries);
         setState("needAnalysisUpdate", false);
         m_this.props.updateAppMethod();
@@ -710,97 +610,12 @@ export default class Notepad extends Component {
     // }
   }
 
-  handleDroppedFiles(selection, files) {
-    window.ga('send', 'event', 'draftjs', 'filesdropped', files.length + ' files');
-    const file = files[0];
-    if (file.type.indexOf('image/') === 0) {
-      // eslint-disable-next-line no-undef
-      const src = URL.createObjectURL(file);
-      this.onChange(addNewBlockAt(
-        this.state.editorState,
-        selection.getAnchorKey(),
-        Block.IMAGE, {
-          src,
-        }
-      ));
-      // return HANDLED;
-    }
-    // return NOT_HANDLED
-    return;
-  }
-
-  uploadImageCallBack(file) {
-    console.log(file);
-    // return new Promise(
-    //   (resolve, reject) => {
-    //   const selectionState = this.getEditorState().getSelection();
-    //   const anchorKey = selectionState.getAnchorKey();
-    //   console.log(file);
-    //   if (file.type.indexOf('image/') === 0) {
-    //     const src = URL.createObjectURL(file);
-    //     this.onChange(addNewBlockAt(
-    //       this.getEditorState(),
-    //       anchorKey,
-    //       Block.IMAGE, {
-    //         src: src,
-    //       }
-    //     ));
-    //     // resolve(this.getEditorState());
-    //   }
-    // });
-    // return;
-    return new Promise(
-      (resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://api.imgur.com/3/image');
-        xhr.setRequestHeader('Authorization', 'Client-ID XXXXX');
-        const data = new FormData();
-        data.append('image', file);
-        xhr.send(data);
-        xhr.addEventListener('load', () => {
-          const response = JSON.parse(xhr.responseText);
-          resolve(response);
-        });
-        xhr.addEventListener('error', () => {
-          const error = JSON.parse(xhr.responseText);
-          reject(error);
-        });
-      }
-    );
-  }
-
-  // _uploadImageCallBack(file){
-  //   // long story short, every time we upload an image, we
-  //   // need to save it to the state so we can get it's data
-  //   // later when we decide what to do with it.
-    
-  //  // Make sure you have a uploadImages: [] as your default state
-  //   let uploadedImages = this.state.uploadedImages;
-
-  //   const imageObject = {
-  //     file: file,
-  //     localSrc: URL.createObjectURL(file),
-  //   }
-
-  //   uploadedImages.push(imageObject);
-
-  //   this.setState({uploadedImages: uploadedImages})
-    
-  //   // We need to return a promise with the image src
-  //   // the img src we will use here will be what's needed
-  //   // to preview it in the browser. This will be different than what
-  //   // we will see in the index.md file we generate.
-  //   return new Promise(
-  //     (resolve, reject) => {
-  //       resolve({ data: { link: imageObject.localSrc } });
-  //     }
-  //   );
-  // }
-
-
   render() {
-    const editorState = this.state.editorState;
-    const editorEnabled = this.state.editorEnabled;
+    // const editorState = this.state.editorState;
+    // const editorEnabled = this.state.editorEnabled;
+
+    // const { editorState } = this.state;
+
     let editorType = this.state.editorType;
     if (editorType == undefined ||  editorType == null) {
       editorType = "flow";
@@ -811,42 +626,60 @@ export default class Notepad extends Component {
       case 'inline':
       editor =     
         <div className="editor-action">
-          <MEditor
-            ref={(e) => {this._editor = e;}}
-            editorState={editorState}
-            onChange={this.onChange}
-            editorEnabled={true}
-            handleDroppedFiles={this.handleDroppedFiles}
-            placeholder={"Write your story"}
-            sideButtons={this.sideButtons}
-            onChange={this.onChange} />
+          {/* <MEditor */}
+            {/* ref={(e) => {this._editor = e;}} */}
+            {/* editorState={editorState} */}
+            {/* onChange={this.onChange} */}
+            {/* editorEnabled={true} */}
+            {/* handleDroppedFiles={this.handleDroppedFiles} */}
+            {/* placeholder={"Write your story"} */}
+            {/* sideButtons={this.sideButtons} */}
+            {/* onChange={this.onChange} /> */}
+            {/* /> */}
+            <ReactQuill 
+              theme={this.state.theme}
+              onChange={this.handleChange}
+              value={this.state.editorHtml}
+              modules={Editor.modules}
+              formats={Editor.formats}
+              bounds={'.app'}
+              placeholder={'Write your story'}
             />
+            <div className="themeSwitcher">
+              <label>Theme </label>
+              <select onChange={(e) => 
+                  this.handleThemeChange(e.target.value)}>
+                <option value="snow">Snow</option>
+                <option value="bubble">Bubble</option>
+                {/* <option value="core">Core</option> */}
+              </select>
+            </div>
           </div>
           break;
         case 'full':
           editor = 
-          <React.Fragment>
-        <div className="editor">
-          <Editor
-            spellCheck
-            placeholder="Write your story"
-            editorState={this.state.editorState} 
-            onEditorStateChange={this.onEditorStateChange}
-            ref={(element) => { this.editor = element; }}
-            toolbar={{
-              // colorPicker: { component: ColorPic },
-              inline: { inDropdown: true },
-              list: { inDropdown: true },
-              textAlign: { inDropdown: true },
-              link: { inDropdown: true },
-              history: { inDropdown: true },
-              fontFamily: {
-                options: ['Arial', 'Georgia', 'Impact', 'Tahoma','Times New Roman', 'Verdana']},
-              image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: false } },
-            }}
-            />
-          </div>
-       </React.Fragment>
+            <React.Fragment>
+            <div className="editor">
+            <ReactQuill 
+          theme={this.state.theme}
+          onChange={this.handleChange}
+          value={this.state.editorHtml}
+          modules={Notepad.modules}
+          formats={Notepad.formats}
+          bounds={'.editor'}
+          placeholder={'Write your story'}
+          />
+            <div className="themeSwitcher">
+              <label>Theme </label>
+              <select onChange={(e) => 
+                  this.handleThemeChange(e.target.value)}>
+                <option value="snow">Snow</option>
+                <option value="bubble">Bubble</option>
+                {/* <option value="core">Core</option> */}
+              </select>
+            </div>
+            </div>
+            </React.Fragment>
           break;
         case 'code': 
           editor = null;
@@ -856,19 +689,20 @@ export default class Notepad extends Component {
           break;
         default:
           editor =     
-          <div className="danteEditorWrapper">
-            <div className="editor-action">
-              <MEditor
-                ref={(e) => {this._editor = e;}}
-                editorState={editorState}
-                onChange={this.onChange}
-                editorEnabled={true}
-                handleDroppedFiles={this.handleDroppedFiles}
-                placeholder={"Write your story"}
-                sideButtons={this.sideButtons}
-              />
+          <React.Fragment>
+          {/* <div className="danteEditorWrapper"> */}
+            <div className="editor">
+            <ReactQuill 
+              theme={this.state.theme}
+              onChange={this.handleChange}
+              value={this.state.editorHtml}
+              modules={Notepad.modules}
+              formats={Notepad.formats}
+              bounds={'.editor'}
+              placeholder={'Write your story'}
+            />
             </div>
-          </div>
+            </React.Fragment>
     };
 
     const showAnalysisOverlay = this.props.showAnalysisOverlay;
@@ -925,99 +759,45 @@ export default class Notepad extends Component {
   }
 }
 
-
-// Medium-draft sidebar menu comps
-class SeparatorSideButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick() {
-    let editorState; 
-    try {
-      editorState = this.props.getEditorState();
-      const content = editorState.getCurrentContent();
-      const contentWithEntity = content.createEntity('separator', 'IMMUTABLE', {});
-      const entityKey = contentWithEntity.getLastCreatedEntityKey();
-      editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-      this.props.setEditorState(
-        AtomicBlockUtils.insertAtomicBlock(
-          editorState,
-          entityKey,
-          '-'
-        )
-      );
-      this.props.close();
-    } catch (err) {
-    }
-  }
-
-  render() {
-    return (
-      <button
-        className="md-sb-button md-sb-img-button"
-        type="button"
-        title="Add a separator"
-        onClick={this.onClick}
-      >
-        <i className="fa fa-minus" />
-      </button>
-    );
+/* 
+ * Quill modules to attach to editor
+ * See https://quilljs.com/docs/modules/ for complete options
+ */
+Notepad.modules = {
+  toolbar: 
+  [
+    [{ 'header': '1'}, {'header': '2'}, {'header': '4'},  { 'font': [] }],
+    [{size: []}],
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote', 'code-block'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, 
+     {'indent': '-1'}, {'indent': '+1'}],
+     [{ 'direction': 'rtl' }],                         // text direction
+    ['link', 'image', 'video'],
+    [{ 'align': [] }],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
   }
 }
+/* 
+ * Quill editor formats
+ * See https://quilljs.com/docs/formats/
+ */
+Notepad.formats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline', 'strike', 'blockquote',
+  'list', 'bullet', 'indent',
+  'link', 'image', 'video',
+  'color'
+]
 
-class EmbedSideButton extends React.Component {
-
-  static propTypes = {
-    setEditorState: PropTypes.func,
-    getEditorState: PropTypes.func,
-    close: PropTypes.func,
-  };
-
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-    this.addEmbedURL = this.addEmbedURL.bind(this);
-  }
-
-  onClick() {
-    const url = window.prompt('Enter a URL', 'https://www.youtube.com/watch?v=PMNFaAUs2mo');
-    this.props.close();
-    if (!url) {
-      return;
-    }
-    this.addEmbedURL(url);
-  }
-
-  addEmbedURL(url) {
-    try {
-      let editorState = this.props.getEditorState();
-      const content = editorState.getCurrentContent();
-      const contentWithEntity = content.createEntity('embed', 'IMMUTABLE', {url});
-      const entityKey = contentWithEntity.getLastCreatedEntityKey();
-      editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-      this.props.setEditorState(
-        AtomicBlockUtils.insertAtomicBlock(
-          editorState,
-          entityKey,
-          'E'
-        )
-      );
-    } catch (err) {
-    }
-  }
-
-  render() {
-    return (
-      <button
-        className="md-sb-button md-sb-img-button"
-        type="button"
-        title="Add an Embed"
-        onClick={this.onClick}
-      >
-        <i className="fa fa-code" />
-      </button>
-    );
-  }
+/* 
+ * PropType validation
+ */
+Notepad.propTypes = {
+  placeholder: PropTypes.string,
 }
