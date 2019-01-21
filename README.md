@@ -1,8 +1,12 @@
 # Frame
 
-Last release on 01/14/2019
+Last release on 01/21/2019
 
 # Links
+
+Website:
+
+[https://jddunn.github.io/framed/](https://jddunn.github.io/framed) 
 
 Test online here: 
 
@@ -16,32 +20,33 @@ Download the Windows release of version 0.1.0 here (last updated 01/14/2019)
 
 # Screenshots
 
-Frame - 01-14-2019 release - demo use case for collecting and analyzing outdoors survival info - sped up by 2.5x
+Frame - 01-21-2019 release - demo use case for collecting and analyzing outdoors survival info - sped up by 2.5x
 
-<img src="screenshots/Frame-animated-demo-01-14-2019.gif" height="500" alt="Frame - 01-14-2019 Release"/>
+<img src="screenshots/framed_video_animation_demo.gif" height="500" alt="Frame - 01-21-2019 Release"/>
 
-Frame extracting a web link with David Foster Wallace's This is Water essay - sped up by 2.125x
+Statistical Overview
 
-<img src="screenshots/Frame-extraction-animated-demo-01-06-2019-1.gif" height="450" alt="Frame - Extracting Wallace's This is Water"/>
+<img src="screenshots/frame_screenshot_01-21-2019_cryptocurrency_analysis" height="360" alt="Frame - Statistical Overview"/>
 
-Frame analyzing Sicko Mode - sped up by 1.5x  
+Visualizations
 
-<img src="screenshots/Frame-animated-demo-12-31-08-1.gif" height="450" alt="Frame - Demo - Sicko Mode"/>
+<img src="screenshots/frame_screenshot_01-21-2019_sicko_mode_visualization" height="360" alt="Frame -Visualizations"/>
 
-<!-- <img src="screenshots/Frame-animated-demo-12-31-08-2.gif" height="450" alt="Frame - Demo - Cryptocurrency Wikipedia article"/> -->
+Summarizations
 
-<!-- Frame analyzing the Cryptocurrency Wikipedia article - Sped up by 2.5x -->
+<img src="screenshots/frame_screenshot_01-21-2019_this_is_water_summarization" height="360" alt="Frame - Summarizations"/>
 
+Information Extraction
+
+<img src="screenshots/frame_screenshot_01-21-2019_alice_in_wonderland_information_extraction" height="360" alt="Frame - Information Extraction"/>
 
 # Intro
 
-Frame is a notetaking / journaling web and desktop application with natural language processing features, that allows users to retrieve informed answers in context to questions they can ask in the UI. Frame also automatically generates summaries (both extractive and abstractive) of the text. This analysis is done in real-time (on save), and can navigated intuitively while still editing the content. Frame is designed for introspective and analytical users (researchers and academics might be most interested in this).
+Frame is a notetaking / journaling web and desktop application with natural language processing features, that allows users to retrieve informed answers in context to questions they can ask in the UI. Frame also automatically generates summaries (both extractive and abstractive) of the text. This analysis is done in real-time (on save), and can navigated seamlessly while still editing the content. Frame is designed for introspective and analytical users (researchers and academics might be most interested in this).
 
 Frame is fully functional without running the Python backend (no online API is available at this time). Most of the analysis is done within the app itself (with no external server calls). The data storage uses localForage (IndexedDB), which allows easy mass distribution for Frame (your data self-contained and never sent anywhere outside the local app or browser). Data can be exported and imported as JSON.
 
 Eventually, a donation-supported / subscription-based edition could be serviced for online users through a server on the cloud, with extended features and protected data storage, and automated data extraction / ingestion.
-
-Note: Frame is currently heavily unoptimized with some UI quirks. The project was created as a proof-of-concept but designed to work as a MVP as well. But it is fully functional!
 
 Download Windows build (last updated 01/14/2019): [https://www.mediafire.com/folder/n151mdmi7je72/](https://www.mediafire.com/folder/n151mdmi7je72/)
 
@@ -63,12 +68,11 @@ These are features that would make Frame considerably more robust in terms of us
 - Build Docker image of Python backend and deploy app on AWS
 
 - Optimize / refactor app (reduce unnecessary re-renders; serialize editor states and store into database instead of rebuilding content from HTML every load, only re-run analysis when the entry text has changed, etc) 
-
 - Separate out larger components (reduce size of components); clean up code; add better comments
 
 - ~~Add feature to extract text content automatically from a given link when creating a new entry~~ (DONE)
 
-- Add in full editing component for entry properties (title, tags, etc.); add in Last_Date_Modified property to entry data
+- ~~Add in full editing component for entry properties (title, tags, etc.); add in Last_Date_Modified property to entry data~~ (DONE)
 
 - Add feature to automatically generate entries based off of file upload (PDF, text)
 
@@ -82,7 +86,7 @@ These are features that would make Frame considerably more robust in terms of us
 
 - Add full word processing editor, coding IDE, and equations / calculator screen
 
-- Fix multimedia content uploading and saving in editor (and make it persistent across multiple editors)
+- ~~Fix multimedia content uploading and saving in editor (and make it persistent across multiple editors)~~ (DONE)
 
 - Add password protection / security settings
 
@@ -105,13 +109,13 @@ Additional libraries and references used:
 - franc [https://github.com/wooorm/franc](https://github.com/wooorm/franc)
 - electron-builder [https://www.electron.build/](https://www.electron.build/)
 - LocalForage [https://localforage.github.io/localForage/](https://localforage.github.io/localForage/)
-- medium-draft [https://github.com/brijeshb42/medium-draft](https://github.com/brijeshb42/medium-draft)
 - node-sumbasic [https://github.com/MSVCode/node-sumbasic](https://github.com/MSVCode/node-sumbasic)
 - pysummarization [https://pypi.org/project/pysummarization/](https://pypi.org/project/pysummarization/)
-- React Draft WYSIWYG [https://jpuri.github.io/react-draft-wysiwyg/#/](https://jpuri.github.io/react-draft-wysiwyg/#/)
 - react-aria-tabpanel [https://github.com/davidtheclark/react-aria-tabpanel](https://github.com/davidtheclark/react-aria-tabpanel)
 - react-electron-web-boilerplate [https://github.com/MikeyFriedChicken/react-electron-web-boilerplate](https://github.com/MikeyFriedChicken/react-electron-web-boilerplate)
 - react-json-view [https://github.com/mac-s-g/react-json-view](https://github.com/mac-s-g/react-json-view)
+- react-quill [https://github.com/zenoamaro/react-quill](https://github.com/zenoamaro/react-quill)
 - react-sortable-tree [https://github.com/frontend-collective/react-sortable-tree](https://github.com/frontend-collective/react-sortable-tree)
 - Recharts [https://github.com/recharts/recharts](https://github.com/recharts/recharts)
 - uwsgi-nginx-flask-docker [uwsgi-nginx-flask-docker](uwsgi-nginx-flask-docker)
+- vx [https://github.com/hshoff/vx](https://github.com/hshoff/vx)
