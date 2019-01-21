@@ -45,7 +45,7 @@
   text-align: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  max-width: calc(55% - 20px) !important;
+  max-width: calc(65% - 20px) !important;
   // max-height: calc(80% - 20px) !important;
 }
 
@@ -63,6 +63,10 @@
 
 .innerContentTextCenter {
   text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   letter-spacing: 1px !important;
   font-size: 1.0vmax !important;
 }

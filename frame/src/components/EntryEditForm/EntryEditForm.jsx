@@ -220,7 +220,7 @@ export const EntryEditForm = Form.create()(
               {getFieldDecorator('tags', {
                 initialValue: this.state.entryTags,
               })(<Input 
-                  placeholder='Separate tags by spaces and punct' type="textarea" 
+                  placeholder='Separate tags by commas' type="textarea" 
                   onChange={this.handleTagsInputChange}
                   value={entryTags}
                   autoComplete="off"

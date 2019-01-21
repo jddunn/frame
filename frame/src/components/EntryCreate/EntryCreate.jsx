@@ -182,7 +182,7 @@ const EntryCreateForm = Form.create()(
               {getFieldDecorator('tags', {
                 initialValue: '',
               })(<Input 
-                  placeholder='Separate tags by spaces and punct' type="textarea" 
+                  placeholder='Separate tags by commas' type="textarea" 
                   onChange={this.handleTagsInputChange}
                   value={entryTags} 
                   autoComplete="off"
@@ -420,7 +420,9 @@ export class EntryCreate extends Component {
             // console.log(res);
             form.resetFields();
             setState("entryId", null);
-            _this.setState({visible: false})
+            _this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+                        timestamp:'', entrySubtitleTagsPlaceholder: '', 
+                        timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
             _this.props.updateEntriesMethod();
             // _this.props.updateAppMethod();        
             // _this.props.updateAppMethod();        
@@ -429,7 +431,9 @@ export class EntryCreate extends Component {
             console.log(err);
             message.error("Failed to create new library entry! " + err);
             form.resetFields();
-            _this.setState({visible: false});
+            _this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+                        timestamp:'', entrySubtitleTagsPlaceholder: '', 
+                        timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
           }
         })
         .catch(async function(err) {  
@@ -449,13 +453,17 @@ export class EntryCreate extends Component {
               form.resetFields();
               setState("entryId", null);
               // _this.props.updateEntriesMethod();     
-              _this.setState({visible: false})
+              _this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+              timestamp:'', entrySubtitleTagsPlaceholder: '', 
+              timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
               _this.props.updateEntriesMethod();
               // _this.props.updateAppMethod();           
             } catch (err) {
               message.error("Failed to create new library entry! " + err);
               form.resetFields();
-              _this.setState({visible: false});
+              _this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+              timestamp:'', entrySubtitleTagsPlaceholder: '', 
+              timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
             }
             // message.error("Unable to fetch page content from: " +  linkToExtract + ' - ' + err);
         });
@@ -476,16 +484,22 @@ export class EntryCreate extends Component {
           // console.log(res);
           form.resetFields();
           setState("entryId", null);
-          _this.setState({visible: false})
+          _this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+          timestamp:'', entrySubtitleTagsPlaceholder: '', 
+          timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
           _this.props.updateEntriesMethod();        
         } catch (err) {
           message.error("Failed to create new library entry! " + err);
           form.resetFields();
-          _this.setState({visible: false});
+          _this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+          timestamp:'', entrySubtitleTagsPlaceholder: '', 
+          timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
         }
       }
   });
-  this.setState({visible: false});
+  this.setState({entryTitle: 'New entry', entryTags: [], entrySubtitle: '',
+  timestamp:'', entrySubtitleTagsPlaceholder: '',
+  timestamp:'', entrySubtitleTagsPlaceholder: '', visible: false});
 }
 
   saveFormRef = (formRef) => {

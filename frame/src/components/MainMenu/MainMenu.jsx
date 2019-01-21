@@ -603,7 +603,7 @@ export default class MainMenu extends Component {
                 disabled={true}
                 key="sub2" title={<span>
                 <Tooltip title="Select, navigate, and organize entries">              
-                  <Icon type="book" style={{color:'white'}}/>
+                  <Icon type="hdd" style={{color:'white'}}/>
                 </Tooltip>
                 <span style={{color: 'white'}}>Library</span></span>}
                 >
@@ -855,24 +855,21 @@ export default class MainMenu extends Component {
               ">              
                 <Icon type="bulb" />
               </Tooltip>
-              <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
-                      try saving or selecting the entry again.
+              <Tooltip title="The analysis should automatically run when you save the Notebook, but you may need to manually click the 'Run' button again to get full results.
               ">              
                 <span>Entry Analysis</span>
               </Tooltip>
             </Menu.Item>
             <Menu.Item key="6" 
+            
                onClick={() => { this.switchLink(6) }}
             >
               <Tooltip title="Visual, online, and security settings
-              ">              
-                <Icon type="inbox" />
+              ">       
+                     
+                <Icon type="setting" />
               </Tooltip>
-              <Tooltip title="When you select an entry, the analysis should automatically run. If it doesn't show up,
-                      try saving or selecting the entry again.
-              ">              
                 <span>Settings</span>
-              </Tooltip>
             </Menu.Item>
           </Menu>
           {/* End main menu comp */}

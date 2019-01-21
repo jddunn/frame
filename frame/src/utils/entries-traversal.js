@@ -97,14 +97,14 @@ export function getAllEntryTags(Entries) {
     const next = traverseEntriesGenerator(Entries);
     let res = next.next();
     try {
-        const tags = res.value.tags.split(', ');
+        const tags = res.value.tags.split(',');
         eTags = eTags.concat(tags);
     } catch (err) {
     }
     while (!res.done) {
         res = next.next();
         try {
-            const tags = res.value.tags.split(', ');
+            const tags = res.value.tags.split(',');
             eTags = eTags.concat(tags);
         } catch (err) {
         }
