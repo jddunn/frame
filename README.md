@@ -26,19 +26,19 @@ Frame - 01-21-2019 release - demo use case for collecting and analyzing outdoors
 
 Statistical Overview
 
-<img src="screenshots/frame_screenshot_01-21-2019_cryptocurrency_analysis" height="360" alt="Frame - Statistical Overview"/>
+<img src="screenshots/frame_screenshot_01-21-2019_cryptocurrency_analysis.png" height="360" alt="Frame - Statistical Overview"/>
 
 Visualizations
 
-<img src="screenshots/frame_screenshot_01-21-2019_sicko_mode_visualization" height="360" alt="Frame -Visualizations"/>
+<img src="screenshots/frame_screenshot_01-21-2019_sicko_mode_visualization.png" height="360" alt="Frame -Visualizations"/>
 
 Summarizations
 
-<img src="screenshots/frame_screenshot_01-21-2019_this_is_water_summarization" height="360" alt="Frame - Summarizations"/>
+<img src="screenshots/frame_screenshot_01-21-2019_this_is_water_summarization.png" height="360" alt="Frame - Summarizations"/>
 
 Information Extraction
 
-<img src="screenshots/frame_screenshot_01-21-2019_alice_in_wonderland_information_extraction" height="360" alt="Frame - Information Extraction"/>
+<img src="screenshots/frame_screenshot_01-21-2019_alice_in_wonderland_information_extraction.png" height="360" alt="Frame - Information Extraction"/>
 
 # Intro
 
