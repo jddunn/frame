@@ -415,12 +415,14 @@ export class EntryCreate extends Component {
           }
           try {
             const res = await localforage.setItem("entries", m_Entries);
-            message.success("Creating new library entry.. you may have to wait for a short time depending on the text length.catch.");
+            await message.loading("Creating new library entry.. you may have to wait for a short time depending on the text length.", 2.5);
             // message.success(res);
             // console.log(res);
             form.resetFields();
+            setState("entryId", null);
             _this.setState({visible: false})
             _this.props.updateEntriesMethod();
+            // _this.props.updateAppMethod();        
             // _this.props.updateAppMethod();        
             // location.reload();
           } catch (err) {
@@ -443,10 +445,13 @@ export class EntryCreate extends Component {
             }
             try {
               const res = await localforage.setItem("entries", m_Entries);
-              message.success("Creating new library entry..");
+              await message.loading("Creating new library entry.. you may have to wait for a short time depending on the text length.", 2.5);
               form.resetFields();
-              _this.props.updateEntriesMethod();        
+              setState("entryId", null);
+              // _this.props.updateEntriesMethod();     
               _this.setState({visible: false})
+              _this.props.updateEntriesMethod();
+              // _this.props.updateAppMethod();           
             } catch (err) {
               message.error("Failed to create new library entry! " + err);
               form.resetFields();
@@ -466,14 +471,15 @@ export class EntryCreate extends Component {
         }
         try {
           const res = await localforage.setItem("entries", m_Entries);
-          message.success("Creating new library entry..");
+          await message.loading("Creating new library entry.. you may have to wait for a short time depending on the text length.", 2.5);
           // message.success(res);
           // console.log(res);
           form.resetFields();
-          _this.props.updateEntriesMethod();        
+          setState("entryId", null);
           _this.setState({visible: false})
+          _this.props.updateEntriesMethod();        
         } catch (err) {
-          message.fail("Failed to create entry! " + err);
+          message.error("Failed to create new library entry! " + err);
           form.resetFields();
           _this.setState({visible: false});
         }

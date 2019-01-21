@@ -168,8 +168,7 @@ export default class App extends Component {
       const library = defaultFLib;
       const Library = openDB(library);
       let Entries = [];
-
-      Entries = await this.getEntriesInitial("entries");
+      Entries = await localforage.getItem("entries");
       selectedEntryId = Entries[0].id;
       try {
         selectedEntryEditorType = Entries[0]['editorType'];
@@ -177,17 +176,17 @@ export default class App extends Component {
         selectedEntryEditorType = "flow"; 
       }
       setState("entryId", selectedEntryId);
-        setState("editorType", selectedEntryEditorType);
-        this.setState({
-          Entries: Entries,
-          prevLibrary: library,
-          prevEntryId: selectedEntryId,
-          prevEntryEditorType: selectedEntryEditorType,
-          prevEntries: Entries
+      setState("editorType", selectedEntryEditorType);
+      this.setState({
+        Entries: Entries,
+        prevLibrary: library,
+        prevEntryId: selectedEntryId,
+        prevEntryEditorType: selectedEntryEditorType,
+        prevEntries: Entries
           }
-        )
+        );
+      this.forceUpdate();
     }
-    this.forceUpdate();
   }
 
   // Force app to re-render; this func is passed down in props to children
@@ -199,13 +198,15 @@ export default class App extends Component {
         // library = defaultFLib;
       // }
       const Library = openDB(library);
-      let Entries = [];
+      // let Entries = [];
+      let Entries = this.state.Entries;
       let selectedEntryId = getState("entryId");
       let selectedEntryEditorType = getState("entryEditorType");
       let activeLink = getState("activeLink");
-      Entries = await this.getEntriesInitial("entries");
-      if (selectedEntryId != null && selectedEntryId != undefined) {
-        if (selectedEntryEditorType != null && selectedEntryEditorType != undefined) {
+      // Entries = this.getEntries("entries");
+      // Entries = await localforage.getItem("entries");
+      if (selectedEntryId !== null && selectedEntryId !== undefined) {
+        if (selectedEntryEditorType !== null && selectedEntryEditorType !== undefined) {
         } else {
           selectedEntryEditorType = "flow";
         }
@@ -256,14 +257,24 @@ export default class App extends Component {
     //       states
     //     });
     //   }
-    }
+    this.setState({
+      Entries: Entries,
+      prevLibrary: library,
+      prevEntryId: selectedEntryId,
+      prevEntryEditorType: selectedEntryEditorType,
+      prevEntries: Entries
+        }
+      );
     this.forceUpdate();
+    }
   }
 
   render() {
     // By default editor mode for notes is Flow
     if (this.state._isMounted) {
+
       const Entries = this.state.Entries;
+
       let entryId;
       let editorType;
       // try {
@@ -273,12 +284,14 @@ export default class App extends Component {
       //   return null;
       // }
       entryId = getState("entryId");
+      console.log("THIS DA ENTRY ID: ", entryId);
       if (entryId !== null && entryId !== undefined && entryId !== "undefined") {
       } else {
         entryId = Entries[0].id;
       }
       let entry = traverseEntriesById(entryId, Entries);
       let activeLink = getState("activeLink");
+      console.log("THIS DA ENTRY: ", entry);
       // As we get more sections, this will eventually need
       // refactored, since a showAnalysisOverlay would only
       // be true on the explore / inquire page (currently)
@@ -335,7 +348,8 @@ export default class App extends Component {
                 <div className="editorWrapper">
                   <div id="editor">
                     <Notepad editorType={editorType} updateAppMethod={this.updateApp} entryId={entryId}
-                      showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}/>
+                      showAnalysisOverlay={showAnalysisOverlay} entry={entry} Entries={Entries}
+                      updateEntriesMethod={this.updateEntries}/>
                     <div className="analyzerWrapper">
                       <Analyzer entryId={entryId} entry={entry} Entries={Entries} updateAppMethod={this.updateApp} visibility={showAnalysisOverlay}/>
                     </div>

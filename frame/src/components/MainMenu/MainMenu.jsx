@@ -169,10 +169,11 @@ export default class MainMenu extends Component {
     const library = getState("library");
     const Library = openDB(library);
     // saveToDB("entries", this.state.treeData);
-    message.success('Saving changes in your library..');
+    message.loading('Saving changes in your library..', 1.0);
     const res = await localforage.setItem("entries", this.state.treeData);
-    // this.props.updateAppMethod();
+    message.loading('Saved!', 1.0);
     this.props.updateEntriesMethod();
+    // this.props.updateAppMethod();
   }
 
   // JSONEditor funcs
@@ -369,8 +370,8 @@ export default class MainMenu extends Component {
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
       this.props.updateAppMethod();
+      // this.props.updateEntriesMethod();
     } catch (err) {
-      // console.log(err);
       message.error('Failed to open - ' + err, 1);
     }
   }
