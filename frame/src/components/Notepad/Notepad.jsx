@@ -383,6 +383,7 @@ export default class Notepad extends Component {
     // if (entry['html'] === null || entry['html'] === undefined || entry['html'] === '') {
     //   this.setState({Entries: Entries, editorType: editorType, editorState: EditorState.createEmpty(), entryId: nextProps.entryId});
     // }
+  }
 
 
   /**
@@ -433,11 +434,7 @@ export default class Notepad extends Component {
   );
 
 
-  sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  async saveNotebookData() {
+  async saveNotebookData () {
     let entry = this.state.entry;
     const timestampNow = getTimestamp();
     const entryId = this.state.entryId;
