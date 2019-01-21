@@ -32,6 +32,24 @@ html {
 
 }
 
+.textCaption{
+    margin: 0;
+    margin-top: -80px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-size: .9em;
+    color: rgba(173, 28, 101, 0.653);
+    background-color: rgba(32,167,172,.21);
+    z-index: 1000;
+    display: inline;
+    position: absolute;
+}
+
 
 /*--------------
     Masthead
