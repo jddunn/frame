@@ -347,7 +347,7 @@ export default class MainMenu extends Component {
     // );
   };
 
-  clickNodeSelect(event, rowInfo) {
+  async clickNodeSelect(event, rowInfo) {
     // Attaching an onClick to rowInfo includes all buttons
     // within the row contents, and we want those buttons
     // to do different things than selecting the node itself.
@@ -365,7 +365,7 @@ export default class MainMenu extends Component {
     }
     try {
       setState("activeLink", newActiveLink);
-      message.loading('Opening "' + rowInfo.node.id + '"', .2);
+      await message.loading('Opening "' + rowInfo.node.id + '"', 1.0);
       setState("entryId", rowInfo.node.id);
       setState("editorType", rowInfo.node.editorType);
       this.props.updateAppMethod();
@@ -969,7 +969,7 @@ export class EntryEdit extends Component {
       const newEntries = replaceEntry(_entry, m_Entries);
       try {
         const res = await localforage.setItem("entries", newEntries);
-        message.success("Saving new entry data..");
+        await message.success("Saving new entry data..", 1.5);
         form.resetFields();
         _this.props.updateEntriesMethod();        
         _this.setState({visible: false})

@@ -187,5 +187,73 @@
     padding-top: 5px !important;
     height: 100% !important;
     width: 100% !important;
-    overflow: auto !important;
+}
+
+
+// Quill JS
+
+.editor {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    z-index: 1 !important;
+    overflow-y: auto !important;
+}
+
+
+.ql-editor {
+    overflow-y: auto !important;
+    padding: 100px;
+    padding-right: 150px;
+    border: none !important;
+    z-index: 1 !important;
+}
+
+
+.ql-toolbar {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-right: 20px !important;
+    padding: 10px !important;
+    border: none !important;
+    display: block !important;
+    height: auto !important;
+    top: 40 !important;
+    position: static !important;
+    margin-bottom: 40px !important;
+    width: 100% !important;
+    z-index: 100 !important;
+    background-color: rgba(235, 235, 235, 1.0) !important;
+    opacity: 1.0 !important;
+    box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.06) !important;
+    clear: bottom !important;
+    position: fixed !important;
+}   
+
+
+#snow-container {
+    top: 200 !important;
+    z-index: 100 !important;
+}
+
+.quill {
+    overflow-y: auto !important;
+    display: block !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    z-index: 1 !important;
+    // margin-left: -10px !important;
+}
+
+.ql-container {
+    overflow-y: auto !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    border: none !important;
+    z-index: 1 !important;
+
 }
