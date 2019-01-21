@@ -15,7 +15,7 @@ import ReactQuill from 'react-quill'; // This editor's the best one i found for 
 import saveToDB from '../../utils/save-db';
 import getFromDB from '../../utils/load-db';
 import openDB from '../../utils/create-db';
-import traverseEntriesById from '../../utils/entries-traversal';
+import { traverseEntriesById } from '../../utils/entries-traversal';
 import replaceEntry from '../../utils/replace-entry';
 import localforage from 'localforage';
 
@@ -181,9 +181,10 @@ export default class Notepad extends Component {
 
       const showAnalysisOverlay = nextProps.showAnalysisOverlay;
   
-      if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== ""
-        && entry['html'] !== "undefined"
-      ) {
+      // if (entry['html'] !== null && entry['html'] !== undefined && entry['html'] !== ""
+      //   && entry['html'] !== "undefined" && entry['html'] !== 'undefined' && entry['html'] !== '<p></p>'
+      // ) {
+
         if (showAnalysisOverlay) {
           const strippedText = HTMLToText(entry['html']);
           entry['strippedText'] = strippedText;
@@ -299,7 +300,7 @@ export default class Notepad extends Component {
                     const newEntries = replaceEntry(entry, Entries);
                     // const res = getContentFromHTML(entry['html']);
                     const html = entry['html'];
-                    _this.setState({Entries: newEntries, editorHtml: html,
+                    _this.setState({Entries: newEntries, editorHtml: html || '',
                     editorType: editorType});
                   })
                 .catch(err => {
@@ -311,7 +312,7 @@ export default class Notepad extends Component {
                   entry['summaryAbstractiveByParagraphs'] = [];
                   const newEntries = replaceEntry(entry, Entries);
                   const html = entry['html'];
-                  _this.setState({Entries: newEntries, editorHtml: html,
+                  _this.setState({Entries: newEntries, editorHtml: html || '',
                   editorType: editorType});
                   message.error(err);
                 });
@@ -325,10 +326,10 @@ export default class Notepad extends Component {
               entry['summaryAbstractiveByParagraphs'] = [];
               const newEntries = replaceEntry(entry, Entries);
               // const res = getContentFromHTML(entry['html']);
-              const html = entry['html'];
+              let html = entry['html'];
               // console.log(err);
               message.error(err);
-              _this.setState({Entries: newEntries,  editorHtml: html,
+              _this.setState({Entries: newEntries,  editorHtml: html || '',
               editorType: editorType});
             });
           } catch (err) {
@@ -345,15 +346,15 @@ export default class Notepad extends Component {
           }
         }
         const newEntries = replaceEntry(entry, Entries);
+        let html = entry['html'];
         // const res = getContentFromHTML(entry['html']);
-        const html = entry['html'];
-        _this.setState({Entries: newEntries, editorHtml: html,
+        _this.setState({Entries: newEntries, editorHtml: html || '',
         editorType: editorType, prevEntryId: entryId});
       } else {
         _this.setState({ editorHtml: ''
         });
       }
-    }
+    // }
   }
   
 
@@ -435,10 +436,17 @@ export default class Notepad extends Component {
 
 
   async saveNotebookData () {
+    await message.loading("Preparing notebook contents for saving..", 1.0);
+    setState("needAnalysisUpdate", true);
     let entry = this.state.entry;
     const timestampNow = getTimestamp();
-    const entryId = this.state.entryId;
-    const Entries = this.state.Entries;
+    // const entryId = this.state.entryId;
+    const entryId = getState("entryId");
+    let Entries = this.state.Entries;
+    console.log(entryId, Entries);
+    entry = traverseEntriesById(entryId, Entries);
+
+    // let Entries = await localforage.getItem("entries");
     let editorType = entry['editorType'];
     // let library = getState("library");
     let library = defaultFLib;
@@ -448,7 +456,6 @@ export default class Notepad extends Component {
     // if (entry !== null && entry !== undefined) {
       // entry['html'] = getHTMLFromContent(this.state.editorState);
       entry['html'] = this.state.editorHtml;
-      console.log(entry['html']);
       const strippedText = HTMLToText(entry['html']);
       entry['strippedText'] = strippedText;
       const combinedText = entry['title'] + ' ' + strippedText;
@@ -518,10 +525,10 @@ export default class Notepad extends Component {
             'Content-Type': 'application/json',
           },
           credentials: "same-origin"
-          }).then(function(response) {
+          }).then(async function(response) {
             return response.json()
           })
-          .then(function(jsonRes) {
+          .then(async function(jsonRes) {
             summaryAbstractive = jsonRes['summarize_result'].join(" ");
             fetch("http://localhost:80/api/abstractive_summarize_paragraphs", {
               method: "POST",
@@ -532,10 +539,10 @@ export default class Notepad extends Component {
                 'Content-Type': 'application/json',
               },
               credentials: "same-origin"
-              }).then(function(response) {
+              }).then(async function(response) {
                 return response.json()
               })
-              .then(function(jsonRes) {
+              .then(async function(jsonRes) {
                 let summaries = [];
                 for (let i=0; i<jsonRes.length; i++) {
                   let ps = (jsonRes[i]['summarize_result'].join(" "));
@@ -558,11 +565,26 @@ export default class Notepad extends Component {
                   fleschReadability: fleschReadability
                 };
                 entry['wordFrequency'] = getWordFrequency(strippedText);
+                Entries = await localforage.getItem("entries");
                 const newEntries = replaceEntry(entry, Entries);
-                // const res = getContentFromHTML(entry['html']);
-                const html = entry['html'];
+                // console.log(entry['html']);
+                // console.log("THISIS", newEntries);
+                try {
+                  // saveToDB("entries", newEntries);
+                  await message.success("Saving notebook changes and analysis results..", 1.5);
+                  const res = await localforage.setItem("entries", newEntries);
+                  setState("needAnalysisUpdate", true);
+                  setState("entryId", entry.id);
+                  console.log(res);
+                  m_this.props.updateAppMethod();
+                  // m_this.props.updateEntriesMethod();
+                  return;
+                } catch (err) {
+                  message.error("Failed to save notebook! " + err);
+                  setState("needAnalysisUpdate", false);
+                }
                 this.setState({Entries: newEntries,
-                editorType: editorType, editorHtml: html});
+                editorType: editorType});
               })
             .catch(err => {
               summaryAbstractive = '';
@@ -583,30 +605,36 @@ export default class Notepad extends Component {
         summaryAbstractive = '';
         summaryAbstractiveByParagraphs = [];
       }
-      entry['summaryExtractive'] = summaryExtractive;
-      entry['summaryByParagraphs'] = summaryByParagraphs;
-      entry['stats'] = {
-        charCount: charCount,
-        syllableCount: syllableCount,
-        wordCount: wordCount,
-        sentenceCount: sentenceCount,
-        avgWordsPerSentence: avgWordsPerSentence,
-        avgSyllablesPerSentence: avgSyllablesPerSentence,
-        avgSyllablesPerWord: avgSyllablesPerWord,
-        fleschReadability: fleschReadability
-      }
-      entry['wordFrequency'] = getWordFrequency(strippedText);
-      const newEntries = replaceEntry(entry, Entries);
-      try {
-        // saveToDB("entries", newEntries);
-        await message.success("Saving notebook changes and analysis results..", 1.2);
-        const res = await localforage.setItem("entries", newEntries);
-        setState("needAnalysisUpdate", false);
-        m_this.props.updateAppMethod();
-      } catch (err) {
-        message.error("Failed to save notebook! " + err);
-        setState("needAnalysisUpdate", false);
-      }
+      // m_this.props.updateAppMethod();
+      console.log("I AM SAVED BUD");
+      m_this.props.updateAppMethod();
+      // entry['summaryExtractive'] = summaryExtractive;
+      // entry['summaryByParagraphs'] = summaryByParagraphs;
+      // entry['stats'] = {
+      //   charCount: charCount,
+      //   syllableCount: syllableCount,
+      //   wordCount: wordCount,
+      //   sentenceCount: sentenceCount,
+      //   avgWordsPerSentence: avgWordsPerSentence,
+      //   avgSyllablesPerSentence: avgSyllablesPerSentence,
+      //   avgSyllablesPerWord: avgSyllablesPerWord,
+      //   fleschReadability: fleschReadability
+      // }
+      // entry['wordFrequency'] = getWordFrequency(strippedText);
+      // const newEntries = await replaceEntry(entry, Entries);
+      // if (getState("needAnalysisUpdate")) {
+      //   try {
+      //     // saveToDB("entries", newEntries);
+      //     await message.success("Saving notebook changes and analysis results..", 1.5);
+      //     const res = await localforage.setItem("entries", newEntries);
+      //     setState("needAnalysisUpdate", false);
+      //     setState("entryId", entry.id);
+      //     console.log(res);
+      //     m_this.props.updateAppMethod();
+      //     // m_this.props.updateEntriesMethod();
+      //   } catch (err) {
+      //     message.error("Failed to save notebook! " + err);
+      //     setState("needAnalysisUpdate", false);
     // }
   }
 
