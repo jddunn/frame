@@ -87,7 +87,7 @@
     },
     "devDependencies": {
         "asar": "^0.14.3",
-        "async": "2.6.1",
+        "async": "2.6.4",
         "babel-cli": "^6.26.0",
         "babel-core": "^6.26.3",
         "babel-eslint": "^8.2.3",
